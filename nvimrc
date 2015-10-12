@@ -136,7 +136,7 @@ if exists("+undofile")
   " :help undo-persistence
   " This is only present in 7.3+
   if isdirectory(s:editor_root . '/undo') == 0
-    :silent !mkdir -p expand(s:editor_root . '/undo' > /dev/null 2>&1
+    :silent !mkdir -p expand(s:editor_root . '/undo') > /dev/null 2>&1
   endif
   set undodir=./.vim-undo//
   execute "set undodir+=" . s:editor_root . '/undo//'
