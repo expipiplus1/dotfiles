@@ -1,4 +1,4 @@
-set nocompatible 
+set nocompatible
 filetype off
 
 if has('NVIM')
@@ -7,7 +7,7 @@ else
     let s:editor_root=expand("~/.vim")
 endif
 
-let &rtp = &rtp . ',' . s:editor_root 
+let &rtp = &rtp . ',' . s:editor_root
 if has('nvim')
   let &rtp = &rtp . ',' . expand("~/opt/bin/nvim")
 endif
@@ -169,7 +169,7 @@ set novisualbell
 set shortmess=atTI
 
 " Highlight current line
-if empty($CONEMUBUILD) 
+if empty($CONEMUBUILD)
   set cursorline
 endif
 
@@ -209,8 +209,8 @@ colorscheme solarized
 hi Search term=bold,underline gui=bold,underline
 
 " Split vertically by default
-cnoreabbrev sb vert sb 
-cnoreabbrev hsb sb 
+cnoreabbrev sb vert sb
+cnoreabbrev hsb sb
 
 " To get the preview window at the bottom
 set splitbelow
@@ -319,7 +319,7 @@ set incsearch " ...dynamically as they are typed.
 
 " ctrlp find files
 let g:ctrlp_by_filename = 1
-set wildignore+=*/dist/*,*/tmp/*,*.so,*.swp,*.zip,*.hi,*.o 
+set wildignore+=*/dist/*,*/tmp/*,*.so,*.swp,*.zip,*.hi,*.o
 let g:ctrlp_extensions = ['tag']
 noremap <C-T> :CtrlPTag<CR>
 let g:ctrlp_switch_buffer = 0
@@ -507,15 +507,15 @@ if !has('nvim')
   " Set minimum syntax keyword length.
   let g:neocomplete#sources#syntax#min_keyword_length = 3
   let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-  
+
   " Plugin key-mappings.
   inoremap <expr><C-g>     neocomplete#undo_completion()
   inoremap <expr><C-l>     neocomplete#complete_common_string()
-  
+
   " Recommended key-mappings.
   " <CR>: close popup and save indent.
   inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-  
+
   function! s:my_cr_function()
     return neocomplete#close_popup() . "\<CR>"
     " For no inserting <CR> key.
@@ -528,18 +528,17 @@ if !has('nvim')
   inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
   inoremap <expr><C-y>  neocomplete#close_popup()
   inoremap <expr><C-e>  neocomplete#cancel_popup()
-  
+
   inoremap <expr><C-Space>  "<C-x><C-o><C-p>"
-  "inoremap <expr><C-Space>  neocomplete#start_manual_complete()
-  
+
   " Enable heavy omni completion.
   if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
   endif
   let g:neocomplete#sources#omni#input_patterns.haskell = '[^.[:digit:] *\t]\%(\.\)'
-  
-  set completeopt=longest,menuone 
-  
+
+  set completeopt=longest,menuone
+
   " smartcase
   let g:neocomplete#enable_camel_case = 1
   let g:neocomplete#enable_fuzzy_completion = 1
@@ -561,7 +560,7 @@ else
   " Recommended key-mappings.
   " <CR>: close popup and save indent.
   inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-  
+
   function! s:my_cr_function()
     " return deoplete#close_popup() . "\<CR>"
     " For no inserting <CR> key.
@@ -571,9 +570,9 @@ else
   inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
   inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
-  set completeopt=longest,menuone 
-  set completeopt+=noinsert 
-  set completeopt+=noselect 
+  set completeopt=longest,menuone
+  set completeopt+=noinsert
+  set completeopt+=noselect
 
 endif
 
@@ -587,7 +586,7 @@ smap <C-s>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-s>     <Plug>(neosnippet_expand_target)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 
+"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set tabstop=2
@@ -607,7 +606,7 @@ let g:easytags_async = 1
 let g:easytags_ctags_version = ""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Syntastic 
+" Syntastic
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:syntastic_always_populate_loc_list = 1
