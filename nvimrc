@@ -638,30 +638,55 @@ function! s:neomake()
   call lightline#update()
 endfunction
 
+function! s:GetBufferList()
+  redir =>buflist
+  silent! ls
+  redir END
+  return buflist
+endfunction
+
+function! s:PopulateQuickFixPerhaps()
+  let l:l = len(getloclist(0))
+  if (l == 0)
+    cclose
+  else
+    call setqflist(getloclist(0))
+    "if (len(filter(split(s:GetBufferList(), '\n'), 'v:val =~ "Quickfix List"')) == 0)
+      "copen
+    "endif
+  endif
+endfunction
+
+" autocmd BufEnter *.hs,*.lhs,*.c,*.cpp call s:PopulateQuickFixPerhaps()
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Unimpared 
+" Unimpared
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-function! <SID>LocationPrevious()                       
-  try                                                   
-    lprev                                               
-  catch /^Vim\%((\a\+)\)\=:E553/                        
-    llast                                               
-  endtry                                                
-endfunction                                             
+function! <SID>QFPrevious()
+  try
+    cprev
+  catch /^Vim\%((\a\+)\)\=:E553/
+    clast
+  catch a:e
+    throw a:e
+  endtry
+endfunction
 
-function! <SID>LocationNext()                           
-  try                                                   
-    lnext                                               
-  catch /^Vim\%((\a\+)\)\=:E553/                        
-    lfirst                                              
-  endtry                                                
-endfunction                                             
+function! <SID>QFNext()
+  try
+    cnext
+  catch /^Vim\%((\a\+)\)\=:E553/
+    cfirst
+  catch a:e
+    throw a:e
+  endtry
+endfunction
 
-nnoremap <silent> <Plug>LocationPrevious    :<C-u>exe 'call <SID>LocationPrevious()'<CR>                                        
-nnoremap <silent> <Plug>LocationNext        :<C-u>exe 'call <SID>LocationNext()'<CR>
-nmap <silent> <S-F8>    <Plug>LocationPrevious              
-nmap <silent> <F8>    <Plug>LocationNext
+nnoremap <silent> <Plug>QFPrevious    :<C-u>exe 'call <SID>QFPrevious()'<CR>
+nnoremap <silent> <Plug>QFNext        :<C-u>exe 'call <SID>QFNext()'<CR>
+nmap <silent> <S-F8>    <Plug>QFPrevious
+nmap <silent> <F8>    <Plug>QFNext
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim2hs
