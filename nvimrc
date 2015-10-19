@@ -73,10 +73,6 @@ runtime! plugin/sensible.vim
 
 " workaround for neovim 2048
 if has('nvim')
-  nmap <BS> <C-W>h
-endif
-
-if has('nvim')
   nmap <bs> :<c-u>TmuxNavigateLeft<cr>
 endif
 
