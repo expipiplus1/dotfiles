@@ -311,7 +311,6 @@ vnoremap <leader>r :sort<CR>
 set wildmode=list:longest
 
 " Highlight search terms...
-" set hlsearch
 set nohlsearch
 set incsearch " ...dynamically as they are typed.
 
