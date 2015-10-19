@@ -55,6 +55,7 @@ Plug 'vim-scripts/Align'
 Plug 'xolox/vim-easytags'
 Plug 'xolox/vim-misc'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'milkypostman/vim-togglelist'
 
 Plug 'Rip-Rip/clang_complete'
 
