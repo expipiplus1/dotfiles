@@ -206,8 +206,7 @@ set background=dark
 colorscheme solarized
 
 " Search highlighting
-hi Search term=bold,underline gui=bold,underline 
-" hi CursorLine cterm=none ctermbg=11 guibg=Grey90
+hi Search term=bold,underline gui=bold,underline
 
 " Split vertically by default
 cnoreabbrev sb vert sb 
@@ -559,9 +558,6 @@ else
   inoremap <expr><C-Space> deoplete#mappings#manual_complete()
   inoremap <expr><BS>      deoplete#mappings#smart_close_popup()."\<C-h>"
 
-  " let g:deoplete#sources = {}
-  " let g:deoplete#sources.haskell = []
-
   " Recommended key-mappings.
   " <CR>: close popup and save indent.
   inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
@@ -615,7 +611,6 @@ let g:easytags_ctags_version = ""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_quiet_messages = { "regex": "#pragma once in main file" }
@@ -624,8 +619,6 @@ let g:syntastic_enable_async = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NeoMake
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-let g:neomake_open_list = 2
 
 augroup AutoNeomake
   autocmd!
@@ -651,13 +644,8 @@ function! s:PopulateQuickFixPerhaps()
     cclose
   else
     call setqflist(getloclist(0))
-    "if (len(filter(split(s:GetBufferList(), '\n'), 'v:val =~ "Quickfix List"')) == 0)
-      "copen
-    "endif
   endif
 endfunction
-
-" autocmd BufEnter *.hs,*.lhs,*.c,*.cpp call s:PopulateQuickFixPerhaps()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Unimpared
@@ -705,8 +693,6 @@ let $PATH = $PATH . ':' . expand("~/.cabal/bin")
 " ghc mod
 "
 let &l:statusline = '%{empty(getqflist()) ? "[No Errors]" : "[Errors Found]"}' . (empty(&l:statusline) ? &statusline : &l:statusline)
-" autocmd BufWritePost *.hs GhcModCheckAndLintAsync
-" autocmd BufWritePost *.lhs GhcModCheckAndLintAsync
 
 let g:ghcmod_hlint_options = ['--hint=HLint', '--hint=Default', '--hint=Dollar', '--cpp-define=HLINT', '--color']
 
@@ -714,27 +700,14 @@ autocmd Filetype haskell nnoremap <buffer> <leader>i :GhcModInfo!<CR>
 autocmd Filetype haskell nnoremap <buffer> <leader>c :GhcModTypeClear<CR>
 autocmd Filetype haskell nnoremap <buffer> <leader>t :GhcModType!<CR>
 autocmd Filetype haskell nnoremap <buffer> <leader>T :GhcModTypeInsert!<CR>
-" autocmd FileType haskell map <leader>i :HdevtoolsInfo<CR>
-" autocmd FileType haskell map <leader>t :HdevtoolsType<CR>
-" autocmd FileType haskell map <leader>T :HdevtoolsClear<CR>
 
 " highlight long columns
 au FileType haskell let &colorcolumn=join(range(101,999),",")
-highlight ColorColumn ctermbg=7 guibg=#2c2d27
 
 " Strip trailing whitespace
 autocmd FileType haskell,lhaskell autocmd BufWritePre <buffer> :%s/\s\+$//e
 
 autocmd FileType haskell let b:easytags_auto_highlight = 1
-"let g:easytags_languages = {
-"      \   'haskell': {
-"      \     'cmd': 'hasktags',
-"      \       'args': ['-c'],
-"      \       'fileoutput_opt': '-f',
-"      \       'stdout_opt': '-f-',
-"      \       'recurse_flag': ''
-"      \   }
-"      \}
 
 let g:easytags_languages = {
       \   'haskell': {
@@ -774,7 +747,6 @@ endfunction
 
 " Configuration for syntastic
 let g:syntastic_haskell_checkers=['ghc_mod']
-" let g:syntastic_haskell_checkers=['hdevtools', 'hlint']
 
 let ghc_args = ["Wall", "fno-warn-name-shadowing", "fno-warn-type-defaults"]
 let sandbox = s:get_cabal_sandbox()
@@ -789,8 +761,3 @@ let ghc_args_string = join(ghc_args, ' ')
 let g:syntastic_haskell_ghc_mod_args=ghc_args_string
 let g:syntastic_haskell_hdevtools_args=ghc_args_string
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""'
-" Temporary hack
-"
-
-"let g:python3_host_prog='/nix/store/lwz7kmb4jzgh3da04p1pa723i6084xk0-python3-3.4.3/bin/python3'
