@@ -558,7 +558,6 @@ else
   imap     <Nul> <C-Space>
   inoremap <expr><C-Space> deoplete#mappings#manual_complete()
   inoremap <expr><BS>      deoplete#mappings#smart_close_popup()."\<C-h>"
-  inoremap <expr><C-h>     deoplete#mappings#smart_close_popup()."\<C-h>"
 
   " let g:deoplete#sources = {}
   " let g:deoplete#sources.haskell = []
