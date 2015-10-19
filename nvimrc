@@ -36,6 +36,7 @@ Plug 'dag/vim2hs'
 Plug 'eagletmt/ghcmod-vim'
 Plug 'eagletmt/neco-ghc'
 Plug 'eagletmt/unite-haddock'
+Plug 'neovimhaskell/haskell-vim'
 
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-function'
