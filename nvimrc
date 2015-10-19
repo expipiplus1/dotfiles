@@ -627,7 +627,7 @@ let g:syntastic_enable_async = 1
 
 let g:neomake_open_list = 2
 
-augroup AutoSyntastic
+augroup AutoNeomake
   autocmd!
   autocmd BufWritePost *.hs,*.lhs,*.c,*.cpp call s:neomake()
   autocmd BufReadPost *.hs,*.lhs,*.c,*.cpp call s:neomake()
