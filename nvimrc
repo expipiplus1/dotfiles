@@ -162,7 +162,11 @@ set foldlevelstart=20
 
 set novisualbell
 
-set shortmess=atI
+" a: A host of abbreviations
+" t: Truncate file messages
+" T: Truncate other messages
+" I: No intro message
+set shortmess=atTI
 
 " Highlight current line
 if empty($CONEMUBUILD) 
