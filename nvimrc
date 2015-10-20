@@ -153,6 +153,8 @@ set ffs=unix,dos
 " Interface
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+set switchbuf+=usetab
+
 set ruler
 
 set scrolloff=8
