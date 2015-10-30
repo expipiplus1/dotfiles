@@ -124,7 +124,7 @@ set tags=./.tags;
 " If you have .vim-backup in the current directory, it'll use that.
 " Otherwise it saves it to ~/.vim/backup or . if all else fails.
 if isdirectory(s:editor_root . '/backup') == 0
-  :silent !mkdir -p expand(s:editor_root . '/backup') >/dev/null 2>&1
+  :!mkdir -p expand(s:editor_root . '/backup') >/dev/null 2>&1
 endif
 set backupdir-=.
 set backupdir+=.
@@ -137,7 +137,7 @@ set backup
 " If you have .vim-swap in the current directory, it'll use that.
 " Otherwise it saves it to ~/.vim/swap, ~/tmp or .
 if isdirectory(s:editor_root . '/swap') == 0
-  :silent !mkdir -p expand(s:editor_root . '/swap') >/dev/null 2>&1
+  :!mkdir -p expand(s:editor_root . '/swap') >/dev/null 2>&1
 endif
 set directory=./.vim-swap//
 execute "set directory+=" . s:editor_root . '/swap//'
@@ -150,7 +150,7 @@ if exists("+undofile")
   " :help undo-persistence
   " This is only present in 7.3+
   if isdirectory(s:editor_root . '/undo') == 0
-    :silent !mkdir -p expand(s:editor_root . '/undo') > /dev/null 2>&1
+    :!mkdir -p expand(s:editor_root . '/undo') > /dev/null 2>&1
   endif
   set undodir=./.vim-undo//
   execute "set undodir+=" . s:editor_root . '/undo//'
