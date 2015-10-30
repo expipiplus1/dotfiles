@@ -67,6 +67,10 @@ Plug 'milkypostman/vim-togglelist'
 
 Plug 'LnL7/vim-nix'
 
+Plug 'blueyed/vim-diminactive'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'sjl/vitality.vim'
+
 Plug 'Rip-Rip/clang_complete'
 
 call plug#end()
@@ -324,6 +328,12 @@ set wildmode=list:longest
 " Highlight search terms...
 set nohlsearch
 set incsearch " ...dynamically as they are typed.
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim diminactive
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:diminactive_enable_focus = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CtrlP
