@@ -856,3 +856,31 @@ let ghc_args_string = join(ghc_args, ' ')
 let g:syntastic_haskell_ghc_mod_args=ghc_args_string
 let g:syntastic_haskell_hdevtools_args=ghc_args_string
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Clang complete
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Code from bairui@#vim.freenode
+" https://gist.github.com/3322468
+function! Flatten(list)
+  let val = []
+  for elem in a:list
+    if type(elem) == type([])
+      call extend(val, Flatten(elem))
+    else
+      call add(val, elem)
+    endif
+    unlet elem
+  endfor
+  return val
+endfunction
+
+let g:clang_library_path = expand('~/.nix-profile/lib/')
+
+let g:neomake_c_clang_maker = neomake#makers#ft#c#clang()
+if filereadable(".clang_complete")
+  let s:clang_args = Flatten(map(readfile(".clang_complete"), "split(v:val)"))
+else
+  let s:clang_args = []
+endif
+let g:neomake_c_clang_maker.args += filter(s:clang_args, '!empty(v:val)')
