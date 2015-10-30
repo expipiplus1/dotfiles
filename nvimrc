@@ -14,7 +14,6 @@ endif
 
 call plug#begin(s:editor_root . '/plugged')
 
-Plug 'Chiel92/vim-autoformat'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim'
 else
