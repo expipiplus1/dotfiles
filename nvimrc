@@ -777,7 +777,18 @@ endif
 au FileType haskell let &colorcolumn=join(range(81,999),",")
 
 " Strip trailing whitespace
-autocmd FileType haskell,lhaskell autocmd BufWritePre <buffer> :%s/\s\+$//e
+" automatically remove trailing whitespace before write
+function! StripTrailingWhitespace()
+  normal mZ
+  %s/\s\+$//e
+  if line("'Z") != line(".")
+    echo "Stripped whitespace\n"
+  endif
+  normal `Z
+endfunction
+
+autocmd FileType haskell,lhaskell,cabal,c,cpp autocmd BufWritePre <buffer> :call StripTrailingWhitespace()
+nnoremap <leader>s :call StripTrailingWhitespace()<CR>
 
 autocmd FileType haskell let b:easytags_auto_highlight = 1
 
