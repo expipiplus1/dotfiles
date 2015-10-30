@@ -813,7 +813,19 @@ autocmd FileType haskell map <leader>f :call Preserve("normal gqah")<CR>
 
 let g:hindent_style="gibiansky"
 let g:formatprg_haskell = "hindent"
-let g:formatprg_args_haskell = "--style " . g:hindent_style . " --line-length 100"
+let g:formatprg_args_haskell = "--style " . g:hindent_style . " --line-length 80"
+
+function! FormatHaskell()
+  if !empty(v:char)
+    return 1
+  else
+    let l:filter = "hindent --style " . g:hindent_style
+    let l:command = v:lnum.','.(v:lnum+v:count-1).'!'.l:filter
+    execute l:command
+  endif
+endfunction
+
+autocmd FileType haskell setlocal formatexpr=FormatHaskell()
 
 autocmd Filetype haskell setlocal omnifunc=necoghc#omnifunc
 autocmd Filetype haskell setlocal iskeyword+=39
