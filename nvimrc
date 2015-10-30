@@ -65,6 +65,8 @@ Plug 'xolox/vim-misc'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'milkypostman/vim-togglelist'
 
+Plug 'LnL7/vim-nix'
+
 Plug 'Rip-Rip/clang_complete'
 
 call plug#end()
