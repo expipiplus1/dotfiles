@@ -255,6 +255,15 @@ function! MyLastWindow()
   endif
 endfunction
 
+" Exit insert mode when focus is lose
+function! PopOutOfInsertMode()
+    if v:insertmode
+        feedkeys("\<C-\>\<C-n>")
+    endif
+endfunction
+
+autocmd FocusLost * call PopOutOfInsertMode()
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Saving
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
