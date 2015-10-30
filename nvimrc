@@ -12,6 +12,8 @@ if has('nvim')
   let &rtp = &rtp . ',' . expand("~/opt/bin/nvim")
 endif
 
+let s:use_ghc_mod = 1
+
 call plug#begin(s:editor_root . '/plugged')
 
 if has('nvim')
@@ -32,7 +34,11 @@ Plug 'kien/ctrlp.vim'
 
 Plug 'Twinside/vim-hoogle'
 Plug 'dag/vim2hs'
-Plug 'eagletmt/ghcmod-vim'
+if(s:use_ghc_mod)
+  Plug 'expipiplus1/ghcmod-vim'
+else
+  Plug 'louispan/vim-hdevtools'
+endif
 Plug 'eagletmt/neco-ghc'
 Plug 'eagletmt/unite-haddock'
 Plug 'neovimhaskell/haskell-vim'
@@ -696,10 +702,24 @@ let &l:statusline = '%{empty(getqflist()) ? "[No Errors]" : "[Errors Found]"}' .
 
 let g:ghcmod_hlint_options = ['--hint=HLint', '--hint=Default', '--hint=Dollar', '--cpp-define=HLINT', '--color']
 
-autocmd Filetype haskell nnoremap <buffer> <leader>i :GhcModInfo!<CR>
-autocmd Filetype haskell nnoremap <buffer> <leader>c :GhcModTypeClear<CR>
-autocmd Filetype haskell nnoremap <buffer> <leader>t :GhcModType!<CR>
-autocmd Filetype haskell nnoremap <buffer> <leader>T :GhcModTypeInsert!<CR>
+if(s:use_ghc_mod)
+  autocmd Filetype haskell nnoremap <buffer> <leader>i :GhcModInfo!<CR>
+  autocmd Filetype haskell nnoremap <buffer> <leader>c :GhcModTypeClear<CR>
+  autocmd Filetype haskell nnoremap <buffer> <leader>t :GhcModType!<CR>
+  autocmd Filetype haskell nnoremap <buffer> <leader>T :GhcModTypeInsert!<CR>
+else 
+  autocmd Filetype haskell nnoremap <buffer> <leader>i :HdevtoolsInfo<CR>
+  autocmd Filetype haskell nnoremap <buffer> <leader>c :HdevtoolsClear<CR>
+  autocmd Filetype haskell nnoremap <buffer> <leader>t :HdevtoolsType<CR>
+  autocmd Filetype haskell nnoremap <buffer> <leader>T :HdevtoolsTypeInsert<CR>
+  autocmd Filetype haskell nnoremap <buffer> <leader>d :HdevtoolsFindsymbol<CR>
+endif
+
+if(s:use_ghc_mod)
+  let g:neomake_haskell_hdevtools_maker = {}
+else
+  let g:neomake_haskell_ghcmod_maker = {}
+endif
 
 " highlight long columns
 au FileType haskell let &colorcolumn=join(range(101,999),",")
