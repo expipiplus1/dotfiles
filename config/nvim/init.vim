@@ -2,7 +2,7 @@ set nocompatible
 filetype off
 
 if has('NVIM')
-    let s:editor_root=expand("~/.nvim")
+    let s:editor_root=expand("~/.config/nvim")
 else
     let s:editor_root=expand("~/.vim")
 endif

@@ -10,7 +10,7 @@ shopt -s extglob
 
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
-files=!(install.sh)
+files="tmux.conf config/nvim/init.vim config/nvim/autoload/plug.vim nixpkgs/config.nix"
 
 ##########
 
@@ -20,11 +20,14 @@ cd $dir
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks 
 for file in $files; do
+  echo ~/.$file
   if [[ -e ~/.$file ]];
   then
     mkdir -p $olddir
-    echo "Moving existing $file from ~ to $olddir"
-    mv ~/.$file ~/dotfiles_old/
+    echo "Moving existing ~/.$file from ~ to $olddir/.$file"
+    mkdir -p $(dirname $olddir/.$file)
+    mv ~/.$file $olddir/.$file
   fi 
+  mkdir -p $(dirname ~/.$file)
   ln -sv $dir/$file ~/.$file
 done
