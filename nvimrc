@@ -265,7 +265,7 @@ endfunction
 autocmd FocusLost * call PopOutOfInsertMode()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Saving
+" viminfo / shada
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Tell vim to remember certain things when we exit
@@ -276,9 +276,11 @@ autocmd FocusLost * call PopOutOfInsertMode()
 "  n... :  where to save the viminfo files
 set viminfo='1000,\"1000,:200,%,n~/.viminfo
 
+set shada='1000,/1000,:1000,@1000
+
 function! ResCur()
   if line("'\"") <= line("$")
-    normal! g`"
+    normal! g'"
     return 1
   endif
 endfunction
