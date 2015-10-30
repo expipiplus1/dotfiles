@@ -774,7 +774,7 @@ else
 endif
 
 " highlight long columns
-au FileType haskell let &colorcolumn=join(range(101,999),",")
+au FileType haskell let &colorcolumn=join(range(81,999),",")
 
 " Strip trailing whitespace
 autocmd FileType haskell,lhaskell autocmd BufWritePre <buffer> :%s/\s\+$//e
