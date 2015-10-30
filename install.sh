@@ -20,7 +20,6 @@ cd $dir
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks 
 for file in $files; do
-  echo ~/.$file
   if [[ -e ~/.$file ]];
   then
     mkdir -p $olddir
