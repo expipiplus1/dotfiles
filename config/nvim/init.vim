@@ -228,6 +228,11 @@ set guioptions-=R
 set background=dark
 colorscheme solarized
 
+" Split separator colors
+set fillchars+=stlnc:-
+set fillchars+=stl:-
+hi VertSplit ctermfg=14 ctermbg=0 guifg=#93a1a1 guibg=#073642
+
 " Search highlighting
 hi Search term=bold,underline gui=bold,underline
 
