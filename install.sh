@@ -15,7 +15,11 @@ files="tmux.conf
        config/nvim/autoload/plug.vim
        nixpkgs/config.nix
        stack/stack.yaml
-       ghci"
+       ghci
+       irssi/config
+       irssi/solarized-universal.theme
+       irssi/startup
+      "
 
 ##########
 

@@ -236,12 +236,11 @@ statusbar = {
     # the "default statusbar" to be displayed at the bottom of the window.
     # contains all the normal items.
     window = {
-      disabled = "no";
 
       # window, root
       type = "window";
       # top, bottom
-      placement = "bottom";
+      placement = "top";
       # number
       position = "1";
       # active, inactive, always
@@ -276,6 +275,7 @@ statusbar = {
         more = { priority = "-1"; alignment = "right"; };
         barend = { priority = "100"; alignment = "right"; };
       };
+      disabled = "yes";
     };
 
     # we treat input line as yet another statusbar :) It's possible to
@@ -300,8 +300,8 @@ statusbar = {
     topic = {
 
       type = "root";
-      placement = "top";
-      position = "1";
+      placement = "bottom";
+      position = "-1";
       visible = "always";
 
       items = {
@@ -315,13 +315,6 @@ statusbar = {
       items = {
         barstart = { priority = "100"; };
         awl_0 = { };
-        barend = { priority = "100"; alignment = "right"; };
-      };
-    };
-    awl_1 = {
-      items = {
-        barstart = { priority = "100"; };
-        awl_1 = { };
         barend = { priority = "100"; alignment = "right"; };
       };
     };
@@ -355,7 +348,7 @@ settings = {
     ### For Solarized adv_windowlist.pl script
     awl_block = "12";
     awl_sbar_maxlength = "on";
-    awl_hide_empty = "yes";
+    awl_hide_empty = "1";
     awl_mouse = "yes";
     awl_viewer = "no";
     #fancy_abbrev = "head";
@@ -372,7 +365,7 @@ settings = {
     neat_shrink = "yes";
     neat_staircase_shrink = "no";
     neat_history = "12";
-    logresume_channel_lines = "99999";
+    logresume_channel_lines = "200";
     neat_melength = "0";
   };
   core = {
