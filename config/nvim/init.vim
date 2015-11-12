@@ -210,7 +210,8 @@ if !has("gui_running")
   set t_Co=256
 endif
 
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+" Invisible cursor too often :(
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=0
 
 let &t_AB="\e[48;5;%dm"
 let &t_AF="\e[38;5;%dm"
