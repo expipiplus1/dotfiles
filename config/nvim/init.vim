@@ -166,6 +166,10 @@ set ffs=unix,dos
 " Interface
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Vmap for maintain Visual Mode after shifting > and <
+vmap < <gv
+vmap > >gv
+
 set switchbuf+=usetab
 
 set ruler
