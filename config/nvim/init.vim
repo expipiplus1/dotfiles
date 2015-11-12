@@ -432,11 +432,11 @@ set noshowmode
 let g:lightline = {
       \ 'colorscheme': 'solarized',
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'readonly', 'filename'], ['ctrlpmark'] ],
-      \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'obsession', 'readonly', 'filename', 'neomake_errors', 'neomake_warnings' ], ['ctrlpmark'] ],
+      \   'right': [ [ 'lineinfo', 'syntastic' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
       \ },
       \ 'inactive': {
-      \   'left': [ [ 'fugitive', 'readonly', 'filename'] ],
+      \   'left': [ [], [ 'readonly', 'filename'] ],
       \   'right': [ [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
       \ },
       \ 'component_function': {
@@ -450,12 +450,17 @@ let g:lightline = {
       \ },
       \ 'component_expand': {
       \   'syntastic': 'SyntasticStatuslineFlag',
+      \   'neomake_errors': 'neomake#statusline#LoclistErrors',
+      \   'neomake_warnings': 'neomake#statusline#LoclistWarnings',
       \ },
       \ 'component_type': {
       \   'syntastic': 'error',
+      \   'neomake_errors': 'error',
+      \   'neomake_warnings': 'warning',
       \ },
       \ 'component': {
       \   'readonly': '%{&readonly?"":""}',
+      \   'obsession': '%{ObsessionStatus()}',
       \ },
       \ 'separator': { 'left': '', 'right': '' },
       \ 'subseparator': { 'left': '', 'right': '' }
@@ -466,10 +471,6 @@ function! MyModified()
   return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
 endfunction
 
-function! MyReadonly()
-  return &ft !~? 'help' && &readonly ? 'RO' : ''
-endfunction
-
 function! MyFilename()
   let fname = expand('%:t')
   return fname == 'ControlP' ? g:lightline.ctrlp_item :
@@ -478,7 +479,6 @@ function! MyFilename()
         \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
         \ &ft == 'unite' ? unite#get_status_string() :
         \ &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
         \ ('' != fname ? fname : '[No Name]') .
         \ ('' != MyModified() ? ' ' . MyModified() : '')
 endfunction
