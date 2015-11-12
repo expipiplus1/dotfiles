@@ -10,7 +10,12 @@ shopt -s extglob
 
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
-files="tmux.conf config/nvim/init.vim config/nvim/autoload/plug.vim nixpkgs/config.nix"
+files="tmux.conf
+       config/nvim/init.vim
+       config/nvim/autoload/plug.vim
+       nixpkgs/config.nix
+       stack/stack.yaml
+       ghci"
 
 ##########
 
