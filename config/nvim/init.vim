@@ -819,7 +819,7 @@ function! StripTrailingWhitespace()
   normal `Z
 endfunction
 
-autocmd FileType haskell,lhaskell,cabal,c,cpp autocmd BufWritePre <buffer> :call StripTrailingWhitespace()
+autocmd FileType haskell,lhaskell,cabal,c,cpp,nix autocmd BufWritePre <buffer> :call StripTrailingWhitespace()
 nnoremap <leader>s :call StripTrailingWhitespace()<CR>
 
 autocmd FileType haskell let b:easytags_auto_highlight = 1
