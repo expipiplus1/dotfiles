@@ -33,7 +33,6 @@ Plug 'itchyny/lightline.vim'
 Plug 'kien/ctrlp.vim'
 
 Plug 'Twinside/vim-hoogle'
-Plug 'dag/vim2hs'
 if(s:use_ghc_mod)
   Plug 'expipiplus1/ghcmod-vim'
 else
@@ -41,7 +40,7 @@ else
 endif
 Plug 'eagletmt/neco-ghc'
 Plug 'eagletmt/unite-haddock'
-Plug 'neovimhaskell/haskell-vim'
+Plug 'rTreutlein/haskell-vim'
 
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-function'
@@ -737,12 +736,34 @@ nmap <silent> <F8>    <Plug>QFNext
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim2hs
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:haskell_conceal = 0
-
+let g:haskell_conceal       = 0
+let g:haskell_quasi         = 0
+let g:haskell_interpolation = 0
+let g:haskell_regex         = 0
+let g:haskell_jmacro        = 0
+let g:haskell_shqq          = 0
+let g:haskell_sql           = 0
+let g:haskell_json          = 0
+let g:haskell_xml           = 0
+let g:haskell_hsp           = 0
+let g:haskell_tabular       = 0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Haskell stuff
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:haskell_enable_quantification   = 1 " to enable highlighting of forall
+let g:haskell_enable_recursivedo      = 1 " to enable highlighting of mdo and rec
+let g:haskell_enable_arrowsyntax      = 1 " to enable highlighting of proc
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of pattern
+let g:haskell_enable_typeroles        = 1 " to enable highlighting of type roles
+let g:haskell_enable_static_pointers  = 1 " to enable highlighting of static
+let g:haskell_indent_if               = 2
+let g:haskell_indent_case             = 2
+let g:haskell_indent_let              = 4
+let g:haskell_indent_where            = 6
+let g:haskell_indent_do               = 3
+let g:haskell_indent_in               = 0
 
 let g:necoghc_enable_detailed_browse = 1
 let $PATH = $PATH . ':' . expand("~/.cabal/bin")
