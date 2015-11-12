@@ -861,6 +861,7 @@ autocmd FileType haskell setlocal formatexpr=FormatHaskell()
 
 autocmd Filetype haskell setlocal omnifunc=necoghc#omnifunc
 autocmd Filetype haskell setlocal iskeyword+=39
+autocmd Filetype haskell setlocal iskeyword-=.
 
 function! s:get_cabal_sandbox()
     if filereadable('cabal.sandbox.config')
