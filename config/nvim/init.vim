@@ -185,7 +185,8 @@ set novisualbell
 " t: Truncate file messages
 " T: Truncate other messages
 " I: No intro message
-set shortmess=atTI
+" A: no swap file annoyance
+set shortmess=atTIA
 
 " Highlight current line
 if empty($CONEMUBUILD)
