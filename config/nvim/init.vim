@@ -852,7 +852,7 @@ function! FormatHaskell()
   if !empty(v:char)
     return 1
   else
-    let l:filter = "hindent --style " . g:hindent_style
+    let l:filter = g:formatprg_haskell . " " . g:formatprg_args_haskell
     let l:command = v:lnum.','.(v:lnum+v:count-1).'!'.l:filter
     execute l:command
   endif
