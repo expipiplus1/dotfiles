@@ -42,6 +42,8 @@ Plug 'eagletmt/neco-ghc'
 Plug 'eagletmt/unite-haddock'
 Plug 'rTreutlein/haskell-vim'
 
+Plug 'gabrielelana/vim-markdown'
+
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-function'
 Plug 'glts/vim-textobj-comment'
