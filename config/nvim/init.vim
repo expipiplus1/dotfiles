@@ -70,7 +70,6 @@ Plug 'LnL7/vim-nix'
 
 Plug 'blueyed/vim-diminactive'
 Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'sjl/vitality.vim'
 
 Plug 'Rip-Rip/clang_complete'
 
