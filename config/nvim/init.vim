@@ -792,7 +792,7 @@ if(s:use_ghc_mod)
   autocmd Filetype haskell nnoremap <buffer> <leader>c :GhcModTypeClear<CR>
   autocmd Filetype haskell nnoremap <buffer> <leader>t :GhcModType!<CR>
   autocmd Filetype haskell nnoremap <buffer> <leader>T :GhcModTypeInsert!<CR>
-else 
+else
   autocmd Filetype haskell nnoremap <buffer> <leader>i :HdevtoolsInfo<CR>
   autocmd Filetype haskell nnoremap <buffer> <leader>c :HdevtoolsClear<CR>
   autocmd Filetype haskell nnoremap <buffer> <leader>t :HdevtoolsType<CR>
