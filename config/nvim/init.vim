@@ -918,3 +918,9 @@ else
   let s:clang_args = []
 endif
 let g:neomake_c_clang_maker.args += filter(s:clang_args, '!empty(v:val)')
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Markdown
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+autocmd FileType markdown setlocal omnifunc=
