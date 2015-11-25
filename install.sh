@@ -19,6 +19,7 @@ files="tmux.conf
        irssi/config
        irssi/solarized-universal.theme
        irssi/startup
+       gitconfig
       "
 
 ##########
@@ -27,7 +28,7 @@ files="tmux.conf
 echo "Changing to the $dir directory"
 cd $dir
 
-# move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks 
+# move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks
 for file in $files; do
   if [[ -e ~/.$file ]];
   then
@@ -35,7 +36,7 @@ for file in $files; do
     echo "Moving existing ~/.$file from ~ to $olddir/.$file"
     mkdir -p $(dirname $olddir/.$file)
     mv ~/.$file $olddir/.$file
-  fi 
+  fi
   mkdir -p $(dirname ~/.$file)
   ln -sv $dir/$file ~/.$file
 done

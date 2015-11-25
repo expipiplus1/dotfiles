@@ -1,0 +1,13 @@
+[user]
+  email = git@monoid.al
+  name = Joe Hermaszewski
+[push]
+  default = simple
+[alias]
+  po = "!git push --set-upstream origin \"$(git rev-parse --abbrev-ref HEAD)\""
+[core]
+  editor = vim
+[merge]
+  tool = vimdiff
+[mergetool]
+  keepBackup = false
