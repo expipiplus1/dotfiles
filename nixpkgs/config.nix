@@ -6,26 +6,44 @@
 
   haskellPackageOverrides = with pkgs.haskell.lib; self: super: {
     ghc-mod = overrideCabal super.ghc-mod (attrs: {
+      buildDepends = [ super.binary super.haskell-src-exts_1_17_0 ];
       src = pkgs.fetchgit{ url = "git://github.com/kazu-yamamoto/ghc-mod.git";
-                           rev = "HEAD";
-                           sha256 = "0d3s99gggmfpiisfmdr1ka5d97z84hczd0acl5y0gahb5g3r51dx"; }; });
+                           rev = "54801d950a3637781c9dd23e380dd787d9e51a71";
+                           sha256 = "0zc9nd6ihmqzm2i26cs0zm1gf8bryz3h8ycqw7ad3gq9zyidgb0l"; }; });
     hdevtools = overrideCabal super.hdevtools (attrs: {
       src = pkgs.fetchgit{ url = "git://github.com/schell/hdevtools.git";
                            rev = "HEAD";
                            sha256 = "06qg2xg40jc77gn7ms8h9xscja3v69paa6yb54iz1pc92l19r180"; }; });
-    hlint   = overrideCabal super.hlint   (attrs: {
-      src = pkgs.fetchgit{ url = "git://github.com/ndmitchell/hlint.git";
-                           rev = "HEAD";
-                           sha256 = "0axi8rkrw10x0a6w5c7cf1l107rp5ckc83v3jbaqyfq8qcap6c3v"; };
-      buildDepends = [ super.refact ]; });
-    hindent = overrideCabal super.hindent (attrs: {
-      src = pkgs.fetchgit{ url = "git://github.com/chrisdone/hindent.git";
-                           rev = "HEAD";
-                           sha256 = "0vmd37j6c4c3jkvnhp6pkw88l3zgasyn3cml54ya6xa8xcgcadi2"; }; });
+  #haskell-src-exts = overrideCabal super.haskell-src-exts   (attrs: {
+  #  buildDepends = [ super.pretty-show super.tasty-golden_2_2_2_4 ];
+  #  src = pkgs.fetchgit{ url = "git://github.com/haskell-suite/haskell-src-exts.git";
+  #                       rev = "0631f150ff58ac205cbe989e51c8821547cb7435";
+  #                       sha256 = "09sgzyq4dihbwq5prc1g46yg6mm7xd3d6c32cjd819k2f7jnw1qz"; }; });
+  #hlint   = overrideCabal super.hlint   (attrs: {
+  #  src = pkgs.fetchgit{ url = "git://github.com/ndmitchell/hlint.git";
+  #                       rev = "23589cfec3b875b633024743433b3822b6e867f5";
+  #                       sha256 = "1wdqfpxims6gwlwil3frfjxq7rqc2h2zjfapapprlr7ialg4hxzn"; };
+  #  buildDepends = [ super.refact super.haskell-src-exts_1_17_0 ]; });
+   hindent = overrideCabal super.hindent (attrs: {
+     doCheck = false;
+     src = pkgs.fetchgit{ url = "git://github.com/chrisdone/hindent.git";
+                          rev = "75a52ee4a5e22a1a4102cb135bc1ecc9681b0f98";
+                          sha256 = "109lc2lv4n1z1pnggxdi4pwkp90l2xpprpy5p9d3c2k9rmr6s5y0"; }; });
     haddock = overrideCabal super.haddock (attrs: {
       src = pkgs.fetchgit{ url = "git://github.com/haskell/haddock.git";
                            rev = "ac10a4ccbe416e8612c6ca49b9f19c3a6f4cf25f";
                            sha256 = "0nmzn6p16xq0kjdpc9y5ahvqcpyqf24626krhfnl85hlcwnq8vvw"; }; });
+    uom-plugin = overrideCabal super.uom-plugin (attrs: {
+      src = pkgs.fetchgit{ url = "git://github.com/adamgundry/uom-plugin.git";
+                           rev = "de632726bc82b078c23c65f305d0435eefa7acbf";
+                           sha256 = "1v0cfvv0ggpk6jh25wibhf6wksm2pwvilzhmw4qv37nqc0f0q6lw"; } + "/uom-plugin"; });
+    exact-real = overrideCabal super.exact-real (attrs: {
+      src = ~/projects/exact-real;
+      buildDepends = [ super.memoize ];
+    });
+    ad = overrideCabal super.ad (attrs: {
+      src = ~/src/ad;
+    });
   };
 
   packageOverrides = super: let pkgs = super.pkgs; in with pkgs; rec {
