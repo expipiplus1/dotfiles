@@ -44,7 +44,8 @@ else
 endif
 Plug 'eagletmt/neco-ghc'
 Plug 'eagletmt/unite-haddock'
-Plug 'rTreutlein/haskell-vim'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'mpickering/hlint-refactor-vim'
 
 Plug 'gabrielelana/vim-markdown'
 
