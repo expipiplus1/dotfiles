@@ -34,6 +34,8 @@ Plug 'beyondmarc/hlsl.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'kien/ctrlp.vim'
 
+Plug 'stephpy/vim-yaml'
+
 Plug 'Twinside/vim-hoogle'
 if(s:use_ghc_mod)
   Plug 'expipiplus1/ghcmod-vim'
