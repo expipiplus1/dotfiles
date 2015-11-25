@@ -1,1 +1,9 @@
 :set prompt "\ESC[34mλ> \ESC[m"
+:set -XDataKinds
+:set -XQuasiQuotes
+:set -XFlexibleContexts
+:set -XFlexibleInstances
+:set -XMultiParamTypeClasses
+:set -XScopedTypeVariables
+:set -XTypeOperators
+:set -XTypeFamilies
