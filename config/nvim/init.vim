@@ -27,7 +27,9 @@ Plug 'Shougo/neco-vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
-Plug 'altercation/vim-colors-solarized'
+" Plug 'altercation/vim-colors-solarized'
+Plug 'chriskempson/base16-vim'
+
 Plug 'beyondmarc/hlsl.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'kien/ctrlp.vim'
@@ -227,12 +229,25 @@ set guioptions-=R
 
 " Color scheme
 set background=dark
-colorscheme solarized
+
+" needs base16-shell run
+let base16colorspace=256
+colorscheme base16-default
+
+" Operators different from functions
+hi Operator       ctermfg=2 guifg=#a1b56c
+" String same as old comment
+hi String         ctermfg=8 guifg=#585858
+" String same as comment
+hi Comment         ctermfg=8 guifg=#585858
+" less distracting matching
+hi MatchParen cterm=bold ctermbg=none ctermfg=none
+
 
 " Split separator colors
 set fillchars+=stlnc:-
 set fillchars+=stl:-
-hi VertSplit ctermfg=14 ctermbg=0 guifg=#93a1a1 guibg=#073642
+hi VertSplit ctermfg=8 ctermbg=0 guifg=#93a1a1 guibg=#073642
 
 " Search highlighting
 hi Search term=bold,underline gui=bold,underline
