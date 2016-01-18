@@ -945,6 +945,9 @@ else
 endif
 let g:neomake_c_clang_maker.args += filter(s:clang_args, '!empty(v:val)')
 
+let g:neomake_cpp_clang_maker = neomake#makers#ft#cpp#clang()
+let g:neomake_cpp_clang_maker.args += filter(s:clang_args, '!empty(v:val)')
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Markdown
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
