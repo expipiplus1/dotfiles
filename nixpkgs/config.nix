@@ -104,9 +104,9 @@
     cabalPackages = hp: with hp; [
       ghc-mod
       hdevtools
-      hindent
       hlint
       pretty-show
+      shake
     ];
 
     haskell-env = with pkgs; buildEnv {
