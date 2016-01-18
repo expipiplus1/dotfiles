@@ -43,6 +43,8 @@ Plug 'kien/ctrlp.vim'
 
 Plug 'stephpy/vim-yaml'
 
+Plug 'vim-scripts/terra.vim'
+
 Plug 'Twinside/vim-hoogle'
 if(s:use_ghc_mod)
   Plug 'expipiplus1/ghcmod-vim'
