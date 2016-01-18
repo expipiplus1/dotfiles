@@ -14,6 +14,13 @@ endif
 
 let s:use_ghc_mod = 1
 
+function! BuildComposer(info)
+  if a:info.status != 'unchanged' || a:info.force
+    !cargo build --release
+    UpdateRemotePlugins
+  endif
+endfunction
+
 call plug#begin(s:editor_root . '/plugged')
 
 if has('nvim')
@@ -48,6 +55,7 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'mpickering/hlint-refactor-vim'
 
 Plug 'gabrielelana/vim-markdown'
+Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-function'
