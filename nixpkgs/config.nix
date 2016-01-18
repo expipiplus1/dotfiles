@@ -94,13 +94,6 @@
     #     owner = "expipiplus1"; };
     # });
 
-    konsole = lib.overrideDerivation super.kdeApps_15_08.konsole (oldAttrs: {
-      src = fetchgit { url = "git://anongit.kde.org/konsole";
-                       rev = "7fd931601e169af8bd3b781e3946e1326eafdbfe";
-                       sha256 = "1dsiah6sqdhfsc0ddga49xfkmji36d5dhj1y52jsi0j1hpkiw5qc";
-                     };
-    });
-
     devEnv = with pkgs; buildEnv {
       name = "dev-env";
       paths = [
