@@ -35,8 +35,8 @@
                            sha256 = "0nmzn6p16xq0kjdpc9y5ahvqcpyqf24626krhfnl85hlcwnq8vvw"; }; });
     uom-plugin = overrideCabal super.uom-plugin (attrs: {
       src = pkgs.fetchgit{ url = "git://github.com/adamgundry/uom-plugin.git";
-                           rev = "de632726bc82b078c23c65f305d0435eefa7acbf";
-                           sha256 = "1v0cfvv0ggpk6jh25wibhf6wksm2pwvilzhmw4qv37nqc0f0q6lw"; } + "/uom-plugin"; });
+                           rev = "a8b8328792694f80a3f0d3e951f95524d40301cc";
+                           sha256 = "1s6bdqq6hk2c1k2vgc3cixzjzl6jnbibbl4vwiq2kcj3w8wfd9v9"; } + "/uom-plugin"; });
     exact-real = overrideCabal super.exact-real (attrs: {
       src = ~/projects/exact-real;
       buildDepends = [ super.memoize ];
