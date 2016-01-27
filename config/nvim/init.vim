@@ -216,9 +216,7 @@ set novisualbell
 set shortmess=atTIA
 
 " Highlight current line
-if empty($CONEMUBUILD)
-  set cursorline
-endif
+set cursorline
 
 if has("gui_running")
   " GUI is running or is about to start.
@@ -236,9 +234,6 @@ endif
 if !has("gui_running")
   set t_Co=256
 endif
-
-" Invisible cursor too often :(
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=0
 
 let &t_AB="\e[48;5;%dm"
 let &t_AF="\e[38;5;%dm"
