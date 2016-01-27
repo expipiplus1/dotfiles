@@ -874,7 +874,7 @@ endfunction
 " Format current function
 autocmd FileType haskell map <leader>f :call Preserve("normal gqah")<CR>
 
-let g:hindent_style="gibiansky"
+let g:hindent_style="chris-done"
 let g:formatprg_haskell = "hindent"
 let g:formatprg_args_haskell = "--style " . g:hindent_style . " --line-length 80"
 
