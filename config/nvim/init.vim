@@ -21,6 +21,13 @@ function! BuildComposer(info)
   endif
 endfunction
 
+function! BuildClangComplete(info)
+  if a:info.status != 'unchanged' || a:info.force
+    !make
+    UpdateRemotePlugins
+  endif
+endfunction
+
 call plug#begin(s:editor_root . '/plugged')
 
 if has('nvim')
@@ -87,7 +94,10 @@ Plug 'LnL7/vim-nix'
 Plug 'blueyed/vim-diminactive'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 
-Plug 'Rip-Rip/clang_complete'
+Plug 'DarkDefender/clang_complete', { 'branch': 'deo_clang_py3', 'do': function('BuildClangComplete') }
+" Plug 'osyo-manga/vim-marching'
+
+Plug 'rhysd/vim-clang-format'
 
 call plug#end()
 " End of plug stuff
