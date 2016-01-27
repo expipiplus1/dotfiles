@@ -19,9 +19,7 @@ files="bashrc
        nixpkgs/config.nix
        stack/stack.yaml
        ghci
-       irssi/config
-       irssi/solarized-universal.theme
-       irssi/startup
+       irssi
        gitconfig
        Xmodmap
       "
