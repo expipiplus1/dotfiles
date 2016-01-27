@@ -11,6 +11,7 @@ shopt -s extglob
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
 files="tmux.conf
+       tmux/plugins/tpm
        config/nvim/init.vim
        config/nvim/autoload/plug.vim
        config/base16-shell
@@ -21,7 +22,6 @@ files="tmux.conf
        irssi/solarized-universal.theme
        irssi/startup
        gitconfig
-       tmux/plugins/tpm
        Xmodmap
       "
 
