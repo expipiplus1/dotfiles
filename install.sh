@@ -22,6 +22,7 @@ files="tmux.conf
        irssi/startup
        gitconfig
        tmux/plugins/tpm
+       Xmodmap
       "
 
 ##########
