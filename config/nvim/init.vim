@@ -924,6 +924,16 @@ let g:syntastic_haskell_hdevtools_args=ghc_args_string
 " Clang complete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+let g:clang_complete_auto = 0
+let g:clang_auto_select = 0
+let g:clang_omnicppcomplete_compliance = 1
+let g:clang_make_default_keymappings = 0
+let g:clang_snippets=1
+let g:clang_snippets_engine="clang_complete"
+
+let g:clang_use_library = 1
+let g:clang_library_path = expand('~/.nix-profile/lib/')
+
 " Code from bairui@#vim.freenode
 " https://gist.github.com/3322468
 function! Flatten(list)
@@ -938,8 +948,6 @@ function! Flatten(list)
   endfor
   return val
 endfunction
-
-let g:clang_library_path = expand('~/.nix-profile/lib/')
 
 let g:neomake_c_clang_maker = neomake#makers#ft#c#clang()
 if filereadable(".clang_complete")
