@@ -1,0 +1,3 @@
+[submodule "config/base16-shell"]
+	path = config/base16-shell
+	url = https://github.com/xHN35RQ/base16-shell.git

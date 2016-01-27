@@ -13,6 +13,7 @@ olddir=~/dotfiles_old             # old dotfiles backup directory
 files="tmux.conf
        config/nvim/init.vim
        config/nvim/autoload/plug.vim
+       config/base16-shell
        nixpkgs/config.nix
        stack/stack.yaml
        ghci
@@ -23,6 +24,9 @@ files="tmux.conf
       "
 
 ##########
+
+echo "updating submodules"
+git submodule update --init
 
 # change to the dotfiles directory
 echo "Changing to the $dir directory"
