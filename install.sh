@@ -44,3 +44,4 @@ for file in $files; do
   mkdir -p $(dirname ~/.$file)
   ln -sv $dir/$file ~/.$file
 done
+
