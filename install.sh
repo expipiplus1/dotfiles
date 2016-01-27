@@ -21,6 +21,7 @@ files="tmux.conf
        irssi/solarized-universal.theme
        irssi/startup
        gitconfig
+       tmux/plugins/tpm
       "
 
 ##########
