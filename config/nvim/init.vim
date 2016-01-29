@@ -36,7 +36,7 @@ else
   Plug 'Shougo/neocomplete.vim'
 endif
 " Plug 'Shougo/unite.vim'
-Plug 'Shougo/vimproc.vim'
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/neco-vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
