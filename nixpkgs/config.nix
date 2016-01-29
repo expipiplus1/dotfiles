@@ -17,15 +17,17 @@
                       perlPackages.TextAspell
                       perlPackages.TextCharWidth
                       perlPackages.CryptX
+                      perlPackages.JSONMaybeXS
                       makeWrapper
                     ];
       postInstall =
         ''
           wrapProgram "$out/bin/irssi" \
-            --prefix PERL5LIB : ${perlPackages.TextAspell}/lib/perl5/site_perl/5.20.2/x86_64-linux-thread-multi \
-            --prefix PERL5LIB : ${perlPackages.TextCharWidth}/lib/perl5/site_perl/5.20.2/x86_64-linux-thread-multi \
-            --prefix PERL5LIB : ${perlPackages.CryptX}/lib/perl5/site_perl/5.20.2/x86_64-linux-thread-multi \
-            --prefix PERL5LIB : ${perlPackages.JSON}/lib/perl5/site_perl/5.20.2
+            --prefix PERL5LIB : ${perlPackages.TextAspell}/lib/perl5/site_perl/*/x86_64-linux-thread-multi \
+            --prefix PERL5LIB : ${perlPackages.TextCharWidth}/lib/perl5/site_perl/*/x86_64-linux-thread-multi \
+            --prefix PERL5LIB : ${perlPackages.CryptX}/lib/perl5/site_perl/*/x86_64-linux-thread-multi \
+            --prefix PERL5LIB : ${perlPackages.JSONMaybeXS}/lib/perl5/site_perl/* \
+            --prefix PERL5LIB : ${perlPackages.JSON}/lib/perl5/site_perl/*
         '';
     });
 
