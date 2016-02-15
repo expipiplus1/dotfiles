@@ -21,7 +21,6 @@ files="bashrc
        ghci
        irssi
        gitconfig
-       Xmodmap
        aspell.conf
       "
 
