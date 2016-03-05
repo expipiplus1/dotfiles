@@ -22,6 +22,9 @@ files="bashrc
        irssi
        gitconfig
        aspell.conf
+       xinitrc
+       xkb/symbols/local
+       moc
       "
 
 ##########
