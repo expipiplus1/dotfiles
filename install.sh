@@ -24,7 +24,8 @@ files="bashrc
        aspell.conf
        xinitrc
        xkb/symbols/local
-       moc
+       moc/config
+       moc/themes/base16
       "
 
 ##########
