@@ -185,3 +185,24 @@ function cd()
 
   builtin pushd "${DIR}" > /dev/null
 }
+
+function light()
+{
+  export LIGHT=1
+  source ~/.config/base16-shell/base16-solarized.light.sh
+  tmux set-window-option -g window-active-style bg=colour15
+  tmux set-window-option -g window-style bg=colour21
+}
+
+function dark()
+{
+   export LIGHT=
+   source ~/.config/base16-shell/base16-tomorrow.dark.sh
+   tmux set-window-option -g window-active-style 'bg=black'
+   tmux set-window-option -g window-style bg=colour18
+}
+
+if [[ -v LIGHT ]]; then
+  light
+fi
+
