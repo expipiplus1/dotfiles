@@ -26,6 +26,7 @@ files="bashrc
        xkb/symbols/local
        moc/config
        moc/themes/base16
+       zshrc
       "
 
 ##########
