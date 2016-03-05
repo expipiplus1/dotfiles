@@ -31,7 +31,13 @@ channels = (
   { name = "##JoeChannel"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "##c++-social"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#tmux"; chatnet = "Freenode"; autojoin = "yes"; },
-  { name = "#irssi"; chatnet = "Freenode"; autojoin = "yes"; }
+  { name = "#irssi"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#clash-lang"; chatnet = "Freenode"; autojoin = "yes"; },
+  { 
+    name = "#haskell-embedded";
+    chatnet = "Freenode";
+    autojoin = "yes";
+  }
 );
 
 aliases = {
