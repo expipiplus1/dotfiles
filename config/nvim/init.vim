@@ -435,6 +435,7 @@ let g:diminactive_enable_focus = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " ctrlp find files
+let g:ctrlp_root_markers=["build.hs", "*.cabal"]
 let g:ctrlp_by_filename = 1
 set wildignore+=*/dist/*,*/tmp/*,*.so,*.swp,*.zip,*.hi,*.o
 let g:ctrlp_extensions = ['tag']
