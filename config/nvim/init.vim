@@ -247,11 +247,15 @@ set guioptions-=r
 set guioptions-=R
 
 " Color scheme
-set background=dark
+if $LIGHT 
+  set background=light
+else
+  set background=dark
+endif
 
 " needs base16-shell run
 let base16colorspace=256
-colorscheme base16-default
+colorscheme base16-tomorrow
 
 " Operators different from functions
 hi Operator       ctermfg=2 guifg=#a1b56c
@@ -262,6 +266,13 @@ hi Comment         ctermfg=8 guifg=#585858
 " less distracting matching
 hi MatchParen cterm=bold ctermbg=none ctermfg=none
 
+" to play nicely with diminactive make it the same as cursorline
+if $LIGHT
+  hi NonText ctermbg=21 guibg=#e0e0e0
+else
+  hi NonText ctermbg=18 guibg=#282a2e
+endif
+
 
 " Split separator colors
 set fillchars+=stlnc:-
@@ -270,9 +281,6 @@ hi VertSplit ctermfg=8 ctermbg=0 guifg=#93a1a1 guibg=#073642
 
 " Search highlighting
 hi Search term=bold,underline gui=bold,underline
-
-" to play nicely with diminactive
-hi NonText ctermbg=black
 
 " Split vertically by default
 cnoreabbrev sb vert sb
