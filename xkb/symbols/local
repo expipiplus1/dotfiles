@@ -1,0 +1,14 @@
+xkb_symbols "local" {
+  modifier_map Mod3 { <MENU> }; 
+
+  key <MENU> {
+    type = "UNMODIFIED",
+    [ Meta_R ],
+    repeat = no
+  };
+
+  key <CAPS> {
+    [ Escape ]
+  };
+};
+
