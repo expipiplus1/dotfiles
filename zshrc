@@ -70,6 +70,8 @@ fi
 # 0.1s
 export KEYTIMEOUT=1
 
+bindkey "^R" history-incremental-search-backward
+
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=10000000
 HISTFILESIZE=20000000
