@@ -53,8 +53,10 @@ plugins=(git vi-mode tmux cabal)
 
 # User configuration
 
-if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then 
-  . "$HOME/.nix-profile/etc/profile.d/nix.sh"; 
+if [[ "$IN_NIX_SHELL" == "" ]]; then
+  if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
+    . "$HOME/.nix-profile/etc/profile.d/nix.sh";
+  fi
 fi
 
 export NIX_PATH=my-nixpkgs=$HOME/src/nixpkgs:$NIX_PATH
@@ -108,6 +110,8 @@ ns(){
 #
 
 source $ZSH/oh-my-zsh.sh
+
+compdef -d ns
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
