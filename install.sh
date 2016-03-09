@@ -40,9 +40,12 @@ cd $dir
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks
 for file in $files; do
-  if [[ -e ~/.$file ]];
-  then
+  if [[ -e ~/.$file ]]; then
     mkdir -p $olddir
+    if [[ -e $olddir/.$file ]]; then
+      echo "Removing $olddir/.$file"
+      rm -r $olddir/.$file
+    fi
     echo "Moving existing ~/.$file from ~ to $olddir/.$file"
     mkdir -p $(dirname $olddir/.$file)
     mv ~/.$file $olddir/.$file
