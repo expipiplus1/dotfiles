@@ -72,10 +72,6 @@ export KEYTIMEOUT=1
 
 bindkey "^R" history-incremental-search-backward
 
-HISTCONTROL=ignoredups:ignorespace
-HISTSIZE=10000000
-HISTFILESIZE=20000000
-
 # Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/base16-tomorrow.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
@@ -113,6 +109,21 @@ ns(){
 
 source $ZSH/oh-my-zsh.sh
 
+unsetopt share_history
+HISTCONTROL=ignoredups:ignorespace
+HISTSIZE=10000000
+HISTFILESIZE=20000000
+
+bindkey "${terminfo[khome]}" beginning-of-line
+bindkey "${terminfo[kend]}"  end-of-line
+bindkey "${terminfo[kich1]}" overwrite-mode
+bindkey "${terminfo[kdch1]}" delete-char
+bindkey "${terminfo[kcuu1]}" up-line-or-history
+bindkey "${terminfo[kcud1]}" down-line-or-history
+bindkey "${terminfo[kcub1]}" backward-char
+bindkey "${terminfo[kcuf1]}" forward-char
+
+# Remove the completion for ns, we use that name as a function
 compdef -d ns
 
 # You may need to manually set your language environment
