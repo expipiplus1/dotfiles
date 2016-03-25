@@ -74,6 +74,7 @@
       hlint
       pretty-show
       shake
+      stylish-haskell
     ];
 
     haskell-env = with pkgs; buildEnv {
