@@ -101,6 +101,11 @@ ns(){
   nix-shell --command "IN_NIX_SHELL=1 exec zsh; return" $@
 }
 
+c2n(){
+  cabal2nix . > default.nix &&
+  echo "with (import <nixpkgs> {}).pkgs;\n(pkgs.haskellPackages.callPackage ./. {}).env" > shell.nix
+}
+
 #
 # Load oh my zsh
 #
