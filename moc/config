@@ -177,7 +177,7 @@
 # Show file time in menu?  Possible values: 'yes', 'no' and 'IfAvailable'
 # (meaning show the time only when it is already known, which often works
 # faster).
-#ShowTime = IfAvailable
+ShowTime = yes
 
 # Show time played as a percentage in the time progress bar.
 #ShowTimePercent = no
@@ -415,7 +415,7 @@ Theme = base16
 # zero.  Note that if you decrease the cache size below the number of items
 # currently in the cache, the number will not decrease immediately (if at
 # all).
-#TagsCacheSize = 256
+TagsCacheSize = 64436
 
 # Number items in the playlist.
 #PlaylistNumbering = yes
