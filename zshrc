@@ -70,8 +70,6 @@ fi
 # 0.1s
 export KEYTIMEOUT=1
 
-bindkey "^R" history-incremental-search-backward
-
 # Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/base16-tomorrow.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
@@ -113,6 +111,8 @@ unsetopt share_history
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=10000000
 HISTFILESIZE=20000000
+
+bindkey "^R" history-incremental-search-backward
 
 bindkey "${terminfo[khome]}" beginning-of-line
 bindkey "${terminfo[kend]}"  end-of-line
