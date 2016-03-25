@@ -41,6 +41,10 @@ Plug 'Shougo/neco-vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
+Plug 'mhinz/vim-startify'
+
+Plug 'triglav/vim-visual-increment'
+
 " Plug 'altercation/vim-colors-solarized'
 Plug 'chriskempson/base16-vim'
 
@@ -71,7 +75,7 @@ Plug 'kana/vim-textobj-function'
 Plug 'glts/vim-textobj-comment'
 Plug 'gibiansky/vim-textobj-haskell'
 
-Plug 'benekastah/neomake'
+Plug 'expipiplus1/neomake'
 
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-fugitive'
@@ -760,6 +764,16 @@ function! s:PopulateQuickFixPerhaps()
     call setqflist(getloclist(0))
   endif
 endfunction
+
+let g:neomake_verbose=0
+let g:neomake_warning_sign = {
+      \ 'text': '❯',
+      \ 'texthl': 'String',
+      \ }
+let g:neomake_error_sign = {
+      \ 'text': '❯',
+      \ 'texthl': 'ErrorMsg',
+      \ }
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Unimpared
