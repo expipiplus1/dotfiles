@@ -66,6 +66,7 @@ Plug 'eagletmt/neco-ghc'
 Plug 'eagletmt/unite-haddock'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'mpickering/hlint-refactor-vim'
+Plug 'expipiplus1/vim-stylish-haskell'
 
 Plug 'gabrielelana/vim-markdown'
 Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
@@ -838,6 +839,14 @@ let g:haskell_indent_in               = 0
 
 let g:necoghc_enable_detailed_browse = 1
 let $PATH = $PATH . ':' . expand("~/.cabal/bin")
+
+"
+" stylish-haskell
+"
+augroup stylish-haskell
+  autocmd!
+  autocmd BufWritePost *.hs silent call StylishHaskell()
+augroup END
 
 "
 " ghc mod
