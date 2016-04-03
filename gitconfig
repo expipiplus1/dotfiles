@@ -11,3 +11,5 @@
   tool = vimdiff
 [mergetool]
   keepBackup = false
+[github]
+	user = expipiplus1
