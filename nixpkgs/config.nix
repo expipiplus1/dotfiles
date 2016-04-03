@@ -104,7 +104,7 @@
     vimEnv = with pkgs; buildEnv {
       name = "vim-env";
       paths = [
-        (neovim.override {vimAlias = true;})
+        (neovim.override {vimAlias = true; extraPython3Packages = [(python3Packages.libclang-py3.override {src="/home/jophish/src/./././libclang-py3-0.3/";})];})
         powerline-fonts
         xsel
       ];
