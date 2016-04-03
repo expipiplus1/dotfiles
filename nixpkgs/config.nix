@@ -81,6 +81,7 @@
       stylish-haskell
       iridium
       git-vogue
+      packunused
     ];
 
     haskell-env = with pkgs; buildEnv {
