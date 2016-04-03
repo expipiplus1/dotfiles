@@ -103,7 +103,9 @@ ns(){
 
 c2n(){
   cabal2nix . > default.nix &&
-  echo "with (import <nixpkgs> {}).pkgs;\n(pkgs.haskellPackages.callPackage ./. {}).env" > shell.nix
+  if [ ! -f shell.nix ]; then
+    echo "with (import <nixpkgs> {}).pkgs;\n(pkgs.haskellPackages.callPackage ./. {}).env" > shell.nix
+  fi
 }
 
 #
