@@ -41,6 +41,9 @@ Plug 'Shougo/neco-vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
+Plug 'mattn/gist-vim'
+Plug 'mattn/webapi-vim'
+
 Plug 'mhinz/vim-startify'
 
 Plug 'triglav/vim-visual-increment'
