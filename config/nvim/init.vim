@@ -71,9 +71,6 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'mpickering/hlint-refactor-vim'
 Plug 'expipiplus1/vim-stylish-haskell'
 
-Plug 'gabrielelana/vim-markdown'
-Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
-
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-function'
 Plug 'glts/vim-textobj-comment'
