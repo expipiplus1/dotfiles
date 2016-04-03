@@ -112,6 +112,8 @@ c2n(){
 
 source $ZSH/oh-my-zsh.sh
 
+unsetopt AUTO_CD
+
 unsetopt share_history
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=10000000
