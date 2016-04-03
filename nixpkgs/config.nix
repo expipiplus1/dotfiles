@@ -78,6 +78,8 @@
       pretty-show
       shake
       stylish-haskell
+      iridium
+      git-vogue
     ];
 
     haskell-env = with pkgs; buildEnv {
