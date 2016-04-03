@@ -4,6 +4,8 @@
   allowBroken = true;
 
   haskellPackageOverrides = with pkgs.haskell.lib; self: super: {
+    hlint = pkgs.haskellPackages.callPackage /home/jophish/src/hlint/default.nix {};
+    hindent = pkgs.haskellPackages.callPackage /home/jophish/src/hindent/default.nix {};
   };
 
   packageOverrides = super: let pkgs = super.pkgs; in with pkgs; rec {
@@ -72,6 +74,7 @@
       ghc-mod
       hdevtools
       hlint
+      hindent
       pretty-show
       shake
       stylish-haskell
