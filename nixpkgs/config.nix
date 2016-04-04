@@ -7,6 +7,7 @@
     hlint = pkgs.haskellPackages.callPackage /home/jophish/src/hlint/default.nix {};
     hindent = pkgs.haskellPackages.callPackage /home/jophish/src/hindent/default.nix {};
     iridium = self.callPackage /home/jophish/src/iridium/default.nix {};
+    ghc-mod = self.callPackage /home/jophish/src/ghc-mod/default.nix {};
   };
 
   packageOverrides = super: let pkgs = super.pkgs; in with pkgs; rec {
