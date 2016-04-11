@@ -673,6 +673,9 @@ else
   let g:deoplete#enable_smart_case = 'infercase'
   let g:deoplete#data_directory = '~/.cache/deoplete/'
 
+  " Don't squash types
+  call deoplete#custom#set('_', 'converters', [])
+
   let g:deoplete#auto_completion_start_length = 1
   let g:deoplete#disable_auto_complete = 0
 
