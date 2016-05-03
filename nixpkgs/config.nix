@@ -78,6 +78,7 @@
       ghc-mod
       hdevtools
       hlint
+      apply-refact
       hindent
       pretty-show
       shake
