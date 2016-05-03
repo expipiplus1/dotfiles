@@ -881,9 +881,9 @@ else
 endif
 
 if(s:use_ghc_mod)
-  let g:neomake_haskell_hdevtools_maker = {}
+  let g:neomake_haskell_enabled_makers = ['ghcmod', 'hlint']
 else
-  let g:neomake_haskell_ghcmod_maker = {}
+  let g:neomake_haskell_enabled_makers= ['hdevtools', 'hlint']
 endif
 
 " highlight long columns
