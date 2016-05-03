@@ -27,6 +27,7 @@ files="bashrc
        moc/config
        moc/themes/base16
        zshrc
+       XCompose
       "
 
 ##########
