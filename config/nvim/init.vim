@@ -970,6 +970,15 @@ let g:syntastic_haskell_ghc_mod_args=ghc_args_string
 let g:syntastic_haskell_hdevtools_args=ghc_args_string
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" hlint-refactor-vim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:hlintRefactor#disableDefaultKeybindings = 1
+
+map <silent> <leader>e :call ApplyOneSuggestion()<CR>
+map <silent> <leader>E :call ApplyAllSuggestions()<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Clang complete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
