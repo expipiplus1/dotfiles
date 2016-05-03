@@ -46,6 +46,8 @@ Plug 'mattn/webapi-vim'
 
 Plug 'mhinz/vim-startify'
 
+Plug 'vim-scripts/prev_indent'
+
 Plug 'triglav/vim-visual-increment'
 
 " Plug 'altercation/vim-colors-solarized'
@@ -434,6 +436,13 @@ set incsearch " ...dynamically as they are typed.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:diminactive_enable_focus = 1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim prev_indent
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+imap <silent> <C-d> <Plug>PrevIndent
+nmap <silent> <C-g><C-g> :PrevIndent<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CtrlP
