@@ -58,7 +58,7 @@
 
     moc = lib.overrideDerivation super.moc (attrs: {
        buildInputs = attrs.buildInputs ++ (with pkgs; [ libsamplerate taglib libmpcdec wavpack faad2 curl file ]); # +librcc +libmagic -libmpc
-    onfigureFlags = "--with-rcc --without-oss --with-alsa --with-jack --with-aac --with-mp3 --with-musepack --with-vorbis --with-flac --with-wavpack --with-sndfile --with-modplug --with-ffmpeg --with-speex --with-timidity --with-samplerate --with-curl --with-sidplay2 --with-magic --disable-cache --disable-debug";
+       configureFlags = "--with-rcc --with-oss --with-alsa --with-jack --with-aac --with-mp3 --with-musepack --with-vorbis --with-flac --with-wavpack --with-sndfile --with-modplug --with-ffmpeg --with-speex --with-timidity --with-samplerate --with-curl --with-sidplay2 --with-magic --disable-cache --disable-debug";
      });
 
     # neovim = lib.overrideDerivation super.neovim (oldAttrs: {
