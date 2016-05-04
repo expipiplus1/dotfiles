@@ -10,7 +10,6 @@
     iridium = self.callPackage /home/jophish/src/iridium/default.nix {};
     stylish-haskell = self.callPackage /home/jophish/src/stylish-haskell/default.nix {};
     ghc-mod = self.callPackage /home/jophish/src/ghc-mod/default.nix {};
-    stylish-haskell = self.callPackage /home/jophish/src/stylish-haskell/default.nix {};
     git-vogue = self.callPackage /home/jophish/src/git-vogue/default.nix {};
   };
 
