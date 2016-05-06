@@ -87,6 +87,7 @@
       iridium
       git-vogue
       packunused
+      pointfree
     ];
 
     haskell-env = with pkgs; buildEnv {
