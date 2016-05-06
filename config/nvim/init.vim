@@ -119,11 +119,6 @@ runtime! plugin/sensible.vim
 " neovim fixes
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" workaround for neovim 2048
-if has('nvim')
-  nmap <bs> :<c-u>TmuxNavigateLeft<cr>
-endif
-
 " from https://github.com/neovim/neovim/issues/2017#issuecomment-75235455
 set timeout
 
