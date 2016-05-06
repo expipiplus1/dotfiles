@@ -8,4 +8,3 @@
 :set -XTypeOperators
 :set -XTypeFamilies
 :set -XBinaryLiterals
-:seti -fplugin Data.UnitsOfMeasure.Plugin
