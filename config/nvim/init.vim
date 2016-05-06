@@ -980,6 +980,15 @@ map <silent> <leader>e :call ApplyOneSuggestion()<CR>
 map <silent> <leader>E :call ApplyAllSuggestions()<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" pointfree
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" See :help :visual_example
+" This splits before and after the selection to create a new line, deindents
+" the new lines, runs pointfree over the middle and joins it all up again.
+xnoremap <silent> <leader>p <Esc>'>a<CR><Esc>:left<CR>'<i<CR><Esc>:left<CR>V:!pointfree --stdin<CR>kgJgJ
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Clang complete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
