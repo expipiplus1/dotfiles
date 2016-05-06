@@ -79,6 +79,7 @@
       ghc-mod
       hdevtools
       hlint
+      HaRe
       apply-refact
       hindent
       pretty-show
