@@ -30,11 +30,11 @@
       postInstall =
         ''
           wrapProgram "$out/bin/irssi" \
-            --prefix PERL5LIB : ${perlPackages.TextAspell}/lib/perl5/site_perl/*/x86_64-linux-thread-multi \
-            --prefix PERL5LIB : ${perlPackages.TextCharWidth}/lib/perl5/site_perl/*/x86_64-linux-thread-multi \
-            --prefix PERL5LIB : ${perlPackages.CryptX}/lib/perl5/site_perl/*/x86_64-linux-thread-multi \
-            --prefix PERL5LIB : ${perlPackages.JSONMaybeXS}/lib/perl5/site_perl/* \
-            --prefix PERL5LIB : ${perlPackages.JSON}/lib/perl5/site_perl/*
+            --prefix PERL5LIB : ${perlPackages.TextAspell}/${perl.libPrefix}/*/* \
+            --prefix PERL5LIB : ${perlPackages.TextCharWidth}/${perl.libPrefix}/*/* \
+            --prefix PERL5LIB : ${perlPackages.CryptX}/${perl.libPrefix}/*/* \
+            --prefix PERL5LIB : ${perlPackages.JSONMaybeXS}/${perl.libPrefix}/* \
+            --prefix PERL5LIB : ${perlPackages.JSON}/${perl.libPrefix}/*
         '';
     });
 
