@@ -121,13 +121,12 @@
     shellEnv = with pkgs; buildEnv {
       name = "shell-env";
       paths = [
-        bashCompletion
         curl
         htop
         irssi
         silver-searcher
-        sl
         tmux
+        zsh
       ];
     };
   };
