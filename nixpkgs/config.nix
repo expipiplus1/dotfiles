@@ -55,77 +55,77 @@
       '';
     });
 
+    #
+    # MOC with configure flags enabling most things
+    #
     moc = lib.overrideDerivation super.moc (attrs: {
-       buildInputs = attrs.buildInputs ++ (with pkgs; [ libsamplerate taglib libmpcdec wavpack faad2 curl file ]); # +librcc +libmagic -libmpc
-       configureFlags = "--with-rcc --with-oss --with-alsa --with-jack --with-aac --with-mp3 --with-musepack --with-vorbis --with-flac --with-wavpack --with-sndfile --with-modplug --with-ffmpeg --with-speex --with-timidity --with-samplerate --with-curl --with-sidplay2 --with-magic --disable-cache --disable-debug";
+       buildInputs = attrs.buildInputs ++ 
+                    [ libsamplerate taglib libmpcdec wavpack faad2 curl file ]; 
+       configureFlags = ''--with-rcc --with-oss --with-alsa --with-jack
+         --with-aac --with-mp3 --with-musepack --with-vorbis --with-flac
+         --with-wavpack --with-sndfile --with-modplug --with-ffmpeg
+         --with-speex --with-timidity --with-samplerate --with-curl
+         --with-sidplay2 --with-magic --disable-cache --disable-debug'';
      });
 
-    # neovim = lib.overrideDerivation super.neovim (oldAttrs: {
-    #   src = fetchFromGitHub {
-    #     sha256 = "1sdz8k9nmc904xd0sli2z9cnbqdrk3pg5xnm6d8b24l5k4ljs6n1";
-    #     rev = "0bbab3f5b9d43365b2916320aa55d69dc40d6036";
-    #     repo = "neovim";
-    #     owner = "expipiplus1"; };
-    # });
-
-    devEnv = with pkgs; buildEnv {
-      name = "dev-env";
+    #
+    # NeoVim and it's dependencies
+    #
+    vim-env = buildEnv {
+      name = "vim-env";
       paths = [
-        git
+        (neovim.override {vimAlias = true;})
+        powerline-fonts
+        xsel
       ];
     };
 
+    #
+    # Some useful haskell tools
+    #
+
     cabalPackages = hp: with hp; [
-      ghc-mod
-      hdevtools
-      hlint
       HaRe
       apply-refact
+      ghc-mod
+      git-vogue
       hindent
+      hlint
+      iridium
+      packunused
+      pointfree
       pretty-show
       shake
       stylish-haskell
-      iridium
-      git-vogue
-      packunused
-      pointfree
     ];
 
-    haskell-env = with pkgs; buildEnv {
+    haskell-env = buildEnv {
       name = "haskell-env";
       paths = [
-        (pkgs.haskellPackages.ghcWithPackages cabalPackages)
+        (cabalPackages haskellPackages)
         stack
         cabal-install
         cabal2nix
       ];
     };
 
-    nixEnv = with pkgs; buildEnv {
-      name = "nix-env";
-      paths = [
-        nox
-        nix-prefetch-scripts
-      ];
-    };
 
-    vimEnv = with pkgs; buildEnv {
-      name = "vim-env";
-      paths = [
-        (neovim.override {vimAlias = true; extraPython3Packages = [(python3Packages.libclang-py3.override {src="/home/jophish/src/./././libclang-py3-0.3/";})];})
-        powerline-fonts
-        xsel
-      ];
-    };
+    #
+    # Everything I want
+    #
 
-    shellEnv = with pkgs; buildEnv {
-      name = "shell-env";
+    dev-env = buildEnv {
+      name = "dev-env";
       paths = [
         curl
+        git
+        haskell-env
         htop
         irssi
+        nox
         silver-searcher
         tmux
+        vim-env
         zsh
       ];
     };
