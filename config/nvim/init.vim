@@ -41,6 +41,8 @@ Plug 'Shougo/neco-vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
+Plug 'dhruvasagar/vim-table-mode'
+
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 
