@@ -848,7 +848,6 @@ let g:haskell_indent_do               = 3
 let g:haskell_indent_in               = 0
 
 let g:necoghc_enable_detailed_browse = 1
-let $PATH = $PATH . ':' . expand("~/.cabal/bin")
 
 "
 " stylish-haskell
