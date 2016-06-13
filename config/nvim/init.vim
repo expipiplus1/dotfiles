@@ -255,10 +255,10 @@ set guioptions-=r
 set guioptions-=R
 
 " Color scheme
-if $LIGHT 
-  set background=light
-else
+if empty(glob("~/.config/light"))
   set background=dark
+else
+  set background=light
 endif
 
 " needs base16-shell run
@@ -275,7 +275,7 @@ hi Comment         ctermfg=8 guifg=#585858
 hi MatchParen cterm=bold ctermbg=none ctermfg=none
 
 " to play nicely with diminactive make it the same as cursorline
-if $LIGHT
+if &background == "light"
   hi NonText ctermbg=21 guibg=#e0e0e0
 else
   hi NonText ctermbg=18 guibg=#282a2e

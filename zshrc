@@ -76,7 +76,7 @@ BASE16_SHELL="$HOME/.config/base16-shell/base16-tomorrow.dark.sh"
 
 function light()
 {
-  export LIGHT=1
+  touch ~/.config/light
   source ~/.config/base16-shell/base16-solarized.light.sh
   tmux set-window-option -g window-active-style bg=colour15
   tmux set-window-option -g window-style bg=colour21
@@ -84,14 +84,18 @@ function light()
 
 function dark()
 {
-   export LIGHT=1
-   source ~/.config/base16-shell/base16-tomorrow.dark.sh
-   tmux set-window-option -g window-active-style 'bg=black'
-   tmux set-window-option -g window-style bg=colour18
+  if [ -f ~/.config/light ]; then
+    rm ~/.config/light
+  fi
+  source ~/.config/base16-shell/base16-tomorrow.dark.sh
+  tmux set-window-option -g window-active-style 'bg=black'
+  tmux set-window-option -g window-style bg=colour18
 }
 
-if [ -n "$LIGHT" ]; then
+if [ -f ~/.config/light ]; then
   light
+else
+  dark
 fi
 
 alias gs='git status'
