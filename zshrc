@@ -51,6 +51,12 @@ ZSH_CUSTOM=$HOME/dotfiles/zsh-custom
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git vi-mode tmux cabal virsh nix)
 
+#
+# Load oh my zsh
+#
+
+source $ZSH/oh-my-zsh.sh
+
 # User configuration
 
 if [[ "$IN_NIX_SHELL" == "" ]]; then
@@ -103,6 +109,7 @@ alias gd='git diff'
 
 alias open='xdg-open'
 
+unalias ns
 ns(){
   nix-shell --command "IN_NIX_SHELL=1 exec zsh; return" $@
 }
@@ -145,12 +152,6 @@ in
     echo "$shellSkeleton" > shell.nix
   fi
 }
-
-#
-# Load oh my zsh
-#
-
-source $ZSH/oh-my-zsh.sh
 
 unsetopt AUTO_CD
 
