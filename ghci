@@ -1,5 +1,6 @@
 :set prompt "\ESC[34mλ> \ESC[m"
 :set -XDataKinds
+:set -XPolyKinds
 :set -XQuasiQuotes
 :set -XFlexibleContexts
 :set -XFlexibleInstances
@@ -8,3 +9,9 @@
 :set -XTypeOperators
 :set -XTypeFamilies
 :set -XBinaryLiterals
+:set -XDeriveDataTypeable
+:set -XDeriveFunctor
+:set -XDeriveFoldable
+:set -XDeriveTraversable
+:def hoogle \s -> return $ ":! hoogle search -cl --count=15 \"" ++ s ++ "\""
+:def doc \s -> return $ ":! hoogle search -cl --info \"" ++ s ++ "\""
