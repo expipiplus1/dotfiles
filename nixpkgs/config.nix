@@ -68,6 +68,30 @@
     #     owner = "expipiplus1"; };
     # });
 
+    tex = texlive.combine{
+      inherit (texlive) 
+              amsmath 
+              babel
+              booktabs 
+              cm-super 
+              ec 
+              euenc
+              etoolbox
+              fontspec
+              greek-inputenc
+              lm 
+              mathspec
+              scheme-basic 
+              xetex 
+              xetex-def
+              xkeyval
+              xunicode
+              zapfding
+              collection-fontsrecommended
+              collection-fontsextra
+              ;
+    };
+
     devEnv = with pkgs; buildEnv {
       name = "dev-env";
       paths = [
@@ -127,6 +151,15 @@
         silver-searcher
         tmux
         zsh
+      ];
+    };
+
+    pandocEnv = with pkgs; buildEnv {
+      name = "pandoc-env";
+      paths = [
+        pandoc
+        pdftk
+        tex
       ];
     };
   };
