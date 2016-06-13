@@ -101,6 +101,8 @@ fi
 alias gs='git status'
 alias gd='git diff'
 
+alias open='xdg-open'
+
 ns(){
   nix-shell --command "IN_NIX_SHELL=1 exec zsh; return" $@
 }
