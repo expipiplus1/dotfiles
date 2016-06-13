@@ -109,8 +109,40 @@ ns(){
 
 c2n(){
   cabal2nix . > default.nix &&
+  shellSkeleton='{ nixpkgs ? import <nixpkgs> {}
+, compiler ? "default"
+, withHoogle ? false
+}:
+
+let
+
+  inherit (nixpkgs) pkgs;
+
+  packageSet = if compiler == "default"
+                 then pkgs.haskellPackages
+                 else pkgs.haskell.packages.${compiler};
+
+  haskellPackages =
+    if withHoogle
+      then packageSet.override {
+             overrides = (self: super: {
+               ghc = super.ghc // { withPackages = super.ghc.withHoogle; };
+               ghcWithPackages = self.ghc.withPackages;
+             });
+           }
+      else packageSet;
+
+  f = import ./default.nix;
+
+  drv = haskellPackages.callPackage f {};
+
+in
+
+  drv.env
+'
+
   if [ ! -f shell.nix ]; then
-    echo "with (import <nixpkgs> {}).pkgs;\n(pkgs.haskellPackages.callPackage ./. {}).env" > shell.nix
+    echo "$shellSkeleton" > shell.nix
   fi
 }
 
