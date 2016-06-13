@@ -29,11 +29,11 @@ channels = (
     name = "#haskell-embedded";
     chatnet = "Freenode";
     autojoin = "yes";
-  }
+  },
   { name = "#nixos"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "##JoeChannel"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "##c++-social"; chatnet = "Freenode"; autojoin = "yes"; },
-  { name = "#clash-lang"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#clash-lang"; chatnet = "Freenode"; autojoin = "yes"; }
 );
 
 aliases = {
