@@ -166,10 +166,6 @@ export PROMPT_COMMAND="history -a"        # update histfile after every command
 set -o vi
 export EDITOR=vim
 
-# Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/base16-tomorrow.dark.sh"
-[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
-
 # Credit to http://unix.stackexchange.com/a/4291 for the cd() implementation.
 
 alias dc='popd'
