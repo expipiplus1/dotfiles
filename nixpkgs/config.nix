@@ -18,7 +18,17 @@
     #
     # Irssi with a bunch of perl packages my config needs
     #
-    irssi = lib.overrideDerivation super.irssi (oldAttrs: {
+    irssi = lib.overrideDerivation super.irssi (oldAttrs: rec {
+      # It's an older code, but it checks out.
+      version = "0.8.17";
+      name = "irssi-${version}";
+      src = fetchurl {
+        urls = [ "https://distfiles.macports.org/irssi/${name}.tar.bz2"
+                 "http://irssi.org/files/${name}.tar.bz2"
+               ];
+        sha256 = "01v82q2pfiimx6lh271kdvgp8hl4pahc3srg04fqzxgdsb5015iw";
+      };
+
       buildInputs = oldAttrs.buildInputs ++
                     [ aspell
                       perlPackages.TextAspell
