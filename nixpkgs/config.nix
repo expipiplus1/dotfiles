@@ -112,6 +112,7 @@
       apply-refact
       ghc-mod
       git-vogue
+      hackage-diff
       hindent
       hlint
       iridium
