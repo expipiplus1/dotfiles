@@ -60,8 +60,8 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 if [[ "$IN_NIX_SHELL" == "" ]]; then
-  if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
-    . "$HOME/.nix-profile/etc/profile.d/nix.sh";
+  if [ -e "/etc/nix/nix-profile.sh" ]; then
+    . /etc/nix/nix-profile.sh
   fi
 fi
 
