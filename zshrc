@@ -116,7 +116,8 @@ ns(){
 
 c2n(){
   cabal2nix . > default.nix &&
-  shellSkeleton='{ nixpkgs ? import <nixpkgs> {}
+  shellSkeleton='
+{ nixpkgs ? import <nixpkgs> {}
 , compiler ? "default"
 , withHoogle ? false
 }:
