@@ -9,4 +9,4 @@
 	url = https://github.com/robbyrussell/oh-my-zsh.git
 [submodule "zsh-custom/plugins/nix-zsh-completions"]
 	path = zsh-custom/plugins/nix
-	url = git@github.com:spwhitt/nix-zsh-completions.git
+	url = git@github.com:expipiplus1/nix-zsh-completions.git

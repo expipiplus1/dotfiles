@@ -109,7 +109,6 @@ alias gd='git diff'
 
 alias open='xdg-open'
 
-unalias ns
 ns(){
   nix-shell --command "IN_NIX_SHELL=1 exec zsh; return" $@
 }
