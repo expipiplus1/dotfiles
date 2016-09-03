@@ -1,5 +1,5 @@
 { pkgs }:
-{
+rec {
   allowUnfree = true;
   allowBroken = true;
 
@@ -102,19 +102,56 @@
               ;
     };
 
+    xc3sprog = lib.overrideDerivation super.xc3sprog (attrs: rec {
+      version = "786"; # latest @ 2016-06-24
+      name = "xc3sprog-${version}";
+
+      src = fetchsvn rec {
+        url = "https://svn.code.sf.net/p/xc3sprog/code/trunk";
+        sha256 = "0p2dbd1ll263jjrmbb4543bhm0v52c17jh5a9kvql74i41jns4sq";
+        rev = "${version}";
+      };
+    });
+
+    neovim-noalias = lib.overrideDerivation super.neovim (attrs: rec {
+      version = "v0.1.5";
+      src = fetchFromGitHub {
+        owner = "neovim";
+        repo = "neovim";
+        rev = "006f9c0c9c96a406b610b9b76ff58b88f70ed674";
+        sha256 = "19d0dr2ngvy1p6xxds28iqhz7z1p98mbm9yf4jyamg54wdck6mh3";
+      };
+    });
+
+    neovim = stdenv.mkDerivation {
+      name = "neovim-${neovim-noalias.version}-configured";
+      inherit (neovim-noalias) version;
+
+      nativeBuildInputs = [ makeWrapper ];
+
+      buildCommand = ''
+        mkdir -p $out/bin
+        for item in ${neovim-noalias}/bin/*; do
+          ln -s $item $out/bin/
+        done
+        ln -s $out/bin/nvim $out/bin/vim
+      '';
+    };
 
     #
     # Some useful haskell tools
     #
 
     cabalPackages = hp: with hp; [
-      HaRe
-      apply-refact
+      apply-refact_0_2_0_0
       ghc-mod
-      git-vogue
+      hdevtools
+      ghcid
       hackage-diff
+      HaRe_0_8_2_3
       hindent
       hlint
+      intero
       iridium
       packunused
       pointfree
@@ -123,21 +160,24 @@
       stylish-haskell
     ];
 
+    ghc8Packages = hp: with hp; [
+    ];
+
     haskell-env = buildEnv {
       name = "haskell-env";
       paths = [
-        stack
         cabal-install
         cabal2nix
       ] ++
-      (cabalPackages haskellPackages);
+      (cabalPackages (haskell.packages.ghc7103.override{overrides = haskellPackageOverrides;})) ++
+      (ghc8Packages haskell.packages.ghc801);
     };
 
 
     vim-env = buildEnv {
       name = "vim-env";
       paths = [
-        (neovim.override {vimAlias = true; python3Packages = python34Packages;})
+        neovim
         powerline-fonts
         xsel
       ];
@@ -157,7 +197,6 @@
         nox
         silver-searcher
         tmux
-        vim-env
         zsh
       ];
     };
@@ -165,7 +204,7 @@
     pandocEnv = buildEnv {
       name = "pandoc-env";
       paths = [
-        pandoc
+        (import <nixpkgs> {}).pandoc
         pdftk
         tex
       ];
