@@ -5,6 +5,9 @@
   default = simple
 [alias]
   po = "!git push --set-upstream origin \"$(git rev-parse --abbrev-ref HEAD)\""
+  s = status -s
+  co = checkout
+  cob = checkout -b
 [core]
   editor = vim
 [merge]
