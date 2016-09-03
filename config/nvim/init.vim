@@ -53,7 +53,7 @@ Plug 'vim-scripts/prev_indent'
 Plug 'triglav/vim-visual-increment'
 
 " Plug 'altercation/vim-colors-solarized'
-Plug 'chriskempson/base16-vim'
+Plug 'chriskempson/base16-vim', { 'commit': '9daeb99' }
 
 Plug 'beyondmarc/hlsl.vim'
 Plug 'itchyny/lightline.vim'
