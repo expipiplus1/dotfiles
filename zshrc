@@ -109,6 +109,10 @@ alias gd='git diff'
 
 alias open='xdg-open'
 
+md2pdf(){
+  nix-shell -I nixpkgs=$HOME/src/nixpkgs -j8 -p pandocEnv --command "pandoc -t latex --latex-engine=xelatex -o $1.pdf $1"
+}
+
 ns(){
   nix-shell --command "IN_NIX_SHELL=1 exec zsh; return" $@
 }
@@ -199,3 +203,31 @@ export EDITOR=vim
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+#
+# Keys for substring search
+#
+
+# OPTION 1: for most systems
+zmodload zsh/terminfo
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+
+# OPTION 2: for iTerm2 running on Apple MacBook laptops
+zmodload zsh/terminfo
+bindkey "$terminfo[cuu1]" history-substring-search-up
+bindkey "$terminfo[cud1]" history-substring-search-down
+
+# OPTION 3: for Ubuntu 12.04, Fedora 21, and MacOSX 10.9
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+## EMACS mode ###########################################
+
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
+
+## VI mode ##############################################
+
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
