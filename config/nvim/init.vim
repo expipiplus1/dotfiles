@@ -95,6 +95,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 
 Plug 'vim-scripts/Align'
+Plug 'godlygeek/tabular'
 Plug 'xolox/vim-easytags'
 Plug 'xolox/vim-misc'
 Plug 'christoomey/vim-tmux-navigator'
