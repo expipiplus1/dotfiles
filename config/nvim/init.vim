@@ -137,6 +137,14 @@ endif
 "" Commentary
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd FileType vhdl setlocal commentstring=--\ %s
+autocmd FileType vhdl setlocal comments=:--
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Comments
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Comment continuation
+autocmd FileType * setlocal formatoptions+=c formatoptions+=r formatoptions+=o
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Misc options
