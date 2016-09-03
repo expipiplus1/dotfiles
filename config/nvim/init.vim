@@ -106,10 +106,11 @@ Plug 'LnL7/vim-nix'
 Plug 'blueyed/vim-diminactive'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 
-Plug 'DarkDefender/clang_complete', { 'branch': 'deo_clang_py3', 'do': function('BuildClangComplete') }
+" Plug 'DarkDefender/clang_complete', { 'branch': 'deo_clang_py3', 'do': function('BuildClangComplete') }
 " Plug 'osyo-manga/vim-marching'
+" Plug 'zchee/deoplete-clang'
 
-Plug 'rhysd/vim-clang-format'
+" Plug 'rhysd/vim-clang-format'
 
 call plug#end()
 " End of plug stuff
