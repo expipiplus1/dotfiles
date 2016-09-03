@@ -33,7 +33,8 @@ channels = (
   { name = "#nixos"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "##JoeChannel"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "##c++-social"; chatnet = "Freenode"; autojoin = "yes"; },
-  { name = "#clash-lang"; chatnet = "Freenode"; autojoin = "yes"; }
+  { name = "#clash-lang"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#nix-hydra"; chatnet = "Freenode"; autojoin = "yes"; }
 );
 
 aliases = {
@@ -311,6 +312,13 @@ statusbar = {
         topic = { };
         topic_empty = { };
         topicbarend = { priority = "100"; alignment = "right"; };
+      };
+    };
+    awl_0 = {
+      items = {
+        barstart = { priority = "100"; };
+        awl_0 = { };
+        barend = { priority = "100"; alignment = "right"; };
       };
     };
   };
