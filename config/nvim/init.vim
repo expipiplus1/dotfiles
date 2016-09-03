@@ -12,7 +12,7 @@ if has('nvim')
   let &rtp = &rtp . ',' . expand("~/opt/bin/nvim")
 endif
 
-let s:use_ghc_mod = 1
+let s:use_ghc_mod = 0
 
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
@@ -67,21 +67,22 @@ Plug 'Twinside/vim-hoogle'
 if(s:use_ghc_mod)
   Plug 'expipiplus1/ghcmod-vim'
 else
-  Plug 'louispan/vim-hdevtools'
+  Plug 'parsonsmatt/vim-hdevtools'
 endif
-Plug 'eagletmt/neco-ghc'
+Plug 'expipiplus1/neco-ghc', { 'branch': 'streamline' }
 Plug 'eagletmt/unite-haddock'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'mpickering/hlint-refactor-vim'
 Plug 'expipiplus1/vim-stylish-haskell'
 Plug 'glittershark/vim-hare'
+Plug 'parsonsmatt/intero-neovim'
 
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-function'
 Plug 'glts/vim-textobj-comment'
 Plug 'gibiansky/vim-textobj-haskell'
 
-Plug 'expipiplus1/neomake'
+Plug 'expipiplus1/neomake', { 'branch': 'joe' }
 
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-fugitive'
@@ -870,10 +871,12 @@ if(s:use_ghc_mod)
   autocmd Filetype haskell nnoremap <buffer> <leader>t :GhcModType!<CR>
   autocmd Filetype haskell nnoremap <buffer> <leader>T :GhcModTypeInsert!<CR>
 else
+  let g:hdevtools_options = '-g-Wall -g-isrc -g-itest -g-fbyte-code'
+
   autocmd Filetype haskell nnoremap <buffer> <leader>i :HdevtoolsInfo<CR>
   autocmd Filetype haskell nnoremap <buffer> <leader>c :HdevtoolsClear<CR>
   autocmd Filetype haskell nnoremap <buffer> <leader>t :HdevtoolsType<CR>
-  autocmd Filetype haskell nnoremap <buffer> <leader>T :HdevtoolsTypeInsert<CR>
+  autocmd Filetype haskell nnoremap <buffer> <leader>T :HdevtoolsSig<CR>
   autocmd Filetype haskell nnoremap <buffer> <leader>d :HdevtoolsFindsymbol<CR>
 endif
 
@@ -939,32 +942,6 @@ autocmd FileType haskell setlocal formatexpr=FormatHaskell()
 autocmd Filetype haskell setlocal omnifunc=necoghc#omnifunc
 autocmd Filetype haskell setlocal iskeyword+=39
 autocmd Filetype haskell setlocal iskeyword-=.
-
-function! s:get_cabal_sandbox()
-    if filereadable('cabal.sandbox.config')
-        let l:output = system('cat cabal.sandbox.config | grep local-repo')
-        let l:dir = matchstr(substitute(l:output, '\n', ' ', 'g'), 'local-repo: \zs\S\+\ze\/packages')
-        return l:dir
-    else
-        return ''
-    endif
-endfunction
-
-" Configuration for syntastic
-let g:syntastic_haskell_checkers=['ghc_mod']
-
-let ghc_args = ["Wall", "fno-warn-name-shadowing", "fno-warn-type-defaults"]
-let sandbox = s:get_cabal_sandbox()
-if len(sandbox) != 0
-    let package_db = split(globpath(sandbox, "*-packages.conf.d"), '\n')[0]
-    call add(ghc_args, 'package-db=' . package_db)
-endif
-
-call map(ghc_args, '"-g-" . v:val')
-let ghc_args_string = join(ghc_args, ' ')
-
-let g:syntastic_haskell_ghc_mod_args=ghc_args_string
-let g:syntastic_haskell_hdevtools_args=ghc_args_string
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " hlint-refactor-vim
