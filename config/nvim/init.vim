@@ -1028,3 +1028,5 @@ autocmd FileType markdown setlocal omnifunc=
 
 " ∘
 digraphs oo 8728
+digraphs [] 9744
+digraphs [x 9745
