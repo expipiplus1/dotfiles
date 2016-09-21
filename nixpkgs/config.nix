@@ -85,10 +85,6 @@ rec {
     # To use 256 colors and a 16-palette with non-bright colors we need latest tmux and "-2"
     #
     tmux = lib.overrideDerivation super.tmux (oldAttrs: {
-      src = fetchgit { url = "https://github.com/tmux/tmux";
-                       rev = "c14fb5b633e63cc5f20d1f67fe071e4d4404e48e";
-                       sha256 = "1rm61yhhzb01348qx26545k98cqdvxq27z8qfwcbyrpxjifn8hxp";
-                     };
       buildInputs = oldAttrs.buildInputs ++ [ automake autoconf makeWrapper ];
       preConfigurePhases = [ "./autogen.sh" ];
       installPhase = ''
