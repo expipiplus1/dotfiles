@@ -98,8 +98,8 @@ rec {
     # MOC with configure flags enabling most things
     #
     moc = lib.overrideDerivation super.moc (attrs: {
-       buildInputs = attrs.buildInputs ++ 
-                    [ libsamplerate taglib libmpcdec wavpack faad2 curl file ]; 
+       buildInputs = attrs.buildInputs ++
+                    [ libsamplerate taglib libmpcdec wavpack faad2 curl file ];
        configureFlags = ''--with-rcc --with-oss --with-alsa --with-jack
          --with-aac --with-mp3 --with-musepack --with-vorbis --with-flac
          --with-wavpack --with-sndfile --with-modplug --with-ffmpeg
