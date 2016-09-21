@@ -115,6 +115,10 @@ md2pdf(){
   nix-shell -I nixpkgs=$HOME/src/nixpkgs -j8 -p pandocEnv --command "pandoc -t latex --latex-engine=xelatex -o $1.pdf $1"
 }
 
+printer(){
+  lp -o sides=two-sided-long-edge "$@"
+}
+
 ns(){
   nix-shell --command "IN_NIX_SHELL=1 exec zsh; return" $@
 }
