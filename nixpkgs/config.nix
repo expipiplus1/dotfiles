@@ -148,35 +148,34 @@ rec {
     # Some useful haskell tools
     #
 
-    cabalPackages = hp: with hp; [
-      apply-refact_0_2_0_0
+    ghc8Packages = hp: with hp; [
+      apply-refact
       ghc-mod
       hdevtools
       ghcid
       hackage-diff
-      HaRe_0_8_2_3
+      HaRe
       hindent
       hlint
       intero
-      iridium
-      packunused
       pointfree
       pretty-show
       shake
-      stylish-haskell
     ];
 
-    ghc8Packages = hp: with hp; [
+    ghc7Packages = hp: with hp; [
+      iridium
+      packunused
     ];
 
     haskell-env = buildEnv {
       name = "haskell-env";
       paths = [
         cabal-install
-        cabal2nix
+        haskell.packages.ghc801.cabal2nix
       ] ++
-      (cabalPackages (haskell.packages.ghc7103.override{overrides = haskellPackageOverrides;})) ++
-      (ghc8Packages haskell.packages.ghc801);
+      (ghc8Packages (haskell.packages.ghc801.override{overrides = haskellPackageOverrides;})) ++
+      (ghc7Packages (haskell.packages.ghc7103.override{overrides = haskellPackageOverrides;}));
     };
 
 
