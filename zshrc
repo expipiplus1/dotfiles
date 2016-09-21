@@ -107,7 +107,9 @@ fi
 alias gs='git status'
 alias gd='git diff'
 
-alias open='xdg-open'
+open(){
+  xdg-open "$@" 2> /dev/null
+}
 
 md2pdf(){
   nix-shell -I nixpkgs=$HOME/src/nixpkgs -j8 -p pandocEnv --command "pandoc -t latex --latex-engine=xelatex -o $1.pdf $1"
