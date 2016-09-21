@@ -1030,3 +1030,9 @@ autocmd FileType markdown setlocal omnifunc=
 digraphs oo 8728
 digraphs [] 9744
 digraphs [x 9745
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Table mode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:table_mode_corner="|"
