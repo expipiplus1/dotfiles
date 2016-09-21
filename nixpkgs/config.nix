@@ -107,29 +107,6 @@ rec {
          --with-sidplay2 --with-magic --disable-cache --disable-debug'';
      });
 
-    tex = texlive.combine{
-      inherit (texlive) 
-              amsmath 
-              babel
-              booktabs 
-              cm-super 
-              ec 
-              euenc
-              etoolbox
-              fontspec
-              greek-inputenc
-              lm 
-              mathspec
-              scheme-basic 
-              xetex 
-              xetex-def
-              xkeyval
-              xunicode
-              zapfding
-              collection-fontsrecommended
-              collection-fontsextra
-              ;
-    };
 
     xc3sprog = lib.overrideDerivation super.xc3sprog (attrs: rec {
       version = "786"; # latest @ 2016-06-24
