@@ -191,7 +191,6 @@ sub spellcheck_key_pressed
     return if (scalar @suggestions == 0);
 
     # we found a mistake, print suggestions
-    $win->print("WRONG: $word");
 }
 
 
