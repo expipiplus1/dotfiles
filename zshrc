@@ -70,6 +70,10 @@ fi
 
 export NIX_PATH=my-nixpkgs=$HOME/src/nixpkgs:$NIX_PATH
 
+# Allow remote builds
+export NIX_BUILD_HOOK=$HOME/.nix-profile/libexec/nix/build-remote.pl
+export NIX_CURRENT_LOAD=/tmp/current-load
+
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
