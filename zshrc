@@ -1,3 +1,6 @@
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/dotfiles/oh-my-zsh
 
