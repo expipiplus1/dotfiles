@@ -169,6 +169,7 @@ rec {
     dev-env = buildEnv {
       name = "dev-env";
       paths = [
+        coreutils
         curl
         git
         haskell-env
