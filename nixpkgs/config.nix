@@ -177,6 +177,7 @@ rec {
         irssi
         nox
         silver-searcher
+        tig
         tmux
         zsh
       ];
