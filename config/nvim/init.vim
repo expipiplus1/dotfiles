@@ -57,7 +57,7 @@ Plug 'chriskempson/base16-vim', { 'commit': '9daeb99' }
 
 Plug 'beyondmarc/hlsl.vim'
 Plug 'itchyny/lightline.vim'
-Plug 'kien/ctrlp.vim'
+Plug 'cloudhead/neovim-fuzzy'
 
 Plug 'stephpy/vim-yaml'
 
@@ -454,21 +454,10 @@ imap <silent> <C-d> <Plug>PrevIndent
 nmap <silent> <C-g><C-g> :PrevIndent<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" CtrlP
+" Fuzzy
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" ctrlp find files
-let g:ctrlp_root_markers=["build.hs", "*.cabal", "*.sln"]
-let g:ctrlp_by_filename = 1
-set wildignore+=*/dist/*,*/tmp/*,*.so,*.swp,*.zip,*.hi,*.o
-let g:ctrlp_extensions = ['tag']
-noremap <C-T> :CtrlPTag<CR>
-let g:ctrlp_switch_buffer = 0
-
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ }
+nnoremap <C-p> :FuzzyOpen<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
