@@ -14,5 +14,7 @@
 :set -XDeriveFoldable
 :set -XDeriveTraversable
 :set -XStandaloneDeriving
+:set -XPatternSynonyms
+:set -XViewPatterns
 :def hoogle \s -> return $ ":! hoogle search -cl --count=15 \"" ++ s ++ "\""
 :def doc \s -> return $ ":! hoogle search -cl --info \"" ++ s ++ "\""
