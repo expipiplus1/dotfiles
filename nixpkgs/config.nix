@@ -119,30 +119,7 @@ rec {
       };
     });
 
-    neovim-noalias = lib.overrideDerivation super.neovim (attrs: rec {
-      version = "v0.1.5";
-      src = fetchFromGitHub {
-        owner = "neovim";
-        repo = "neovim";
-        rev = "006f9c0c9c96a406b610b9b76ff58b88f70ed674";
-        sha256 = "19d0dr2ngvy1p6xxds28iqhz7z1p98mbm9yf4jyamg54wdck6mh3";
-      };
-    });
-
-    neovim = stdenv.mkDerivation {
-      name = "neovim-${neovim-noalias.version}-configured";
-      inherit (neovim-noalias) version;
-
-      nativeBuildInputs = [ makeWrapper ];
-
-      buildCommand = ''
-        mkdir -p $out/bin
-        for item in ${neovim-noalias}/bin/*; do
-          ln -s $item $out/bin/
-        done
-        ln -s $out/bin/nvim $out/bin/vim
-      '';
-    };
+    neovim = super.neovim.override { vimAlias = true; };
 
     #
     # Some useful haskell tools
