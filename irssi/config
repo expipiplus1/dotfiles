@@ -23,7 +23,7 @@ chatnets = {
 
 channels = (
   { name = "#haskell"; chatnet = "Freenode"; autojoin = "yes"; },
-  { name = "#haskell-stack"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#clash-lang"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#haskell-blah"; chatnet = "Freenode"; autojoin = "yes"; },
   { 
     name = "#haskell-embedded";
@@ -32,8 +32,6 @@ channels = (
   },
   { name = "#nixos"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "##JoeChannel"; chatnet = "Freenode"; autojoin = "yes"; },
-  { name = "##c++-social"; chatnet = "Freenode"; autojoin = "yes"; },
-  { name = "#clash-lang"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#nix-hydra"; chatnet = "Freenode"; autojoin = "yes"; }
 );
 
