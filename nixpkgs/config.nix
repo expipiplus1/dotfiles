@@ -134,7 +134,6 @@ rec {
       HaRe
       hindent
       hlint
-      intero
       pointfree
       pretty-show
       shake
@@ -142,7 +141,6 @@ rec {
 
     ghc7Packages = hp: with hp; [
       iridium
-      packunused
     ];
 
     haskell-env = buildEnv {
