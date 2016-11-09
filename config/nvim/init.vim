@@ -75,7 +75,6 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'mpickering/hlint-refactor-vim'
 Plug 'expipiplus1/vim-stylish-haskell'
 Plug 'glittershark/vim-hare'
-Plug 'parsonsmatt/intero-neovim'
 
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-function'
