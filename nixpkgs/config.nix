@@ -4,13 +4,6 @@ rec {
   allowBroken = true;
 
   haskellPackageOverrides = with pkgs.haskell.lib; self: super: {
-    haskell-src-exts = pkgs.haskellPackages.callPackage /home/jophish/src/haskell-src-exts/default.nix {};
-    hlint = pkgs.haskellPackages.callPackage /home/jophish/src/hlint/default.nix {};
-    hindent = pkgs.haskellPackages.callPackage /home/jophish/src/hindent/default.nix {};
-    iridium = self.callPackage /home/jophish/src/iridium/default.nix {};
-    stylish-haskell = self.callPackage /home/jophish/src/stylish-haskell/default.nix {};
-    ghc-mod = self.callPackage /home/jophish/src/ghc-mod/default.nix {};
-    git-vogue = self.callPackage /home/jophish/src/git-vogue/default.nix {};
   };
 
   tex =
