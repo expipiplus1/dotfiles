@@ -342,17 +342,6 @@ in {
   };
 };
 
-"vim-sensible" = {fetchFromGitHub}: vimPlugin rec {
-  name = "vim-sensible-${version}";
-  version = "2016-09-05";
-  src = fetchFromGitHub {
-    owner = "tpope";
-    repo = "vim-sensible";
-    rev = "4b7535921819a5b2e39be68f81109ea684232503";
-    sha256 = "0ghds721dawm8mcd8cp23hfqpgiznh811z73zxlqrm1sg2fmdq1s";
-  };
-};
-
 "vim-startify" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-startify-${version}";
   version = "2016-10-31";
