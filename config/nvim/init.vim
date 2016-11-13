@@ -233,7 +233,7 @@ set novisualbell
 " T: Truncate other messages
 " I: No intro message
 " A: no swap file annoyance
-set shortmess=atTIA
+set shortmess=atTI
 
 " Highlight current line
 set cursorline
