@@ -130,6 +130,7 @@ rec {
       pointfree
       pretty-show
       shake
+      stylish-haskell
     ];
 
     ghc7Packages = hp: with hp; [
