@@ -112,7 +112,24 @@ rec {
       };
     });
 
-    neovim = super.neovim.override { vimAlias = true; };
+    neovim-unconfigured = super.neovim;
+    neovim-rtp = (import ./vim.nix {inherit pkgs;}).rtpFile;
+    neovim = stdenv.mkDerivation {
+      name = "neovim-${neovim-unconfigured.version}-configured";
+      inherit (neovim-unconfigured) version;
+
+      nativeBuildInputs = [ makeWrapper ];
+
+      buildCommand = ''
+        mkdir -p $out/bin
+        for item in ${neovim-unconfigured}/bin/*; do
+          ln -s $item $out/bin/
+        done
+        ln -s $out/bin/nvim $out/bin/vim
+        wrapProgram $out/bin/nvim --add-flags "--cmd 'source ${neovim-rtp}'"
+      '';
+    };
+
 
     #
     # Some useful haskell tools
@@ -124,7 +141,7 @@ rec {
       hdevtools
       ghcid
       hackage-diff
-      HaRe
+      # HaRe
       hindent
       hlint
       pointfree

@@ -17,6 +17,8 @@ files="bashrc
        config/nvim/autoload/plug.vim
        config/base16-shell
        nixpkgs/config.nix
+       nixpkgs/plugs.nix
+       nixpkgs/vim.nix
        stack/config.yaml
        ghci
        irssi

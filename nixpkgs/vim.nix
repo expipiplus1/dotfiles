@@ -1,0 +1,16 @@
+{pkgs ? import <nixpkgs> {}}:
+
+with pkgs;
+with pkgs.lib.strings;
+with pkgs.lib.attrsets;
+rec {
+  makeRtpFile = plugins: writeTextFile { 
+    name = "rtp.vim";
+    text = let f = s: "set rtp+=${s}";
+           in concatMapStringsSep "\n" f plugins;
+  };
+
+  rtpFile = 
+    let plugins = map (p: pkgs.callPackage p {}) (attrValues (import ./plugs.nix));
+    in makeRtpFile plugins;
+}
