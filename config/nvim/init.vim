@@ -195,6 +195,10 @@ hi String         ctermfg=8 guifg=#585858
 hi Comment         ctermfg=8 guifg=#585858
 " less distracting matching
 hi MatchParen cterm=bold ctermbg=none ctermfg=none
+" Blue types
+hi Type ctermfg=4 guifg=#268bd2
+" purple imports
+hi Include ctermfg=5 guifg=#6c71c4
 
 " to play nicely with diminactive make it the same as cursorline
 if &background == "light"
