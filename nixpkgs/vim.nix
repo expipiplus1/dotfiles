@@ -6,8 +6,15 @@ with pkgs.lib.attrsets;
 rec {
   makeRtpFile = plugins: writeTextFile { 
     name = "rtp.vim";
-    text = let f = s: "set rtp+=${s}";
-           in concatMapStringsSep "\n" f plugins;
+    text = ''
+      let s:oldrtp = &rtp
+      set rtp=~/.config/nvim
+      ${concatMapStringsSep "\n" (s: "set rtp+=${s}") plugins}
+      for p in split(s:oldrtp, ",")
+        exe 'set rtp+=' . expand(p)
+      endfor
+      ${concatMapStringsSep "\n" (s: "set rtp+=${s}/after") plugins}
+    '';
   };
 
   rtpFile = 
