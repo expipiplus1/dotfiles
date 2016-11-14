@@ -1,5 +1,4 @@
 set nocompatible
-filetype off
 
 if has('NVIM')
     let s:editor_root=expand("~/.config/nvim")
