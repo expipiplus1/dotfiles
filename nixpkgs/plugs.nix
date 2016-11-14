@@ -45,7 +45,7 @@ in {
   };
 };
 
-"haskell-vim" = {fetchFromGitHub}: vimPlugin rec {
+"haskell-vim" = {stdenv, fetchFromGitHub}: stdenv.mkDerivation rec {
   name = "haskell-vim-${version}";
   version = "2016-11-12";
   src = fetchFromGitHub {
@@ -54,6 +54,12 @@ in {
     rev = "e6f3093b14f6c603c0e66d8814b9d053843f7133";
     sha256 = "02k5c4xnlz6xs18inygnh4phayhyx8n0l5haslsy7rp5w7arvmsj";
   };
+  patches = [ ./no-space-indent.patch ];
+  buildPhase = "true";
+  installPhase = ''
+    mkdir -p "$out"
+    mv * "$out"
+  '';
 };
 
 "hlint-refactor-vim" = {fetchFromGitHub}: vimPlugin rec {
