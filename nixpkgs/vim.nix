@@ -11,6 +11,6 @@ rec {
   };
 
   rtpFile = 
-    let plugins = map (p: pkgs.callPackage p {}) (attrValues (import ./plugs.nix));
-    in makeRtpFile plugins;
+    let plugins = mapAttrs (n: p: pkgs.callPackage p {}) (import ./plugs.nix);
+    in makeRtpFile (attrValues plugins);
 }
