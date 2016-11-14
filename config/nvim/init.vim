@@ -367,6 +367,13 @@ nmap <silent> <C-g><C-g> :PrevIndent<CR>
 " Fuzzy
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+let g:fuzzy_rootcmds = [
+\ 'upfind -d ''.*\.cabal''',
+\ 'upfind -d build.hs',
+\ 'git rev-parse --show-toplevel',
+\ 'hg root'
+\ ]
+
 nnoremap <C-p> :FuzzyOpen<CR>
 
 
