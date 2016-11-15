@@ -1,5 +1,12 @@
 let 
   vimPlugin = { name, version, src }: src;
+  pluginAttrs = attrs: {
+    buildPhase = "true";
+    installPhase = ''
+      mkdir -p "$out"
+      mv * "$out"
+    '';
+  } // attrs;
 in {
 "Align" = {fetchFromGitHub}: vimPlugin rec {
   name = "Align-${version}";
@@ -45,7 +52,7 @@ in {
   };
 };
 
-"haskell-vim" = {stdenv, fetchFromGitHub}: stdenv.mkDerivation rec {
+"haskell-vim" = {stdenv, fetchFromGitHub}: stdenv.mkDerivation (pluginAttrs rec {
   name = "haskell-vim-${version}";
   version = "2016-11-12";
   src = fetchFromGitHub {
@@ -55,12 +62,7 @@ in {
     sha256 = "02k5c4xnlz6xs18inygnh4phayhyx8n0l5haslsy7rp5w7arvmsj";
   };
   patches = [ plug-patches/no-space-indent.patch ];
-  buildPhase = "true";
-  installPhase = ''
-    mkdir -p "$out"
-    mv * "$out"
-  '';
-};
+});
 
 "hlint-refactor-vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "hlint-refactor-vim-${version}";
