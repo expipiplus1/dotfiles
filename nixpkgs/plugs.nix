@@ -121,12 +121,12 @@ in {
 
 "neomake" = {fetchFromGitHub}: vimPlugin rec {
   name = "neomake-${version}";
-  version = "2016-07-02";
+  version = "2016-11-15";
   src = fetchFromGitHub {
     owner = "expipiplus1";
     repo = "neomake";
-    rev = "9fdc374dd55ab13799a477f28d6f6b7f1f4b51ee";
-    sha256 = "1ny9qygip7kijdrkm2mw6mlcx6dnvyk9ljwz0nykzfpbm62k8wsy";
+    rev = "de5f270ebb91c74674de13083796e2cfda6b9467";
+    sha256 = "0wkb17p286x855w33cxnm750zblgv5a28zsjp6ka9v0lbd62hxmr";
   };
 };
 
