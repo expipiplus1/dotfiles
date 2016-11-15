@@ -275,12 +275,12 @@ in {
 
 "vim-hdevtools" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-hdevtools-${version}";
-  version = "2016-07-08";
+  version = "2016-11-15";
   src = fetchFromGitHub {
-    owner = "parsonsmatt";
+    owner = "expipiplus1";
     repo = "vim-hdevtools";
-    rev = "43ec8a167b3c69500f291a0e58a6779a3898de26";
-    sha256 = "198qabn6r5hvjbj9dlb7avzywhh3d5zghgdpli2x119ky1cgkmvq";
+    rev = "9b80351528f8c7755ea965ba8abaf9d79d90418e";
+    sha256 = "0lyrh7bn0a8jyyz80akydhj8vjal7lxci218q997jg7sr81q8k88";
   };
 };
 
