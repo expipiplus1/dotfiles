@@ -103,8 +103,8 @@ in {
   src = fetchFromGitHub {
     owner = "expipiplus1";
     repo = "neco-ghc";
-    rev = "7f02a9c25fb272a87d2be092826e2cd3094c620d";
-    sha256 = "1fcfk45qb96h6y4zb3p0104iyqc85q1synn9ah56zp6hnkkyffbw";
+    rev = "5326bc057d86750593fab1fcecefb5516cb6284e";
+    sha256 = "1wkakiagq05djn4nnaqzq0jglnp0rjznqd0kq3lsvkgqmjys7vf1";
   };
 };
 
