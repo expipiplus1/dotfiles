@@ -371,8 +371,8 @@ nmap <silent> <C-g><C-g> :PrevIndent<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:fuzzy_rootcmds = [
-\ 'upfind -d ''.*\.cabal''',
 \ 'upfind -d build.hs',
+\ 'upfind -d ''.+\.cabal''',
 \ 'git rev-parse --show-toplevel',
 \ 'hg root'
 \ ]
