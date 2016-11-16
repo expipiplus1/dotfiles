@@ -1,1 +1,0 @@
-../aspell_complete.pl

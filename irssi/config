@@ -368,6 +368,7 @@ settings = {
     neat_history = "12";
     logresume_channel_lines = "200";
     neat_melength = "0";
+    spellcheck_default_language = "en_GB";
   };
   core = {
     real_name = "Joe Hermaszewski";

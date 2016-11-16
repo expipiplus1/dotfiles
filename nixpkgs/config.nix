@@ -63,6 +63,7 @@ rec {
                       perlPackages.JSONMaybeXS
                       makeWrapper
                     ];
+
       postInstall =
         ''
           wrapProgram "$out/bin/irssi" \
@@ -180,6 +181,8 @@ rec {
     dev-env = buildEnv {
       name = "dev-env";
       paths = [
+        aspell
+        aspellDicts.en
         coreutils
         curl
         git
