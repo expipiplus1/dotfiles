@@ -32,7 +32,7 @@ channels = (
   },
   { name = "#nixos"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "##JoeChannel"; chatnet = "Freenode"; autojoin = "yes"; },
-  { name = "#nix-hydra"; chatnet = "Freenode"; autojoin = "yes"; }
+  { name = "#nixos-hercules"; chatnet = "Freenode"; autojoin = "yes"; }
 );
 
 aliases = {
