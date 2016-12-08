@@ -168,7 +168,7 @@ rec {
         cabal-install
         haskell.packages.ghc801.cabal2nix
       ] ++
-      (ghc8Packages (haskell.packages.ghc801.override{overrides = haskellPackageOverrides;})) ++
+      (ghc8Packages (haskell.packages.ghc802.override{overrides = haskellPackageOverrides;})) ++
       (ghc7Packages (haskell.packages.ghc7103.override{overrides = haskellPackageOverrides;}));
     };
 
