@@ -113,7 +113,14 @@ rec {
       };
     });
 
-    neovim-unconfigured = super.neovim;
+    neovim-unconfigured = lib.overrideDerivation super.neovim (attrs: rec{
+      src = fetchFromGitHub {
+        owner = "neovim";
+        repo = "neovim";
+        rev = "f2c6cc2d0932dc791054fe2acc799f0fea8109d9";
+        sha256 = "0pwcvwsrli0k7ivd4937h33x9jgv4dq4w6qv3ybnz7ys754wsy1f";
+      };
+    });
     neovim-rtp = (import ./vim.nix {inherit pkgs;}).rtpFile;
     neovim = stdenv.mkDerivation {
       name = "neovim-${neovim-unconfigured.version}-configured";
