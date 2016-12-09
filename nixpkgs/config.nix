@@ -3,7 +3,37 @@ rec {
   allowUnfree = true;
   allowBroken = true;
 
-  haskellPackageOverrides = with pkgs.haskell.lib; self: super: {
+  haskellPackageOverrides =
+  let # A function to override the attributes passed to mkDerivation
+      overrideAttrs = package: newAttrs: package.override (args: args // {
+        mkDerivation = expr: args.mkDerivation (expr // newAttrs);
+      });
+  in with pkgs.haskell.lib; self: super: {
+    ghc-exactprint = overrideAttrs super.ghc-exactprint {
+      doCheck = false;
+    };
+    apply-refact = overrideAttrs super.apply-refact {
+      jailbreak = true;
+    };
+    haskell-src-exts = super.haskell-src-exts_1_19_0;
+    haskell-src-meta = overrideAttrs super.haskell-src-meta_0_7_0 {
+      jailbreak = true;
+    };
+    hlint = super.hlint_1_9_38;
+    stylish-haskell = overrideAttrs super.stylish-haskell_0_6_5_0 {
+      jailbreak = true;
+    };
+    ghc-mod = overrideAttrs super.ghc-mod {
+      jailbreak = true;
+      editedCabalFile = null;
+      revision = null;
+      src = pkgs.fetchFromGitHub{
+        owner = "expipiplus1";
+        repo = "ghc-mod";
+        rev = "666f47ca14f3f5ecdd4a95a36e493cc1deb565d2";
+        sha256 = "0s390v07icjp800vjd5qzjhm9bdrr8kr1s2nc90glbd43lv582iv";
+      };
+    };
   };
 
   tex =
