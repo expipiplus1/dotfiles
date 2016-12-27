@@ -174,14 +174,18 @@ rec {
       ghc-mod
       hdevtools
       ghcid
-      hackage-diff
-      # HaRe
       hindent
       hlint
-      pointfree
       pretty-show
       shake
       stylish-haskell
+      cabal2nix
+    ];
+
+    ghc801Packages = hp: with hp; [
+      # hackage-diff
+      # pointfree
+      HaRe
     ];
 
     ghc7Packages = hp: with hp; [
@@ -192,8 +196,8 @@ rec {
       name = "haskell-env";
       paths = [
         cabal-install
-        haskell.packages.ghc801.cabal2nix
       ] ++
+      (ghc801Packages (haskell.packages.ghc801.override{overrides = haskellPackageOverrides;})) ++
       (ghc8Packages (haskell.packages.ghc802.override{overrides = haskellPackageOverrides;})) ++
       (ghc7Packages (haskell.packages.ghc7103.override{overrides = haskellPackageOverrides;}));
     };
@@ -219,7 +223,6 @@ rec {
         coreutils
         curl
         git
-        haskell-env
         htop
         irssi
         nox
@@ -227,6 +230,8 @@ rec {
         tig
         tmux
         zsh
+        fzy
+        nix
       ];
     };
 
