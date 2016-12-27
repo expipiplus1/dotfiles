@@ -119,7 +119,7 @@ open(){
 }
 
 md2pdf(){
-  nix-shell -I nixpkgs=$HOME/src/nixpkgs -j8 -p pandocEnv --command "pandoc -t latex --latex-engine=xelatex -o $1.pdf $1"
+  nix-shell -j8 -p pandocEnv --command "pandoc -t latex --latex-engine=xelatex -o $1.pdf $1"
 }
 
 printer(){
