@@ -61,7 +61,10 @@ in {
     rev = "e6f3093b14f6c603c0e66d8814b9d053843f7133";
     sha256 = "02k5c4xnlz6xs18inygnh4phayhyx8n0l5haslsy7rp5w7arvmsj";
   };
-  patches = [ plug-patches/no-space-indent.patch ];
+  patches = [
+    plug-patches/no-space-indent.patch
+    plug-patches/cabal-module-word.patch
+  ];
 });
 
 "hlint-refactor-vim" = {fetchFromGitHub}: vimPlugin rec {
