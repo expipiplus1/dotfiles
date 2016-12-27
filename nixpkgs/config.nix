@@ -15,11 +15,11 @@ rec {
     apply-refact = overrideAttrs super.apply-refact {
       jailbreak = true;
     };
-    haskell-src-exts = super.haskell-src-exts_1_19_0;
+    haskell-src-exts = super.haskell-src-exts_1_19_1;
     haskell-src-meta = overrideAttrs super.haskell-src-meta_0_7_0 {
       jailbreak = true;
     };
-    hlint = super.hlint_1_9_38;
+    hlint = super.hlint_1_9_39;
     stylish-haskell = overrideAttrs super.stylish-haskell_0_6_5_0 {
       jailbreak = true;
     };
