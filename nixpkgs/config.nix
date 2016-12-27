@@ -36,38 +36,31 @@ rec {
     };
   };
 
-  tex =
-    let texliveWIP = pkgs.fetchFromGitHub{
-          owner = "vcunat";
-          repo = "nixpkgs";
-          rev = "8481eca63c6196b38072aa43dc291ff222c84357";
-          sha256 = "0qhx8kiflg7rm5xwnhh4nmb3vb55pnb9y0zk6b4p8qk0zkpc2i5z";
-        };
-    in with import texliveWIP {};
-       texlive.combine{
-         inherit (texlive)
-                 amsmath
-                 babel
-                 booktabs
-                 cm-super
-                 ec
-                 euenc
-                 etoolbox
-                 fontspec
-                 greek-inputenc
-                 lm
-                 mathspec
-                 scheme-basic
-                 siunitx
-                 xetex
-                 xetex-def
-                 xkeyval
-                 xunicode
-                 zapfding
-                 collection-fontsrecommended
-                 collection-fontsextra
-                 ;
-       };
+  tex = with pkgs;
+    texlive.combine{
+      inherit (texlive)
+              amsmath
+              babel
+              booktabs
+              cm-super
+              ec
+              euenc
+              etoolbox
+              fontspec
+              greek-inputenc
+              lm
+              mathspec
+              scheme-basic
+              siunitx
+              xetex
+              xetex-def
+              xkeyval
+              xunicode
+              zapfding
+              collection-fontsrecommended
+              collection-fontsextra
+              ;
+    };
 
   packageOverrides = super: let pkgs = super.pkgs; in with pkgs; rec {
 
