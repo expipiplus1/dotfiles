@@ -1,4 +1,4 @@
-let 
+let
   vimPlugin = { name, version, src }: src;
   pluginAttrs = attrs: {
     buildPhase = "true";
