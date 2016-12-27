@@ -34,6 +34,9 @@ rec {
         sha256 = "0s390v07icjp800vjd5qzjhm9bdrr8kr1s2nc90glbd43lv582iv";
       };
     };
+    HaRe = overrideAttrs super.HaRe {
+      doCheck = false;
+    };
   };
 
   tex = with pkgs;
