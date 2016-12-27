@@ -1,0 +1,4 @@
+dist/*
+make/*
+*.hi
+*.o
