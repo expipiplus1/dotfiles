@@ -127,6 +127,14 @@ rec {
          --with-sidplay2 --with-magic --disable-cache --disable-debug'';
      });
 
+    cmus = lib.overrideDerivation super.cmus (attrs: rec{
+      src = fetchFromGitHub {
+        owner = "cmus";
+        repo = "cmus";
+        rev = "ef65f69b3e44a79956c138c83dd64ef41e27f206";
+        sha256 = "0hkwgpqzmi2979ksdjmdnw9fxyd6djsrcyhvj1gy7kpdjw4az4s9";
+      };
+    });
 
     xc3sprog = lib.overrideDerivation super.xc3sprog (attrs: rec {
       version = "786"; # latest @ 2016-06-24
