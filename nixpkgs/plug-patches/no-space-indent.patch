@@ -1,13 +1,13 @@
 diff --git a/indent/haskell.vim b/indent/haskell.vim
-index 18335a5..99b1d93 100644
+index 4d90cba..f0839b2 100644
 --- a/indent/haskell.vim
 +++ b/indent/haskell.vim
-@@ -58,7 +58,7 @@ if !exists('g:haskell_indent_guard')
- endif
+@@ -63,7 +63,7 @@ endif
  
- setlocal indentexpr=GetHaskellIndent()
--setlocal indentkeys=0{,0},0(,0),0[,0],!^F,o,O,0\=,0=where,0=let,0=deriving,<space>
-+setlocal indentkeys=0{,0},0(,0),0[,0],!^F,o,O,0\=,0=where,0=let,0=deriving,0\,
- 
- function! s:isInBlock(hlstack)
-   return index(a:hlstack, 'haskellParens') > -1 || index(a:hlstack, 'haskellBrackets') > -1 || index(a:hlstack, 'haskellBlock') > -1
+ if exists("g:haskell_indent_disable") && g:haskell_indent_disable == 0
+     setlocal indentexpr=GetHaskellIndent()
+-    setlocal indentkeys=0{,0},0(,0),0[,0],!^F,o,O,0\=,0=where,0=let,0=deriving,<space>
++    setlocal indentkeys=0{,0},0(,0),0[,0],!^F,o,O,0\=,0=where,0=let,0=deriving
+ else
+     setlocal nocindent
+     setlocal nosmartindent
