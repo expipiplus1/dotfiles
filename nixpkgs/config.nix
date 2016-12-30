@@ -36,6 +36,22 @@ rec {
     };
     HaRe = overrideAttrs super.HaRe {
       doCheck = false;
+      editedCabalFile = null;
+      revision = null;
+      src = pkgs.fetchFromGitHub{
+        owner = "expipiplus1";
+        repo = "HaRe";
+        rev = "acd29d035d7ffc6c51feb567f4449e29f3458602";
+        sha256 = "08ihjck60b67hcd7p0c7mk7p4a084ziwi5jv8ly952vajiq66pcc";
+      };
+      libraryHaskellDepends = with self; [
+        base Cabal cabal-helper containers directory filepath ghc
+        ghc-exactprint ghc-mod ghc-paths ghc-prim ghc-syb-utils hslogger
+        monad-control monoid-extras mtl old-time pretty rosezipper
+        semigroups Strafunski-StrategyLib syb syz time transformers
+        transformers-base
+        attoparsec base-prelude case-insensitive conversion conversion-case-insensitive conversion-text foldl turtle
+      ];
     };
   };
 
@@ -188,12 +204,13 @@ rec {
       shake
       stylish-haskell
       cabal2nix
+      HaRe
     ];
 
     ghc801Packages = hp: with hp; [
       # hackage-diff
       # pointfree
-      HaRe
+      # HaRe
     ];
 
     ghc7Packages = hp: with hp; [
