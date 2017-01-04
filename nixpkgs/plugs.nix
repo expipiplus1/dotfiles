@@ -507,7 +507,7 @@ in {
   };
 };
 
-"vimproc.vim" = {stdenv, fetchFromGitHub}: stdenv.mkDerivation rec {
+"vimproc.vim" = {stdenv, fetchFromGitHub, which}: stdenv.mkDerivation rec {
   name = "vimproc.vim-${version}";
   version = "2016-08-06";
   src = fetchFromGitHub {
@@ -516,6 +516,7 @@ in {
     rev = "25cb83f24edec4aec1e9f1329302235e7a7a7fe0";
     sha256 = "19nl21623cv05j6ljyn35qm38pw3680nch2by1gapqmxazp99i20";
   };
+  buildInputs = [ which ];
   installPhase = ''
     mkdir -p $out
     cp -r * $out/
