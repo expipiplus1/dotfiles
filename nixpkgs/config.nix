@@ -53,6 +53,24 @@ rec {
         attoparsec base-prelude case-insensitive conversion conversion-case-insensitive conversion-text foldl turtle
       ];
     };
+    Strafunski-StrategyLib = overrideAttrs super.Strafunski-StrategyLib {
+      jailbreak = true;
+    };
+    cabal-helper = overrideAttrs super.cabal-helper {
+      jailbreak = true;
+    };
+    path-io = overrideAttrs super.path-io {
+      jailbreak = true;
+    };
+    tasty-ant-xml = overrideAttrs super.tasty-ant-xml {
+      jailbreak = true;
+    };
+    turtle = overrideAttrs super.turtle {
+      jailbreak = true;
+    };
+    xmlhtml = overrideAttrs super.xmlhtml {
+      jailbreak = true;
+    };
   };
 
   tex = with pkgs;
