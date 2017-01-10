@@ -41,6 +41,17 @@ in {
   };
 };
 
+"floobits-neovim" = {fetchFromGitHub}: vimPlugin rec {
+  name = "floobits-neovim-${version}";
+  version = "2016-10-07";
+  src = fetchFromGitHub {
+    owner = "Floobits";
+    repo = "floobits-neovim";
+    rev = "85d3493d05ac1d7f5606d40fbe619df16af917bc";
+    sha256 = "16c12dgk60mmhyijfk4f33k8i48r1hpjlnxlvdk5kymv7b2xq0fa";
+  };
+};
+
 "gist-vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "gist-vim-${version}";
   version = "2016-10-10";
