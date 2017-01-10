@@ -219,7 +219,6 @@ rec {
       hindent
       hlint
       pretty-show
-      shake
       stylish-haskell
       cabal2nix
       HaRe
@@ -232,7 +231,6 @@ rec {
     ];
 
     ghc7Packages = hp: with hp; [
-      iridium
     ];
 
     haskell-env = buildEnv {
