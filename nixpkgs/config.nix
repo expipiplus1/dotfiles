@@ -36,6 +36,40 @@ rec {
     };
     HaRe = overrideAttrs super.HaRe {
       doCheck = false;
+      editedCabalFile = null;
+      revision = null;
+      src = pkgs.fetchFromGitHub{
+        owner = "expipiplus1";
+        repo = "HaRe";
+        rev = "acd29d035d7ffc6c51feb567f4449e29f3458602";
+        sha256 = "08ihjck60b67hcd7p0c7mk7p4a084ziwi5jv8ly952vajiq66pcc";
+      };
+      libraryHaskellDepends = with self; [
+        base Cabal cabal-helper containers directory filepath ghc
+        ghc-exactprint ghc-mod ghc-paths ghc-prim ghc-syb-utils hslogger
+        monad-control monoid-extras mtl old-time pretty rosezipper
+        semigroups Strafunski-StrategyLib syb syz time transformers
+        transformers-base
+        attoparsec base-prelude case-insensitive conversion conversion-case-insensitive conversion-text foldl turtle
+      ];
+    };
+    Strafunski-StrategyLib = overrideAttrs super.Strafunski-StrategyLib {
+      jailbreak = true;
+    };
+    cabal-helper = overrideAttrs super.cabal-helper {
+      jailbreak = true;
+    };
+    path-io = overrideAttrs super.path-io {
+      jailbreak = true;
+    };
+    tasty-ant-xml = overrideAttrs super.tasty-ant-xml {
+      jailbreak = true;
+    };
+    turtle = overrideAttrs super.turtle {
+      jailbreak = true;
+    };
+    xmlhtml = overrideAttrs super.xmlhtml {
+      jailbreak = true;
     };
   };
 
@@ -127,6 +161,14 @@ rec {
          --with-sidplay2 --with-magic --disable-cache --disable-debug'';
      });
 
+    cmus = lib.overrideDerivation super.cmus (attrs: rec{
+      src = fetchFromGitHub {
+        owner = "cmus";
+        repo = "cmus";
+        rev = "ef65f69b3e44a79956c138c83dd64ef41e27f206";
+        sha256 = "0hkwgpqzmi2979ksdjmdnw9fxyd6djsrcyhvj1gy7kpdjw4az4s9";
+      };
+    });
 
     xc3sprog = lib.overrideDerivation super.xc3sprog (attrs: rec {
       version = "786"; # latest @ 2016-06-24
@@ -177,19 +219,18 @@ rec {
       hindent
       hlint
       pretty-show
-      shake
       stylish-haskell
       cabal2nix
+      HaRe
     ];
 
     ghc801Packages = hp: with hp; [
       # hackage-diff
       # pointfree
-      HaRe
+      # HaRe
     ];
 
     ghc7Packages = hp: with hp; [
-      iridium
     ];
 
     haskell-env = buildEnv {
