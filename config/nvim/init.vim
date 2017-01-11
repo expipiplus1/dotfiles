@@ -187,8 +187,7 @@ endif
 
 " needs base16-shell run
 let base16colorspace=256
-let g:base16_color_modifiers = {'Operator': 'fg=green'}
-colorscheme tomorrow
+colorscheme base16-tomorrow
 
 if &background == "light"
   hi QuickFixLine ctermbg=21 guibg=#e0e0e0
@@ -196,7 +195,6 @@ else
   hi QuickFixLine ctermbg=18 guibg=#282a2e
 endif
 
-" TODO: Add these to the map above
 " Operators different from functions
 hi Operator       ctermfg=2 guifg=#a1b56c
 " String same as old comment

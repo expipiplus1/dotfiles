@@ -19,14 +19,14 @@ in {
   };
 };
 
-"base16.nvim" = {fetchFromGitHub}: vimPlugin rec {
-  name = "base16.nvim-${version}";
-  version = "2016-11-26";
+"base16-vim" = {fetchFromGitHub}: vimPlugin rec {
+  name = "base16-vim-${version}";
+  version = "2016-06-25";
   src = fetchFromGitHub {
-    owner = "Soares";
-    repo = "base16.nvim";
-    rev = "ca109c9a9b00b3d4a3b08710b80d45b9715d4c0a";
-    sha256 = "1iwxvwnif55nw1bhcpy0iggb6gxnr6vzw3995s6gw13c3w9ljxr9";
+    owner = "chriskempson";
+    repo = "base16-vim";
+    rev = "9daeb991ee51977c3deea4b45846abfab34e9439";
+    sha256 = "0n9pcpam15vrnjdl3ghlsr02kldwzi4dlb1w2mwfi57fp65akbnd";
   };
 };
 
