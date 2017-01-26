@@ -8,6 +8,7 @@
   s = status -s
   co = checkout
   cob = checkout -b
+  pr = pull-request
 [core]
   editor = vim
 [merge]

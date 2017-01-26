@@ -53,6 +53,7 @@ ZSH_CUSTOM=$HOME/dotfiles/zsh-custom
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git vi-mode tmux cabal virsh nix history-substring-search)
+fpath+=$HOME/.nix-profile/share/zsh/site-functions
 
 #
 # Load oh my zsh
@@ -135,6 +136,8 @@ ns(){
 c2n(){
   cp -v -n "$HOME/dotfiles/nix-haskell-skeleton/default.nix" "$HOME/dotfiles/nix-haskell-skeleton/shell.nix" .
 }
+
+alias git=hub
 
 unsetopt AUTO_CD
 

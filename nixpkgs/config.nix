@@ -273,6 +273,7 @@ rec {
         zsh
         fzy
         nix
+        gitAndTools.hub
       ];
     };
 
