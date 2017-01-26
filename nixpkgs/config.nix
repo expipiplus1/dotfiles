@@ -261,7 +261,6 @@ rec {
         tmux
         zsh
         fzy
-        nix
         gitAndTools.hub
       ];
     };
