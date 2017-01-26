@@ -264,6 +264,7 @@ rec {
         tree
         gist
         gitAndTools.hub
+        jq
       ];
     };
 
