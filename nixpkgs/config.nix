@@ -261,6 +261,8 @@ rec {
         tmux
         zsh
         fzy
+        tree
+        gist
         gitAndTools.hub
       ];
     };
