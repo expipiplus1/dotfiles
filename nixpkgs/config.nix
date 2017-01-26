@@ -138,19 +138,6 @@ rec {
     });
 
     #
-    # To use 256 colors and a 16-palette with non-bright colors we need latest tmux and "-2"
-    #
-    tmux = lib.overrideDerivation super.tmux (oldAttrs: {
-      buildInputs = oldAttrs.buildInputs ++ [ automake autoconf makeWrapper ];
-      preConfigurePhases = [ "./autogen.sh" ];
-      installPhase = ''
-        mkdir $out
-        make install
-        wrapProgram $out/bin/tmux --add-flags "-2"
-      '';
-    });
-
-    #
     # MOC with configure flags enabling most things
     #
     moc = lib.overrideDerivation super.moc (attrs: {
