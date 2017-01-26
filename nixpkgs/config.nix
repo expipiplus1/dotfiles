@@ -16,7 +16,7 @@ rec {
       jailbreak = true;
     };
     haskell-src-exts = super.haskell-src-exts_1_19_1;
-    haskell-src-meta = overrideAttrs super.haskell-src-meta_0_7_0 {
+    haskell-src-meta = overrideAttrs super.haskell-src-meta_0_7_0_1 {
       jailbreak = true;
     };
     hlint = super.hlint_1_9_39;
@@ -123,6 +123,8 @@ rec {
                       perlPackages.JSONMaybeXS
                       makeWrapper
                     ];
+
+      NIX_LDFLAGS = ncurses.ldflags;
 
       postInstall =
         ''
