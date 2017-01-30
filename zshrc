@@ -137,6 +137,10 @@ c2n(){
   cp -v -n "$HOME/dotfiles/nix-haskell-skeleton/default.nix" "$HOME/dotfiles/nix-haskell-skeleton/shell.nix" .
 }
 
+sr(){
+  ag -0 -l $1 | xargs -0 perl -pi -e "s/$1/$2/g"
+}
+
 alias git=hub
 
 unsetopt AUTO_CD
