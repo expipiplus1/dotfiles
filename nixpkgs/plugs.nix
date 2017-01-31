@@ -545,4 +545,15 @@ in {
   };
 };
 
+"vim-prototxt" = {fetchFromGitHub}: vimPlugin rec {
+  name = "vim-prototxt-${version}";
+  version = "2016-11-12";
+  src = fetchFromGitHub {
+    owner = "chiphogg";
+    repo = "vim-prototxt";
+    rev = "b2b5e1c2f67a45eee5a4a3d791053e6cb6757583";
+    sha256 = "12xzfjks3qgz39agi5fcmy3g41k4wa2l716nnp677xv9q5jda2nk";
+  };
+};
+
 }
