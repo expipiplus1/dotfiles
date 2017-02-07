@@ -114,6 +114,7 @@ fi
 
 alias gs='git status'
 alias gd='git diff'
+alias cb='cabal build -j8'
 
 if type xdg-open > /dev/null; then
 open(){
