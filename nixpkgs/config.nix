@@ -19,8 +19,8 @@ rec {
     haskell-src-meta = overrideAttrs super.haskell-src-meta_0_7_0_1 {
       jailbreak = true;
     };
-    hlint = super.hlint_1_9_39;
-    stylish-haskell = overrideAttrs super.stylish-haskell_0_6_5_0 {
+    hlint = super.hlint_1_9_40;
+    stylish-haskell = overrideAttrs super.stylish-haskell_0_7_1_0 {
       jailbreak = true;
     };
     ghc-mod = overrideAttrs super.ghc-mod {
