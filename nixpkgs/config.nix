@@ -34,25 +34,6 @@ rec {
         sha256 = "0s390v07icjp800vjd5qzjhm9bdrr8kr1s2nc90glbd43lv582iv";
       };
     };
-    HaRe = overrideAttrs super.HaRe {
-      doCheck = false;
-      editedCabalFile = null;
-      revision = null;
-      src = pkgs.fetchFromGitHub{
-        owner = "expipiplus1";
-        repo = "HaRe";
-        rev = "acd29d035d7ffc6c51feb567f4449e29f3458602";
-        sha256 = "08ihjck60b67hcd7p0c7mk7p4a084ziwi5jv8ly952vajiq66pcc";
-      };
-      libraryHaskellDepends = with self; [
-        base Cabal cabal-helper containers directory filepath ghc
-        ghc-exactprint ghc-mod ghc-paths ghc-prim ghc-syb-utils hslogger
-        monad-control monoid-extras mtl old-time pretty rosezipper
-        semigroups Strafunski-StrategyLib syb syz time transformers
-        transformers-base
-        attoparsec base-prelude case-insensitive conversion conversion-case-insensitive conversion-text foldl turtle
-      ];
-    };
     Strafunski-StrategyLib = overrideAttrs super.Strafunski-StrategyLib {
       jailbreak = true;
     };
@@ -65,9 +46,7 @@ rec {
     tasty-ant-xml = overrideAttrs super.tasty-ant-xml {
       jailbreak = true;
     };
-    turtle = overrideAttrs super.turtle {
-      jailbreak = true;
-    };
+    turtle = super.turtle_1_3_1;
     xmlhtml = overrideAttrs super.xmlhtml {
       jailbreak = true;
     };
@@ -211,6 +190,7 @@ rec {
       stylish-haskell
       cabal2nix
       HaRe
+      iridium
     ];
 
     ghc801Packages = hp: with hp; [
