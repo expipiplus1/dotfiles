@@ -32,23 +32,23 @@ in {
 
 "deoplete.nvim" = {fetchFromGitHub}: vimPlugin rec {
   name = "deoplete.nvim-${version}";
-  version = "2016-12-25";
+  version = "2017-02-09";
   src = fetchFromGitHub {
     owner = "Shougo";
     repo = "deoplete.nvim";
-    rev = "f1e3724bd0b2cbe9dce26261d0939e49d1b96374";
-    sha256 = "1xhn20ybwr45yqnibkc41bpbm87qairib682wgbdr0mwwr3nn8vf";
+    rev = "2e9fd874b7d974a03df8af10a090e2601b16c7f0";
+    sha256 = "1zj80jxsnff2s16wkim56sxks7p2nj5dv073v30nbscbxacq6hvp";
   };
 };
 
 "floobits-neovim" = {fetchFromGitHub}: vimPlugin rec {
   name = "floobits-neovim-${version}";
-  version = "2016-10-07";
+  version = "2017-02-08";
   src = fetchFromGitHub {
     owner = "Floobits";
     repo = "floobits-neovim";
-    rev = "85d3493d05ac1d7f5606d40fbe619df16af917bc";
-    sha256 = "16c12dgk60mmhyijfk4f33k8i48r1hpjlnxlvdk5kymv7b2xq0fa";
+    rev = "9755412fcd68cfc76a36aa000682a84d96013650";
+    sha256 = "1mn6kikygk86xblxg8kklkrrxagil4az76z0mzid847g4jw4hfd1";
   };
 };
 
@@ -65,12 +65,12 @@ in {
 
 "haskell-vim" = {stdenv, fetchFromGitHub}: stdenv.mkDerivation (pluginAttrs rec {
   name = "haskell-vim-${version}";
-  version = "2016-11-30";
+  version = "2017-02-08";
   src = fetchFromGitHub {
     owner = "neovimhaskell";
     repo = "haskell-vim";
-    rev = "818d51a9d3d5b37636e2f765551046b90503d29b";
-    sha256 = "1zd3vb3mci9pfqmnrqg3bkl3h0lyv8gnr42jr6fzcc509vfina6r";
+    rev = "c07c2b63f393252412b9c65726f2693bcacef71b";
+    sha256 = "09xcsh3411l1wj7w0cwalcpd26rdw4k9idd2mclywrzlrlfddl9b";
   };
   patches = [
     plug-patches/no-space-indent.patch
@@ -124,12 +124,12 @@ in {
 
 "neco-vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "neco-vim-${version}";
-  version = "2016-03-31";
+  version = "2017-01-16";
   src = fetchFromGitHub {
     owner = "Shougo";
     repo = "neco-vim";
-    rev = "dd9418ebeb6cd6563e0996f1784366e0b6224647";
-    sha256 = "1zy1g0d100vwv6iprhhm6vsg64r2vddp26h9z0qbbrrrk3qri11d";
+    rev = "d28e1ea78f90d72636895dbd758de6b35aae2dfa";
+    sha256 = "1qsyicxykl350zz86j7k6k9rflcf5nwrc5jbk9135zs5i8g1lqf3";
   };
 };
 
@@ -146,23 +146,23 @@ in {
 
 "neosnippet-snippets" = {fetchFromGitHub}: vimPlugin rec {
   name = "neosnippet-snippets-${version}";
-  version = "2016-11-05";
+  version = "2017-01-24";
   src = fetchFromGitHub {
     owner = "Shougo";
     repo = "neosnippet-snippets";
-    rev = "4431bf176650696d5a8dd93814812afd0d06212c";
-    sha256 = "0fbwzlvdbrmia97pyzgyffbqrimp2dxjn6cc45ia1kqgnhwdk4pd";
+    rev = "8e2b1c0cab9ed9a832b3743dbb65e9966a64331a";
+    sha256 = "151wpvbj6jb9jdkbhj3b77f5sq7y328spvwfbqyj1y32rg4ifmc6";
   };
 };
 
 "neosnippet.vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "neosnippet.vim-${version}";
-  version = "2016-12-14";
+  version = "2017-02-09";
   src = fetchFromGitHub {
     owner = "Shougo";
     repo = "neosnippet.vim";
-    rev = "c179a51f024e27edf4354a52ff8b9fa69c4c803c";
-    sha256 = "1dp96xkbic64k232rhrk44ji149q5hhqhw9ivr89rwqyp9dywkpj";
+    rev = "db828325268ca28c17674bd876b40be895daa27e";
+    sha256 = "1l3zxxj90341slf0k6hprjgjy4slsajbc95v4l46bchcsyxsrh3i";
   };
 };
 
@@ -267,12 +267,12 @@ in {
 
 "vim-fugitive" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-fugitive-${version}";
-  version = "2016-11-13";
+  version = "2017-02-07";
   src = fetchFromGitHub {
     owner = "tpope";
     repo = "vim-fugitive";
-    rev = "b754bc2031f21a532c083dd0d072ba373bbe3a37";
-    sha256 = "1sig8dl3m1dw5zjxdsp00n1cacmcwdvas3iz04zk88v6xsm8rj22";
+    rev = "245ce889e2a6eb318cec865cf787e7bb0cb8aa95";
+    sha256 = "0i75lfsshlzz23w4s9dd7nyj5f7a5g20yj5jrw47ql2v5a337bjn";
   };
 };
 
@@ -366,12 +366,12 @@ in {
 
 "vim-startify" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-startify-${version}";
-  version = "2016-12-26";
+  version = "2017-02-04";
   src = fetchFromGitHub {
     owner = "mhinz";
     repo = "vim-startify";
-    rev = "72f398ebe20ff91a8105222d64f8ef0089341688";
-    sha256 = "05imqwvbl6d98xss4csvvlyig1rxzqxa3jq7yvlz6g9cq1lw3lc2";
+    rev = "5e9e6a48c992d9255a3be2f96765c9bb80faae97";
+    sha256 = "1gnpg59i81hwhqva5grjd4f5lnjaclwwra58sgv30mrxkjg4d741";
   };
 };
 
@@ -399,12 +399,12 @@ in {
 
 "vim-table-mode" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-table-mode-${version}";
-  version = "2016-09-28";
+  version = "2017-01-05";
   src = fetchFromGitHub {
     owner = "dhruvasagar";
     repo = "vim-table-mode";
-    rev = "441c30c35aec9d5c2de1d58a77a7d22aa8d93b06";
-    sha256 = "04fdd2hgrcrgqqflzlvv7j9c53m8f2divi075p75g6grkxxyninv";
+    rev = "30a3eba81628fdd099adc6dfdec8aa627c4783f7";
+    sha256 = "0pw3mvrx3iyyj5xz05gixhvnrqxpl274cv04449mxm50q32zvmhr";
   };
 };
 
@@ -465,12 +465,12 @@ in {
 
 "vim-tmux-navigator" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-tmux-navigator-${version}";
-  version = "2016-09-03";
+  version = "2017-01-28";
   src = fetchFromGitHub {
     owner = "christoomey";
     repo = "vim-tmux-navigator";
-    rev = "e79d4c0c24c43d3ada283b1f5a1b8fa6cf820a70";
-    sha256 = "1p4kb8ja86pa3l9jh8yfjvdvdik4fwnpbpl34npjwbga52pawn65";
+    rev = "34f8fbf1d4ebaa1bf1db6715b17a197eaffe1ad8";
+    sha256 = "074isx0kksl7kc72n1n8ywqcx5vj7ndz01jaih14nwqpqshv2zgx";
   };
 };
 
@@ -509,12 +509,12 @@ in {
 
 "vim-yaml" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-yaml-${version}";
-  version = "2014-10-10";
+  version = "2017-01-04";
   src = fetchFromGitHub {
     owner = "stephpy";
     repo = "vim-yaml";
-    rev = "06755a296f2248c91f020ccb4e0b3f211365037e";
-    sha256 = "1wkb09xw7nx7dyi1cphhr6113jl76scplwnglcv9678ji6i8hkx1";
+    rev = "6430c8452d9fb54a2ee32e2c4dbdbfc265cde419";
+    sha256 = "1v2rxslyd3vikwhcr5l6j80dkkmnypr2swrqgbp7rip9sr86khai";
   };
 };
 
