@@ -9,46 +9,21 @@ rec {
         mkDerivation = expr: args.mkDerivation (expr // newAttrs);
       });
   in with pkgs.haskell.lib; self: super: {
-    ghc-exactprint = overrideAttrs super.ghc-exactprint {
-      doCheck = false;
-    };
-    apply-refact = overrideAttrs super.apply-refact {
-      jailbreak = true;
-    };
     haskell-src-exts = super.haskell-src-exts_1_19_1;
-    haskell-src-meta = overrideAttrs super.haskell-src-meta_0_7_0_1 {
-      jailbreak = true;
-    };
-    hlint = super.hlint_1_9_40;
-    stylish-haskell = overrideAttrs super.stylish-haskell_0_7_1_0 {
+    haskell-src-meta = overrideAttrs super.haskell-src-meta {
       jailbreak = true;
     };
     ghc-mod = overrideAttrs super.ghc-mod {
       jailbreak = true;
-      editedCabalFile = null;
-      revision = null;
-      src = pkgs.fetchFromGitHub{
-        owner = "expipiplus1";
-        repo = "ghc-mod";
-        rev = "666f47ca14f3f5ecdd4a95a36e493cc1deb565d2";
-        sha256 = "0s390v07icjp800vjd5qzjhm9bdrr8kr1s2nc90glbd43lv582iv";
-      };
     };
-    Strafunski-StrategyLib = overrideAttrs super.Strafunski-StrategyLib {
+    multistate = overrideAttrs super.multistate {
       jailbreak = true;
     };
-    cabal-helper = overrideAttrs super.cabal-helper {
+    iridium = overrideAttrs super.iridium {
       jailbreak = true;
     };
-    path-io = overrideAttrs super.path-io {
-      jailbreak = true;
-    };
-    tasty-ant-xml = overrideAttrs super.tasty-ant-xml {
-      jailbreak = true;
-    };
-    turtle = super.turtle_1_3_1;
-    xmlhtml = overrideAttrs super.xmlhtml {
-      jailbreak = true;
+    HaRe = overrideAttrs super.HaRe {
+      doCheck = false;
     };
   };
 
