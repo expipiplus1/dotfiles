@@ -115,6 +115,8 @@ fi
 alias gs='git status'
 alias gd='git diff'
 alias cb='cabal build -j8'
+alias cane='git commit --amend --no-edit'
+alias nb='nix-build -j8'
 
 if type xdg-open > /dev/null; then
 open(){
