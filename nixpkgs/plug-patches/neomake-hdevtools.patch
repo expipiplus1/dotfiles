@@ -1,0 +1,16 @@
+diff --git a/autoload/neomake/makers/ft/haskell.vim b/autoload/neomake/makers/ft/haskell.vim
+index 01aae76..66a2614 100644
+--- a/autoload/neomake/makers/ft/haskell.vim
++++ b/autoload/neomake/makers/ft/haskell.vim
+@@ -52,9 +52,10 @@ function! neomake#makers#ft#haskell#EnabledMakers() abort
+ endfunction
+ 
+ function! neomake#makers#ft#haskell#hdevtools() abort
++    let user_options = split(get(g:, 'hdevtools_options', '-g-Wall'))
+     let params = {
+         \ 'exe': 'hdevtools',
+-        \ 'args': ['check', '-g-Wall'],
++        \ 'args': ['check'] + user_options,
+         \ 'mapexpr': s:CleanUpSpaceAndBackticks(),
+         \ 'errorformat':
+             \ '%-Z %#,'.

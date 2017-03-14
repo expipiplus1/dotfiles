@@ -147,6 +147,7 @@ in {
   };
   patches = [
     plug-patches/always-quickfix.patch
+    plug-patches/neomake-hdevtools.patch
   ];
 });
 
