@@ -349,7 +349,7 @@ command W w
 command Q q
 
 " sort
-vnoremap <leader>r :sort<CR>
+vnoremap <nowait> <leader>r :sort<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Searching
@@ -793,18 +793,18 @@ let &l:statusline = '%{empty(getqflist()) ? "[No Errors]" : "[Errors Found]"}' .
 let g:ghcmod_hlint_options = ['--hint=HLint', '--hint=Default', '--hint=Dollar', '--cpp-define=HLINT', '--color']
 
 if(s:use_ghc_mod)
-  autocmd Filetype haskell nnoremap <buffer> <leader>i :GhcModInfo!<CR>
-  autocmd Filetype haskell nnoremap <buffer> <leader>c :GhcModTypeClear<CR>
-  autocmd Filetype haskell nnoremap <buffer> <leader>t :GhcModType!<CR>
-  autocmd Filetype haskell nnoremap <buffer> <leader>T :GhcModTypeInsert!<CR>
+  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>i :GhcModInfo!<CR>
+  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>c :GhcModTypeClear<CR>
+  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>t :GhcModType!<CR>
+  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>T :GhcModTypeInsert!<CR>
 else
   let g:hdevtools_options = '-g-Wall -g-isrc -g-itest -g-fbyte-code'
 
-  autocmd Filetype haskell nnoremap <buffer> <leader>i :HdevtoolsInfo<CR>
-  autocmd Filetype haskell nnoremap <buffer> <leader>c :HdevtoolsClear<CR>
-  autocmd Filetype haskell nnoremap <buffer> <leader>t :HdevtoolsType<CR>
-  autocmd Filetype haskell nnoremap <buffer> <leader>T :HdevtoolsSig<CR>
-  autocmd Filetype haskell nnoremap <buffer> <leader>d :HdevtoolsFindsymbol<CR>
+  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>i :HdevtoolsInfo<CR>
+  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>c :HdevtoolsClear<CR>
+  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>t :HdevtoolsType<CR>
+  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>T :HdevtoolsSig<CR>
+  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>d :HdevtoolsFindsymbol<CR>
 endif
 
 if(s:use_ghc_mod)
@@ -827,7 +827,7 @@ function! StripTrailingWhitespace()
   normal `Z
 endfunction
 
-nnoremap <leader>s :call StripTrailingWhitespace()<CR>
+nnoremap <nowait> <leader>s :call StripTrailingWhitespace()<CR>
 
 autocmd FileType haskell let b:easytags_auto_highlight = 1
 
@@ -848,7 +848,7 @@ function! Preserve(command)
 endfunction
 
 " Format current function
-autocmd FileType haskell map <leader>f :call Preserve("normal gqah")<CR>
+autocmd FileType haskell map <nowait> <leader>f :call Preserve("normal gqah")<CR>
 
 let g:hindent_style="gibiansky"
 let g:formatprg_haskell = "hindent"
@@ -876,8 +876,8 @@ autocmd Filetype haskell setlocal iskeyword-=.
 
 let g:hlintRefactor#disableDefaultKeybindings = 1
 
-map <silent> <leader>e :call ApplyOneSuggestion()<CR>
-map <silent> <leader>E :call ApplyAllSuggestions()<CR>
+map <silent> <nowait> <leader>e :call ApplyOneSuggestion()<CR>
+map <silent> <nowait> <leader>E :call ApplyAllSuggestions()<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " pointfree
@@ -886,7 +886,7 @@ map <silent> <leader>E :call ApplyAllSuggestions()<CR>
 " See :help :visual_example
 " This splits before and after the selection to create a new line, deindents
 " the new lines, runs pointfree over the middle and joins it all up again.
-xnoremap <silent> <leader>p <Esc>`>a<CR><Esc>:left<CR>`<i<CR><Esc>:left<CR>V:!pointfree --stdin<CR>kgJgJ
+xnoremap <silent> <nowait> <leader>p <Esc>`>a<CR><Esc>:left<CR>`<i<CR><Esc>:left<CR>V:!pointfree --stdin<CR>kgJgJ
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Clang complete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -953,4 +953,4 @@ digraphs [x 9745
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:table_mode_corner="|"
-
+autocmd Filetype * nnoremap <nowait> <buffer> <leader>m :TableModeToggle<CR>
