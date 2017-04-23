@@ -1,8 +1,8 @@
 diff --git a/autoload/neomake.vim b/autoload/neomake.vim
-index 3dc4c57..33a507b 100644
+index f80883a..e974353 100644
 --- a/autoload/neomake.vim
 +++ b/autoload/neomake.vim
-@@ -712,17 +712,19 @@ function! s:AddExprCallback(jobinfo, prev_index) abort
+@@ -836,13 +836,12 @@ function! s:AddExprCallback(jobinfo, prev_index) abort
      endwhile
  
      if list_modified
@@ -13,17 +13,10 @@ index 3dc4c57..33a507b 100644
 -        endif
 +        call setqflist(list, 'r')
      endif
-+
-     if ignored_signs
-         call neomake#utils#DebugMessage(printf(
-                     \ 'Could not place signs for %d entries without line number.',
-                     \ ignored_signs))
-     endif
-+
+ 
 +    let s:qflist_nr = index
-+
 +    call lightline#update()
 +
-     return counts_changed
+     return entries
  endfunction
  
