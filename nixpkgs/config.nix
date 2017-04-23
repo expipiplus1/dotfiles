@@ -142,6 +142,16 @@ rec {
       '';
     };
 
+    tssh = writeTextFile {
+      name = "tssh";
+      text = ''
+        #/usr/bin/env sh
+        # ${pkgs.openssh}/bin/ssh "$@" -t -- tmux new-session -A -s main
+        ${pkgs.openssh}/bin/ssh "$@" -t -- tmux a
+      '';
+      executable = true;
+      destination = "/bin/tssh";
+    };
 
     #
     # Some useful haskell tools
@@ -213,6 +223,7 @@ rec {
         gist
         gitAndTools.hub
         jq
+        tssh
       ];
     };
 
