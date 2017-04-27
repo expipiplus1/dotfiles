@@ -147,7 +147,7 @@ rec {
       text = ''
         #/usr/bin/env sh
         # ${pkgs.openssh}/bin/ssh "$@" -t -- tmux new-session -A -s main
-        ${pkgs.openssh}/bin/ssh "$@" -t -- tmux a
+        ${pkgs.mosh}/bin/mosh "$@" -- tmux attach
       '';
       executable = true;
       destination = "/bin/tssh";
@@ -224,6 +224,9 @@ rec {
         gitAndTools.hub
         jq
         tssh
+        file
+        binutils
+        mosh
       ];
     };
 
