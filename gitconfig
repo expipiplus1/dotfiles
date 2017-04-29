@@ -9,6 +9,8 @@
   co = checkout
   cob = checkout -b
   pr = pull-request
+  latest = "!git log --all --oneline | head -n1 | cut -f1 -d' '"
+  cpl = "!git cherry-pick $(git latest)"
 [core]
   editor = vim
 [merge]
