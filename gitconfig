@@ -19,3 +19,5 @@
   keepBackup = false
 [github]
 	user = expipiplus1
+[color]
+	ui = auto
