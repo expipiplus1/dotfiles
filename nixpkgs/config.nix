@@ -153,6 +153,13 @@ rec {
       destination = "/bin/tssh";
     };
 
+    upfind = import (pkgs.fetchFromGitHub {
+      owner = "expipiplus1";
+      repo = "upfind";
+      rev = "325f7f5be5f051ba7b54f38534f69e511b020fea";
+      sha256 = "1nvk941k649m9v9pgskqnmyknvp32hxq8cg70cjy50c8kqj1lj0r";
+    }) {inherit pkgs;};
+
     #
     # Some useful haskell tools
     #
@@ -227,6 +234,7 @@ rec {
         file
         binutils
         mosh
+        upfind
       ];
     };
 
