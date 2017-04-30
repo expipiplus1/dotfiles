@@ -31,6 +31,7 @@ files="agignore
        moc/themes/base16
        zshrc
        XCompose
+       haskeline
       "
 
 ##########
