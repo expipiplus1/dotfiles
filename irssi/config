@@ -32,7 +32,17 @@ channels = (
   },
   { name = "#nixos"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "##JoeChannel"; chatnet = "Freenode"; autojoin = "yes"; },
-  { name = "#nixos-hercules"; chatnet = "Freenode"; autojoin = "yes"; }
+  { name = "#nixos-hercules"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#ghc"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#tmux"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#project-m36"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#servant"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#OpenLRS"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#fpv"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#opentx"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#maximilian"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#yosys"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#mystorm"; chatnet = "Freenode"; autojoin = "yes"; }
 );
 
 aliases = {
