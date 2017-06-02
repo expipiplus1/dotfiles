@@ -1,4 +1,4 @@
-:set prompt "\ESC[34mλ> \ESC[m"
+:set prompt "\SOH\ESC[34m\STXλ>\SOH\ESC[m\STX "
 :set -XDataKinds
 :set -XPolyKinds
 :set -XQuasiQuotes
