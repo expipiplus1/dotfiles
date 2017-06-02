@@ -142,6 +142,18 @@ rec {
       '';
     };
 
+    tmux = lib.overrideDerivation super.tmux (oldAttrs: rec {
+      # It's an older code, but it checks out.
+      version = "2.3";
+      name = "tmux-${version}";
+      src = fetchFromGitHub {
+        owner = "tmux";
+        repo = "tmux";
+        rev = "2.3";
+        sha256 = "14c6iw0p3adz7w8jm42w9f3s1zph9is10cbwdjgh5bvifrhxrary";
+      };
+    });
+
     tssh = writeTextFile {
       name = "tssh";
       text = ''
