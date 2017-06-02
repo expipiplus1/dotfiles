@@ -11,6 +11,7 @@
   pr = pull-request
   latest = "!git log --all --oneline | head -n1 | cut -f1 -d' '"
   cpl = "!git cherry-pick $(git latest)"
+  pf = push --force-with-lease
 [core]
   editor = vim
 [merge]
