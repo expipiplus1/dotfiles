@@ -38,7 +38,6 @@ channels = (
   { name = "#project-m36"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#servant"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#OpenLRS"; chatnet = "Freenode"; autojoin = "yes"; },
-  { name = "#fpv"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#opentx"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#maximilian"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#yosys"; chatnet = "Freenode"; autojoin = "yes"; },
