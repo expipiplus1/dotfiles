@@ -42,7 +42,8 @@ channels = (
   { name = "#opentx"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#maximilian"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#yosys"; chatnet = "Freenode"; autojoin = "yes"; },
-  { name = "#mystorm"; chatnet = "Freenode"; autojoin = "yes"; }
+  { name = "#mystorm"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#dronin"; chatnet = "Freenode"; autojoin = "yes"; }
 );
 
 aliases = {
