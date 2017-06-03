@@ -59,3 +59,5 @@ for file in $files; do
   ln -sv $dir/$file ~/.$file
 done
 
+gsettings set org.gnome.desktop.media-handling automount-open false
+dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:escape']"

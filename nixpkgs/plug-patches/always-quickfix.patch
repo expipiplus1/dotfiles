@@ -1,11 +1,11 @@
 diff --git a/autoload/neomake.vim b/autoload/neomake.vim
-index f80883a..e974353 100644
+index ad5e5c5..2c6ccbf 100644
 --- a/autoload/neomake.vim
 +++ b/autoload/neomake.vim
-@@ -836,13 +836,12 @@ function! s:AddExprCallback(jobinfo, prev_index) abort
-     endwhile
- 
-     if list_modified
+@@ -1073,13 +1073,11 @@ function! s:AddExprCallback(jobinfo, prev_index) abort
+                 call remove(list, k)
+             endfor
+         endif
 -        if file_mode
 -            call setloclist(0, list, 'r')
 -        else
@@ -14,7 +14,6 @@ index f80883a..e974353 100644
 +        call setqflist(list, 'r')
      endif
  
-+    let s:qflist_nr = index
 +    call lightline#update()
 +
      return entries
