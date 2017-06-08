@@ -396,6 +396,7 @@ in {
   };
   patches = [
     plug-patches/stylish-haskell.patch
+    plug-patches/stylish-haskell-pos.patch
   ];
 });
 
