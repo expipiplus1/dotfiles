@@ -1,6 +1,4 @@
 { myrtlepkgs }:
-let nixpkgs = import <nixpkgs> {};
-in
 {
   userEnvPackages = 
     with myrtlepkgs.haskellPackages;
