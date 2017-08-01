@@ -212,6 +212,29 @@ in {
   };
 };
 
+"open-browser.vim" = {fetchFromGitHub}: vimPlugin rec {
+  name = "open-browser-github.vim-${version}";
+  version = "2017-03-10";
+  src = fetchFromGitHub {
+    owner = "tyru";
+    repo = "open-browser.vim";
+    rev = "b0dccb3be0f708d189420463ebff1838dea01a58";
+    sha256 = "06yzh2pkmzz19ivlk1wfc16bwc7vi3k3hiwnfbry4n7vmbpjh3zl";
+  };
+};
+
+
+"open-browser-github.vim" = {fetchFromGitHub}: vimPlugin rec {
+  name = "open-browser-github.vim-${version}";
+  version = "2017-03-10";
+  src = fetchFromGitHub {
+    owner = "tyru";
+    repo = "open-browser-github.vim";
+    rev = "da68ff743192d1196df2150043bd4ece6bee8f7a";
+    sha256 = "070nx7iq5zzglrwa3dl52i5zhp6ljq6ib13s77c0cn7wnz9x18rk";
+  };
+};
+
 "prev_indent" = {fetchFromGitHub}: vimPlugin rec {
   name = "prev_indent-${version}";
   version = "2014-03-08";
