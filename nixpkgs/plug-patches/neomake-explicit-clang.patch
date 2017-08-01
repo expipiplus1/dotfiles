@@ -1,0 +1,12 @@
+diff --git a/autoload/neomake/makers/ft/c.vim b/autoload/neomake/makers/ft/c.vim
+index ddbb198..7c353aa 100644
+--- a/autoload/neomake/makers/ft/c.vim
++++ b/autoload/neomake/makers/ft/c.vim
+@@ -9,6 +9,7 @@ endfunction
+ 
+ function! neomake#makers#ft#c#clang() abort
+     return {
++        \ 'exe': 'clang',
+         \ 'args': ['-fsyntax-only', '-Wall', '-Wextra'],
+         \ 'errorformat':
+             \ '%-G%f:%s:,' .
