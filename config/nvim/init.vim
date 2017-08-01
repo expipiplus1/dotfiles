@@ -684,12 +684,17 @@ let g:syntastic_enable_async = 1
 
 augroup AutoNeomake
   autocmd!
-  autocmd BufWritePost *.hs,*.lhs,*.c,*.cpp call s:neomake()
-  autocmd BufReadPost *.hs,*.lhs,*.c,*.cpp call s:neomake()
+  autocmd BufWritePost *.hs,*.lhs,*.c,*.cpp,*.hpp,*.h call s:neomake()
+  autocmd BufReadPost *.hs,*.lhs,*.c,*.cpp,*.hpp,*.h call s:neomake()
 augroup END
 
+let &makeprg=("make " . $makeFlags)
 function! s:neomake()
-  Neomake
+  if (filereadable("Makefile"))
+    Neomake!
+  else
+    Neomake
+  endif
   call lightline#update()
 endfunction
 
@@ -709,7 +714,6 @@ function! s:PopulateQuickFixPerhaps()
   endif
 endfunction
 
-let g:neomake_verbose=0
 let g:neomake_warning_sign = {
       \ 'text': '❯',
       \ 'texthl': 'String',
@@ -718,6 +722,11 @@ let g:neomake_error_sign = {
       \ 'text': '❯',
       \ 'texthl': 'ErrorMsg',
       \ }
+
+let g:deoplete#sources#clang#autofill_neomake = 0
+let g:neomake_cpp_enabled_makers = ['clang']
+let g:neomake_c_enabled_makers = ['clang']
+let g:neomake_cpp_clang_args = ["-Wno-pragma-once-outside-header", "-Wno-unused-command-line-argument", "-fsyntax-only", "-std=c++14", "-Wall", "-fsanitize=undefined"]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Unimpared
@@ -921,22 +930,24 @@ function! Flatten(list)
   return val
 endfunction
 
-let g:neomake_c_clang_maker = neomake#makers#ft#c#clang()
-if filereadable(".clang_complete")
-  let s:clang_args = Flatten(map(readfile(".clang_complete"), "split(v:val)"))
-else
-  let s:clang_args = []
-endif
-let g:neomake_c_clang_maker.args += filter(s:clang_args, '!empty(v:val)')
+" let g:neomake_c_clang_maker = neomake#makers#ft#c#clang()
+" if filereadable(".clang_complete")
+"   let s:clang_args = Flatten(map(readfile(".clang_complete"), "split(v:val)"))
+" else
+"   let s:clang_args = []
+" endif
+" let g:neomake_c_clang_maker.args += filter(s:clang_args, '!empty(v:val)')
 
-let g:neomake_cpp_clang_maker = neomake#makers#ft#cpp#clang()
-let g:neomake_cpp_clang_maker.args += filter(s:clang_args, '!empty(v:val)')
+" let g:neomake_cpp_clang_maker = neomake#makers#ft#cpp#clang()
+" let g:neomake_cpp_clang_maker.args += filter(s:clang_args, '!empty(v:val)')
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " clang-format
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:clang_format#auto_formatexpr=1
+let g:clang_format#auto_format=1
+let g:clang_format#code_style="llvm"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Markdown

@@ -138,9 +138,27 @@ rec {
           ln -s $item $out/bin/
         done
         ln -s $out/bin/nvim $out/bin/vim
-        wrapProgram $out/bin/nvim --add-flags "--cmd 'source ${neovim-rtp}'"
+        wrapProgram $out/bin/nvim \
+          --add-flags "--cmd 'source ${neovim-rtp}'" \
+          --prefix PATH : \
+          ${lib.makeBinPath [lessWrappedClang clang-tools]};
+
       '';
     };
+
+    # Clang suitable for vim checking
+    lessWrappedClang = clang.override {
+      # Fixes http://lists.llvm.org/pipermail/cfe-users/2017-March/001112.html
+      extraBuildCommands = ''
+        sed -i 's|-B[^ ]*||g' $out/nix-support/libc-cflags
+        sed -i 's|-B[^ ]*||g' $out/nix-support/cc-cflags
+        sed -i 2d $out/nix-support/add-flags.sh 
+        substituteInPlace $out/bin/clang \
+          --replace "source $out/nix-support/add-hardening.sh" "" \
+          --replace "dontLink=0" "dontLink=1"
+      '';
+    };
+
 
     tmux = lib.overrideDerivation super.tmux (oldAttrs: rec {
       # It's an older code, but it checks out.

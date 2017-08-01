@@ -7,6 +7,7 @@ let
       mv * "$out"
     '';
   } // attrs;
+
 in {
 "Align" = {fetchFromGitHub}: vimPlugin rec {
   name = "Align-${version}";
@@ -40,6 +41,22 @@ in {
     sha256 = "0llhd03c7aaj83wsclcfxv9m1vpxzx5d4xwxj737byhxhkkdrqnw";
   };
 };
+
+"deoplete-clang2" = {stdenv, fetchFromGitHub, lessWrappedClang}: stdenv.mkDerivation (pluginAttrs rec {
+  name = "deoplete-clang2-${version}";
+  version = "2017-04-03";
+  src = fetchFromGitHub {
+    owner = "tweekmonster";
+    repo = "deoplete-clang2";
+    rev = "787dd4dc7eeb5d1bc2fd3cefcf7bd07e48f4a962";
+    sha256 = "07a153bgkk9q8jpxy2fbqsfr0bzn8mynq9hn22dfw1rrfvas51ym";
+  };
+  patchPhase = ''
+    substituteInPlace rplugin/python3/deoplete/sources/deoplete_clang2.py \
+      --replace "'deoplete#sources#clang#executable', 'clang')"  \
+                "'deoplete#sources#clang#executable', '${lessWrappedClang}/bin/clang')" 
+  '';
+});
 
 "floobits-neovim" = {fetchFromGitHub}: vimPlugin rec {
   name = "floobits-neovim-${version}";
@@ -136,7 +153,7 @@ in {
   };
 };
 
-"neomake" = {stdenv, fetchFromGitHub}: stdenv.mkDerivation (pluginAttrs rec {
+"neomake" = {stdenv, fetchFromGitHub, lessWrappedClang, clang-tools}: stdenv.mkDerivation (pluginAttrs rec {
   name = "neomake-${version}";
   version = "2017-06-02";
   src = fetchFromGitHub {
@@ -148,7 +165,18 @@ in {
   patches = [
     plug-patches/always-quickfix.patch
     plug-patches/neomake-hdevtools.patch
+    plug-patches/neomake-explicit-clang.patch
   ];
+  postPatch = ''
+    substituteInPlace autoload/neomake/makers/ft/cpp.vim \
+      --replace "executable('clang++')" "executable('${lessWrappedClang}/bin/clang++')" \
+      --replace "maker.exe = 'clang++'" "maker.exe = '${lessWrappedClang}/bin/clang++'" 
+    substituteInPlace autoload/neomake/makers/ft/c.vim \
+      --replace "executable('clang')" "executable('${lessWrappedClang}/bin/clang')" \
+      --replace "'exe': 'clang'" "'exe': '${lessWrappedClang}/bin/clang'" \
+      --replace "'exe': 'clang-tidy'" "'exe': '${clang-tools}/bin/clang-tidy'" \
+      --replace "'exe': 'clang-check'" "'exe': '${clang-tools}/bin/clang-check'" \
+  '';
 });
 
 "neosnippet-snippets" = {fetchFromGitHub}: vimPlugin rec {
@@ -236,6 +264,17 @@ in {
     repo = "vim-abolish";
     rev = "b6a8b49e2173ba5a1b34d00e68e0ed8addac3ebd";
     sha256 = "0i9q3l7r5p8mk4in3c1j4x0jbln7ir9lg1cqjxci0chjjzfzc53m";
+  };
+};
+
+"vim-clang-format" = {fetchFromGitHub}: vimPlugin rec {
+  name = "vim-clang-format-${version}";
+  version = "2017-03-10";
+  src = fetchFromGitHub {
+    owner = "rhysd";
+    repo = "vim-clang-format";
+    rev = "76d579db0e584c104e2e764f28ece195de132580";
+    sha256 = "08n4fx848xgqnk985b2p8jbdcrhr204grywz6yji011ff4p8jzy7";
   };
 };
 
