@@ -384,6 +384,7 @@ nmap <silent> <C-g><C-g> :PrevIndent<CR>
 let g:fuzzy_rootcmds = [
 \ 'upfind -d build.hs',
 \ 'upfind -d CMakeLists.txt',
+\ 'upfind -d Makefile',
 \ 'upfind -d ''.+\.cabal''',
 \ 'git rev-parse --show-toplevel',
 \ 'hg root'
