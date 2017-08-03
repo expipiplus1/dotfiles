@@ -108,6 +108,9 @@ __git_unpushed_unpulled() {
 __git_status() {
   # Check if the current directory is in a Git repository.
   command git rev-parse --is-inside-work-tree &>/dev/null || return
+  if [[ "$(command git config --get oh-my-zsh.hide-status 2>/dev/null)" == "1" ]];then
+    return
+  fi
 
   # Check if the current directory is in .git before running git checks.
   if [[ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]]; then
