@@ -33,6 +33,7 @@ files="agignore
        zshrc
        XCompose
        haskeline
+       brittany
       "
 
 ##########

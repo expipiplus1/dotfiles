@@ -864,9 +864,15 @@ endfunction
 " Format current function
 autocmd FileType haskell map <nowait> <leader>f :call Preserve("normal gqah")<CR>
 
-let g:hindent_style="gibiansky"
-let g:formatprg_haskell = "hindent"
-let g:formatprg_args_haskell = "--style " . g:hindent_style . " --line-length 80"
+let s:use_hindent=0
+if(s:use_hindent)
+  let g:hindent_style="gibiansky"
+  let g:formatprg_haskell = "hindent"
+  let g:formatprg_args_haskell = "--style " . g:hindent_style . " --line-length 80"
+else
+  let g:formatprg_haskell = "brittany"
+  let g:formatprg_args_haskell = "--columns 80 --indent 2"
+endif
 
 function! FormatHaskell()
   if !empty(v:char)
