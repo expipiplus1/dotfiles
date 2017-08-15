@@ -14,18 +14,26 @@ conf_debug:
 conf_forward:
   options_ghc:
   - -XBangPatterns
+  - -XDataKinds
   - -XExplicitForAll
+  - -XFlexibleContexts
   - -XGADTs
   - -XImplicitParams
   - -XLambdaCase
+  - -XMagicHash
   - -XMultiWayIf
+  - -XNoImplicitPrelude
   - -XPatternGuards
+  - -XPatternSynonyms
   - -XQuasiQuotes
   - -XRankNTypes
+  - -XRecordWildCards
   - -XRecursiveDo
+  - -XScopedTypeVariables
   - -XTemplateHaskell
   - -XTupleSections
   - -XTypeApplications
+  - -XTypeOperators
   - -XViewPatterns
 conf_errorHandling:
   econf_ExactPrintFallback: ExactPrintFallbackModeInline
@@ -47,7 +55,7 @@ conf_layout:
   lconfig_alignmentBreakOnMultiline: true
   lconfig_cols: 80
   lconfig_indentPolicy: IndentPolicyFree
-  lconfig_indentWhereSpecial: true
+  lconfig_indentWhereSpecial: false
   lconfig_columnAlignMode:
     tag: ColumnAlignModeMajority
     contents: 0.7
