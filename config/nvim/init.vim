@@ -117,7 +117,9 @@ set tabpagemax=1000
 
 set ffs=unix,dos
 
-set inccommand=nosplit
+if has('nvim')
+  set inccommand=nosplit
+endif
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
@@ -189,8 +191,10 @@ else
 endif
 
 " needs base16-shell run
-let base16colorspace=256
-colorscheme base16-tomorrow
+if has('nvim')
+  let base16colorspace=256
+  colorscheme base16-tomorrow
+endif
 
 if &background == "light"
   hi QuickFixLine ctermbg=21 guibg=#e0e0e0
@@ -274,7 +278,9 @@ autocmd FocusLost * call PopOutOfInsertMode()
 "  n... :  where to save the viminfo files
 set viminfo='1000,\"1000,:200,%,n~/.viminfo
 
-set shada='1000,/1000,:1000,@1000
+if has('nvim')
+  set shada='1000,/1000,:1000,@1000
+endif
 
 function! ResCur()
   if line("'\"") <= line("$")
@@ -559,53 +565,10 @@ autocmd BufNewFile,BufRead *.fx,*.fxc,*.fxh,*.hlsl set ft=hlsl
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Neocomplete
+" deoplete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-if !has('nvim')
-  " Use neocomplete.
-  let g:neocomplete#enable_at_startup = 1
-  " Use smartcase.
-  let g:neocomplete#enable_smart_case = 1
-  " Set minimum syntax keyword length.
-  let g:neocomplete#sources#syntax#min_keyword_length = 3
-  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-  " Plugin key-mappings.
-  inoremap <expr><C-g>     neocomplete#undo_completion()
-  inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-  " Recommended key-mappings.
-  " <CR>: close popup and save indent.
-  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-
-  function! s:my_cr_function()
-    return neocomplete#close_popup() . "\<CR>"
-    " For no inserting <CR> key.
-    "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-  endfunction
-  " <TAB>: completion.
-  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-  " <C-h>, <BS>: close popup and delete backword char.
-  inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-  inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-  inoremap <expr><C-y>  neocomplete#close_popup()
-  inoremap <expr><C-e>  neocomplete#cancel_popup()
-
-  inoremap <expr><C-Space>  "<C-x><C-o><C-p>"
-
-  " Enable heavy omni completion.
-  if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-  endif
-  let g:neocomplete#sources#omni#input_patterns.haskell = '[^.[:digit:] *\t]\%(\.\)'
-
-  set completeopt=longest,menuone
-
-  " smartcase
-  let g:neocomplete#enable_camel_case = 1
-  let g:neocomplete#enable_fuzzy_completion = 1
-else
+if has('nvim')
   " Use deoplete.
   let g:deoplete#enable_at_startup = 1
   " Use smartcase.
