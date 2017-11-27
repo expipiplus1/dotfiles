@@ -80,6 +80,9 @@ export NIX_CURRENT_LOAD=/tmp/current-load
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
+if [ -d "$HOME/devenv/bin" ] ; then
+    PATH="$HOME/devenv/bin:$PATH"
+fi
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
