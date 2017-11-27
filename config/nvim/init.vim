@@ -792,6 +792,11 @@ endif
 
 " highlight long columns
 au FileType haskell let &colorcolumn=join(range(81,999),",")
+if &background == "light"
+  hi ColorColumn ctermbg=21 guibg=#e0e0e0
+else
+  hi ColorColumn ctermbg=18 guibg=#282a2e
+endif
 
 " Strip trailing whitespace
 " automatically remove trailing whitespace before write
