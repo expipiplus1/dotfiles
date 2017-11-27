@@ -96,6 +96,8 @@ function light()
   source ~/.config/base16-shell/base16-solarized.light.sh
   tmux set-window-option -g window-active-style bg=colour15
   tmux set-window-option -g window-style bg=colour21
+  gconftool-2 --set "/apps/gnome-terminal/profiles/Default/background_color" --type string "#EEE8D5"
+  gconftool-2 --set "/apps/gnome-terminal/profiles/Default/foreground_color" --type string "#586E75"
 }
 
 function dark()
@@ -106,6 +108,8 @@ function dark()
   source ~/.config/base16-shell/base16-tomorrow.dark.sh
   tmux set-window-option -g window-active-style 'bg=black'
   tmux set-window-option -g window-style bg=colour18
+  gconftool-2 --set "/apps/gnome-terminal/profiles/Default/background_color" --type string "#282A2E"
+  gconftool-2 --set "/apps/gnome-terminal/profiles/Default/foreground_color" --type string "#C5C8C6"
 }
 
 if [ -f ~/.config/light ]; then
