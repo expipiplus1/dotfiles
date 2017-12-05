@@ -944,3 +944,11 @@ digraphs [x 9745
 
 let g:table_mode_corner="|"
 autocmd Filetype * nnoremap <nowait> <buffer> <leader>m :TableModeToggle<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" SCB
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+au BufRead,BufNewFile *.mu set filetype=haskell
+
+set guicursor=
