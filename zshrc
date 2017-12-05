@@ -71,7 +71,7 @@ if [[ "$IN_NIX_SHELL" == "" ]]; then
   fi
 fi
 
-export NIX_PATH=my-nixpkgs=$HOME/src/nixpkgs:$NIX_PATH
+export NIX_PATH=nixpkgs=$HOME/src/nixpkgs:$NIX_PATH
 
 # Allow remote builds
 export NIX_BUILD_HOOK=$HOME/.nix-profile/libexec/nix/build-remote.pl
@@ -81,8 +81,13 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 if [ -d "$HOME/devenv/bin" ] ; then
-    PATH="$HOME/devenv/bin:$PATH"
+    PATH="$PATH:$HOME/devenv/bin"
 fi
+if [ -d "$HOME/.nix-profile/bin" ] ; then
+    PATH="$HOME/.nix-profile/bin:$PATH"
+fi
+
+export MANPATH="$HOME/.nix-profile/share/man:$MANPATH"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -152,6 +157,9 @@ c2n(){
 sr(){
   ag -0 -l $1 | xargs -0 perl -pi -e "s/$1/$2/g"
 }
+
+autoload bashcompinit
+bashcompinit
 
 alias git=hub
 
@@ -229,3 +237,5 @@ bindkey -M emacs '^N' history-substring-search-down
 
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
+
+export https_proxy=$http_proxy
