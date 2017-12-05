@@ -32,6 +32,7 @@ files="agignore
        moc/themes/base16
        zshrc
        XCompose
+       Xmodmap
        haskeline
        brittany
       "
