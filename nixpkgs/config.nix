@@ -9,21 +9,39 @@ rec {
         mkDerivation = expr: args.mkDerivation (expr // newAttrs);
       });
   in with pkgs.haskell.lib; self: super: {
-    haskell-src-exts = super.haskell-src-exts_1_19_1;
-    haskell-src-meta = overrideAttrs super.haskell-src-meta {
-      jailbreak = true;
-    };
-    ghc-mod = overrideAttrs super.ghc-mod {
-      jailbreak = true;
-    };
-    multistate = overrideAttrs super.multistate {
-      jailbreak = true;
+    monad-memo = overrideAttrs super.monad-memo {
+      doCheck = false;
     };
     iridium = overrideAttrs super.iridium {
       jailbreak = true;
     };
     HaRe = overrideAttrs super.HaRe {
       doCheck = false;
+    };
+    brittany = overrideAttrs super.brittany {
+      src = pkgs.fetchFromGitHub {
+        owner = "lspitzner";
+        repo = "brittany";
+        rev = "37436e675aff945d756d49cecbd3487f428da507";
+        sha256 = "1qm5anljdrifmgglcpkw5zivllyralprjh5n6x49pfqcb4ngyh3q";
+      };
+      jailbreak = true;
+    };
+    butcher = overrideAttrs super.butcher {
+      src = pkgs.fetchFromGitHub {
+        owner = "lspitzner";
+        repo = "butcher";
+        rev = "e8272f1804ed6bc92e7db4bc757b17d38df3a38b";
+        sha256 = "1x43zippdr4x5frrb4m0x533r3fkhqp2yiqibigkimmbwv9w29p0";
+      };
+    };
+    multistate = overrideAttrs super.multistate {
+      src = pkgs.fetchFromGitHub {
+        owner = "lspitzner";
+        repo = "multistate";
+        rev = "9c56d3070fa8e6cdfa0e21ebd191efdd30a20b66";
+        sha256 = "1v7j93wcffrc3pqbfi93l4zc1cash38bnjhvzpqwv644rcyjpgnh";
+      };
     };
   };
 
@@ -205,7 +223,7 @@ rec {
       stylish-haskell
       cabal2nix
       HaRe
-      iridium
+      brittany
     ];
 
     ghc801Packages = hp: with hp; [
