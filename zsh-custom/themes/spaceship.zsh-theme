@@ -112,30 +112,38 @@ __git_status() {
     return
   fi
 
+
   # Check if the current directory is in .git before running git checks.
   if [[ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]]; then
-    # Ensure the index is up to date.
-    git update-index --really-refresh -q &>/dev/null
+    if [[ "$(command git config --get oh-my-zsh.only-branch 2>/dev/null)" == "1" ]];then
+      echo -n " "
+      echo -n "%{$fg_bold[magenta]%}"
+      echo -n "$(git_current_branch)"
+      echo -n "%{$reset_color%}"
+    else
+      # Ensure the index is up to date.
+      git update-index --really-refresh -q &>/dev/null
 
-    # String of indicators
-    local s=''
+      # String of indicators
+      local s=''
 
-    s+="$(__git_uncomitted)"
-    s+="$(__git_unstaged)"
-    s+="$(__git_untracked)"
-    s+="$(__git_stashed)"
-    s+="$(__git_unpushed_unpulled)"
+      s+="$(__git_uncomitted)"
+      s+="$(__git_unstaged)"
+      s+="$(__git_untracked)"
+      s+="$(__git_stashed)"
+      s+="$(__git_unpushed_unpulled)"
 
-    [ -n "${s}" ] && s="[${s}]";
+      [ -n "${s}" ] && s="[${s}]";
 
-    # echo -n " %{$fg_bold[grey]%}on%{$reset_color%} "
-    echo -n " "
-    echo -n "%{$fg_bold[magenta]%}"
-    echo -n "$(git_current_branch)"
-    echo -n "%{$reset_color%}"
-    echo -n "%{$fg_bold[red]%}"
-    echo -n "${s}"
-    echo -n "%{$reset_color%}"
+      # echo -n " %{$fg_bold[grey]%}on%{$reset_color%} "
+      echo -n " "
+      echo -n "%{$fg_bold[magenta]%}"
+      echo -n "$(git_current_branch)"
+      echo -n "%{$reset_color%}"
+      echo -n "%{$fg_bold[red]%}"
+      echo -n "${s}"
+      echo -n "%{$reset_color%}"
+    fi
   fi
 }
 
