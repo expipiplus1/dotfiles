@@ -1,0 +1,13 @@
+diff --git a/autoload/neomake/makers/ft/haskell.vim b/autoload/neomake/makers/ft/haskell.vim
+index 7197f38..191ab89 100644
+--- a/autoload/neomake/makers/ft/haskell.vim
++++ b/autoload/neomake/makers/ft/haskell.vim
+@@ -72,7 +72,7 @@ function! neomake#makers#ft#haskell#hdevtools() abort
+     " a cabal file
+     if !exists('s:uses_cabal')
+         let s:uses_cabal = 0
+-        if executable('stack')
++        if 0
+             let output = neomake#compat#systemlist(['stack', '--verbosity', 'silent', 'path', '--project-root'])
+             if !empty(output)
+                 let rootdir = output[0]
