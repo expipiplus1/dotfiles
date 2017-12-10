@@ -54,7 +54,7 @@ ZSH_CUSTOM=$HOME/dotfiles/zsh-custom
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vi-mode tmux cabal virsh nix history-substring-search)
+plugins=(gitfast vi-mode tmux cabal virsh nix history-substring-search)
 fpath+=$HOME/.nix-profile/share/zsh/site-functions
 
 #
