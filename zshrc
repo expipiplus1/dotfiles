@@ -101,11 +101,11 @@ export KEYTIMEOUT=1
 function light()
 {
   touch ~/.config/light
-  source ~/.config/base16-shell/base16-solarized.light.sh
+  ~/.config/base16-shell/base16-solarized.light.sh
+  gconftool-2 --set "/apps/gnome-terminal/profiles/Default/background_color" --type string "#EEE8D5"
+  gconftool-2 --set "/apps/gnme-terminal/profiles/Default/foreground_color" --type string "#586E75"
   tmux set-window-option -g window-active-style bg=colour15
   tmux set-window-option -g window-style bg=colour21
-  gconftool-2 --set "/apps/gnome-terminal/profiles/Default/background_color" --type string "#EEE8D5"
-  gconftool-2 --set "/apps/gnome-terminal/profiles/Default/foreground_color" --type string "#586E75"
 }
 
 function dark()
@@ -113,11 +113,11 @@ function dark()
   if [ -f ~/.config/light ]; then
     rm ~/.config/light
   fi
-  source ~/.config/base16-shell/base16-tomorrow.dark.sh
-  tmux set-window-option -g window-active-style 'bg=black'
-  tmux set-window-option -g window-style bg=colour18
+  ~/.config/base16-shell/base16-tomorrow.dark.sh
   gconftool-2 --set "/apps/gnome-terminal/profiles/Default/background_color" --type string "#282A2E"
   gconftool-2 --set "/apps/gnome-terminal/profiles/Default/foreground_color" --type string "#C5C8C6"
+  tmux set-window-option -g window-active-style 'bg=black'
+  tmux set-window-option -g window-style bg=colour18
 }
 
 if [ -f ~/.config/light ]; then
