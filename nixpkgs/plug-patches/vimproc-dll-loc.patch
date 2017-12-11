@@ -1,0 +1,13 @@
+diff --git a/autoload/vimproc.vim b/autoload/vimproc.vim
+index ef87782..5ac6db9 100644
+--- a/autoload/vimproc.vim
++++ b/autoload/vimproc.vim
+@@ -72,7 +72,7 @@ elseif system('uname -s') =~? '^.\+BSD\n$'
+         \ 'uname -sm | tr "[:upper:]" "[:lower:]"'
+         \ .' | sed -e "s/ /_/" | xargs -I "{}" echo "vimproc_{}.so"')[0 : -2]
+ else
+-  let s:vimproc_dll_basename = 'vimproc_unix.so'
++  let s:vimproc_dll_basename = 'vimproc_linx64.so'
+ endif
+ "}}}
+ 

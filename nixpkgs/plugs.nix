@@ -609,6 +609,9 @@ in {
     mkdir -p $out
     cp -r * $out/
   '';
+  patches = [
+    plug-patches/vimproc-dll-loc.patch
+  ];
 };
 
 "webapi-vim" = {fetchFromGitHub}: vimPlugin rec {
