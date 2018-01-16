@@ -757,9 +757,22 @@ let g:necoghc_enable_detailed_browse = 1
 "
 " stylish-haskell
 "
+
+function s:myStylishHaskell()
+  if !empty(matchstr(system("git author " . @%), ".*ermaszewski.*"))
+    call StylishHaskell()
+  endif
+endfunction
+
+let s:stylish_haskell_config = systemlist("upfind --fixed .stylish-haskell")
+
+if len(s:stylish_haskell_config) != 0
+  let g:stylish_haskell_args = "--config " . s:stylish_haskell_config[0]
+endif
+
 augroup stylish-haskell
   autocmd!
-  autocmd BufWritePost *.hs silent call StylishHaskell()
+  autocmd BufWritePost *.hs silent call s:myStylishHaskell()
 augroup END
 
 "
