@@ -12,6 +12,7 @@
   latest = "!git log --all --oneline | head -n1 | cut -f1 -d' '"
   cpl = "!git cherry-pick $(git latest)"
   pf = push --force-with-lease
+  author = "!f(){ set -o pipefail; git blame $1 --line-porcelain | grep 'author ' | grep -v 'Not Committed Yet' | sed 's/author //' | sort | uniq -c | sort -n | head -n1 | sed 's/ *[0-9]* *//' ; }; f"
 [core]
   editor = vim
 [merge]
