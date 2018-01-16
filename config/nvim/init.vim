@@ -51,7 +51,7 @@ autocmd FileType vhdl setlocal comments=:--
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Comment continuation
-autocmd FileType * setlocal formatoptions+=c formatoptions+=r formatoptions+=o
+autocmd FileType * setlocal formatoptions+=c formatoptions+=r
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Misc options
