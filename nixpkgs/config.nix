@@ -22,8 +22,8 @@ rec {
       src = pkgs.fetchFromGitHub {
         owner = "lspitzner";
         repo = "brittany";
-        rev = "37436e675aff945d756d49cecbd3487f428da507";
-        sha256 = "1qm5anljdrifmgglcpkw5zivllyralprjh5n6x49pfqcb4ngyh3q";
+        rev = "43abab2dd2c87c7e9547e2e2b43270dde0da178e";
+        sha256 = "1lhnpg3qcg7n555j6kfag4br29wxwmcxacmkzv7akqh9rib3751b";
       };
       jailbreak = true;
     };
