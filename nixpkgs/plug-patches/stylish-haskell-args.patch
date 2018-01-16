@@ -1,0 +1,23 @@
+diff --git a/ftplugin/haskell/stylish-haskell.vim b/ftplugin/haskell/stylish-haskell.vim
+index b155cdc..1b5892d 100644
+--- a/ftplugin/haskell/stylish-haskell.vim
++++ b/ftplugin/haskell/stylish-haskell.vim
+@@ -1,6 +1,9 @@
+ if !exists("g:stylish_haskell_command")
+   let g:stylish_haskell_command = "stylish-haskell"
+ endif
++if !exists("g:stylish_haskell_args")
++  let g:stylish_haskell_args = ""
++endif
+ 
+ function! s:OverwriteBuffer(output)
+   let winview = winsaveview()
+@@ -21,7 +24,7 @@ function! s:StylishHaskell()
+ endfunction
+ 
+ function! s:RunStylishHaskell()
+-  let output = system(g:stylish_haskell_command . " " . bufname("%"))
++  let output = system(g:stylish_haskell_command . " " . g:stylish_haskell_args . " " . bufname("%"))
+   let errors = matchstr(output, '\(Language\.Haskell\.Stylish\.Parse\.parseModule:[^\x0]*\)')
+   if v:shell_error != 0
+     echom output
