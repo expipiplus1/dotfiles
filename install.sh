@@ -35,6 +35,7 @@ files="agignore
        Xmodmap
        haskeline
        brittany
+       stylish-haskell
       "
 
 ##########
