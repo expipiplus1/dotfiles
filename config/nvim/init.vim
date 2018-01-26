@@ -45,6 +45,8 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd FileType vhdl setlocal commentstring=--\ %s
 autocmd FileType vhdl setlocal comments=:--
+autocmd FileType cpp setlocal commentstring=//\ %s
+autocmd FileType cpp setlocal comments=://
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Comments
