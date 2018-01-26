@@ -250,6 +250,7 @@ rec {
       paths = [
         aspell
         aspellDicts.en
+        clang-tools
         coreutils
         curl
         git
