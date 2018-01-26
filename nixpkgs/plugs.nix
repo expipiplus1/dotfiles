@@ -298,8 +298,8 @@ in {
   src = fetchFromGitHub {
     owner = "rhysd";
     repo = "vim-clang-format";
-    rev = "76d579db0e584c104e2e764f28ece195de132580";
-    sha256 = "08n4fx848xgqnk985b2p8jbdcrhr204grywz6yji011ff4p8jzy7";
+    rev = "a2aa8afee7208ad138415b6f2e730ae74dc20997";
+    sha256 = "0fwilad24yhl608ym8z7kgdf0ppa9xljp4cj4yhiig2sadslyyg1";
   };
 };
 
