@@ -935,8 +935,19 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:clang_format#auto_formatexpr=1
-let g:clang_format#auto_format=1
+let g:clang_format#auto_format=0
 let g:clang_format#code_style="llvm"
+
+function s:myClangFormat()
+  if !empty(matchstr(system("git author " . @%), ".*ermaszewski.*"))
+    execute("ClangFormat")
+  endif
+endfunction
+
+augroup clang-format
+  autocmd!
+  autocmd BufWritePost *.cpp,*.h,*.hpp,*.c silent call s:myClangFormat()
+augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Markdown
