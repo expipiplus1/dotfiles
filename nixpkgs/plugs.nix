@@ -167,6 +167,7 @@ in {
     plug-patches/neomake-hdevtools.patch
     plug-patches/neomake-explicit-clang.patch
     plug-patches/neomake-no-stack.patch
+    plug-patches/neomake-mu.patch
   ];
   postPatch = ''
     substituteInPlace autoload/neomake/makers/ft/cpp.vim \
