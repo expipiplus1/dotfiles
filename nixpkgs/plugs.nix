@@ -509,7 +509,7 @@ in {
   };
 };
 
-"vim-textobj-haskell" = {fetchFromGitHub}: vimPlugin rec {
+"vim-textobj-haskell" = {stdenv, fetchFromGitHub}: stdenv.mkDerivation (pluginAttrs rec {
   name = "vim-textobj-haskell-${version}";
   version = "2014-10-27";
   src = fetchFromGitHub {
@@ -518,7 +518,10 @@ in {
     rev = "ca656e98ea31e201f5bc543909398a6c8bb5d537";
     sha256 = "096pjjl3ngw0hsh59j2x6pdrpqvp657rcxfyl9kw13ndqyd867xs";
   };
-};
+  patches = [
+    plug-patches/vim-textobj-haskell-typesig.patch
+  ];
+});
 
 "vim-textobj-user" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-textobj-user-${version}";
