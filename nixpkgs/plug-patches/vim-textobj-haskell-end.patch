@@ -1,0 +1,13 @@
+diff --git a/python/haskell-textobj.py b/python/haskell-textobj.py
+index 4a7fa1b..daafc5a 100755
+--- a/python/haskell-textobj.py
++++ b/python/haskell-textobj.py
+@@ -178,7 +178,7 @@ def find_block(lines, index):
+         - around: Whether to include surrounding blocks.
+     """
+     # Move the cursor until we find a non-empty line.
+-    while index < len(lines) and empty(lines[index]):
++    while index < len(lines) - 1 and empty(lines[index]):
+         index += 1
+ 
+     # Start by only including the line we're on.
