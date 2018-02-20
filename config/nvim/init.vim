@@ -761,7 +761,8 @@ let g:necoghc_enable_detailed_browse = 1
 "
 
 function s:myStylishHaskell()
-  if !empty(matchstr(system("git author " . @%), ".*ermaszewski.*"))
+  let s=system("git author " . @%)
+  if v:shell_error || !empty(matchstr(s, ".*ermaszewski.*"))
     call StylishHaskell()
   endif
 endfunction
@@ -939,7 +940,8 @@ let g:clang_format#auto_format=0
 let g:clang_format#code_style="llvm"
 
 function s:myClangFormat()
-  if !empty(matchstr(system("git author " . @%), ".*ermaszewski.*"))
+  let s=system("git author " . @%)
+  if v:shell_error || !empty(matchstr(s, ".*ermaszewski.*"))
     execute("ClangFormat")
   endif
 endfunction
