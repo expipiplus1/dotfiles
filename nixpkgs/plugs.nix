@@ -1,12 +1,29 @@
+{ pkgs, neovim-unconfigured }:
+
+
 let
-  vimPlugin = { name, version, src }: src;
-  pluginAttrs = attrs: {
+  inherit (pkgs.stdenv) mkDerivation;
+  inherit (pkgs) fetchFromGitHub;
+
+  vimPlugin = { name, version, src, postPatch ? "", patches ? [], patchPhase ? "" }: mkDerivation {
+    inherit name version src patches postPatch patchPhase;
+    forceShare= [ "man" "info" ];
     buildPhase = "true";
     installPhase = ''
+      runHook preInstall
       mkdir -p "$out"
       mv * "$out"
+      runHook postInstall
     '';
-  } // attrs;
+    inherit postInstall;
+  };
+
+  postInstall = ''
+    # From vimHelpTags in nixpkgs
+    if [ -d "$out/doc" ]; then
+      ${neovim-unconfigured}/bin/nvim -N -u NONE -i NONE -n -E -s -c "helptags $out/doc" +quit! || (echo "docs to build failed" && false)
+    fi
+  '';
 
 in {
 "Align" = {fetchFromGitHub}: vimPlugin rec {
@@ -42,7 +59,7 @@ in {
   };
 };
 
-"deoplete-clang2" = {stdenv, fetchFromGitHub, lessWrappedClang}: stdenv.mkDerivation (pluginAttrs rec {
+"deoplete-clang2" = {lessWrappedClang}: vimPlugin rec {
   name = "deoplete-clang2-${version}";
   version = "2017-04-03";
   src = fetchFromGitHub {
@@ -56,7 +73,7 @@ in {
       --replace "'deoplete#sources#clang#executable', 'clang')"  \
                 "'deoplete#sources#clang#executable', '${lessWrappedClang}/bin/clang')" 
   '';
-});
+};
 
 "floobits-neovim" = {fetchFromGitHub}: vimPlugin rec {
   name = "floobits-neovim-${version}";
@@ -80,7 +97,7 @@ in {
   };
 };
 
-"haskell-vim" = {stdenv, fetchFromGitHub}: stdenv.mkDerivation (pluginAttrs rec {
+"haskell-vim" = {}: vimPlugin rec {
   name = "haskell-vim-${version}";
   version = "2017-04-03";
   src = fetchFromGitHub {
@@ -93,7 +110,7 @@ in {
     plug-patches/no-space-indent.patch
     plug-patches/cabal-module-word.patch
   ];
-});
+};
 
 "hlint-refactor-vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "hlint-refactor-vim-${version}";
@@ -128,7 +145,7 @@ in {
   };
 };
 
-"neco-ghc" = {stdenv, fetchFromGitHub}: stdenv.mkDerivation (pluginAttrs rec {
+"neco-ghc" = {}: vimPlugin rec {
   name = "neco-ghc-${version}";
   version = "2017-04-30";
   src = fetchFromGitHub {
@@ -140,7 +157,7 @@ in {
   patches = [
     plug-patches/streamline-neco-ghc.patch
   ];
-});
+};
 
 "neco-vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "neco-vim-${version}";
@@ -153,7 +170,7 @@ in {
   };
 };
 
-"neomake" = {stdenv, fetchFromGitHub, lessWrappedClang, clang-tools}: stdenv.mkDerivation (pluginAttrs rec {
+"neomake" = {lessWrappedClang, clang-tools}: vimPlugin rec {
   name = "neomake-${version}";
   version = "2017-06-02";
   src = fetchFromGitHub {
@@ -179,7 +196,7 @@ in {
       --replace "'exe': 'clang-tidy'" "'exe': '${clang-tools}/bin/clang-tidy'" \
       --replace "'exe': 'clang-check'" "'exe': '${clang-tools}/bin/clang-check'" \
   '';
-});
+};
 
 "neosnippet-snippets" = {fetchFromGitHub}: vimPlugin rec {
   name = "neosnippet-snippets-${version}";
@@ -358,7 +375,7 @@ in {
   };
 };
 
-"vim-hdevtools" = {stdenv, fetchFromGitHub}: stdenv.mkDerivation (pluginAttrs rec {
+"vim-hdevtools" = {}: vimPlugin rec {
   name = "vim-hdevtools-${version}";
   version = "2016-07-08";
   src = fetchFromGitHub {
@@ -370,7 +387,7 @@ in {
   patches = [
     ./plug-patches/hdevtools.patch
   ];
-});
+};
 
 "vim-hoogle" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-hoogle-${version}";
@@ -449,7 +466,7 @@ in {
   };
 };
 
-"vim-stylish-haskell" = {stdenv, fetchFromGitHub}: stdenv.mkDerivation (pluginAttrs rec {
+"vim-stylish-haskell" = {}: vimPlugin rec {
   name = "vim-stylish-haskell-${version}";
   version = "2015-05-10";
   src = fetchFromGitHub {
@@ -463,7 +480,7 @@ in {
     plug-patches/stylish-haskell-pos.patch
     plug-patches/stylish-haskell-args.patch
   ];
-});
+};
 
 "vim-surround" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-surround-${version}";
@@ -509,7 +526,7 @@ in {
   };
 };
 
-"vim-textobj-haskell" = {stdenv, fetchFromGitHub}: stdenv.mkDerivation (pluginAttrs rec {
+"vim-textobj-haskell" = {}: vimPlugin rec {
   name = "vim-textobj-haskell-${version}";
   version = "2014-10-27";
   src = fetchFromGitHub {
@@ -520,8 +537,9 @@ in {
   };
   patches = [
     plug-patches/vim-textobj-haskell-typesig.patch
+    plug-patches/vim-textobj-haskell-end.patch
   ];
-});
+};
 
 "vim-textobj-user" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-textobj-user-${version}";
@@ -600,7 +618,7 @@ in {
   };
 };
 
-"vimproc.vim" = {stdenv, fetchFromGitHub, which}: stdenv.mkDerivation rec {
+"vimproc.vim" = {stdenv, fetchFromGitHub, which}: mkDerivation rec {
   name = "vimproc.vim-${version}";
   version = "2016-08-06";
   src = fetchFromGitHub {
@@ -611,9 +629,12 @@ in {
   };
   buildInputs = [ which ];
   installPhase = ''
+    runHook preInstall
     mkdir -p $out
     cp -r * $out/
+    runHook postInstall
   '';
+  inherit postInstall;
   patches = [
     plug-patches/vimproc-dll-loc.patch
   ];

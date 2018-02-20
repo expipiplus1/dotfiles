@@ -1,4 +1,4 @@
-{pkgs ? import <nixpkgs> {}}:
+{pkgs ? import <nixpkgs> {}, neovim-unconfigured}:
 
 with pkgs;
 with pkgs.lib.strings;
@@ -18,6 +18,8 @@ rec {
   };
 
   rtpFile = 
-    let plugins = mapAttrs (n: p: pkgs.callPackage p {}) (import ./plugs.nix);
+    let plugins = mapAttrs
+                    (n: p: pkgs.callPackage p {})
+                    (import ./plugs.nix {inherit pkgs neovim-unconfigured;});
     in makeRtpFile (attrValues plugins);
 }
