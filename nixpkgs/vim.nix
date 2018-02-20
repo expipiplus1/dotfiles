@@ -4,7 +4,7 @@ with pkgs;
 with pkgs.lib.strings;
 with pkgs.lib.attrsets;
 rec {
-  makeRtpFile = plugins: writeTextFile { 
+  makeRtpFile = plugins: writeTextFile {
     name = "rtp.vim";
     text = ''
       let s:oldrtp = &rtp
@@ -17,7 +17,7 @@ rec {
     '';
   };
 
-  rtpFile = 
+  rtpFile =
     let plugins = mapAttrs
                     (n: p: pkgs.callPackage p {})
                     (import ./plugs.nix {inherit pkgs neovim-unconfigured;});
