@@ -464,6 +464,9 @@ in {
     rev = "ae8cfbb9dbbcb16c2da57fc3219834a89428b644";
     sha256 = "1qzfibkjnpdn12n02bc11099yp3wycnnw43w9mp1fhlzq81ziviq";
   };
+  patches = [
+    plug-patches/stylish-git-workspace.patch
+  ];
 };
 
 "vim-stylish-haskell" = {}: vimPlugin rec {
