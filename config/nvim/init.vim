@@ -849,7 +849,8 @@ endfunction
 autocmd FileType haskell map <nowait> <leader>f :call Preserve("normal gqah")<CR>
 
 " Insert header
-autocmd FileType haskell map <nowait> <leader>h <ESC>:set paste<CR><ESC>64a-<ESC>o--<ESC>o<ESC>64a-<ESC>:set nopaste<CR>kA
+autocmd FileType haskell map <nowait> <leader>h <ESC>:set paste<CR><ESC>o<ESC>64a-<ESC>o--<ESC>o<ESC>64a-<ESC>:set nopaste<CR>kA<space>
+autocmd FileType vim map <nowait> <leader>h <ESC>:set paste<CR><ESC>o<ESC>64a"<ESC>o"<ESC>o<ESC>64a"<ESC>:set nopaste<CR>kA<space>
 
 let s:use_hindent=0
 if(s:use_hindent)
