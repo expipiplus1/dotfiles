@@ -103,7 +103,7 @@ function light()
   touch ~/.config/light
   ~/.config/base16-shell/base16-solarized.light.sh
   gconftool-2 --set "/apps/gnome-terminal/profiles/Default/background_color" --type string "#EEE8D5"
-  gconftool-2 --set "/apps/gnme-terminal/profiles/Default/foreground_color" --type string "#586E75"
+  gconftool-2 --set "/apps/gnome-terminal/profiles/Default/foreground_color" --type string "#586E75"
   tmux set-window-option -g window-active-style bg=colour15
   tmux set-window-option -g window-style bg=colour21
 }
