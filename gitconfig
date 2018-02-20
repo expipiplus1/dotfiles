@@ -14,6 +14,7 @@
   pf = push --force-with-lease
   authors = "!f(){ set -o pipefail; git blame $1 --line-porcelain | grep 'author ' | grep -v 'Not Committed Yet' | sed 's/author //' | sort | uniq -c | sort -n ; }; f"
   author = "!f(){ set -o pipefail; git blame $1 --line-porcelain | grep 'author ' | grep -v 'Not Committed Yet' | sed 's/author //' | sort | uniq -c | sort -nr | head -n1 | sed 's/ *[0-9]* *//' ; }; f"
+  cane = commit --amend --no-edit
 [core]
   editor = vim
 [merge]
