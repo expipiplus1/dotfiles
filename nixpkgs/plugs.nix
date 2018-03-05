@@ -400,6 +400,18 @@ in {
   };
 };
 
+"vim-markdown" = {fetchFromGitHub}: vimPlugin rec {
+  name = "vim-markdown-${version}";
+  version = "2018-02-07";
+  src = fetchFromGitHub {
+    owner = "tpope";
+    repo = "vim-markdown";
+    rev = "8a712f46753918e012a57b9badac8c0b628681d9";
+    sha256 = "06ri44b40z2rd282bviilwr320kb5mlnd63xwp6f6xp4gn3fhl4w";
+  };
+  patches = [ ./plug-patches/vim-markdown-no-codeblock.patch ];
+};
+
 "vim-misc" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-misc-${version}";
   version = "2015-05-21";
