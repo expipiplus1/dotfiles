@@ -987,6 +987,12 @@ autocmd Filetype * nnoremap <nowait> <buffer> <leader>m :TableModeToggle<CR>
 let g:startify_change_to_dir = 0
 let g:startify_change_to_vcs_root = 1
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Spellcheck
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+autocmd Filetype * nnoremap <nowait> <buffer> <leader>p <ESC>1z=e
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SCB
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
