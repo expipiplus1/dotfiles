@@ -467,6 +467,17 @@ in {
   };
 };
 
+"vim-smooth-scroll" = {fetchFromGitHub}: vimPlugin rec {
+  name = "vim-startify-${version}";
+  version = "2013-04-05";
+  src = fetchFromGitHub {
+    owner = "terryma";
+    repo = "vim-smooth-scroll";
+    rev = "0eae2367c70c3415b97869346af1b5e30c123dff";
+    sha256 = "1qzfibkjnpdn12n02bc11099yp3wycnnw43wrmp1fhlzq81ziviq";
+  };
+};
+
 "vim-startify" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-startify-${version}";
   version = "2017-05-30";
