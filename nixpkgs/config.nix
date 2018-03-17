@@ -22,17 +22,17 @@ rec {
       src = pkgs.fetchFromGitHub {
         owner = "lspitzner";
         repo = "brittany";
-        rev = "43abab2dd2c87c7e9547e2e2b43270dde0da178e";
-        sha256 = "1lhnpg3qcg7n555j6kfag4br29wxwmcxacmkzv7akqh9rib3751b";
+        rev = "1330aeb6b4d3a3138bca89e1f3ee966677ee93db";
+        sha256 = "0n26jqx67ipkflkqw4n7ll64cv07dskxyjcxlvrvjgwwnajdl5p3";
       };
       jailbreak = true;
     };
-    butcher = overrideAttrs super.butcher {
+    ghc-exactprint = overrideAttrs super.ghc-exactprint {
       src = pkgs.fetchFromGitHub {
-        owner = "lspitzner";
-        repo = "butcher";
-        rev = "e8272f1804ed6bc92e7db4bc757b17d38df3a38b";
-        sha256 = "1x43zippdr4x5frrb4m0x533r3fkhqp2yiqibigkimmbwv9w29p0";
+        owner = "alanz";
+        repo = "ghc-exactprint";
+        rev = "e9532ae3e4222c5a022cad0c8f9bbcb0adf6d55a";
+        sha256 = "0x0sj5ghw099iv755amdy9im44vwrfaj0nsvzas06q3lj3p1140i";
       };
     };
     multistate = overrideAttrs super.multistate {
