@@ -248,6 +248,7 @@ rec {
     dev-env = buildEnv {
       name = "dev-env";
       paths = [
+        asciinema
         aspell
         aspellDicts.en
         clang-tools
