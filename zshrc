@@ -71,11 +71,11 @@ if [[ "$IN_NIX_SHELL" == "" ]]; then
   fi
 fi
 
-export NIX_PATH=nixpkgs=$HOME/src/nixpkgs:$NIX_PATH
+export NIX_PATH=nixpkgs=$HOME/src/nixpkgs
 
 # Allow remote builds
-export NIX_BUILD_HOOK=$HOME/.nix-profile/libexec/nix/build-remote.pl
-export NIX_CURRENT_LOAD=/tmp/current-load
+# export NIX_BUILD_HOOK=$HOME/.nix-profile/libexec/nix/build-remote.pl
+# export NIX_CURRENT_LOAD=/tmp/current-load
 
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
