@@ -1,12 +1,12 @@
 diff --git a/autoload/neomake/makers/ft/c.vim b/autoload/neomake/makers/ft/c.vim
-index ddbb198..7c353aa 100644
+index b104580..6cf94e1 100644
 --- a/autoload/neomake/makers/ft/c.vim
 +++ b/autoload/neomake/makers/ft/c.vim
-@@ -9,6 +9,7 @@ endfunction
- 
- function! neomake#makers#ft#c#clang() abort
+@@ -13,6 +13,7 @@ function! neomake#makers#ft#c#clang() abort
+     " as a single-file maker, include the current directory in the default
+     " search path
      return {
 +        \ 'exe': 'clang',
-         \ 'args': ['-fsyntax-only', '-Wall', '-Wextra'],
+         \ 'args': ['-fsyntax-only', '-Wall', '-Wextra', '-I./'],
          \ 'errorformat':
              \ '%-G%f:%s:,' .
