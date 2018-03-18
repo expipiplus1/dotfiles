@@ -149,8 +149,7 @@ rec {
     neovim-unconfigured = super.neovim;
     neovim-rtp = (import ./vim.nix {inherit pkgs neovim-unconfigured;}).rtpFile;
     neovim = stdenv.mkDerivation {
-      name = "neovim-${neovim-unconfigured.version}-configured";
-      inherit (neovim-unconfigured) version;
+      name = "neovim-configured";
 
       nativeBuildInputs = [ makeWrapper ];
 
@@ -205,7 +204,6 @@ rec {
 
     ghc8Packages = hp: with hp; [
       apply-refact
-      ghc-mod
       hdevtools
       ghcid
       hindent
@@ -213,14 +211,16 @@ rec {
       pretty-show
       stylish-haskell
       cabal2nix
-      HaRe
+      # HaRe
       brittany
+      upfind
     ];
 
-    ghc801Packages = hp: with hp; [
+    ghc802Packages = hp: with hp; [
       # hackage-diff
       # pointfree
       # HaRe
+      # ghc-mod
     ];
 
     ghc7Packages = hp: with hp; [
@@ -231,8 +231,8 @@ rec {
       paths = [
         cabal-install
       ] ++
-      (ghc801Packages (haskell.packages.ghc801.override{overrides = haskellPackageOverrides;})) ++
-      (ghc8Packages (haskell.packages.ghc802.override{overrides = haskellPackageOverrides;})) ++
+      (ghc802Packages (haskell.packages.ghc802.override{overrides = haskellPackageOverrides;})) ++
+      (ghc8Packages (haskellPackages.override{overrides = haskellPackageOverrides;})) ++
       (ghc7Packages (haskell.packages.ghc7103.override{overrides = haskellPackageOverrides;}));
     };
 
@@ -275,7 +275,6 @@ rec {
         file
         binutils
         mosh
-        upfind
       ];
     };
 
