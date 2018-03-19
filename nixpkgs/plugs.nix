@@ -2,6 +2,8 @@
 
 
 let
+  useHIE = true; 
+
   inherit (pkgs.stdenv) mkDerivation;
   inherit (pkgs) fetchFromGitHub;
 
@@ -178,20 +180,6 @@ in {
   };
 };
 
-"neco-ghc" = {}: vimPlugin rec {
-  name = "neco-ghc-${version}";
-  version = "2017-08-17";
-  src = fetchFromGitHub {
-    owner = "eagletmt";
-    repo = "neco-ghc";
-    rev = "faa033c05e6a6470d3d780e3931b4c9c72042009";
-    sha256 = "01l5n4x94sb6bhjhjx2sibs8gm3zla7hb6szdfgbdmdf7jlzazak";
-  };
-  patches = [
-    plug-patches/streamline-neco-ghc.patch
-  ];
-};
-
 "neco-vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "neco-vim-${version}";
   version = "2017-10-01";
@@ -201,34 +189,6 @@ in {
     rev = "f5397c5e800d65a58c56d8f1b1b92686b05f4ca9";
     sha256 = "0yb7ja6qgrazszk4i01cwjj00j9vd43zs2r11b08iy8n10jnzr73";
   };
-};
-
-"neomake" = {lessWrappedClang, clang-tools}: vimPlugin rec {
-  name = "neomake-${version}";
-  version = "2018-03-17";
-  src = fetchFromGitHub {
-    owner = "neomake";
-    repo = "neomake";
-    rev = "a737744f53d28d5b279ba96dd6b87ead4a7255e3";
-    sha256 = "1xjws0l8byrdaa04yw013pxqdp95qmn7iqqmxnyhjx1q67wibhv7";
-  };
-  patches = [
-    plug-patches/always-quickfix.patch
-    plug-patches/neomake-hdevtools.patch
-    plug-patches/neomake-explicit-clang.patch
-    plug-patches/neomake-no-stack.patch
-    plug-patches/neomake-mu.patch
-  ];
-  postPatch = ''
-    substituteInPlace autoload/neomake/makers/ft/cpp.vim \
-      --replace "executable('clang++')" "executable('${lessWrappedClang}/bin/clang++')" \
-      --replace "maker.exe = 'clang++'" "maker.exe = '${lessWrappedClang}/bin/clang++'" 
-    substituteInPlace autoload/neomake/makers/ft/c.vim \
-      --replace "executable('clang')" "executable('${lessWrappedClang}/bin/clang')" \
-      --replace "'exe': 'clang'" "'exe': '${lessWrappedClang}/bin/clang'" \
-      --replace "'exe': 'clang-tidy'" "'exe': '${clang-tools}/bin/clang-tidy'" \
-      --replace "'exe': 'clang-check'" "'exe': '${clang-tools}/bin/clang-check'" \
-  '';
 };
 
 "neosnippet-snippets" = {fetchFromGitHub}: vimPlugin rec {
@@ -406,20 +366,6 @@ in {
     rev = "63d8e98a84455e48ba00261366e6e08a2dee1284";
     sha256 = "01hkpkfsi4x4cb4lk8zbsh7hj2cawszf2dv63iqnkrw1mhd0nhhl";
   };
-};
-
-"vim-hdevtools" = {}: vimPlugin rec {
-  name = "vim-hdevtools-${version}";
-  version = "2016-07-08";
-  src = fetchFromGitHub {
-    owner = "parsonsmatt";
-    repo = "vim-hdevtools";
-    rev = "43ec8a167b3c69500f291a0e58a6779a3898de26";
-    sha256 = "198qabn6r5hvjbj9dlb7avzywhh3d5zghgdpli2x119ky1cgkmvq";
-  };
-  patches = [
-    ./plug-patches/hdevtools.patch
-  ];
 };
 
 "vim-hoogle" = {fetchFromGitHub}: vimPlugin rec {
@@ -709,5 +655,85 @@ in {
     sha256 = "12xzfjks3qgz39agi5fcmy3g41k4wa2l716nnp677xv9q5jda2nk";
   };
 };
+} // pkgs.lib.optionalAttrs (!useHIE) {
 
+"neco-ghc" = {}: vimPlugin rec {
+  name = "neco-ghc-${version}";
+  version = "2017-08-17";
+  src = fetchFromGitHub {
+    owner = "eagletmt";
+    repo = "neco-ghc";
+    rev = "faa033c05e6a6470d3d780e3931b4c9c72042009";
+    sha256 = "01l5n4x94sb6bhjhjx2sibs8gm3zla7hb6szdfgbdmdf7jlzazak";
+  };
+  patches = [
+    plug-patches/streamline-neco-ghc.patch
+  ];
+};
+
+"vim-hdevtools" = {}: vimPlugin rec {
+  name = "vim-hdevtools-${version}";
+  version = "2016-07-08";
+  src = fetchFromGitHub {
+    owner = "parsonsmatt";
+    repo = "vim-hdevtools";
+    rev = "43ec8a167b3c69500f291a0e58a6779a3898de26";
+    sha256 = "198qabn6r5hvjbj9dlb7avzywhh3d5zghgdpli2x119ky1cgkmvq";
+  };
+  patches = [
+    ./plug-patches/hdevtools.patch
+  ];
+};
+
+"neomake" = {lessWrappedClang, clang-tools}: vimPlugin rec {
+  name = "neomake-${version}";
+  version = "2018-03-17";
+  src = fetchFromGitHub {
+    owner = "neomake";
+    repo = "neomake";
+    rev = "a737744f53d28d5b279ba96dd6b87ead4a7255e3";
+    sha256 = "1xjws0l8byrdaa04yw013pxqdp95qmn7iqqmxnyhjx1q67wibhv7";
+  };
+  patches = [
+    plug-patches/always-quickfix.patch
+    plug-patches/neomake-hdevtools.patch
+    plug-patches/neomake-explicit-clang.patch
+    plug-patches/neomake-no-stack.patch
+    plug-patches/neomake-mu.patch
+  ];
+  postPatch = ''
+    substituteInPlace autoload/neomake/makers/ft/cpp.vim \
+      --replace "executable('clang++')" "executable('${lessWrappedClang}/bin/clang++')" \
+      --replace "maker.exe = 'clang++'" "maker.exe = '${lessWrappedClang}/bin/clang++'" 
+    substituteInPlace autoload/neomake/makers/ft/c.vim \
+      --replace "executable('clang')" "executable('${lessWrappedClang}/bin/clang')" \
+      --replace "'exe': 'clang'" "'exe': '${lessWrappedClang}/bin/clang'" \
+      --replace "'exe': 'clang-tidy'" "'exe': '${clang-tools}/bin/clang-tidy'" \
+      --replace "'exe': 'clang-check'" "'exe': '${clang-tools}/bin/clang-check'" \
+  '';
+};
+
+
+} // pkgs.lib.optionalAttrs useHIE {
+"LanguageClient-neovim" = {}:
+  let 
+    version = "2018-01-07";
+    name = "LanguageClient-neovim-${version}";
+    src = fetchFromGitHub {
+      owner = "autozimu";
+      repo = "LanguageClient-neovim";
+      rev = "61657c98d10c526194f56e31bbb0cf4d40b42d86";
+      sha256 = "1pk8s1kwz50v4w5j8ha50mgp2ki5lsjh2bc6l61kx5nw4lh6xjdv";
+    };
+    bin = pkgs.rustPlatform.buildRustPackage {
+      inherit name src;
+      cargoSha256 = "1d78nxl2bihi385yb7wcps1fjb4sbq77jc9awimzyq6jzsah6p2g";
+    };
+  in vimPlugin rec {
+    inherit name version src;
+    patchPhase = ''
+      substituteInPlace plugin/LanguageClient.vim \
+        --replace "let l:command = [s:root . '/bin/languageclient']" "let l:command = ['${bin}/bin/languageclient']"
+    '';
+  };
 }
