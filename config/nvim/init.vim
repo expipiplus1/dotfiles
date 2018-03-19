@@ -570,9 +570,13 @@ autocmd BufNewFile,BufRead *.fx,*.fxc,*.fxh,*.hlsl set ft=hlsl
 " deoplete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-if has('nvim')
+let s:use_deoplete=0
+if s:use_deoplete
+
   " Use deoplete.
   let g:deoplete#enable_at_startup = 1
+  " let g:deoplete#sources = {}
+  " let g:deoplete#sources.haskell = ["LanguageClient"]
   " Use smartcase.
   let g:deoplete#enable_ignore_case = 'ignorecase'
   let g:deoplete#enable_smart_case = 'infercase'
@@ -581,8 +585,8 @@ if has('nvim')
   " Don't squash types
   call deoplete#custom#set('_', 'converters', [])
 
-  let g:deoplete#auto_completion_start_length = 1
-  let g:deoplete#disable_auto_complete = 0
+  call deoplete#custom#source('LanguageClient', 'min_pattern_length', 1)
+  " call deoplete#custom#source('LanguageClient', 'is_volatile', 1)
 
   imap     <Nul> <C-Space>
   inoremap <expr><C-Space> deoplete#mappings#manual_complete()
@@ -601,7 +605,20 @@ if has('nvim')
   set completeopt=longest,menuone
   set completeopt+=noinsert
   set completeopt+=noselect
+else
+  " neovim completion module
 
+  set pumheight=10
+
+  let g:cm_matcher = {'module': 'cm_matchers.fuzzy_matcher', 'case:': 'smartcase'}
+
+  let g:cm_refresh_length = [[1,4],[7,1]]
+
+  imap <C-Space> <Plug>(cm_force_refresh)
+
+  " TODO: set cm_force_refresh to c-space
+  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -647,51 +664,53 @@ let g:syntastic_enable_async = 1
 " NeoMake
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-augroup AutoNeomake
-  autocmd!
-  autocmd BufWritePost *.hs,*.lhs,*.c,*.cpp,*.hpp,*.h call s:neomake()
-  autocmd BufReadPost *.hs,*.lhs,*.c,*.cpp,*.hpp,*.h call s:neomake()
-augroup END
+" TODO: enable these when neomake is around
 
-let &makeprg=("make " . $makeFlags)
-function! s:neomake()
-  if (filereadable("Makefile"))
-    Neomake!
-  else
-    Neomake
-  endif
-  call lightline#update()
-endfunction
+" augroup AutoNeomake
+"   autocmd!
+"   autocmd BufWritePost *.hs,*.lhs,*.c,*.cpp,*.hpp,*.h call s:neomake()
+"   autocmd BufReadPost *.hs,*.lhs,*.c,*.cpp,*.hpp,*.h call s:neomake()
+" augroup END
 
-function! s:GetBufferList()
-  redir =>buflist
-  silent! ls
-  redir END
-  return buflist
-endfunction
+" let &makeprg=("make " . $makeFlags)
+" function! s:neomake()
+"   if (filereadable("Makefile"))
+"     Neomake!
+"   else
+"     Neomake
+"   endif
+"   call lightline#update()
+" endfunction
 
-function! s:PopulateQuickFixPerhaps()
-  let l:l = len(getloclist(0))
-  if (l == 0)
-    cclose
-  else
-    call setqflist(getloclist(0))
-  endif
-endfunction
+" function! s:GetBufferList()
+"   redir =>buflist
+"   silent! ls
+"   redir END
+"   return buflist
+" endfunction
 
-let g:neomake_warning_sign = {
-      \ 'text': '❯',
-      \ 'texthl': 'String',
-      \ }
-let g:neomake_error_sign = {
-      \ 'text': '❯',
-      \ 'texthl': 'ErrorMsg',
-      \ }
+" function! s:PopulateQuickFixPerhaps()
+"   let l:l = len(getloclist(0))
+"   if (l == 0)
+"     cclose
+"   else
+"     call setqflist(getloclist(0))
+"   endif
+" endfunction
 
-let g:deoplete#sources#clang#autofill_neomake = 0
-let g:neomake_cpp_enabled_makers = ['clang']
-let g:neomake_c_enabled_makers = ['clang']
-let g:neomake_cpp_clang_args = ["-Wno-pragma-once-outside-header", "-Wno-unused-command-line-argument", "-fsyntax-only", "-std=c++14", "-Wall", "-fsanitize=undefined"]
+" let g:neomake_warning_sign = {
+"       \ 'text': '❯',
+"       \ 'texthl': 'String',
+"       \ }
+" let g:neomake_error_sign = {
+"       \ 'text': '❯',
+"       \ 'texthl': 'ErrorMsg',
+"       \ }
+
+" let g:deoplete#sources#clang#autofill_neomake = 0
+" let g:neomake_cpp_enabled_makers = ['clang']
+" let g:neomake_c_enabled_makers = ['clang']
+" let g:neomake_cpp_clang_args = ["-Wno-pragma-once-outside-header", "-Wno-unused-command-line-argument", "-fsyntax-only", "-std=c++14", "-Wall", "-fsanitize=undefined"]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Unimpared
@@ -993,7 +1012,6 @@ let g:startify_change_to_vcs_root = 1
 
 autocmd Filetype * nnoremap <nowait> <buffer> <leader>p <ESC>1z=e
 
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " comfortable-motion.vim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1012,6 +1030,15 @@ nnoremap <silent> <C-f> :call comfortable_motion#flick(g:comfortable_motion_impu
 nnoremap <silent> <C-b> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * -4)<CR>
 noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(40)<CR>
 noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Language server
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:LanguageClient_serverCommands = {
+  \ 'haskell': ['hie', '--lsp'],
+  \ }
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SCB

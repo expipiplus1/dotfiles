@@ -61,14 +61,25 @@ in {
   };
 };
 
-"deoplete.nvim" = {fetchFromGitHub}: vimPlugin rec {
-  name = "deoplete.nvim-${version}";
-  version = "2018-03-12";
+# "deoplete.nvim" = {fetchFromGitHub}: vimPlugin rec {
+#   name = "deoplete.nvim-${version}";
+#   version = "2018-03-19";
+#   src = fetchFromGitHub {
+#     owner = "Shougo";
+#     repo = "deoplete.nvim";
+#     rev = "0df0b9d84ce97426206c7a5aa6f51a2975dedd15";
+#     sha256 = "10zki2j5j6lm3rxcn52ndwlx39rqs9p3ayzzyhz9z5f0ivwbglcz";
+#   };
+# };
+
+"nvim-completion-manager" = {fetchFromGitHub}: vimPlugin rec {
+  name = "nvim-completion-manager-${version}";
+  version = "2017-12-28";
   src = fetchFromGitHub {
-    owner = "Shougo";
-    repo = "deoplete.nvim";
-    rev = "c3c9406bfb4207c057d6a366c88466256a6ea2bd";
-    sha256 = "13ks62da4lrcwcy3ip95nzyfvadfcjrww7c9n5322nibqqgcbda5";
+    owner = "roxma";
+    repo = "nvim-completion-manager";
+    rev = "e724a442072261993ca503e969d2cb25722ab1d2";
+    sha256 = "00q52vl06hgcinclszm21a3rx7ivc147p52w1p29icksc26yxhjb";
   };
 };
 
@@ -101,7 +112,7 @@ in {
 
 "fzf" = {}: vimPlugin rec {
   name = "fzf-${version}";
-  version = "2018-02-02";
+  version = "2018-03-13";
   src = fetchFromGitHub {
     owner = "junegunn";
     repo = "fzf";
@@ -112,7 +123,7 @@ in {
 
 "fzf.vim" = {}: vimPlugin rec {
   name = "fzf.vim-${version}";
-  version = "2018-02-02";
+  version = "2018-03-09";
   src = fetchFromGitHub {
     owner = "junegunn";
     repo = "fzf.vim";
@@ -687,12 +698,12 @@ in {
 
 "neomake" = {lessWrappedClang, clang-tools}: vimPlugin rec {
   name = "neomake-${version}";
-  version = "2018-03-17";
+  version = "2018-03-18";
   src = fetchFromGitHub {
     owner = "neomake";
     repo = "neomake";
-    rev = "a737744f53d28d5b279ba96dd6b87ead4a7255e3";
-    sha256 = "1xjws0l8byrdaa04yw013pxqdp95qmn7iqqmxnyhjx1q67wibhv7";
+    rev = "b225234f71983ed95aac6efb8e4c43ee950a4f20";
+    sha256 = "19v0c710yyjd0rlhz43frsh1kcdnj602xz7flqfpv6kbcr5lsq22";
   };
   patches = [
     plug-patches/always-quickfix.patch
@@ -731,7 +742,7 @@ in {
     };
   in vimPlugin rec {
     inherit name version src;
-    patchPhase = ''
+    postPatch = ''
       substituteInPlace plugin/LanguageClient.vim \
         --replace "let l:command = [s:root . '/bin/languageclient']" "let l:command = ['${bin}/bin/languageclient']"
     '';
