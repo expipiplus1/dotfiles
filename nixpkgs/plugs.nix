@@ -97,6 +97,28 @@ in {
   };
 };
 
+"fzf" = {}: vimPlugin rec {
+  name = "fzf-${version}";
+  version = "2018-02-02";
+  src = fetchFromGitHub {
+    owner = "junegunn";
+    repo = "fzf";
+    rev = "21b94d2de5bdf2d8c4e8107e4c197a2abc1e7275";
+    sha256 = "1v1fqc24q556ykjy7al65z0019amhfx3vg7vfm9ax58ziw3ybbga";
+  };
+};
+
+"fzf.vim" = {}: vimPlugin rec {
+  name = "fzf.vim-${version}";
+  version = "2018-02-02";
+  src = fetchFromGitHub {
+    owner = "junegunn";
+    repo = "fzf.vim";
+    rev = "a362bc58f1fbbfbbbef749851006e46155979c7d";
+    sha256 = "187d7aw5g7nr6cg5la86kdplb32zy58w1mfm3npb47qm9sydgql6";
+  };
+};
+
 "gist-vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "gist-vim-${version}";
   version = "2016-10-10";
