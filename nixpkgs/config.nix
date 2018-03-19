@@ -255,26 +255,27 @@ rec {
         asciinema
         aspell
         aspellDicts.en
+        binutils
         clang-tools
         coreutils
         curl
+        file
+        fzf
+        fzy
+        gist
         git
+        gitAndTools.hub
         htop
         irssi
+        jq
+        mosh
         nox
         silver-searcher
         tig
         tmux
-        zsh
-        fzy
         tree
-        gist
-        gitAndTools.hub
-        jq
         tssh
-        file
-        binutils
-        mosh
+        zsh
       ];
     };
 
