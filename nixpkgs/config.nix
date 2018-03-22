@@ -282,7 +282,7 @@ rec {
     pandocEnv = buildEnv {
       name = "pandoc-env";
       paths = [
-        (import <nixpkgs> {}).pandoc
+        pandoc
         pdftk
         tex
       ];
