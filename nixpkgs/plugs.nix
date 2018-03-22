@@ -48,6 +48,17 @@ in {
   };
 };
 
+"comfortable-motion.vim" = {fetchFromGitHub}: vimPlugin rec {
+  name = "comfortable-motion.vim-${version}";
+  version = "2018-02-20";
+  src = fetchFromGitHub {
+    owner = "yuttie";
+    repo = "comfortable-motion.vim";
+    rev = "e20aeafb07c6184727b29f7674530150f7ab2036";
+    sha256 = "13chwy7laxh30464xmdzjhzfcmlcfzy11i8g4a4r11m1cigcjljb";
+  };
+};
+
 "deoplete.nvim" = {fetchFromGitHub}: vimPlugin rec {
   name = "deoplete.nvim-${version}";
   version = "2017-06-03";
@@ -467,16 +478,6 @@ in {
   };
 };
 
-"vim-smooth-scroll" = {fetchFromGitHub}: vimPlugin rec {
-  name = "vim-startify-${version}";
-  version = "2013-04-05";
-  src = fetchFromGitHub {
-    owner = "terryma";
-    repo = "vim-smooth-scroll";
-    rev = "0eae2367c70c3415b97869346af1b5e30c123dff";
-    sha256 = "1qzfibkjnpdn12n02bc11099yp3wycnnw43wrmp1fhlzq81ziviq";
-  };
-};
 
 "vim-startify" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-startify-${version}";
