@@ -52,22 +52,26 @@ rec {
               babel
               booktabs
               cm-super
+              collection-fontsextra
+              collection-fontsrecommended
               ec
-              euenc
               etoolbox
+              euenc
               fontspec
               greek-inputenc
               lm
               mathspec
+              pgf
+              pgfgantt
+              pgfkeyx
               scheme-basic
               siunitx
+              standalone
+              xcolor
               xetex
-              xetex-def
               xkeyval
               xunicode
               zapfding
-              collection-fontsrecommended
-              collection-fontsextra
               ;
     };
 
