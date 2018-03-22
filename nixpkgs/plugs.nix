@@ -478,7 +478,6 @@ in {
   };
 };
 
-
 "vim-startify" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-startify-${version}";
   version = "2017-05-30";
