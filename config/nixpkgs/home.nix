@@ -8,6 +8,7 @@
     ./home/neovim.nix
     ./home/tex.nix
     ./home/haskell.nix
+    ./home/scb.nix
   ];
 
   # Let Home Manager install and manage itself.
