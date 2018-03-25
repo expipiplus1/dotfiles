@@ -13,7 +13,7 @@ let
   haskellPackageGen = { doFilter ? true }: src:
     let filteredSrc = builtins.filterSource (n: t: t != "unknown") src;
         package = pkgs.runCommand "default.nix" {} ''
-          ${haskellPackages.cabal2nix}/bin/cabal2nix \
+          ${pkgs.haskellPackages.cabal2nix}/bin/cabal2nix \
             ${if doFilter then filteredSrc else src} \
             > "$out"
         '';
