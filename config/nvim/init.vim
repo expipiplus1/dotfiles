@@ -572,7 +572,6 @@ autocmd BufNewFile,BufRead *.fx,*.fxc,*.fxh,*.hlsl set ft=hlsl
 
 let s:use_deoplete=0
 if s:use_deoplete
-
   " Use deoplete.
   let g:deoplete#enable_at_startup = 1
   " let g:deoplete#sources = {}
