@@ -12,9 +12,6 @@ rec {
     monad-memo = overrideAttrs super.monad-memo {
       doCheck = false;
     };
-    iridium = overrideAttrs super.iridium {
-      jailbreak = true;
-    };
     HaRe = overrideAttrs super.HaRe {
       doCheck = false;
     };
