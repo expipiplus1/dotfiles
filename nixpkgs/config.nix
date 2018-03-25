@@ -40,6 +40,16 @@ rec {
         sha256 = "1v7j93wcffrc3pqbfi93l4zc1cash38bnjhvzpqwv644rcyjpgnh";
       };
     };
+    # TODO: Check for GHC version
+    hie =
+      let src = pkgs.fetchFromGitHub {
+        owner = "domenkozar";
+        repo = "hie-nix";
+        rev = "42f5b02d7614c2a7854ac3c1a0ffa06ca0907b35";
+        sha256 = "16j0jmr01kljxkb5kvn1xqm6a5n5zr6ayxxqhq3ddfbg4y224ckw";
+      };
+      in
+        (import src {inherit pkgs;}).hie82;
   };
 
   tex = with pkgs;
@@ -231,7 +241,9 @@ rec {
       (ghc802Packages (haskell.packages.ghc802.override{overrides = haskellPackageOverrides;})) ++
       (ghc8Packages (haskell.packages.ghc822.override{overrides = haskellPackageOverrides;})) ++
       (ghc7Packages (haskell.packages.ghc7103.override{overrides = haskellPackageOverrides;})) ++
-      [(import ./iridium-stack.nix {inherit pkgs;}).iridium];
+      [ (import ./iridium-stack.nix {inherit pkgs;}).iridium
+        haskellPackages.hie
+      ];
     };
 
 
