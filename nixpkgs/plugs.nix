@@ -28,17 +28,6 @@ let
   '';
 
 in {
-"Align" = {fetchFromGitHub}: vimPlugin rec {
-  name = "Align-${version}";
-  version = "2012-08-07";
-  src = fetchFromGitHub {
-    owner = "vim-scripts";
-    repo = "Align";
-    rev = "787662fe90cd057942bc5b682fd70c87e1a9dd77";
-    sha256 = "0acacr572kfh7jvavbw61q5pkwrpi1albgancma063rpax1pddgp";
-  };
-};
-
 "base16-vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "base16-vim-${version}";
   version = "2018-01-04";
