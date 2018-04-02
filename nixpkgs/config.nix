@@ -265,7 +265,7 @@ rec {
       name = "dev-env";
       paths = [
         asciinema
-        aspell
+        (aspellWithDicts (ps: with ps; [en]))
         aspellDicts.en
         binutils
         clang-tools
