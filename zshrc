@@ -127,6 +127,7 @@ alias gs='git status'
 alias gd='git diff'
 alias cb='cabal build -j8'
 alias nb='nix-build -j8'
+alias ne="nix-env -f '<nixpkgs>'"
 
 if type xdg-open > /dev/null; then
 open(){
