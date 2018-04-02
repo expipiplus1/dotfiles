@@ -193,10 +193,8 @@ else
 endif
 
 " needs base16-shell run
-if has('nvim')
-  let base16colorspace=256
-  colorscheme base16-tomorrow
-endif
+let base16colorspace=256
+colorscheme base16-tomorrow
 
 if &background == "light"
   hi QuickFixLine ctermbg=21 guibg=#e0e0e0
