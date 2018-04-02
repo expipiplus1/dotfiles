@@ -83,9 +83,6 @@ fi
 if [ -d "$HOME/devenv/bin" ] ; then
     PATH="$PATH:$HOME/devenv/bin"
 fi
-if [ -d "$HOME/.nix-profile/bin" ] ; then
-    PATH="$HOME/.nix-profile/bin:$PATH"
-fi
 
 export MANPATH="$HOME/.nix-profile/share/man:$MANPATH"
 
