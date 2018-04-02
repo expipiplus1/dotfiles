@@ -30,14 +30,15 @@ let
 in {
 "base16-vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "base16-vim-${version}";
-  version = "2018-01-04";
+  version = "2016-06-25";
   src = fetchFromGitHub {
     owner = "chriskempson";
     repo = "base16-vim";
-    rev = "97f2feb554471760f72cb6e4f872fde0f825b4b3";
-    sha256 = "1klrd5gm6l0bs7ngcngdfzx0yq1w8cpmgxc7hi48xssz58qn5dw7";
+    rev = "9daeb991ee51977c3deea4b45846abfab34e9439";
+    sha256 = "0n9pcpam15vrnjdl3ghlsr02kldwzi4dlb1w2mwfi57fp65akbnd";
   };
 };
+
 
 "comfortable-motion.vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "comfortable-motion.vim-${version}";
