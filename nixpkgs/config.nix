@@ -187,6 +187,8 @@ rec {
       '';
     };
 
+    weechat = super.weechat.override { aspell = aspellWithDicts (ps: [ps.en]); };
+
     tssh = writeTextFile {
       name = "tssh";
       text = ''
