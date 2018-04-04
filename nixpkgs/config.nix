@@ -267,7 +267,6 @@ rec {
         asciinema
         (aspellWithDicts (ps: with ps; [en]))
         aspellDicts.en
-        binutils
         clang-tools
         coreutils
         curl
@@ -278,7 +277,6 @@ rec {
         git
         gitAndTools.hub
         htop
-        irssi
         jq
         mosh
         nox
