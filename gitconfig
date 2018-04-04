@@ -27,3 +27,6 @@
 	ui = auto
 [rebase]
 	instructionFormat = [%an] %s
+[oh-my-zsh]
+  only-branch = 1
+
