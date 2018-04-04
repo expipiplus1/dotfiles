@@ -203,8 +203,8 @@ rec {
     upfind = import (pkgs.fetchFromGitHub {
       owner = "expipiplus1";
       repo = "upfind";
-      rev = "325f7f5be5f051ba7b54f38534f69e511b020fea";
-      sha256 = "1nvk941k649m9v9pgskqnmyknvp32hxq8cg70cjy50c8kqj1lj0r";
+      rev = "e4514757b8a66cbf778bb03365b14e8bab2001b1";
+      sha256 = "0mrzxibaxjvvpfvg8aszbn8jyld4bq47lnva2dc4mr2x6rhkr5jd";
     }) {inherit pkgs;};
 
     #
