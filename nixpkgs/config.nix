@@ -194,7 +194,7 @@ rec {
       text = ''
         #/usr/bin/env sh
         # ${pkgs.openssh}/bin/ssh "$@" -t -- tmux new-session -A -s main
-        ${pkgs.mosh}/bin/mosh "$@" -- tmux attach
+        ${pkgs.mosh}/bin/mosh --server=.nix-profile/bin/mosh-server "$@" -- .nix-profile/bin/tmux attach
       '';
       executable = true;
       destination = "/bin/tssh";
