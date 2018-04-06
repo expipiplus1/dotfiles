@@ -155,6 +155,7 @@ rec {
 
     neovim-unconfigured = super.neovim;
     neovim-rtp = (import ./vim.nix {inherit pkgs neovim-unconfigured;}).rtpFile;
+    neovim-rtp-cygwin = (import ./vim.nix {inherit pkgs neovim-unconfigured; cygwin = true;}).rtpFile;
     neovim = stdenv.mkDerivation {
       name = "neovim-configured";
 
