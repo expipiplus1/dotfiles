@@ -42,7 +42,7 @@ in {
 
 "comfortable-motion.vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "comfortable-motion.vim-${version}";
-  version = "2018-02-20";
+  version = "2018-02-23";
   src = fetchFromGitHub {
     owner = "yuttie";
     repo = "comfortable-motion.vim";
@@ -102,12 +102,12 @@ in {
 
 "fzf" = {}: vimPlugin rec {
   name = "fzf-${version}";
-  version = "2018-03-13";
+  version = "2018-04-06";
   src = fetchFromGitHub {
     owner = "junegunn";
     repo = "fzf";
-    rev = "21b94d2de5bdf2d8c4e8107e4c197a2abc1e7275";
-    sha256 = "1v1fqc24q556ykjy7al65z0019amhfx3vg7vfm9ax58ziw3ybbga";
+    rev = "851fa382519edc10a887d893abf54af3588c8de2";
+    sha256 = "17y785472vg576ngibds8i4xh06jvs8c2lm46r905zfcv858sdqp";
   };
 };
 
@@ -194,12 +194,12 @@ in {
 
 "neosnippet-snippets" = {fetchFromGitHub}: vimPlugin rec {
   name = "neosnippet-snippets-${version}";
-  version = "2018-03-12";
+  version = "2018-04-04";
   src = fetchFromGitHub {
     owner = "Shougo";
     repo = "neosnippet-snippets";
-    rev = "4aaa1713c88a74e340a97afa80d0b935f60bfecd";
-    sha256 = "10i2b9b8la3ia2f0nkg2bfjz54h0b1slqn1jrb7a8iwg5jmsn7yh";
+    rev = "04458823b3d1c4ffdb6c49a2fd25a36d55ed4dc4";
+    sha256 = "095zfy6c11ddcrrpv48g1n39lcrnnkivyz66rbk36hy6kwjqqs5q";
   };
 };
 
@@ -327,12 +327,12 @@ in {
 
 "vim-commentary" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-commentary-${version}";
-  version = "2017-10-09";
+  version = "2018-04-06";
   src = fetchFromGitHub {
     owner = "tpope";
     repo = "vim-commentary";
-    rev = "89f43af18692d22ed999c3097e449f12fdd8b299";
-    sha256 = "0nqm4s00c607r58fz29n67r2z5p5r9qayl5y1chy8bcrl59m17a2";
+    rev = "296d99b353261191adb7a356ee3fefbce8e6096b";
+    sha256 = "1n29rbgm2464byncmgxbvyizmag1gzswg00nfg2387nwprmpg7zj";
   };
 };
 
@@ -360,12 +360,12 @@ in {
 
 "vim-fugitive" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-fugitive-${version}";
-  version = "2018-03-14";
+  version = "2018-04-06";
   src = fetchFromGitHub {
     owner = "tpope";
     repo = "vim-fugitive";
-    rev = "3e0bd86b99c50691f830d9e25a4bbe2a88078f8f";
-    sha256 = "1prfb0m61r499i35qn1ql2pag5w64mhpkby4wbbvlpm50xwq8w9b";
+    rev = "b680699450805e01960184b60a2cf0d3a71088cf";
+    sha256 = "1ixsmdn2yarb8yz5n0kdcjsif94r3myhv03l5a3f2lasly6hlk6m";
   };
 };
 
@@ -416,12 +416,12 @@ in {
 
 "vim-nix" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-nix-${version}";
-  version = "2018-02-25";
+  version = "2018-03-27";
   src = fetchFromGitHub {
     owner = "LnL7";
     repo = "vim-nix";
-    rev = "36c5feb514930e8fb8e2f4567d6b0d9e806fc2eb";
-    sha256 = "1v0vm0h5j6zzwhm5gw3xcmckswma3a5kxyli34i8hy14yli0ff3d";
+    rev = "397df60e143e26418ed08a9a984013d62442cad6";
+    sha256 = "0s0sclf01m4jjql8r10s9277yrpwkn18zn2dk62nz3dvhcvd26ai";
   };
 };
 
@@ -460,12 +460,12 @@ in {
 
 "vim-startify" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-startify-${version}";
-  version = "2018-03-18";
+  version = "2018-04-03";
   src = fetchFromGitHub {
     owner = "mhinz";
     repo = "vim-startify";
-    rev = "50d4c51607c5301b70804a864e15b689e25876ff";
-    sha256 = "1rlzw6kp7d6drgmz27l33jh830cm0ir65w7drgs400dpzzlc233w";
+    rev = "113655717e3ee1c4bc39e5d1093719a8e5750ee0";
+    sha256 = "16bga9xrz4wga7h7spc9rsdj7m7hh2fqr23xnqflw1rx95c18avr";
   };
   patches = [
     plug-patches/stylish-git-workspace.patch
@@ -501,12 +501,12 @@ in {
 
 "vim-table-mode" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-table-mode-${version}";
-  version = "2018-03-17";
+  version = "2018-03-22";
   src = fetchFromGitHub {
     owner = "dhruvasagar";
     repo = "vim-table-mode";
-    rev = "d0a640518957417ce689411d807dff3bf9eca194";
-    sha256 = "1b6mka45lhb7n06pjxg697ha63gg4vw6zgj0v037w1izj619xa33";
+    rev = "e646bee5c45201b52f8f879eddf84b5c2e360e98";
+    sha256 = "1kaszrik5mqrvavl0lzfy9i0r3b2vf1jmjxp23azy0jfanflrxwa";
   };
 };
 
@@ -699,12 +699,12 @@ in {
 
 "neomake" = {lessWrappedClang, clang-tools}: vimPlugin rec {
   name = "neomake-${version}";
-  version = "2018-03-18";
+  version = "2018-04-06";
   src = fetchFromGitHub {
     owner = "neomake";
     repo = "neomake";
-    rev = "b225234f71983ed95aac6efb8e4c43ee950a4f20";
-    sha256 = "19v0c710yyjd0rlhz43frsh1kcdnj602xz7flqfpv6kbcr5lsq22";
+    rev = "636639d51a8c107bcebd555fdce3447dd09c9281";
+    sha256 = "0fzpzk62wy3m94lnvl5m7353rmq4mxrmw79saxwka1x5ghrdk6g2";
   };
   patches = [
     plug-patches/always-quickfix.patch
