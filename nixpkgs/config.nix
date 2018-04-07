@@ -155,6 +155,7 @@ rec {
 
     neovim-unconfigured = super.neovim;
     neovim-rtp = (import ./vim.nix {inherit pkgs neovim-unconfigured;}).rtpFile;
+    neovim-rtp-cygwin = (import ./vim.nix {inherit pkgs neovim-unconfigured; cygwin = true;}).rtpFile;
     neovim = stdenv.mkDerivation {
       name = "neovim-configured";
 
@@ -180,7 +181,7 @@ rec {
       extraBuildCommands = ''
         sed -i 's|-B[^ ]*||g' $out/nix-support/libc-cflags
         sed -i 's|-B[^ ]*||g' $out/nix-support/cc-cflags
-        sed -i 2d $out/nix-support/add-flags.sh 
+        sed -i 2d $out/nix-support/add-flags.sh
         substituteInPlace $out/bin/clang \
           --replace "source $out/nix-support/add-hardening.sh" "" \
           --replace "dontLink=0" "dontLink=1"
@@ -198,7 +199,7 @@ rec {
       text = ''
         #/usr/bin/env sh
         # ${pkgs.openssh}/bin/ssh "$@" -t -- tmux new-session -A -s main
-        ${pkgs.mosh}/bin/mosh "$@" -- tmux attach
+        ${pkgs.mosh}/bin/mosh --server=.nix-profile/bin/mosh-server "$@" -- .nix-profile/bin/tmux attach
       '';
       executable = true;
       destination = "/bin/tssh";
@@ -207,8 +208,8 @@ rec {
     upfind = import (pkgs.fetchFromGitHub {
       owner = "expipiplus1";
       repo = "upfind";
-      rev = "325f7f5be5f051ba7b54f38534f69e511b020fea";
-      sha256 = "1nvk941k649m9v9pgskqnmyknvp32hxq8cg70cjy50c8kqj1lj0r";
+      rev = "e4514757b8a66cbf778bb03365b14e8bab2001b1";
+      sha256 = "0mrzxibaxjvvpfvg8aszbn8jyld4bq47lnva2dc4mr2x6rhkr5jd";
     }) {inherit pkgs;};
 
     #
@@ -271,7 +272,6 @@ rec {
         asciinema
         (aspellWithDicts (ps: with ps; [en]))
         aspellDicts.en
-        binutils
         clang-tools
         coreutils
         curl

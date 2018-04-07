@@ -1,4 +1,4 @@
-{ pkgs, neovim-unconfigured }:
+{ pkgs, neovim-unconfigured, extraAttrs ? {} }:
 
 
 let
@@ -7,7 +7,7 @@ let
   inherit (pkgs.stdenv) mkDerivation;
   inherit (pkgs) fetchFromGitHub;
 
-  vimPlugin = { name, version, src, postPatch ? "", patches ? [], patchPhase ? "" }: mkDerivation {
+  vimPlugin = { name, version, src, postPatch ? "", patches ? [], patchPhase ? "" }: mkDerivation ({
     inherit name version src patches postPatch patchPhase;
     forceShare= [ "man" "info" ];
     buildPhase = "true";
@@ -18,7 +18,7 @@ let
       runHook postInstall
     '';
     inherit postInstall;
-  };
+  } // extraAttrs);
 
   postInstall = ''
     # From vimHelpTags in nixpkgs
