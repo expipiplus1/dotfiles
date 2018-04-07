@@ -187,7 +187,11 @@ rec {
       '';
     };
 
-    weechat = super.weechat.override { aspell = aspellWithDicts (ps: [ps.en]); };
+    weechat = super.weechat.override {
+      aspell = pkgs.aspellWithDicts (ps: [ps.en]);
+      useEnchant = true;
+      enchantHunspellDicts = [pkgs.hunspellDicts.en-us];
+    };
 
     tssh = writeTextFile {
       name = "tssh";
@@ -278,7 +282,7 @@ rec {
         git
         gitAndTools.hub
         htop
-        irssi
+        weechat
         jq
         mosh
         nox
