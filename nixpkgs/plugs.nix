@@ -303,6 +303,17 @@ in {
   };
 };
 
+"vim-better-whitespacea" = {fetchFromGitHub}: vimPlugin rec {
+  name = "vim-better-whitespace-${version}";
+  version = "2018-03-04";
+  src = fetchFromGitHub {
+    owner = "ntpeters";
+    repo = "vim-better-whitespace";
+    rev = "ca9d5bdfa83d6df5d54be437db5cc9f5d3702b7c";
+    sha256 = "07m39lnmcwdhvs8im2acizfxss20vlyxvk31lxkzcnkqa5s2cr21";
+  };
+};
+
 "vim-clang-format" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-clang-format-${version}";
   version = "2018-02-01";
