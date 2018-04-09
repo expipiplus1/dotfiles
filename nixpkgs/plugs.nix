@@ -2,7 +2,7 @@
 
 
 let
-  useHIE = true; 
+  useHIE = true;
 
   inherit (pkgs.stdenv) mkDerivation;
   inherit (pkgs) fetchFromGitHub;
@@ -85,7 +85,7 @@ in {
   patchPhase = ''
     substituteInPlace rplugin/python3/deoplete/sources/deoplete_clang2.py \
       --replace "'deoplete#sources#clang#executable', 'clang')"  \
-                "'deoplete#sources#clang#executable', '${lessWrappedClang}/bin/clang')" 
+                "'deoplete#sources#clang#executable', '${lessWrappedClang}/bin/clang')"
   '';
 };
 
@@ -716,7 +716,7 @@ in {
   postPatch = ''
     substituteInPlace autoload/neomake/makers/ft/cpp.vim \
       --replace "executable('clang++')" "executable('${lessWrappedClang}/bin/clang++')" \
-      --replace "maker.exe = 'clang++'" "maker.exe = '${lessWrappedClang}/bin/clang++'" 
+      --replace "maker.exe = 'clang++'" "maker.exe = '${lessWrappedClang}/bin/clang++'"
     substituteInPlace autoload/neomake/makers/ft/c.vim \
       --replace "executable('clang')" "executable('${lessWrappedClang}/bin/clang')" \
       --replace "'exe': 'clang'" "'exe': '${lessWrappedClang}/bin/clang'" \
@@ -728,7 +728,7 @@ in {
 
 } // pkgs.lib.optionalAttrs useHIE {
 "LanguageClient-neovim" = {}:
-  let 
+  let
     version = "2018-01-07";
     name = "LanguageClient-neovim-${version}";
     src = fetchFromGitHub {
