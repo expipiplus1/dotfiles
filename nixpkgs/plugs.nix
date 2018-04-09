@@ -170,6 +170,17 @@ in {
   };
 };
 
+"lessspace.vim" = {fetchFromGitHub}: vimPlugin rec {
+  name = "lessspace.vim-${version}";
+  version = "2018-03-06";
+  src = fetchFromGitHub {
+    owner = "thirtythreeforty";
+    repo = "lessspace.vim";
+    rev = "fd16589b8b0a45a7ed5ce48f24c71fae21950057";
+    sha256 = "1kddb2vrvs6km15wwlygz8d2klb53nkbr7xfwx3bpg8r5d4iapa4";
+  };
+};
+
 "lightline.vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "lightline.vim-${version}";
   version = "2018-01-31";
@@ -300,17 +311,6 @@ in {
     repo = "vim-abolish";
     rev = "b6a8b49e2173ba5a1b34d00e68e0ed8addac3ebd";
     sha256 = "0i9q3l7r5p8mk4in3c1j4x0jbln7ir9lg1cqjxci0chjjzfzc53m";
-  };
-};
-
-"vim-better-whitespacea" = {fetchFromGitHub}: vimPlugin rec {
-  name = "vim-better-whitespace-${version}";
-  version = "2018-03-04";
-  src = fetchFromGitHub {
-    owner = "ntpeters";
-    repo = "vim-better-whitespace";
-    rev = "ca9d5bdfa83d6df5d54be437db5cc9f5d3702b7c";
-    sha256 = "07m39lnmcwdhvs8im2acizfxss20vlyxvk31lxkzcnkqa5s2cr21";
   };
 };
 

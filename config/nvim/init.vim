@@ -830,19 +830,6 @@ else
   hi ColorColumn ctermbg=18 guibg=#282a2e
 endif
 
-" Strip trailing whitespace
-" automatically remove trailing whitespace before write
-function! StripTrailingWhitespace()
-  normal mZ
-  %s/\s\+$//e
-  if line("'Z") != line(".")
-    echo "Stripped whitespace\n"
-  endif
-  normal `Z
-endfunction
-
-nnoremap <nowait> <leader>s :call StripTrailingWhitespace()<CR>
-
 autocmd FileType haskell let b:easytags_auto_highlight = 1
 
 let g:easytags_languages = {
@@ -1040,7 +1027,9 @@ let g:LanguageClient_serverCommands = {
 " vim-better-whitespace
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:better_whitespace_enabled=1
+" Don't highlight whitespace
+let g:better_whitespace_enabled=0
+
 let g:strip_whitespace_on_save=1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
