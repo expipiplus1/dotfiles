@@ -1,9 +1,7 @@
-{ pkgs, neovim-unconfigured, extraAttrs ? {} }:
+{ pkgs, neovim-unconfigured, extraAttrs ? {}, useHIE ? true }:
 
 
 let
-  useHIE = true;
-
   inherit (pkgs.stdenv) mkDerivation;
   inherit (pkgs) fetchFromGitHub;
 
