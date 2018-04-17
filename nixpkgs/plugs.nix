@@ -42,16 +42,17 @@ let
 };
 
 
-"comfortable-motion.vim" = {fetchFromGitHub}: vimPlugin rec {
-  name = "comfortable-motion.vim-${version}";
-  version = "2018-02-23";
-  src = fetchFromGitHub {
-    owner = "yuttie";
-    repo = "comfortable-motion.vim";
-    rev = "e20aeafb07c6184727b29f7674530150f7ab2036";
-    sha256 = "13chwy7laxh30464xmdzjhzfcmlcfzy11i8g4a4r11m1cigcjljb";
-  };
-};
+
+# "ctrlp.vim" = {fetchFromGitHub}: vimPlugin rec {
+#   name = "ctrlp.vim-${version}";
+#   version = "2018-02-20";
+#   src = fetchFromGitHub {
+#     owner = "ctrlpvim";
+#     repo = "ctrlp.vim";
+#     rev = "c13c1249fd3bf99c44eb80dfabd7eb7ea0fe09bd";
+#     sha256 = "1x5ykqx9g1hxi7fk7cg9hnh9778fpr65bkinbykqc306dbnrdy4g";
+#   };
+# };
 
 # "deoplete.nvim" = {fetchFromGitHub}: vimPlugin rec {
 #   name = "deoplete.nvim-${version}";
