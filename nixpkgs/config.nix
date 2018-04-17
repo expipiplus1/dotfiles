@@ -70,7 +70,8 @@ rec {
 
   packageOverrides = super: let pkgs = super.pkgs; in with pkgs; rec {
 
-    asciidoctor = (import (builtins.getEnv "HOME" + "/src/nixpkgs2") {config = {};}).asciidoctor;
+    asciidoctor =
+      (import (builtins.getEnv "HOME" + "/src/nixpkgs2") {config = {};}).asciidoctor;
 
     #
     # Irssi with a bunch of perl packages my config needs
