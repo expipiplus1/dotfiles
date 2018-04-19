@@ -234,24 +234,12 @@ rec {
       upfind
     ];
 
-    ghc802Packages = hp: with hp; [
-      # hackage-diff
-      # pointfree
-      # HaRe
-      # ghc-mod
-    ];
-
-    ghc7Packages = hp: with hp; [
-    ];
-
     haskell-env = buildEnv {
       name = "haskell-env";
       paths = [
         cabal-install
       ] ++
-      (ghc802Packages (haskell.packages.ghc802.override{overrides = haskellPackageOverrides;})) ++
       (ghc8Packages (haskell.packages.ghc822.override{overrides = haskellPackageOverrides;})) ++
-      (ghc7Packages (haskell.packages.ghc7103.override{overrides = haskellPackageOverrides;})) ++
       [ (import ./iridium-stack.nix {inherit pkgs;}).iridium
         haskellPackages.hie
       ];
