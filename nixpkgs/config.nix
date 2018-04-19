@@ -9,6 +9,8 @@ rec {
         mkDerivation = expr: args.mkDerivation (expr // newAttrs);
       });
   in with pkgs.haskell.lib; self: super: {
+    vulkan = import /home/j/projects/vulkan {inherit pkgs;};
+
     monad-memo = overrideAttrs super.monad-memo {
       doCheck = false;
     };
@@ -83,6 +85,8 @@ rec {
     };
 
   packageOverrides = super: let pkgs = super.pkgs; in with pkgs; rec {
+
+    asciidoctor = (import (builtins.getEnv "HOME" + "/src/nixpkgs2") {config = {};}).asciidoctor;
 
     #
     # Irssi with a bunch of perl packages my config needs
