@@ -369,6 +369,17 @@ in {
   };
 };
 
+"vim-gh-line" = {fetchFromGitHub}: vimPlugin rec {
+  name = "vim-gh-line-${version}";
+  version = "2018-04-02";
+  src = fetchFromGitHub {
+    owner = "ruanyl";
+    repo = "vim-gh-line";
+    rev = "4d5b9385f0ed152cbb91afd2658f125749e446e5";
+    sha256 = "08bdk5zc5b450rphlaw598yqqjy5h8mwk2w7m5lnr2ymzyxlh78m";
+  };
+};
+
 "vim-hare" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-hare-${version}";
   version = "2016-04-20";
