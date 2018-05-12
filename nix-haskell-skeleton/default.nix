@@ -1,30 +1,24 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> {}, compiler ? "ghc822" }:
 
-let
-  haskellPackages = pkgs.haskell.packages.ghc822.override{
-    overrides =
-      let overrideAttrs = package: newAttrs: package.override (args: args // {
-              mkDerivation = expr: args.mkDerivation (expr // newAttrs);
-            });
-      in self: super: {
-        };
+# Strip out the irrelevant parts of the source
+let src = with pkgs.lib;
+          let p = n: (toString ./dist) == n;
+          in cleanSourceWith {filter = (n: t: !p n); src = cleanSource ./.;};
+
+    haskellPackages = pkgs.haskell.packages.${compiler}.override {
+      overrides = self: super: {
       };
+    };
 
-  haskellPackageGen = { doFilter ? true }: src:
-    let filteredSrc = builtins.filterSource (n: t: t != "unknown") src;
-        package = pkgs.runCommand "default.nix" {} ''
-          ${pkgs.haskellPackages.cabal2nix}/bin/cabal2nix \
-            ${if doFilter then filteredSrc else src} \
-            > "$out"
-        '';
-    in import package;
+    extraEnvPackages = [
+    ];
 
-  drv = haskellPackages.callPackage (haskellPackageGen {} ./.) {};
+    drv =
+      haskellPackages.callCabal2nix "package_name" src {};
 
-  extraEnvPackages = with haskellPackages; [];
+    envWithExtras = pkgs.lib.overrideDerivation drv.env (attrs: {
+      buildInputs = attrs.buildInputs ++ extraEnvPackages;
+    });
 
-  envWithExtras = pkgs.lib.overrideDerivation drv.env (attrs: {
-    buildInputs = attrs.buildInputs ++ extraEnvPackages;
-  });
-
-in drv // { env = envWithExtras; }
+in
+  drv // { env = envWithExtras; }

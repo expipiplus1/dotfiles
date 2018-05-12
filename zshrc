@@ -149,6 +149,7 @@ ns(){
 
 c2n(){
   cp -v -n "$HOME/dotfiles/nix-haskell-skeleton/default.nix" "$HOME/dotfiles/nix-haskell-skeleton/shell.nix" .
+  sed -i "s/package_name/$(basename --suffix .cabal *.cabal)/" default.nix
 }
 
 sr(){
