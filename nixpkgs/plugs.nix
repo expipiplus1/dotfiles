@@ -699,12 +699,12 @@ in {
 
 "neomake" = {lessWrappedClang, clang-tools}: vimPlugin rec {
   name = "neomake-${version}";
-  version = "2018-04-18";
+  version = "2018-04-20";
   src = fetchFromGitHub {
     owner = "neomake";
     repo = "neomake";
-    rev = "51010403903ff7dd6497d46b958924f1270aaae4";
-    sha256 = "021lw22p3f5wwk7xi4dphlbpmyy9rql0f6ndzj546kbby6nd0r53";
+    rev = "b16ed7083556315a48d0f1a402d135f1feb900cd";
+    sha256 = "0x6p2g0jh94111qsi0xkl52rrgd4ync7715mpbf9k9w56w9hps4b";
   };
   patches = [
     plug-patches/always-quickfix.patch
