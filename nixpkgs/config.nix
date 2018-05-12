@@ -193,9 +193,9 @@ rec {
     };
 
     weechat = super.weechat.override {
-      aspell = pkgs.aspellWithDicts (ps: [ps.en]);
-      useEnchant = true;
-      enchantHunspellDicts = [pkgs.hunspellDicts.en-us];
+      # aspell = pkgs.aspellWithDicts (ps: [ps.en]);
+      # useEnchant = true;
+      # enchantHunspellDicts = [pkgs.hunspellDicts.en-us];
     };
 
     tssh = writeTextFile {
