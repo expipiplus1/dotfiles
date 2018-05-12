@@ -270,17 +270,6 @@ in {
   };
 };
 
-"tabular" = {fetchFromGitHub}: vimPlugin rec {
-  name = "tabular-${version}";
-  version = "2016-05-04";
-  src = fetchFromGitHub {
-    owner = "godlygeek";
-    repo = "tabular";
-    rev = "00e1e7fcdbc6d753e0bc8043e0d2546fa81bf367";
-    sha256 = "185jpisk9hamcwb6aiavdzjdbbigzdra8f4mgs98r9cm9j448xkz";
-  };
-};
-
 "terra.vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "terra.vim-${version}";
   version = "2013-08-11";
@@ -344,6 +333,17 @@ in {
     repo = "vim-diminactive";
     rev = "6f2e14e6ff6a038285937c378ec3685e6ff7ee36";
     sha256 = "14jf5hh3v2f5wb10v09ygx15pxbwziv20pwv0fqkakxwf0vqwd50";
+  };
+};
+
+"vim-easy-align" = {fetchFromGitHub}: vimPlugin rec {
+  name = "vim-easy-align-${version}";
+  version = "2017-06-03";
+  src = fetchFromGitHub {
+    owner = "junegunn";
+    repo = "vim-easy-align";
+    rev = "1cd724dc239c3a0f7a12e0fac85945cc3dbe07b0";
+    sha256 = "16yis2wlgi8v0h04hiqmnkm9qrby4kbc2fvkw4szfsbg5m3qx0fc";
   };
 };
 
