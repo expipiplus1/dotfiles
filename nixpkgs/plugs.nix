@@ -7,7 +7,7 @@ let
   inherit (pkgs.stdenv) mkDerivation;
   inherit (pkgs) fetchFromGitHub;
 
-  vimPlugin = { name, version, src, postPatch ? "", patches ? [], patchPhase ? "" }: mkDerivation ({
+  vimPlugin = { name, version, src, postPatch ? "", patches ? [], patchPhase ? "", postPostInstall ? ""}: mkDerivation ({
     inherit name version src patches postPatch patchPhase;
     forceShare= [ "man" "info" ];
     buildPhase = "true";
@@ -16,8 +16,10 @@ let
       mkdir -p "$out"
       mv * "$out"
       runHook postInstall
+      runHook postPostInstall
     '';
     inherit postInstall;
+    inherit postPostInstall;
   } // extraAttrs);
 
   postInstall = ''
@@ -27,7 +29,7 @@ let
     fi
   '';
 
-in {
+  plugs = {
 "base16-vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "base16-vim-${version}";
   version = "2016-06-25";
@@ -102,23 +104,23 @@ in {
 
 "fzf" = {}: vimPlugin rec {
   name = "fzf-${version}";
-  version = "2018-04-12";
+  version = "2018-05-04";
   src = fetchFromGitHub {
     owner = "junegunn";
     repo = "fzf";
-    rev = "f57920ad903105381b02502580be2bb11e4e6714";
-    sha256 = "0bfs8qif9xlaxvbmz5rphy1sgdk5iq1id36r5a2bnmr1lyqi4nmr";
+    rev = "b8296a91b94d7af73a2290564b15282d7810e9e4";
+    sha256 = "05vqfc27ss3283v772vc7p9flv022v8xjpy401kvq95vyi7d0fxp";
   };
 };
 
 "fzf.vim" = {}: vimPlugin rec {
   name = "fzf.vim-${version}";
-  version = "2018-04-19";
+  version = "2018-04-28";
   src = fetchFromGitHub {
     owner = "junegunn";
     repo = "fzf.vim";
-    rev = "dc5f9437fcaed9f6896235830246871fdf9c9ba8";
-    sha256 = "04v06m347f3b9xrw2fg4gyzzwk29x082j440qlxrp93phcfpgjl0";
+    rev = "88595ebbaa33485cd1a4474701bd0e5809643520";
+    sha256 = "1cbv23vmiss4id6slngm381zwqm20zl0bjx3dg5qhh89xhrvxjz6";
   };
 };
 
@@ -135,12 +137,12 @@ in {
 
 "haskell-vim" = {}: vimPlugin rec {
   name = "haskell-vim-${version}";
-  version = "2018-04-13";
+  version = "2018-04-27";
   src = fetchFromGitHub {
     owner = "neovimhaskell";
     repo = "haskell-vim";
-    rev = "e027b314df128979dbd00dd94c9db080db156b5c";
-    sha256 = "13dx1ifwa444q8zkwda4qha74xjm4jfhhk9lbgbj9p1mj7gvbl7f";
+    rev = "a5302e09292a1ca00aa48927332ea77f7de5409d";
+    sha256 = "1s2y82c70aihn1nkwqn0f8vkd5kv8a70p6vp6s6xq2lq9zic6m7h";
   };
   patches = [
     plug-patches/no-space-indent.patch
@@ -183,12 +185,12 @@ in {
 
 "lightline.vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "lightline.vim-${version}";
-  version = "2018-04-14";
+  version = "2018-04-28";
   src = fetchFromGitHub {
     owner = "itchyny";
     repo = "lightline.vim";
-    rev = "e54d2ae512c9c081bfff9303cb22ffa94ed48ba3";
-    sha256 = "042sfdwj46yv0bmf0cm5vm24j197isc3asdj4ymxzh5d6jy2i5qb";
+    rev = "41fb97e85b0386b976b39051de4f7eaa42ba6b2b";
+    sha256 = "0b4q7acb1rpq295hhvm6x9d4lhanrp75zn3yr9l7siliw40fcrb1";
   };
 };
 
@@ -216,12 +218,12 @@ in {
 
 "neosnippet.vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "neosnippet.vim-${version}";
-  version = "2018-03-12";
+  version = "2018-05-01";
   src = fetchFromGitHub {
     owner = "Shougo";
     repo = "neosnippet.vim";
-    rev = "8cf286e3bf7a5fc859f4c5f1bef52c351f24fefa";
-    sha256 = "15mxckg5s9pjfm7xkhs4awx0vpmwdwwifqrvrh1r4mbia39pk6ry";
+    rev = "fa7cc15aee58157d54e0965e70c00305764058f4";
+    sha256 = "150pz2abcwjfh8v4i42mgsj9k2n3qniqnkzir39c0zx6rg36mwy3";
   };
 };
 
@@ -238,12 +240,12 @@ in {
 
 "open-browser.vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "open-browser-github.vim-${version}";
-  version = "2018-03-11";
+  version = "2018-04-26";
   src = fetchFromGitHub {
     owner = "tyru";
     repo = "open-browser.vim";
-    rev = "43b08d6642f26af5a875b0d0bdb3aa9a6d12e7eb";
-    sha256 = "162dv172n16jpjr812d561yyj9rz9xn4qrfx18wlpyixj3qf2bda";
+    rev = "de4eeb085051e9b56dd5574eba7c7e72feb21246";
+    sha256 = "1fgp4wwizpknfwscxraqqaxrhvwp9l1mnjwj3llk2x0n9qcqf1db";
   };
 };
 
@@ -360,12 +362,12 @@ in {
 
 "vim-fugitive" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-fugitive-${version}";
-  version = "2018-04-15";
+  version = "2018-05-11";
   src = fetchFromGitHub {
     owner = "tpope";
     repo = "vim-fugitive";
-    rev = "40d78f07dee2ffab68abb9d6d1a9e27843df0fe0";
-    sha256 = "16fh3n8sr57cfhfpilqhz9f3svhj4swa9yqjf4wicbw9zn40hrir";
+    rev = "b14434bae0357dd47b33f940c3a02510c44fbbe2";
+    sha256 = "1jljg1wmr5sl2750ghgxs4yhwmbmxik87h3r5b9qrh7gg3ybi6hj";
   };
 };
 
@@ -416,12 +418,12 @@ in {
 
 "vim-nix" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-nix-${version}";
-  version = "2018-04-15";
+  version = "2018-04-24";
   src = fetchFromGitHub {
     owner = "LnL7";
     repo = "vim-nix";
-    rev = "bf5779180bf0e3cb6c967f87d6262a976e055e32";
-    sha256 = "023c932vybycj8zasvgvp7xhp42i2iy26msjgjsgzfwmdf5w877y";
+    rev = "dae3d30a145f1d0e50658dafd88f95cd4b5e323d";
+    sha256 = "1x3gaiz2wbqykzhk0zj0krjp81m5rxhk80pcg96f4gyqp7hxrx78";
   };
 };
 
@@ -460,12 +462,12 @@ in {
 
 "vim-startify" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-startify-${version}";
-  version = "2018-04-10";
+  version = "2018-05-05";
   src = fetchFromGitHub {
     owner = "mhinz";
     repo = "vim-startify";
-    rev = "532f3db6be8c6e123abb3f6523c419b6b19436da";
-    sha256 = "19inxsafsivdwgdvw59x3dbx65xkb09q0k2p66q4n57fj60bajmb";
+    rev = "fbd690fc85a06669a518b2f201f44a26e66fd84b";
+    sha256 = "0wnc4ka2bhy7lhvnzghhkhsms8hvyhjagmpk4qw410f1i8grpq02";
   };
   patches = [
     plug-patches/stylish-git-workspace.patch
@@ -593,12 +595,12 @@ in {
 
 "vim-unimpaired" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-unimpaired-${version}";
-  version = "2018-03-01";
+  version = "2018-05-08";
   src = fetchFromGitHub {
     owner = "tpope";
     repo = "vim-unimpaired";
-    rev = "c77939c4aff30b2ed68deb1752400ec15f17c3a2";
-    sha256 = "0qd9as008r2vycls48bfb163rp7dddw7l495xn4l1gl00sh79cxy";
+    rev = "02d954e3252d1e4c0bb74178d7a65ded67c5c17e";
+    sha256 = "0zhhwjr17pwhz4z42jybmzvwwhfsi1asq477g2llba148fd7f2hd";
   };
 };
 
@@ -699,12 +701,12 @@ in {
 
 "neomake" = {lessWrappedClang, clang-tools}: vimPlugin rec {
   name = "neomake-${version}";
-  version = "2018-04-20";
+  version = "2018-05-10";
   src = fetchFromGitHub {
     owner = "neomake";
     repo = "neomake";
-    rev = "b16ed7083556315a48d0f1a402d135f1feb900cd";
-    sha256 = "0x6p2g0jh94111qsi0xkl52rrgd4ync7715mpbf9k9w56w9hps4b";
+    rev = "150fbb69d3202afb29f6db7a9a7e93da26d776a6";
+    sha256 = "01vpyadz4n2rxm3rqsipq3wbqblvpx54nx49kxfnvk9skd24d024";
   };
   patches = [
     plug-patches/always-quickfix.patch
@@ -734,18 +736,41 @@ in {
     src = fetchFromGitHub {
       owner = "autozimu";
       repo = "LanguageClient-neovim";
-      rev = "61657c98d10c526194f56e31bbb0cf4d40b42d86";
-      sha256 = "1pk8s1kwz50v4w5j8ha50mgp2ki5lsjh2bc6l61kx5nw4lh6xjdv";
+      rev = "948677f90d5832baab5f3359b85c2c69d0d3d359";
+      sha256 = "06ihrxs0ddvsapminpii90knqqzv7na09wnpbmdaz8sichrr9xj4";
     };
-    bin = pkgs.rustPlatform.buildRustPackage {
-      inherit name src;
-      cargoSha256 = "1d78nxl2bihi385yb7wcps1fjb4sbq77jc9awimzyq6jzsah6p2g";
+    pkgs_ = pkgs;
+    bin =
+      let
+        pkgs = (
+          let
+            nixpkgs = import pkgs_.path;
+            rustOverlay = /home/j/src/nixpkgs-mozilla;
+          in (nixpkgs {
+            overlays = [
+              (import (builtins.toPath "${rustOverlay}/rust-overlay.nix"))
+              (self: super: {
+                rust = {
+                  rustc = super.rustChannels.stable.rust;
+                  cargo = super.rustChannels.stable.cargo;
+                };
+                rustPlatform = super.recurseIntoAttrs (super.makeRustPlatform {
+                  rustc = super.rustChannels.stable.rust;
+                  cargo = super.rustChannels.stable.cargo;
+                });
+              })
+            ];
+          }));
+      in pkgs.rustPlatform.buildRustPackage {
+           inherit name src;
+           cargoSha256 = "1vafyi650qdaq1f7fc8d4nzrv1i6iz28fs5z66hsnz4xkwb3qq9w";
     };
   in vimPlugin rec {
     inherit name version src;
-    postPatch = ''
-      substituteInPlace plugin/LanguageClient.vim \
-        --replace "let l:command = [s:root . '/bin/languageclient']" "let l:command = ['${bin}/bin/languageclient']"
+    postPostInstall = ''
+      ln -s "${bin}/bin/languageclient" "$out/bin/languageclient"
     '';
   };
-}
+};
+
+in plugs
