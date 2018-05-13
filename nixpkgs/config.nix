@@ -17,15 +17,7 @@ rec {
     HaRe = overrideAttrs super.HaRe {
       doCheck = false;
     };
-    brittany = overrideAttrs super.brittany {
-      src = pkgs.fetchFromGitHub {
-        owner = "lspitzner";
-        repo = "brittany";
-        rev = "1330aeb6b4d3a3138bca89e1f3ee966677ee93db";
-        sha256 = "0n26jqx67ipkflkqw4n7ll64cv07dskxyjcxlvrvjgwwnajdl5p3";
-      };
-      jailbreak = true;
-    };
+    brittany = import /home/j/src/brittany {inherit pkgs;};
     ghc-exactprint = overrideAttrs super.ghc-exactprint {
       src = pkgs.fetchFromGitHub {
         owner = "alanz";
@@ -43,15 +35,7 @@ rec {
       };
     };
     # TODO: Check for GHC version
-    hie =
-      let src = pkgs.fetchFromGitHub {
-        owner = "domenkozar";
-        repo = "hie-nix";
-        rev = "42f5b02d7614c2a7854ac3c1a0ffa06ca0907b35";
-        sha256 = "16j0jmr01kljxkb5kvn1xqm6a5n5zr6ayxxqhq3ddfbg4y224ckw";
-      };
-      in
-        (import src {inherit pkgs;}).hie82;
+    hie = import /home/j/src/haskell-ide-engine {inherit pkgs;};
   };
 
   tex = with pkgs;
@@ -240,7 +224,7 @@ rec {
         cabal-install
       ] ++
       (ghc8Packages (haskell.packages.ghc822.override{overrides = haskellPackageOverrides;})) ++
-      [ (import ./iridium-stack.nix {inherit pkgs;}).iridium
+      [ # (import ./iridium-stack.nix {inherit pkgs;}).iridium
         haskellPackages.hie
       ];
     };
