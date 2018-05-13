@@ -731,65 +731,46 @@ let
 } // pkgs.lib.optionalAttrs useHIE {
 "LanguageClient-neovim" = {}:
   let
-    # version = "2018-01-07";
-    # name = "LanguageClient-neovim-${version}";
-    # src = fetchFromGitHub {
-    #   owner = "autozimu";
-    #   repo = "LanguageClient-neovim";
-    #   rev = "948677f90d5832baab5f3359b85c2c69d0d3d359";
-    #   sha256 = "06ihrxs0ddvsapminpii90knqqzv7na09wnpbmdaz8sichrr9xj4";
-    # };
-    # pkgs_ = pkgs;
-    # bin =
-    #   let
-    #     pkgs = (
-    #       let
-    #         nixpkgs = import pkgs_.path;
-    #         rustOverlay = /home/j/src/nixpkgs-mozilla;
-    #       in (nixpkgs {
-    #         overlays = [
-    #           (import (builtins.toPath "${rustOverlay}/rust-overlay.nix"))
-    #           (self: super: {
-    #             rust = {
-    #               rustc = super.rustChannels.stable.rust;
-    #               cargo = super.rustChannels.stable.cargo;
-    #             };
-    #             rustPlatform = super.recurseIntoAttrs (super.makeRustPlatform {
-    #               rustc = super.rustChannels.stable.rust;
-    #               cargo = super.rustChannels.stable.cargo;
-    #             });
-    #           })
-    #         ];
-    #       }));
-    #   in pkgs.rustPlatform.buildRustPackage {
-    #        inherit name src;
-    #        cargoSha256 = "1vafyi650qdaq1f7fc8d4nzrv1i6iz28fs5z66hsnz4xkwb3qq9w";
-    # };
-  # in vimPlugin rec {
-    # inherit name version src;
-    # postPostInstall = ''
-    #   ln -s "${bin}/bin/languageclient" "$out/bin/languageclient"
-    # '';
-  # };
     version = "2018-01-07";
     name = "LanguageClient-neovim-${version}";
     src = fetchFromGitHub {
       owner = "autozimu";
       repo = "LanguageClient-neovim";
-      rev = "61657c98d10c526194f56e31bbb0cf4d40b42d86";
-      sha256 = "1pk8s1kwz50v4w5j8ha50mgp2ki5lsjh2bc6l61kx5nw4lh6xjdv";
-     };
-     bin = pkgs.rustPlatform.buildRustPackage {
-       inherit name src;
-       cargoSha256 = "1d78nxl2bihi385yb7wcps1fjb4sbq77jc9awimzyq6jzsah6p2g";
-     };
-   in vimPlugin rec {
-     inherit name version src;
-     postPatch = ''
-       substituteInPlace plugin/LanguageClient.vim \
-         --replace "let l:command = [s:root . '/bin/languageclient']" "let l:command = ['${bin}/bin/languageclient']"
-     '';
-   };
+      rev = "948677f90d5832baab5f3359b85c2c69d0d3d359";
+      sha256 = "06ihrxs0ddvsapminpii90knqqzv7na09wnpbmdaz8sichrr9xj4";
+    };
+    pkgs_ = pkgs;
+    bin =
+      let
+        pkgs = (
+          let
+            nixpkgs = import pkgs_.path;
+            rustOverlay = /home/j/src/nixpkgs-mozilla;
+          in (nixpkgs {
+            overlays = [
+              (import (builtins.toPath "${rustOverlay}/rust-overlay.nix"))
+              (self: super: {
+                rust = {
+                  rustc = super.rustChannels.stable.rust;
+                  cargo = super.rustChannels.stable.cargo;
+                };
+                rustPlatform = super.recurseIntoAttrs (super.makeRustPlatform {
+                  rustc = super.rustChannels.stable.rust;
+                  cargo = super.rustChannels.stable.cargo;
+                });
+              })
+            ];
+          }));
+      in pkgs.rustPlatform.buildRustPackage {
+           inherit name src;
+           cargoSha256 = "1vafyi650qdaq1f7fc8d4nzrv1i6iz28fs5z66hsnz4xkwb3qq9w";
+    };
+  in vimPlugin rec {
+    inherit name version src;
+    postPostInstall = ''
+      ln -s "${bin}/bin/languageclient" "$out/bin/languageclient"
+    '';
+  };
 };
 
 in plugs
