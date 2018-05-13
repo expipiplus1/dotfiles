@@ -1022,6 +1022,11 @@ noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
 let g:LanguageClient_serverCommands = {
   \ 'haskell': ['hie', '--lsp'],
   \ }
+let g:LanguageClient_rootMarkers = {
+    \ 'haskell': ['*.cabal']
+    \ }
+
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-better-whitespace
