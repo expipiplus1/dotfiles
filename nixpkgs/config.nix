@@ -43,6 +43,10 @@ rec {
       inherit (texlive)
               amsmath
               babel
+              beamer
+              unicode-math
+              ucharcat
+              filehook
               booktabs
               cm-super
               collection-fontsextra
