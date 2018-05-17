@@ -33,7 +33,7 @@ __host() {
   if [[ -n $SSH_CONNECTION ]]; then
     echo -n "$(__user)"
     echo -n "%{$fg_bold[grey]%}@%{$reset_color%}"
-    echo -n "%{$fg_bold[green]%}%m%{$reset_color%}"
+    echo -n "%{$fg_bold[green]%}rhel7%{$reset_color%}"
     echo -n "%{$fg_bold[grey]%}:%{$reset_color%}"
   elif [[ $LOGNAME != $USER ]] || [[ $USER == 'root' ]]; then
     echo -n "$(__user)"
