@@ -627,6 +627,10 @@ imap <C-s>     <Plug>(neosnippet_expand_or_jump)
 smap <C-s>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-s>     <Plug>(neosnippet_expand_target)
 
+" This makes <| and |> into syntax high lighting delimeters, which is bad for
+" Haskell code.
+let g:neosnippet#enable_conceal_markers=0
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
