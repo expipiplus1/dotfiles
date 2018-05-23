@@ -370,6 +370,17 @@ let
   };
 };
 
+"groovy.vim" = {fetchFromGitHub}: vimPlugin rec {
+  name = "groovy.vim-${version}";
+  version = "2018-05-11";
+  src = fetchFromGitHub {
+    owner = "modille";
+    repo = "groovy.vim";
+    rev = "392419dafb8a2f0a93f605ba5b1e90ba48f1644d";
+    sha256 = "1dmwas3jc00makldvzrmzsi3xdc1rkzsm61sfxn64g4jy3nnjmfq";
+  };
+};
+
 "vim-hare" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-hare-${version}";
   version = "2016-04-20";
