@@ -6,6 +6,7 @@
 [alias]
   po = "!git push --set-upstream origin \"$(git rev-parse --abbrev-ref HEAD)\""
   s = status -s
+  cp = cherry-pick
   co = checkout
   cob = checkout -b
   pr = pull-request
