@@ -1,9 +1,7 @@
-{ pkgs, neovim-unconfigured, extraAttrs ? {} }:
+{ pkgs, neovim-unconfigured, extraAttrs ? {}, useHIE ? true }:
 
 
 let
-  useHIE = true;
-
   inherit (pkgs.stdenv) mkDerivation;
   inherit (pkgs) fetchFromGitHub;
 
@@ -42,16 +40,17 @@ let
 };
 
 
-"comfortable-motion.vim" = {fetchFromGitHub}: vimPlugin rec {
-  name = "comfortable-motion.vim-${version}";
-  version = "2018-02-23";
-  src = fetchFromGitHub {
-    owner = "yuttie";
-    repo = "comfortable-motion.vim";
-    rev = "e20aeafb07c6184727b29f7674530150f7ab2036";
-    sha256 = "13chwy7laxh30464xmdzjhzfcmlcfzy11i8g4a4r11m1cigcjljb";
-  };
-};
+
+# "ctrlp.vim" = {fetchFromGitHub}: vimPlugin rec {
+#   name = "ctrlp.vim-${version}";
+#   version = "2018-02-20";
+#   src = fetchFromGitHub {
+#     owner = "ctrlpvim";
+#     repo = "ctrlp.vim";
+#     rev = "c13c1249fd3bf99c44eb80dfabd7eb7ea0fe09bd";
+#     sha256 = "1x5ykqx9g1hxi7fk7cg9hnh9778fpr65bkinbykqc306dbnrdy4g";
+#   };
+# };
 
 # "deoplete.nvim" = {fetchFromGitHub}: vimPlugin rec {
 #   name = "deoplete.nvim-${version}";
@@ -368,6 +367,17 @@ let
     repo = "vim-fugitive";
     rev = "b14434bae0357dd47b33f940c3a02510c44fbbe2";
     sha256 = "1jljg1wmr5sl2750ghgxs4yhwmbmxik87h3r5b9qrh7gg3ybi6hj";
+  };
+};
+
+"groovy.vim" = {fetchFromGitHub}: vimPlugin rec {
+  name = "groovy.vim-${version}";
+  version = "2018-05-11";
+  src = fetchFromGitHub {
+    owner = "modille";
+    repo = "groovy.vim";
+    rev = "392419dafb8a2f0a93f605ba5b1e90ba48f1644d";
+    sha256 = "1dmwas3jc00makldvzrmzsi3xdc1rkzsm61sfxn64g4jy3nnjmfq";
   };
 };
 

@@ -389,6 +389,7 @@ nmap <silent> <C-g><C-g> :PrevIndent<CR>
 
 let g:fuzzy_rootcmds = [
 \ 'upfind -d build.hs',
+\ 'upfind -d Main.mu',
 \ 'upfind -d CMakeLists.txt',
 \ 'upfind -d Makefile',
 \ 'upfind -d ''.+\.cabal''',
@@ -626,6 +627,10 @@ endif
 imap <C-s>     <Plug>(neosnippet_expand_or_jump)
 smap <C-s>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-s>     <Plug>(neosnippet_expand_target)
+
+" This makes <| and |> into syntax high lighting delimeters, which is bad for
+" Haskell code.
+let g:neosnippet#enable_conceal_markers=0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
@@ -1006,14 +1011,6 @@ autocmd Filetype * nnoremap <nowait> <buffer> <leader>p <ESC>1z=e
 " noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 " noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
-let g:comfortable_motion_no_default_key_mappings = 1
-let g:comfortable_motion_impulse_multiplier = 1  " Feel free to increase/decrease this value.
-nnoremap <silent> <C-d> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * 2)<CR>
-nnoremap <silent> <C-u> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * -2)<CR>
-nnoremap <silent> <C-f> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * 4)<CR>
-nnoremap <silent> <C-b> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * -4)<CR>
-noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(40)<CR>
-noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Language server

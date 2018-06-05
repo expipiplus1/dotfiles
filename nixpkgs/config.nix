@@ -9,7 +9,7 @@ rec {
         mkDerivation = expr: args.mkDerivation (expr // newAttrs);
       });
   in with pkgs.haskell.lib; self: super: {
-    vulkan = import /home/j/projects/vulkan {inherit pkgs;};
+    vulkan = import (builtins.getEnv "HOME" + "/src/vulkan") {inherit pkgs;};
 
     monad-memo = overrideAttrs super.monad-memo {
       doCheck = false;
@@ -17,7 +17,7 @@ rec {
     HaRe = overrideAttrs super.HaRe {
       doCheck = false;
     };
-    brittany = import /home/j/src/brittany {inherit pkgs;};
+    brittany = import (builtins.getEnv "HOME" + "/src/brittany") {inherit pkgs;};
     ghc-exactprint = overrideAttrs super.ghc-exactprint {
       src = pkgs.fetchFromGitHub {
         owner = "alanz";
@@ -35,7 +35,7 @@ rec {
       };
     };
     # TODO: Check for GHC version
-    hie = import /home/j/src/haskell-ide-engine {inherit pkgs;};
+    hie = import (builtins.getEnv "HOME" + "/src/haskell-ide-engine") {inherit pkgs;};
   };
 
   tex = with pkgs;
@@ -43,6 +43,10 @@ rec {
       inherit (texlive)
               amsmath
               babel
+              beamer
+              unicode-math
+              ucharcat
+              filehook
               booktabs
               cm-super
               collection-fontsextra
@@ -70,7 +74,8 @@ rec {
 
   packageOverrides = super: let pkgs = super.pkgs; in with pkgs; rec {
 
-    asciidoctor = (import (builtins.getEnv "HOME" + "/src/nixpkgs2") {config = {};}).asciidoctor;
+    asciidoctor =
+      (import (builtins.getEnv "HOME" + "/src/nixpkgs2") {config = {};}).asciidoctor;
 
     #
     # Irssi with a bunch of perl packages my config needs
@@ -224,8 +229,8 @@ rec {
         cabal-install
       ] ++
       (ghc8Packages (haskell.packages.ghc822.override{overrides = haskellPackageOverrides;})) ++
-      [ # (import ./iridium-stack.nix {inherit pkgs;}).iridium
-        haskellPackages.hie
+      (ghc7Packages (haskell.packages.ghc7103.override{overrides = haskellPackageOverrides;})) ++
+      [ haskellPackages.hie
       ];
     };
 
