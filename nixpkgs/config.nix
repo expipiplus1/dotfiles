@@ -248,6 +248,7 @@ rec {
         asciinema
         (aspellWithDicts (ps: with ps; [en]))
         aspellDicts.en
+        bmon
         clang-tools
         coreutils
         curl
