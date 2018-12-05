@@ -230,8 +230,7 @@ rec {
       paths = [
         cabal-install
       ] ++
-      (ghc8Packages (haskell.packages.ghc822.override{overrides = haskellPackageOverrides;})) ++
-      (ghc7Packages (haskell.packages.ghc7103.override{overrides = haskellPackageOverrides;})) ++
+      (ghc8Packages (haskell.packages.ghc844.override{overrides = haskellPackageOverrides;})) ++
       [ haskellPackages.hie
       ];
     };
