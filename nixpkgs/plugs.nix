@@ -90,17 +90,6 @@ let
   '';
 };
 
-"floobits-neovim" = {fetchFromGitHub}: vimPlugin rec {
-  name = "floobits-neovim-${version}";
-  version = "2017-08-02";
-  src = fetchFromGitHub {
-    owner = "Floobits";
-    repo = "floobits-neovim";
-    rev = "9ccd5a8d5d28261b9686717d61a32b756f38f189";
-    sha256 = "02njg49qz9bfzggpn7z5c7w1wa1k5hxly66904wizl601fa6c664";
-  };
-};
-
 "fzf" = {}: vimPlugin rec {
   name = "fzf-${version}";
   version = "2018-05-04";
@@ -752,25 +741,6 @@ let
     pkgs_ = pkgs;
     bin =
       let
-        pkgs = (
-          let
-            nixpkgs = import pkgs_.path;
-            rustOverlay = /home/j/src/nixpkgs-mozilla;
-          in (nixpkgs {
-            overlays = [
-              (import (builtins.toPath "${rustOverlay}/rust-overlay.nix"))
-              (self: super: {
-                rust = {
-                  rustc = super.rustChannels.stable.rust;
-                  cargo = super.rustChannels.stable.cargo;
-                };
-                rustPlatform = super.recurseIntoAttrs (super.makeRustPlatform {
-                  rustc = super.rustChannels.stable.rust;
-                  cargo = super.rustChannels.stable.cargo;
-                });
-              })
-            ];
-          }));
       in pkgs.rustPlatform.buildRustPackage {
            inherit name src;
            cargoSha256 = "1vafyi650qdaq1f7fc8d4nzrv1i6iz28fs5z66hsnz4xkwb3qq9w";
