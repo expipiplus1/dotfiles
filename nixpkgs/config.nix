@@ -221,6 +221,8 @@ rec {
       # HaRe
       brittany
       upfind
+      nix-diff
+      hpack
     ];
 
     haskell-env = buildEnv {
