@@ -10,32 +10,8 @@ rec {
       });
   in with pkgs.haskell.lib; self: super: {
     vulkan = import (builtins.getEnv "HOME" + "/src/vulkan") {inherit pkgs;};
-
-    monad-memo = overrideAttrs super.monad-memo {
-      doCheck = false;
-    };
-    HaRe = overrideAttrs super.HaRe {
-      doCheck = false;
-    };
-    brittany = import (builtins.getEnv "HOME" + "/src/brittany") {inherit pkgs;};
-    ghc-exactprint = overrideAttrs super.ghc-exactprint {
-      src = pkgs.fetchFromGitHub {
-        owner = "alanz";
-        repo = "ghc-exactprint";
-        rev = "e9532ae3e4222c5a022cad0c8f9bbcb0adf6d55a";
-        sha256 = "0x0sj5ghw099iv755amdy9im44vwrfaj0nsvzas06q3lj3p1140i";
-      };
-    };
-    multistate = overrideAttrs super.multistate {
-      src = pkgs.fetchFromGitHub {
-        owner = "lspitzner";
-        repo = "multistate";
-        rev = "9c56d3070fa8e6cdfa0e21ebd191efdd30a20b66";
-        sha256 = "1v7j93wcffrc3pqbfi93l4zc1cash38bnjhvzpqwv644rcyjpgnh";
-      };
-    };
     # TODO: Check for GHC version
-    hie = import (builtins.getEnv "HOME" + "/src/haskell-ide-engine") {inherit pkgs;};
+    hie = (import (builtins.getEnv "HOME" + "/src/hie-nix") {}).hie84;
   };
 
   tex = with pkgs;
@@ -265,7 +241,6 @@ rec {
         git
         gitAndTools.hub
         htop
-        weechat
         jq
         mosh
         nox
