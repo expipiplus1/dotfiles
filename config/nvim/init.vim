@@ -1024,6 +1024,7 @@ let g:LanguageClient_rootMarkers = {
     \ }
 
 nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <nowait> <leader>R :call LanguageClient#textDocument_rename()<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-better-whitespace
