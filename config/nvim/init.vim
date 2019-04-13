@@ -794,10 +794,10 @@ if len(s:stylish_haskell_config) != 0
   let g:stylish_haskell_args = "--config " . s:stylish_haskell_config[0]
 endif
 
-augroup stylish-haskell
-  autocmd!
-  autocmd BufWritePost *.hs silent call s:myStylishHaskell()
-augroup END
+" augroup stylish-haskell
+"   autocmd!
+"   autocmd BufWritePost *.hs silent call s:myStylishHaskell()
+" augroup END
 
 "
 " ghc mod
@@ -1019,11 +1019,19 @@ autocmd Filetype * nnoremap <nowait> <buffer> <leader>p <ESC>1z=e
 let g:LanguageClient_serverCommands = {
   \ 'haskell': ['hie', '--lsp'],
   \ }
-let g:LanguageClient_rootMarkers = {
-    \ 'haskell': ['*.cabal']
-    \ }
+let g:LanguageClient_rootMarkers = ['default.nix']
+" {
+"   \ 'haskell': ['*.cabal', 'Make.hs']
+"   \ }
 
-nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
+map <Leader>lg :call LanguageClient#textDocument_definition()<CR>
+map <Leader>lr :call LanguageClient#textDocument_rename()<CR>
+map <Leader>lf :call LanguageClient#textDocument_formatting()<CR>
+map <Leader>lb :call LanguageClient#textDocument_references()<CR>
+map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
+map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
 nnoremap <nowait> <leader>R :call LanguageClient#textDocument_rename()<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
