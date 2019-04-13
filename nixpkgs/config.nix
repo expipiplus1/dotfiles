@@ -2,6 +2,7 @@
 rec {
   allowUnfree = true;
   allowBroken = true;
+  android_sdk.accept_license = true;
 
   haskellPackageOverrides =
   let # A function to override the attributes passed to mkDerivation
