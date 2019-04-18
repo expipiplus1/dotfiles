@@ -12,8 +12,8 @@ __UNTRACKED="?"
 __STASHED="$"
 __UNPULLED="⇣"
 __UNPUSHED="⇡"
-__INSERT_MODE_SYMBOL="➤"
-__NORMAL_MODE_SYMBOL="⨯"
+__INSERT_MODE_SYMBOL="x"
+__NORMAL_MODE_SYMBOL="x"
 # Username.
 # If user is root, then pain it in red. Otherwise, just print in yellow.
 __user() {
@@ -175,7 +175,7 @@ function zle-keymap-select zle-line-finish {
 # Compose PROMPT
 PROMPT='
 $(__host)$(__current_dir)$(__git_status)$(__nix_status)
-$VI_PROMPT $(__return_status) '
+ $(__return_status) '
 
 # Set PS2 - continuation interactive prompt
 PS2="%{$fg_bold[yellow]%}"
