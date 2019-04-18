@@ -47,6 +47,8 @@ autocmd FileType vhdl setlocal commentstring=--\ %s
 autocmd FileType vhdl setlocal comments=:--
 autocmd FileType cpp setlocal commentstring=//\ %s
 autocmd FileType cpp setlocal comments=://
+autocmd FileType c setlocal commentstring=//\ %s
+autocmd FileType c setlocal comments=://
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Misc options
@@ -433,7 +435,7 @@ set noshowmode
 let g:lightline = {
       \ 'colorscheme': 'solarized',
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'obsession', 'readonly', 'filename', 'neomake_errors', 'neomake_warnings' ], ['ctrlpmark'] ],
+      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'readonly', 'filename', 'neomake_errors', 'neomake_warnings' ], ['ctrlpmark'] ],
       \   'right': [ [ 'lineinfo', 'syntastic' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
       \ },
       \ 'inactive': {
@@ -461,7 +463,6 @@ let g:lightline = {
       \ },
       \ 'component': {
       \   'readonly': '%{&readonly?"":""}',
-      \   'obsession': '%{ObsessionStatus()}',
       \ },
       \ 'separator': { 'left': '', 'right': '' },
       \ 'subseparator': { 'left': '', 'right': '' }
@@ -604,19 +605,23 @@ if s:use_deoplete
   set completeopt+=noinsert
   set completeopt+=noselect
 else
-  " neovim completion module
+  " ncm2
+
+  " enable ncm2 for all buffers
+  autocmd BufEnter * call ncm2#enable_for_buffer()
+
+  " IMPORTANT: :help Ncm2PopupOpen for more information
+  set completeopt=noinsert,menuone,noselect
 
   set pumheight=10
 
-  let g:cm_matcher = {'module': 'cm_matchers.fuzzy_matcher', 'case:': 'smartcase'}
-
-  let g:cm_refresh_length = [[1,4],[7,1]]
-
-  imap <C-Space> <Plug>(cm_force_refresh)
-
-  " TODO: set cm_force_refresh to c-space
+  " Use <TAB> to select the popup menu:
   inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
   inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+  imap <silent><expr> <C-Space>
+			\ pumvisible() ?  "\<C-n>" :
+			\ "\<Plug>(ncm2_manual_trigger)"
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1021,10 +1026,10 @@ let g:LanguageClient_serverCommands = {
   \ }
 let g:LanguageClient_rootMarkers = ['default.nix']
 " {
-"   \ 'haskell': ['*.cabal', 'Make.hs']
+"   \ 'haskell': ['*.cabal', 'Make.hs', 'package.yaml']
 "   \ }
 
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+map <Leader>ll :call LanguageClient_contextMenu()<CR>
 map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
 map <Leader>lg :call LanguageClient#textDocument_definition()<CR>
 map <Leader>lr :call LanguageClient#textDocument_rename()<CR>
@@ -1040,7 +1045,6 @@ nnoremap <nowait> <leader>R :call LanguageClient#textDocument_rename()<CR>
 
 " Don't highlight whitespace
 let g:better_whitespace_enabled=0
-
 let g:strip_whitespace_on_save=1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

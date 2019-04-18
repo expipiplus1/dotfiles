@@ -39,57 +39,6 @@ let
   };
 };
 
-
-
-# "ctrlp.vim" = {fetchFromGitHub}: vimPlugin rec {
-#   name = "ctrlp.vim-${version}";
-#   version = "2018-02-20";
-#   src = fetchFromGitHub {
-#     owner = "ctrlpvim";
-#     repo = "ctrlp.vim";
-#     rev = "c13c1249fd3bf99c44eb80dfabd7eb7ea0fe09bd";
-#     sha256 = "1x5ykqx9g1hxi7fk7cg9hnh9778fpr65bkinbykqc306dbnrdy4g";
-#   };
-# };
-
-# "deoplete.nvim" = {fetchFromGitHub}: vimPlugin rec {
-#   name = "deoplete.nvim-${version}";
-#   version = "2018-03-19";
-#   src = fetchFromGitHub {
-#     owner = "Shougo";
-#     repo = "deoplete.nvim";
-#     rev = "0df0b9d84ce97426206c7a5aa6f51a2975dedd15";
-#     sha256 = "10zki2j5j6lm3rxcn52ndwlx39rqs9p3ayzzyhz9z5f0ivwbglcz";
-#   };
-# };
-
-"ncm2" = {fetchFromGitHub}: vimPlugin rec {
-  name = "ncm2-${version}";
-  version = "2019-04-10";
-  src = fetchFromGitHub {
-    owner = "ncm2";
-    repo = "ncm2";
-    rev = "e5a7976ad175251a96c537488d2d9557fafdcc8b";
-    sha256 = "0jdhbv56vg53vy5yd4322pjyqaidjj0jdbn1ykvi4scci26rzq35";
-  };
-};
-
-"deoplete-clang2" = {lessWrappedClang}: vimPlugin rec {
-  name = "deoplete-clang2-${version}";
-  version = "2019-02-27";
-  src = fetchFromGitHub {
-    owner = "tweekmonster";
-    repo = "deoplete-clang2";
-    rev = "338f28b077aa0493707e5fa0a2f5bfab46fa5c16";
-    sha256 = "1bh7gygmjw9qyny1dhi1hkkc1agsw3yzf3mi68hfknl1falpxizb";
-  };
-  patchPhase = ''
-    substituteInPlace rplugin/python3/deoplete/sources/deoplete_clang2.py \
-      --replace "'deoplete#sources#clang#executable', 'clang')"  \
-                "'deoplete#sources#clang#executable', '${lessWrappedClang}/bin/clang')"
-  '';
-};
-
 "fzf" = {}: vimPlugin rec {
   name = "fzf-${version}";
   version = "2019-03-31";
@@ -111,6 +60,30 @@ let
     sha256 = "18wqg6czxwbbydssq6azqcl4llb5lf4phivdas4nqnlgg9hnp5ga";
   };
 };
+
+
+"ncm2" = {fetchFromGitHub}: vimPlugin rec {
+  name = "ncm2-${version}";
+  version = "2019-04-10";
+  src = fetchFromGitHub {
+    owner = "ncm2";
+    repo = "ncm2";
+    rev = "e5a7976ad175251a96c537488d2d9557fafdcc8b";
+    sha256 = "0jdhbv56vg53vy5yd4322pjyqaidjj0jdbn1ykvi4scci26rzq35";
+  };
+};
+
+"tmux-complete.vim" = {fetchFromGitHub}: vimPlugin rec {
+  name = "tmux-complete.vim-${version}";
+  version = "2019-04-10";
+  src = fetchFromGitHub {
+    owner = "wellle";
+    repo = "tmux-complete.vim";
+    rev = "e5a7976ad175251a96cr37488d2d9557fafdcc8b";
+    sha256 = "0jdhbv56vg53vy5yr4322pjyqaidjj0jdbn1ykvi4scci26rzq35";
+  };
+};
+
 
 "gist-vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "gist-vim-${version}";
@@ -149,17 +122,7 @@ let
   };
 };
 
-"hlsl.vim" = {fetchFromGitHub}: vimPlugin rec {
-  name = "hlsl.vim-${version}";
-  version = "2015-02-24";
-  src = fetchFromGitHub {
-    owner = "beyondmarc";
-    repo = "hlsl.vim";
-    rev = "f255936d1e37899f46cac92e39bfda1cd36be04b";
-    sha256 = "1adlfwxb2fgiksy8s0nz1139m6xj6xksrzsphc4qszwmyy8n6nsp";
-  };
-};
-
+# Strips whitespace
 "lessspace.vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "lessspace.vim-${version}";
   version = "2019-02-22";
@@ -179,39 +142,6 @@ let
     repo = "lightline.vim";
     rev = "83ae633be323a7fb5baf77e493232cf3358d02bf";
     sha256 = "1y0iwz3wwcds4b2cll893l17i14ih5dwq1njxjbq9sd0694dadz7";
-  };
-};
-
-"neco-vim" = {fetchFromGitHub}: vimPlugin rec {
-  name = "neco-vim-${version}";
-  version = "2018-10-30";
-  src = fetchFromGitHub {
-    owner = "Shougo";
-    repo = "neco-vim";
-    rev = "4c0203b44f8daa7e2f72e2514488d637e8a766a4";
-    sha256 = "03v3h2ks6y9pl960lnvzxlfhnn6l2pcn6d6012znw2wqpralrjq2";
-  };
-};
-
-"neosnippet-snippets" = {fetchFromGitHub}: vimPlugin rec {
-  name = "neosnippet-snippets-${version}";
-  version = "2019-03-16";
-  src = fetchFromGitHub {
-    owner = "Shougo";
-    repo = "neosnippet-snippets";
-    rev = "38024eceb05df57c1a3dbf64079f1120f51deb3c";
-    sha256 = "16ppys1hvxbh1wivz3z0yyhd77l277lkp6xnsp2q1nwk70cwsag3";
-  };
-};
-
-"neosnippet.vim" = {fetchFromGitHub}: vimPlugin rec {
-  name = "neosnippet.vim-${version}";
-  version = "2019-04-11";
-  src = fetchFromGitHub {
-    owner = "Shougo";
-    repo = "neosnippet.vim";
-    rev = "3d3362622ef10deedaea8e026054064bf62aeb33";
-    sha256 = "02kvc85yibp1m5b6024z42s94z015czmwhdn7v2glpynj67qv4av";
   };
 };
 
@@ -237,7 +167,6 @@ let
   };
 };
 
-
 "open-browser-github.vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "open-browser-github.vim-${version}";
   version = "2018-03-15";
@@ -257,28 +186,6 @@ let
     repo = "prev_indent";
     rev = "79e9b1b9a6895bfd15463c45595ca599987a4b23";
     sha256 = "03xqdwfkc7a84742ldsggi7ix99c7dhpmg6j13gkasyfk487ryh6";
-  };
-};
-
-"terra.vim" = {fetchFromGitHub}: vimPlugin rec {
-  name = "terra.vim-${version}";
-  version = "2013-08-11";
-  src = fetchFromGitHub {
-    owner = "vim-scripts";
-    repo = "terra.vim";
-    rev = "58f80c9c60b085c5ec1a3a6038d56509638ab3e1";
-    sha256 = "0nvj412rixy65x6133cdpvk1s84dz3nd0f5gykykfhkwh24pjd7j";
-  };
-};
-
-"unite-haddock" = {fetchFromGitHub}: vimPlugin rec {
-  name = "unite-haddock-${version}";
-  version = "2014-05-10";
-  src = fetchFromGitHub {
-    owner = "eagletmt";
-    repo = "unite-haddock";
-    rev = "a2ed7259c83b405b275148f1d24d34d5a30e7ab0";
-    sha256 = "054fn7iyq9sry02lrj68aajwj8jp53nidfmyhi84cxhjxif7nr54";
   };
 };
 
@@ -326,6 +233,7 @@ let
   };
 };
 
+# Adds the :EasyAlign command
 "vim-easy-align" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-easy-align-${version}";
   version = "2017-06-03";
@@ -337,17 +245,7 @@ let
   };
 };
 
-"vim-easytags" = {fetchFromGitHub}: vimPlugin rec {
-  name = "vim-easytags-${version}";
-  version = "2015-07-01";
-  src = fetchFromGitHub {
-    owner = "xolox";
-    repo = "vim-easytags";
-    rev = "72a8753b5d0a951e547c51b13633f680a95b5483";
-    sha256 = "0i8ha1fa5d860b1mi0xp8kwsgb0b9vbzcg1bldzv6s5xd9yyi12i";
-  };
-};
-
+# Git
 "vim-fugitive" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-fugitive-${version}";
   version = "2019-04-05";
@@ -359,38 +257,18 @@ let
   };
 };
 
-"groovy.vim" = {fetchFromGitHub}: vimPlugin rec {
-  name = "groovy.vim-${version}";
-  version = "2016-01-25";
+# Github support for fugitive
+"vim-rhubarb" = {fetchFromGitHub}: vimPlugin rec {
+  name = "vim-rhubarb-${version}";
+  version = "2019-03-20";
   src = fetchFromGitHub {
-    owner = "modille";
-    repo = "groovy.vim";
-    rev = "392419dafb8a2f0a93f605ba5b1e90ba48f1644d";
-    sha256 = "1dmwas3jc00makldvzrmzsi3xdc1rkzsm61sfxn64g4jy3nnjmfq";
+    owner = "tpope";
+    repo = "vim-rhubarb";
+    rev = "57a350e6327af0074c4bc0d30b62662dfdb993af";
+    sha256 = "1vgcy8xc8v0g5g4h1h6dcl0ggg2rxp2pisxj04w5d78qf8b48njc";
   };
 };
 
-"vim-hare" = {fetchFromGitHub}: vimPlugin rec {
-  name = "vim-hare-${version}";
-  version = "2016-04-20";
-  src = fetchFromGitHub {
-    owner = "glittershark";
-    repo = "vim-hare";
-    rev = "63d8e98a84455e48ba00261366e6e08a2dee1284";
-    sha256 = "01hkpkfsi4x4cb4lk8zbsh7hj2cawszf2dv63iqnkrw1mhd0nhhl";
-  };
-};
-
-"vim-hoogle" = {fetchFromGitHub}: vimPlugin rec {
-  name = "vim-hoogle-${version}";
-  version = "2018-03-04";
-  src = fetchFromGitHub {
-    owner = "Twinside";
-    repo = "vim-hoogle";
-    rev = "871d104c92e33cb238506f2805f1652561978cc8";
-    sha256 = "17qvi57g72ijgk7nczczli3kcphvdf625fzqbqcmqpsawgvfd07n";
-  };
-};
 
 "vim-markdown" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-markdown-${version}";
@@ -404,16 +282,16 @@ let
   patches = [ ./plug-patches/vim-markdown-no-codeblock.patch ];
 };
 
-"vim-misc" = {fetchFromGitHub}: vimPlugin rec {
-  name = "vim-misc-${version}";
-  version = "2015-05-21";
-  src = fetchFromGitHub {
-    owner = "xolox";
-    repo = "vim-misc";
-    rev = "3e6b8fb6f03f13434543ce1f5d24f6a5d3f34f0b";
-    sha256 = "0rd9788dyfc58py50xbiaz5j7nphyvf3rpp3yal7yq2dhf0awwfi";
-  };
-};
+# "vim-misc" = {fetchFromGitHub}: vimPlugin rec {
+#   name = "vim-misc-${version}";
+#   version = "2015-05-21";
+#   src = fetchFromGitHub {
+#     owner = "xolox";
+#     repo = "vim-misc";
+#     rev = "3e6b8fb6f03f13434543ce1f5d24f6a5d3f34f0b";
+#     sha256 = "0rd9788dyfc58py50xbiaz5j7nphyvf3rpp3yal7yq2dhf0awwfi";
+#   };
+# };
 
 "vim-nix" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-nix-${version}";
@@ -426,17 +304,6 @@ let
   };
 };
 
-"vim-obsession" = {fetchFromGitHub}: vimPlugin rec {
-  name = "vim-obsession-${version}";
-  version = "2018-09-17";
-  src = fetchFromGitHub {
-    owner = "tpope";
-    repo = "vim-obsession";
-    rev = "95a576210dc4408a4804a0a62a9eae90d701026b";
-    sha256 = "04wrwlvdlakn9vrg48y80pcz2jy6kb1zigmjych15s51ay56cswd";
-  };
-};
-
 "vim-repeat" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-repeat-${version}";
   version = "2018-07-02";
@@ -445,17 +312,6 @@ let
     repo = "vim-repeat";
     rev = "43d2678fa59d068c815d8298331c195e850ff5a7";
     sha256 = "0nb20503ka95qbx0mwhhni15drc86gfcd6kg92nf65llrvyfivk0";
-  };
-};
-
-"vim-rhubarb" = {fetchFromGitHub}: vimPlugin rec {
-  name = "vim-rhubarb-${version}";
-  version = "2019-03-20";
-  src = fetchFromGitHub {
-    owner = "tpope";
-    repo = "vim-rhubarb";
-    rev = "57a350e6327af0074c4bc0d30b62662dfdb993af";
-    sha256 = "1vgcy8xc8v0g5g4h1h6dcl0ggg2rxp2pisxj04w5d78qf8b48njc";
   };
 };
 
@@ -473,21 +329,21 @@ let
   ];
 };
 
-"vim-stylish-haskell" = {}: vimPlugin rec {
-  name = "vim-stylish-haskell-${version}";
-  version = "2018-08-30";
-  src = fetchFromGitHub {
-    owner = "nbouscal";
-    repo = "vim-stylish-haskell";
-    rev = "0df8a2dd397f232a9ee0e56bc57071ccf29e21bf";
-    sha256 = "05f2ms2c914ycxjjd7csga89mpsk3wzyhi56vikg3nd7a8z54gzw";
-  };
-  patches = [
-    plug-patches/stylish-haskell.patch
-    # plug-patches/stylish-haskell-pos.patch
-    # plug-patches/stylish-haskell-args.patch
-  ];
-};
+# "vim-stylish-haskell" = {}: vimPlugin rec {
+#   name = "vim-stylish-haskell-${version}";
+#   version = "2018-08-30";
+#   src = fetchFromGitHub {
+#     owner = "nbouscal";
+#     repo = "vim-stylish-haskell";
+#     rev = "0df8a2dd397f232a9ee0e56bc57071ccf29e21bf";
+#     sha256 = "05f2ms2c914ycxjjd7csga89mpsk3wzyhi56vikg3nd7a8z54gzw";
+#   };
+#   patches = [
+#     plug-patches/stylish-haskell.patch
+#     # plug-patches/stylish-haskell-pos.patch
+#     # plug-patches/stylish-haskell-args.patch
+#   ];
+# };
 
 "vim-surround" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-surround-${version}";
@@ -508,17 +364,6 @@ let
     repo = "vim-table-mode";
     rev = "a40ef26c5cc1806d3faae829fa149506715ce56f";
     sha256 = "0fis0w3xpsg4wfss61vydic6zisg5bdyvb0wcaf5z4fs5sk380x6";
-  };
-};
-
-"vim-textobj-comment" = {fetchFromGitHub}: vimPlugin rec {
-  name = "vim-textobj-comment-${version}";
-  version = "2014-04-11";
-  src = fetchFromGitHub {
-    owner = "glts";
-    repo = "vim-textobj-comment";
-    rev = "58ae4571b76a5bf74850698f23d235eef991dd4b";
-    sha256 = "00wc14chwjfx95gl3yzbxm1ajx88zpzqz0ckl7xvd7gvkrf0mx04";
   };
 };
 
@@ -581,6 +426,7 @@ let
   };
 };
 
+# Quickfix and Loclist
 "vim-togglelist" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-togglelist-${version}";
   version = "2013-04-07";
@@ -625,49 +471,38 @@ let
   };
 };
 
-"vimproc.vim" = {stdenv, fetchFromGitHub, which}: mkDerivation rec {
-  name = "vimproc.vim-${version}";
-  version = "2019-03-10";
-  src = fetchFromGitHub {
-    owner = "Shougo";
-    repo = "vimproc.vim";
-    rev = "eb5b2b1248ccc8b1b9e84d7658508e38b964d17d";
-    sha256 = "0h9na94cg396mldqdasdkv30z67zp5r36794dlhh9j5kblc00x0v";
-  };
-  buildInputs = [ which ];
-  installPhase = ''
-    runHook preInstall
-    mkdir -p $out
-    cp -r * $out/
-    runHook postInstall
-  '';
-  inherit postInstall;
-  patches = [
-    plug-patches/vimproc-dll-loc.patch
-  ];
-};
+# "vimproc.vim" = {stdenv, fetchFromGitHub, which}: mkDerivation rec {
+#   name = "vimproc.vim-${version}";
+#   version = "2019-03-10";
+#   src = fetchFromGitHub {
+#     owner = "Shougo";
+#     repo = "vimproc.vim";
+#     rev = "eb5b2b1248ccc8b1b9e84d7658508e38b964d17d";
+#     sha256 = "0h9na94cg396mldqdasdkv30z67zp5r36794dlhh9j5kblc00x0v";
+#   };
+#   buildInputs = [ which ];
+#   installPhase = ''
+#     runHook preInstall
+#     mkdir -p $out
+#     cp -r * $out/
+#     runHook postInstall
+#   '';
+#   inherit postInstall;
+#   patches = [
+#     plug-patches/vimproc-dll-loc.patch
+#   ];
+# };
 
-"webapi-vim" = {fetchFromGitHub}: vimPlugin rec {
-  name = "webapi-vim-${version}";
-  version = "2018-03-14";
-  src = fetchFromGitHub {
-    owner = "mattn";
-    repo = "webapi-vim";
-    rev = "252250381a9509257bfb06b9f95441e41e3e23b5";
-    sha256 = "0g37d1i6rxsj6f31g9jy2bhr8ng3jwmnvqqcmw19vbql4v56zq6a";
-  };
-};
-
-"vim-prototxt" = {fetchFromGitHub}: vimPlugin rec {
-  name = "vim-prototxt-${version}";
-  version = "2016-11-12";
-  src = fetchFromGitHub {
-    owner = "chiphogg";
-    repo = "vim-prototxt";
-    rev = "b2b5e1c2f67a45eee5a4a3d791053e6cb6757583";
-    sha256 = "12xzfjks3qgz39agi5fcmy3g41k4wa2l716nnp677xv9q5jda2nk";
-  };
-};
+# "webapi-vim" = {fetchFromGitHub}: vimPlugin rec {
+#   name = "webapi-vim-${version}";
+#   version = "2018-03-14";
+#   src = fetchFromGitHub {
+#     owner = "mattn";
+#     repo = "webapi-vim";
+#     rev = "252250381a9509257bfb06b9f95441e41e3e23b5";
+#     sha256 = "0g37d1i6rxsj6f31g9jy2bhr8ng3jwmnvqqcmw19vbql4v56zq6a";
+#   };
+# };
 } // pkgs.lib.optionalAttrs (!useHIE) {
 
 "neco-ghc" = {}: vimPlugin rec {
@@ -770,6 +605,18 @@ let
       ln -s "${bin}/bin/languageclient" "$out/bin/languageclient"
     '';
   };
+
+"nvim-yarp" = {}: vimPlugin rec {
+  name = "nvim-yarp-${version}";
+  version = "2018-05-13";
+  src = fetchFromGitHub {
+    owner = "roxma";
+    repo = "nvim-yarp";
+    rev = "1524cf7988d1e1ed7475ead3654987f64943a1f0";
+    sha256 = "1iblb9hy4svbabhkid1qh7v085dkpq7dwg4aj38d8xvhj9b7mf6v";
+  };
+};
+
 };
 
 in plugs
