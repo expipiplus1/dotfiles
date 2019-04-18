@@ -41,12 +41,12 @@ let
 
 "fzf" = {}: vimPlugin rec {
   name = "fzf-${version}";
-  version = "2019-03-31";
+  version = "2019-04-18";
   src = fetchFromGitHub {
     owner = "junegunn";
     repo = "fzf";
-    rev = "ff951341c993ed84ad65344e496e122ee3dddf67";
-    sha256 = "0pwpr4fpw56yzzkcabzzgbgwraaxmp7xzzmap7w1xsrkbj7dl2xl";
+    rev = "8eea45ef5003e115cbbefc3a7fd9a81fea406bf3";
+    sha256 = "0zppxwndnjxvg230p5yc25hbivpyswgzn3yd82qjjchcn9lvxiyy";
   };
 };
 
@@ -75,12 +75,12 @@ let
 
 "tmux-complete.vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "tmux-complete.vim-${version}";
-  version = "2019-04-10";
+  version = "2019-04-17";
   src = fetchFromGitHub {
     owner = "wellle";
     repo = "tmux-complete.vim";
-    rev = "e5a7976ad175251a96cr37488d2d9557fafdcc8b";
-    sha256 = "0jdhbv56vg53vy5yr4322pjyqaidjj0jdbn1ykvi4scci26rzq35";
+    rev = "44372f32e2b43afde8b1a3c2231e5d5b8d76953a";
+    sha256 = "12xsawx9a8v7jqnfq1xxqxrm0qdcnp8d3yzfsk7xw76askyh41xi";
   };
 };
 
@@ -406,12 +406,12 @@ let
 
 "vim-tmux-focus-events" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-tmux-focus-events-${version}";
-  version = "2019-01-22";
+  version = "2019-04-18";
   src = fetchFromGitHub {
     owner = "tmux-plugins";
     repo = "vim-tmux-focus-events";
-    rev = "32723c5d778905a2a2e40030990c80c17f456649";
-    sha256 = "0symr2xymxxxyplb3pa0zr7whzmwwpw8bz4alkaf65niik7jsnk2";
+    rev = "80335d871394592775da7e7abc701012045951a6";
+    sha256 = "09zdqx72w659xr43nai9lrf16bhnhkajncj0628yc6jkhpf3wd2s";
   };
 };
 
@@ -570,8 +570,8 @@ let
     src = fetchFromGitHub {
       owner = "autozimu";
       repo = "LanguageClient-neovim";
-      rev = "c33c45dd8384c0a0dfe8e99c558415b5c656d5c8";
-      sha256 = "1j5ygf7080d5jr3q0wzfmk7ip47xa93rl13dhcqwgmfccyxrk4g2";
+      rev = "dce2a8e11f1a246c25f30a7668f3ab3e9eb0043e";
+      sha256 = "039p3ixhiiaqnx70p4qfhxhmgd2kviy2vc8nv0yswk9w38kmpkqw";
     };
     pkgs_ = pkgs;
     bin =
@@ -608,7 +608,7 @@ let
 
 "nvim-yarp" = {}: vimPlugin rec {
   name = "nvim-yarp-${version}";
-  version = "2018-05-13";
+  version = "2018-12-23";
   src = fetchFromGitHub {
     owner = "roxma";
     repo = "nvim-yarp";
