@@ -20,7 +20,7 @@ function! BuildComposer(info)
   endif
 endfunction
 
-function! BuildClangComplete(info)
+function! BuiddClangComplete(info)
   if a:info.status != 'unchanged' || a:info.force
     !make
     UpdateRemotePlugins
@@ -156,12 +156,6 @@ set shortmess=atTIA
 
 " Highlight current line
 set cursorline
-
-if has("gui_running")
-  " GUI is running or is about to start.
-  " Maximize gvim window (for an alternative on Windows, see simalt below).
-  set lines=999 columns=999
-endif
 
 " For statusline
 set encoding=utf-8 " Necessary to show Unicode glyphs
@@ -323,8 +317,9 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " escape in terminal mode
-if has('nvim')
-  tnoremap <Esc> <C-\><C-n>
+if has("nvim")
+  au TermOpen * tnoremap <Esc> <c-\><c-n>
+  au FileType fzf tunmap <Esc>
 endif
 
 " Set all the mouse options
@@ -833,7 +828,7 @@ else
 endif
 
 " highlight long columns
-au FileType haskell let &colorcolumn=join(range(81,999),",")
+au FileType haskell let &colorcolumn=join(range(81,81),",")
 if &background == "light"
   hi ColorColumn ctermbg=21 guibg=#e0e0e0
 else
@@ -1033,11 +1028,29 @@ map <Leader>ll :call LanguageClient_contextMenu()<CR>
 map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
 map <Leader>lg :call LanguageClient#textDocument_definition()<CR>
 map <Leader>lr :call LanguageClient#textDocument_rename()<CR>
-map <Leader>lf :call LanguageClient#textDocument_formatting()<CR>
+map <Leader>lf :call LanguageClient#textDocument_rangeFormatting()<CR>
+map <Leader>ld :call LanguageClient#textDocument_formatting()<CR>
 map <Leader>lb :call LanguageClient#textDocument_references()<CR>
 map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
 map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
+map <Leader>lh :call LanguageClient#textDocument_documentHighlight()<CR>
+map <Leader>le :call LanguageClient#workspace_applyEdit()<CR>
 nnoremap <nowait> <leader>R :call LanguageClient#textDocument_rename()<CR>
+
+" Rename - rn => rename
+noremap <leader>rn :call LanguageClient#textDocument_rename()<CR>
+
+" Rename - rc => rename camelCase
+noremap <leader>rc :call LanguageClient#textDocument_rename(
+            \ {'newName': Abolish.camelcase(expand('<cword>'))})<CR>
+
+" Rename - rs => rename snake_case
+noremap <leader>rs :call LanguageClient#textDocument_rename(
+            \ {'newName': Abolish.snakecase(expand('<cword>'))})<CR>
+
+" Rename - ru => rename UPPERCASE
+noremap <leader>ru :call LanguageClient#textDocument_rename(
+            \ {'newName': Abolish.uppercase(expand('<cword>'))})<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-better-whitespace
@@ -1046,6 +1059,12 @@ nnoremap <nowait> <leader>R :call LanguageClient#textDocument_rename()<CR>
 " Don't highlight whitespace
 let g:better_whitespace_enabled=0
 let g:strip_whitespace_on_save=1
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Write faster
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+noremap <Leader>s :write<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SCB
