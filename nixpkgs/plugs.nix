@@ -73,6 +73,29 @@ let
   };
 };
 
+"ncm2-path" = {fetchFromGitHub}: vimPlugin rec {
+  name = "ncm2-${version}";
+  version = "2019-02-20";
+  src = fetchFromGitHub {
+    owner = "ncm2";
+    repo = "ncm2-path";
+    rev = "84b1e6b5f28ced2245ff08e6694101f029fdfca8";
+    sha256 = "0yqga8d423k2j6iknkyx1qs1shddpshi4sx78992sa15dax9d394";
+  };
+};
+
+"ncm2-bufword" = {fetchFromGitHub}: vimPlugin rec {
+  name = "ncm2-${version}";
+  version = "2019-01-20";
+  src = fetchFromGitHub {
+    owner = "ncm2";
+    repo = "ncm2-bufword";
+    rev = "1d42750114e47a31286268880affcd66c6ae48d5";
+    sha256 = "14q76n5c70wvi48wm1alyckba71rp5300i35091ga197nkgphyaz";
+  };
+};
+
+
 "tmux-complete.vim" = {fetchFromGitHub}: vimPlugin rec {
   name = "tmux-complete.vim-${version}";
   version = "2019-04-17";
@@ -604,6 +627,9 @@ let
     postPostInstall = ''
       ln -s "${bin}/bin/languageclient" "$out/bin/languageclient"
     '';
+    patches = [
+      ./plug-patches/lc-i.patch
+    ];
   };
 
 "nvim-yarp" = {}: vimPlugin rec {
