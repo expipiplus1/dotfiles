@@ -491,16 +491,28 @@ let
   };
 };
 
-"markdown-preview.nvim" = {fetchFromGitHub}: vimPlugin rec {
-  name = "markdown-preview.nvim-${version}";
-  version = "2019-04-10";
-  src = fetchFromGitHub {
-    owner = "iamcco";
-    repo = "markdown-preview.nvim";
-    rev = "c3b66b8de5ff6c700bab6aae3d12c97f38c665ee";
-    sha256 = "0ffzqrkma86cf5grvry05sc7jhgir6drxn7pmb50vrx4qwdf5alh";
+"vim-markdown-composer" = {}:
+  let
+    version = "2018-11-05";
+    name = "vim-markdown-composer-${version}";
+    src = fetchFromGitHub {
+      owner = "euclio";
+      repo = "vim-markdown-composer";
+      rev = "00c561589aa8116e15b5adbda3c82f9e165e635d";
+      sha256 = "1p0v0w4mw93cb8k600abx7fsid7k74fq9vbhsixbjyip0hcz01bv";
+    };
+    pkgs_ = pkgs;
+    bin = pkgs.rustPlatform.buildRustPackage {
+           inherit name src;
+           cargoSha256 = "0pjghdk6bfc32v6z6p7nyqmsk8vqzzk3xld6gk8j7m8i19wc0032";
+    };
+  in vimPlugin rec {
+    inherit name version src;
+    postPostInstall = ''
+      mkdir -p "$out/target/release"
+      ln -s "${bin}/bin/markdown-composer" "$out/target/release/markdown-composer"
+    '';
   };
-};
 
 } // pkgs.lib.optionalAttrs (!useHIE) {
 
@@ -573,28 +585,7 @@ let
       sha256 = "039p3ixhiiaqnx70p4qfhxhmgd2kviy2vc8nv0yswk9w38kmpkqw";
     };
     pkgs_ = pkgs;
-    bin =
-      let
-        # pkgs = (
-        #   let
-        #     nixpkgs = import pkgs_.path;
-        #     rustOverlay = /home/j/src/nixpkgs-mozilla;
-        #   in (nixpkgs {
-        #     overlays = [
-        #       (import (builtins.toPath "${rustOverlay}/rust-overlay.nix"))
-        #       (self: super: {
-        #         rust = {
-        #           rustc = super.rustChannels.stable.rust;
-        #           cargo = super.rustChannels.stable.cargo;
-        #         };
-        #         rustPlatform = super.recurseIntoAttrs (super.makeRustPlatform {
-        #           rustc = super.rustChannels.stable.rust;
-        #           cargo = super.rustChannels.stable.cargo;
-        #         });
-        #       })
-        #     ];
-        #   }));
-      in pkgs.rustPlatform.buildRustPackage {
+    bin = pkgs.rustPlatform.buildRustPackage {
            inherit name src;
            cargoSha256 = "0qz7d31j7kvynswcg5j2sksn8zp654qzy1x6kjy3c13c7g9731cl";
     };
