@@ -150,11 +150,14 @@ ns(){
 
 c2n(){
   cp -v -n "$HOME/dotfiles/nix-haskell-skeleton/default.nix" "$HOME/dotfiles/nix-haskell-skeleton/shell.nix" .
-  sed -i "s/package_name/$(basename --suffix .cabal *.cabal)/" default.nix
 }
 
 sr(){
   ag -0 -l $1 | xargs -0 perl -pi -e "s/$1/$2/g"
+}
+
+ss() {
+  find "$@" -mindepth 1 -maxdepth 1 -print0 | xargs -0 du -sh | sort -h
 }
 
 autoload bashcompinit
