@@ -605,6 +605,10 @@ else
   " enable ncm2 for all buffers
   autocmd BufEnter * call ncm2#enable_for_buffer()
 
+  " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+  " found' messages
+  set shortmess+=c
+
   " IMPORTANT: :help Ncm2PopupOpen for more information
   set completeopt=noinsert,menuone,noselect
 
@@ -897,6 +901,12 @@ map <silent> <nowait> <leader>e :call ApplyOneSuggestion()<CR>
 map <silent> <nowait> <leader>E :call ApplyAllSuggestions()<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Ag
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+map <silent> <nowait> <leader>a :Ag<space>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " pointfree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -993,7 +1003,7 @@ autocmd Filetype * nnoremap <nowait> <buffer> <leader>m :TableModeToggle<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:startify_change_to_dir = 0
-let g:startify_change_to_vcs_root = 1
+let g:startify_change_to_vcs_root = 0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Spellcheck
