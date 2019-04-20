@@ -12,7 +12,7 @@ rec {
   in with pkgs.haskell.lib; self: super: {
     vulkan = import (builtins.getEnv "HOME" + "/src/vulkan") {inherit pkgs;};
     # TODO: Check for GHC version
-    hie = (import (builtins.getEnv "HOME" + "/src/hie-nix") {}).hie84;
+    brittany = (import (builtins.getEnv "HOME" + "/src/hie-nix") {}).brittany86;
   };
 
   tex = with pkgs;
@@ -188,7 +188,7 @@ rec {
 
     ghc8Packages = hp: with hp; [
       apply-refact
-      hdevtools
+      # hdevtools
       ghcid
       hindent
       hlint
@@ -207,8 +207,8 @@ rec {
       paths = [
         cabal-install
       ] ++
-      (ghc8Packages (haskell.packages.ghc844.override{overrides = haskellPackageOverrides;})) ++
-      [ haskellPackages.hie
+      (ghc8Packages (haskell.packages.ghc864.override{overrides = haskellPackageOverrides;})) ++
+      [ (import (builtins.getEnv "HOME" + "/src/hie-nix") {}).hie86
       ];
     };
 
