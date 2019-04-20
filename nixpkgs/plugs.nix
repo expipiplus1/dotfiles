@@ -347,9 +347,6 @@ let
     rev = "0a212847827933436d0b139f37b9825e28e3c0a1";
     sha256 = "08si59jvwlgj1i8z1i0ly439ar75ifrnlraa6nw20n3ii6nwzsvh";
   };
-  patches = [
-    plug-patches/stylish-git-workspace.patch
-  ];
 };
 
 # "vim-stylish-haskell" = {}: vimPlugin rec {
@@ -429,12 +426,12 @@ let
 
 "vim-tmux-focus-events" = {fetchFromGitHub}: vimPlugin rec {
   name = "vim-tmux-focus-events-${version}";
-  version = "2019-04-18";
+  version = "2019-04-19";
   src = fetchFromGitHub {
     owner = "tmux-plugins";
     repo = "vim-tmux-focus-events";
-    rev = "80335d871394592775da7e7abc701012045951a6";
-    sha256 = "09zdqx72w659xr43nai9lrf16bhnhkajncj0628yc6jkhpf3wd2s";
+    rev = "0f89b1ada151e22882a5a47a1ee2b6d6135bc5c1";
+    sha256 = "0rx1615wlsl62y62l217vgjd5vjfzf3zjwq43fflpc6bixikqc6j";
   };
 };
 
@@ -494,38 +491,17 @@ let
   };
 };
 
-# "vimproc.vim" = {stdenv, fetchFromGitHub, which}: mkDerivation rec {
-#   name = "vimproc.vim-${version}";
-#   version = "2019-03-10";
-#   src = fetchFromGitHub {
-#     owner = "Shougo";
-#     repo = "vimproc.vim";
-#     rev = "eb5b2b1248ccc8b1b9e84d7658508e38b964d17d";
-#     sha256 = "0h9na94cg396mldqdasdkv30z67zp5r36794dlhh9j5kblc00x0v";
-#   };
-#   buildInputs = [ which ];
-#   installPhase = ''
-#     runHook preInstall
-#     mkdir -p $out
-#     cp -r * $out/
-#     runHook postInstall
-#   '';
-#   inherit postInstall;
-#   patches = [
-#     plug-patches/vimproc-dll-loc.patch
-#   ];
-# };
+"markdown-preview.nvim" = {fetchFromGitHub}: vimPlugin rec {
+  name = "markdown-preview.nvim-${version}";
+  version = "2019-04-10";
+  src = fetchFromGitHub {
+    owner = "iamcco";
+    repo = "markdown-preview.nvim";
+    rev = "c3b66b8de5ff6c700bab6aae3d12c97f38c665ee";
+    sha256 = "0ffzqrkma86cf5grvry05sc7jhgir6drxn7pmb50vrx4qwdf5alh";
+  };
+};
 
-# "webapi-vim" = {fetchFromGitHub}: vimPlugin rec {
-#   name = "webapi-vim-${version}";
-#   version = "2018-03-14";
-#   src = fetchFromGitHub {
-#     owner = "mattn";
-#     repo = "webapi-vim";
-#     rev = "252250381a9509257bfb06b9f95441e41e3e23b5";
-#     sha256 = "0g37d1i6rxsj6f31g9jy2bhr8ng3jwmnvqqcmw19vbql4v56zq6a";
-#   };
-# };
 } // pkgs.lib.optionalAttrs (!useHIE) {
 
 "neco-ghc" = {}: vimPlugin rec {
