@@ -28,6 +28,8 @@ files="agignore
        aspell.conf
        xinitrc
        xkb/symbols/local
+       xkb/types/local
+       xkb/keymap/custom
        moc/config
        moc/themes/base16
        zshrc
