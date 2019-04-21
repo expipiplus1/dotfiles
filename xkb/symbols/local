@@ -10,5 +10,9 @@ xkb_symbols "local" {
   key <CAPS> {
     [ Escape ]
   };
+
+  key <ESC> {
+    [ grave ]
+  };
 };
 
