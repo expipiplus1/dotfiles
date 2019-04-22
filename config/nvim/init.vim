@@ -1029,6 +1029,7 @@ autocmd Filetype * nnoremap <nowait> <buffer> <leader>p <ESC>1z=e
 let g:LanguageClient_serverCommands = {
   \ 'haskell': ['hie', '--lsp'],
   \ }
+" \ 'haskell': ['/home/j/projects/hie-test/hie-wrap.sh', '--lsp', '-l', 'hie.log', '--debug', '--bios-verbose'],
 let g:LanguageClient_rootMarkers = ['default.nix']
 " {
 "   \ 'haskell': ['*.cabal', 'Make.hs', 'package.yaml']
