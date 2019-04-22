@@ -491,28 +491,28 @@ let
   };
 };
 
-"vim-markdown-composer" = {}:
-  let
-    version = "2018-11-05";
-    name = "vim-markdown-composer-${version}";
-    src = fetchFromGitHub {
-      owner = "euclio";
-      repo = "vim-markdown-composer";
-      rev = "00c561589aa8116e15b5adbda3c82f9e165e635d";
-      sha256 = "1p0v0w4mw93cb8k600abx7fsid7k74fq9vbhsixbjyip0hcz01bv";
-    };
-    pkgs_ = pkgs;
-    bin = pkgs.rustPlatform.buildRustPackage {
-           inherit name src;
-           cargoSha256 = "0pjghdk6bfc32v6z6p7nyqmsk8vqzzk3xld6gk8j7m8i19wc0032";
-    };
-  in vimPlugin rec {
-    inherit name version src;
-    postPostInstall = ''
-      mkdir -p "$out/target/release"
-      ln -s "${bin}/bin/markdown-composer" "$out/target/release/markdown-composer"
-    '';
-  };
+# "vim-markdown-composer" = {}:
+#   let
+#     version = "2018-11-05";
+#     name = "vim-markdown-composer-${version}";
+#     src = fetchFromGitHub {
+#       owner = "euclio";
+#       repo = "vim-markdown-composer";
+#       rev = "00c561589aa8116e15b5adbda3c82f9e165e635d";
+#       sha256 = "1p0v0w4mw93cb8k600abx7fsid7k74fq9vbhsixbjyip0hcz01bv";
+#     };
+#     pkgs_ = pkgs;
+#     bin = pkgs.rustPlatform.buildRustPackage {
+#            inherit name src;
+#            cargoSha256 = "0pjghdk6bfc32v6z6p7nyqmsk8vqzzk3xld6gk8j7m8i19wc0032";
+#     };
+#   in vimPlugin rec {
+#     inherit name version src;
+#     postPostInstall = ''
+#       mkdir -p "$out/target/release"
+#       ln -s "${bin}/bin/markdown-composer" "$out/target/release/markdown-composer"
+#     '';
+#   };
 
 } // pkgs.lib.optionalAttrs (!useHIE) {
 
