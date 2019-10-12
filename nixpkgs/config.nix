@@ -261,6 +261,8 @@ rec {
         tree
         tssh
         zsh
+        glibcLocales
+        graphviz
       ];
     };
 
