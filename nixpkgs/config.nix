@@ -249,8 +249,6 @@ rec {
         fzf
         fzy
         gist
-        git
-        gitAndTools.hub
         htop
         jq
         mosh

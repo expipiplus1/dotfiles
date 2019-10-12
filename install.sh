@@ -17,6 +17,7 @@ files="agignore
        config/nvim/init.vim
        config/nvim/autoload/plug.vim
        config/base16-shell
+       config/nixpkgs/home.nix
        nixpkgs/config.nix
        nixpkgs/myrtle.nix
        nixpkgs/plugs.nix
