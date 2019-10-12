@@ -45,6 +45,7 @@ in {
       ENABLE_CORRECTION = "true";
     };
     initExtraBeforeCompInit = ''
+      export LOCALE_ARCHIVE=${pkgs.glibcLocales}/lib/locale/locale-archive
       export NIX_PATH=nixpkgs=$HOME/src/nixpkgs:home-manager=$HOME/src/home-manager
 
       function light()
