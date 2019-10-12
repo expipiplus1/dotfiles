@@ -46,6 +46,16 @@ rec {
               xkeyval
               xunicode
               zapfding
+              microtype
+              draftwatermark
+              everypage
+              metafont
+              koma-script
+              parskip
+              mdframed
+              needspace
+              wallpaper
+              eso-pic
               ;
     };
 
