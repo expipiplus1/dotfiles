@@ -1,7 +1,4 @@
 export LOCALE_ARCHIVE="$(readlink ~/.nix-profile/lib/locale)/locale-archive"
-# Required for nix mosh to work...?
-unset LC_TIME
-unset LANG
 
 unset RPROMPT
 
