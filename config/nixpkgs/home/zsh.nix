@@ -32,12 +32,9 @@ in {
       });
       theme = "spaceship";
       plugins =
-        [ "cabal" "gitfast" "history-substring-search" "nix" "tmux" "vi-mode" ];
+        [ "cabal" "history-substring-search" "nix" "vi-mode" ];
     };
     shellAliases = {
-      git = "${pkgs.gitAndTools.hub}/bin/hub";
-      gs = "git status";
-      gd = "git diff";
       cb = "cabal build -j8";
       nb = "nix-build -j8";
       ne = "nix-env -f '<nixpkgs>'";

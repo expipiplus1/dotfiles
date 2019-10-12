@@ -1,13 +1,16 @@
 { config, pkgs, ... }:
 
 {
+  programs.zsh.oh-my-zsh.plugins = [ "tmux" ];
+
   programs.tmux = {
     enable = true;
     shortcut = "w";
     newSession = true;
     plugins = with pkgs; [
       tmuxPlugins.open
-      { plugin = tmuxPlugins.resurrect;
+      {
+        plugin = tmuxPlugins.resurrect;
         extraConfig = ''
           # resurrection settings
           set -g @resurrect-save 'S'

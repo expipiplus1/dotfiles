@@ -2,6 +2,14 @@
 
 {
   home.packages = with pkgs; [ gitAndTools.hub ];
+  programs.zsh = {
+    oh-my-zsh.plugins = [ "gitfast" "github" ];
+    shellAliases = {
+      git = "${pkgs.gitAndTools.hub}/bin/hub";
+      gs = "git status";
+      gd = "git diff";
+    };
+  };
 
   programs.git = {
     enable = true;

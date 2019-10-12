@@ -32,7 +32,6 @@ files="agignore
        xkb/keymap/custom
        moc/config
        moc/themes/base16
-       zshrc
        XCompose
        Xmodmap
        haskeline
