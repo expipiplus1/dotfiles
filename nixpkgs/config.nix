@@ -95,7 +95,7 @@ rec {
       paths = [
         cabal-install
       ] ++
-      (ghc8Packages (haskell.packages.ghc864.override{overrides = haskellPackageOverrides;})) ++
+      (ghc8Packages (haskell.packages.ghc865.override{overrides = haskellPackageOverrides;})) ++
       [ (import (builtins.getEnv "HOME" + "/src/hie-nix") {}).hie86
       ];
     };
