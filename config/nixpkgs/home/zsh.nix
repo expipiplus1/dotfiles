@@ -31,8 +31,7 @@ in {
         };
       });
       theme = "spaceship";
-      plugins =
-        [ "cabal" "history-substring-search" "nix" "vi-mode" ];
+      plugins = [ "cabal" "history-substring-search" "nix" "vi-mode" ];
     };
     shellAliases = {
       cb = "cabal build -j8";
@@ -43,11 +42,11 @@ in {
       HYPHEN_INSENSITIVE = "true";
       DISABLE_AUTO_UPDATE = "true";
       ENABLE_CORRECTION = "true";
+      HISTCONTROL = "ignoredups:ignorespace";
+      HISTSIZE = 10000000;
+      HISTFILESIZE = 20000000;
     };
     initExtraBeforeCompInit = ''
-      export LOCALE_ARCHIVE=${pkgs.glibcLocales}/lib/locale/locale-archive
-      export NIX_PATH=nixpkgs=$HOME/src/nixpkgs:home-manager=$HOME/src/home-manager
-
       function light()
       {
         touch ~/.config/light
@@ -113,9 +112,6 @@ in {
       unsetopt AUTO_CD
 
       unsetopt share_history
-      HISTCONTROL=ignoredups:ignorespace
-      HISTSIZE=10000000
-      HISTFILESIZE=20000000
 
       bindkey -M vicmd 'k' history-substring-search-up
       bindkey -M vicmd 'j' history-substring-search-down
