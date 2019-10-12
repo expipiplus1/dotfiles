@@ -70,7 +70,7 @@ if [[ "$IN_NIX_SHELL" == "" ]]; then
   fi
 fi
 
-export NIX_PATH=nixpkgs=$HOME/src/nixpkgs
+export NIX_PATH=nixpkgs=$HOME/src/nixpkgs:home-manager=$HOME/src/home-manager
 
 # Allow remote builds
 # export NIX_BUILD_HOOK=$HOME/.nix-profile/libexec/nix/build-remote.pl
