@@ -12,6 +12,13 @@ let
 
     in pkgs.linkFarm "zsh-custom" links;
 
+  base16 = pkgs.fetchFromGitHub {
+    owner = "mz026";
+    repo = "base16-shell";
+    rev = "773ce86a09c2d2700da39a7342df0776ebb69033";
+    sha256 = "19fbc44mf0sbjhaw7dcffsignr7qzaw9fzd3k36bx4npp351vfl0";
+  };
+
 in {
   programs.zsh = {
     enable = true;
@@ -50,11 +57,13 @@ in {
       function light()
       {
         touch ~/.config/light
-        ~/.config/base16-shell/base16-solarized.light.sh
-        gconftool-2 --set "/apps/gnome-terminal/profiles/Default/background_color" --type string "#EEE8D5"
-        gconftool-2 --set "/apps/gnome-terminal/profiles/Default/foreground_color" --type string "#586E75"
-        tmux set-window-option -g window-active-style bg=colour15
-        tmux set-window-option -g window-style bg=colour21
+        ${base16}/base16-solarized.light.sh
+        if command -v gconftool-2 2>&1 >/dev/null; then
+          gconftool-2 --set "/apps/gnome-terminal/profiles/Default/background_color" --type string "#EEE8D5"
+          gconftool-2 --set "/apps/gnome-terminal/profiles/Default/foreground_color" --type string "#586E75"
+        fi
+        ${config.programs.tmux.package}/bin/tmux set-window-option -g window-active-style bg=colour15
+        ${config.programs.tmux.package}/bin/tmux set-window-option -g window-style bg=colour21
       }
 
       function dark()
@@ -62,11 +71,13 @@ in {
         if [ -f ~/.config/light ]; then
           rm ~/.config/light
         fi
-        ~/.config/base16-shell/base16-tomorrow.dark.sh
-        gconftool-2 --set "/apps/gnome-terminal/profiles/Default/background_color" --type string "#282A2E"
-        gconftool-2 --set "/apps/gnome-terminal/profiles/Default/foreground_color" --type string "#C5C8C6"
-        tmux set-window-option -g window-active-style 'bg=black'
-        tmux set-window-option -g window-style bg=colour18
+        ${base16}/base16-tomorrow.dark.sh
+        if command -v gconftool-2 2>&1 >/dev/null; then
+          gconftool-2 --set "/apps/gnome-terminal/profiles/Default/background_color" --type string "#282A2E"
+          gconftool-2 --set "/apps/gnome-terminal/profiles/Default/foreground_color" --type string "#C5C8C6"
+        fi
+        ${config.programs.tmux.package}/bin/tmux set-window-option -g window-active-style 'bg=black'
+        ${config.programs.tmux.package}/bin/tmux set-window-option -g window-style bg=colour18
       }
 
       if [ -f ~/.config/light ]; then
