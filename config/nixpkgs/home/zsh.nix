@@ -45,7 +45,7 @@ in {
       ENABLE_CORRECTION = "true";
     };
     initExtraBeforeCompInit = ''
-      export NIX_PATH=''${NIX_PATH:+$NIX_PATH:}home-manager=\$HOME/src/home-manager
+      export NIX_PATH=nixpkgs=$HOME/src/nixpkgs:home-manager=$HOME/src/home-manager
 
       function light()
       {
