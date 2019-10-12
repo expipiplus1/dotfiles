@@ -19,7 +19,6 @@ files="agignore
        nixpkgs/config.nix
        nixpkgs/plugs.nix
        nixpkgs/vim.nix
-       stack/config.yaml
        ghci
        aspell.conf
        xinitrc
