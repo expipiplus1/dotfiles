@@ -7,6 +7,8 @@
     enable = true;
     shortcut = "w";
     newSession = true;
+    baseIndex = 1;
+    clock24 = true;
     plugins = with pkgs; [
       tmuxPlugins.open
       {
@@ -28,10 +30,6 @@
       }
     ];
     extraConfig = ''
-      # Start windows and panes at 1, not 0
-      set -g base-index 1
-      set -g pane-base-index 1
-
       # Something sensible
       set -g default-terminal "screen-256color"
       set-option -g default-shell ~/.nix-profile/bin/zsh
