@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ./home/zsh.nix ./home/git.nix ./home/tmux.nix ];
+  imports = [ ./home/zsh.nix ./home/git.nix ./home/tmux.nix ./home/tex.nix ];
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -28,5 +28,7 @@
     silver-searcher
     tig
     tree
+    pandoc
+    pdftk
   ];
 }

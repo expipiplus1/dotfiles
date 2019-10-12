@@ -15,50 +15,6 @@ rec {
     brittany = (import (builtins.getEnv "HOME" + "/src/hie-nix") {}).brittany86;
   };
 
-  tex = with pkgs;
-    texlive.combine{
-      inherit (texlive)
-              amsmath
-              babel
-              beamer
-              unicode-math
-              ucharcat
-              filehook
-              booktabs
-              cm-super
-              collection-fontsextra
-              collection-fontsrecommended
-              ec
-              etoolbox
-              euenc
-              fontspec
-              greek-inputenc
-              lm
-              mathspec
-              pgf
-              pgfgantt
-              pgfkeyx
-              scheme-basic
-              siunitx
-              standalone
-              xcolor
-              xetex
-              xkeyval
-              xunicode
-              zapfding
-              microtype
-              draftwatermark
-              everypage
-              metafont
-              koma-script
-              parskip
-              mdframed
-              needspace
-              wallpaper
-              eso-pic
-              ;
-    };
-
   packageOverrides = super: let pkgs = super.pkgs; in with pkgs; rec {
 
     asciidoctor =
