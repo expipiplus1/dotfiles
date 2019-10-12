@@ -9,6 +9,8 @@
     newSession = true;
     baseIndex = 1;
     clock24 = true;
+    historyLimit = 40000;
+    keyMode = "vi";
     plugins = with pkgs; [
       tmuxPlugins.open
       {
@@ -65,8 +67,6 @@
       bind C-p run "tmux set-buffer \"$(xsel -o --clipboard)\"; tmux paste-buffer"
       # move tmux copy buffer into x clipboard
       bind C-y run "tmux show-buffer | xsel -i --clipboard"
-
-      set -g history-limit 40000
 
       # no status bar
       set -g status off
