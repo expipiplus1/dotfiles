@@ -231,45 +231,6 @@ rec {
         xsel
       ];
     };
-
-    #
-    # Everything I want
-    #
-    dev-env = buildEnv {
-      name = "dev-env";
-      paths = [
-        asciinema
-        (aspellWithDicts (ps: with ps; [en]))
-        aspellDicts.en
-        bmon
-        clang-tools
-        coreutils
-        curl
-        file
-        fzf
-        fzy
-        gist
-        htop
-        jq
-        mosh
-        nox
-        silver-searcher
-        tig
-        tree
-        tssh
-        glibcLocales
-        graphviz
-      ];
-    };
-
-    pandocEnv = buildEnv {
-      name = "pandoc-env";
-      paths = [
-        pandoc
-        pdftk
-        tex
-      ];
-    };
   };
 }
 

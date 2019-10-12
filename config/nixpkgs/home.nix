@@ -12,4 +12,21 @@
     NIX_PATH = "nixpkgs=$HOME/src/nixpkgs:home-manager=$HOME/src/home-manager";
     EDITOR = "vim";
   };
+
+  home.packages = with pkgs; [
+    bmon
+    coreutils
+    curl
+    file
+    fzf
+    fzy
+    gist
+    graphviz
+    htop
+    jq
+    mosh
+    silver-searcher
+    tig
+    tree
+  ];
 }
