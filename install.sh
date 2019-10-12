@@ -12,7 +12,6 @@ dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
 files="agignore
        bashrc
-       tmux.conf
        tmux/plugins/tpm
        config/nvim/init.vim
        config/nvim/autoload/plug.vim

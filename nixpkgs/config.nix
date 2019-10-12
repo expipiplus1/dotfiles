@@ -255,7 +255,6 @@ rec {
         nox
         silver-searcher
         tig
-        tmux
         tree
         tssh
         glibcLocales
