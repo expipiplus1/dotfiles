@@ -158,6 +158,10 @@ ss() {
   find "$@" -mindepth 1 -maxdepth 1 -print0 | xargs -0 du -sh | sort -h
 }
 
+wd() {
+  nix-store -q --graph "$1" | dijkstra -da "$2" | gvpr -c 'N[dist>1000.0]{delete(NULL, $)}' | dot -Tsvg | display
+}
+
 autoload bashcompinit
 bashcompinit
 
