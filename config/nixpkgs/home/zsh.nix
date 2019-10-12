@@ -34,7 +34,7 @@ in {
           };
         };
         themes = {
-          "spaceship.zsh-theme" = /home/j/dotfiles/spaceship.zsh-theme;
+          "spaceship.zsh-theme" = ./spaceship.zsh-theme;
         };
       });
       theme = "spaceship";
