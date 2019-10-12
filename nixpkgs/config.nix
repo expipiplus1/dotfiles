@@ -17,78 +17,6 @@ rec {
 
   packageOverrides = super: let pkgs = super.pkgs; in with pkgs; rec {
 
-    asciidoctor =
-      (import (builtins.getEnv "HOME" + "/src/nixpkgs2") {config = {};}).asciidoctor;
-
-    #
-    # Irssi with a bunch of perl packages my config needs
-    #
-    irssi = lib.overrideDerivation super.irssi (oldAttrs: rec {
-      # It's an older code, but it checks out.
-      version = "0.8.17";
-      name = "irssi-${version}";
-      src = fetchurl {
-        urls = [ "https://distfiles.macports.org/irssi/${name}.tar.bz2"
-                 "http://irssi.org/files/${name}.tar.bz2"
-               ];
-        sha256 = "01v82q2pfiimx6lh271kdvgp8hl4pahc3srg04fqzxgdsb5015iw";
-      };
-
-      buildInputs = oldAttrs.buildInputs ++
-                    [ aspell
-                      perlPackages.TextAspell
-                      perlPackages.TextCharWidth
-                      perlPackages.CryptX
-                      perlPackages.JSONMaybeXS
-                      makeWrapper
-                    ];
-
-      NIX_LDFLAGS = ncurses.ldflags;
-
-      postInstall =
-        ''
-          wrapProgram "$out/bin/irssi" \
-            --prefix PERL5LIB : ${perlPackages.TextAspell}/${perl.libPrefix}/*/* \
-            --prefix PERL5LIB : ${perlPackages.TextCharWidth}/${perl.libPrefix}/*/* \
-            --prefix PERL5LIB : ${perlPackages.CryptX}/${perl.libPrefix}/*/* \
-            --prefix PERL5LIB : ${perlPackages.JSONMaybeXS}/${perl.libPrefix}/* \
-            --prefix PERL5LIB : ${perlPackages.JSON}/${perl.libPrefix}/*
-        '';
-    });
-
-    #
-    # MOC with configure flags enabling most things
-    #
-    moc = lib.overrideDerivation super.moc (attrs: {
-       buildInputs = attrs.buildInputs ++
-                    [ libsamplerate taglib libmpcdec wavpack faad2 curl file ];
-       configureFlags = ''--with-rcc --with-oss --with-alsa --with-jack
-         --with-aac --with-mp3 --with-musepack --with-vorbis --with-flac
-         --with-wavpack --with-sndfile --with-modplug --with-ffmpeg
-         --with-speex --with-timidity --with-samplerate --with-curl
-         --with-sidplay2 --with-magic --disable-cache --disable-debug'';
-     });
-
-    cmus = lib.overrideDerivation super.cmus (attrs: rec{
-      src = fetchFromGitHub {
-        owner = "cmus";
-        repo = "cmus";
-        rev = "ef65f69b3e44a79956c138c83dd64ef41e27f206";
-        sha256 = "0hkwgpqzmi2979ksdjmdnw9fxyd6djsrcyhvj1gy7kpdjw4az4s9";
-      };
-    });
-
-    xc3sprog = lib.overrideDerivation super.xc3sprog (attrs: rec {
-      version = "786"; # latest @ 2016-06-24
-      name = "xc3sprog-${version}";
-
-      src = fetchsvn rec {
-        url = "https://svn.code.sf.net/p/xc3sprog/code/trunk";
-        sha256 = "0p2dbd1ll263jjrmbb4543bhm0v52c17jh5a9kvql74i41jns4sq";
-        rev = "${version}";
-      };
-    });
-
     neovim-unconfigured = super.neovim;
     neovim-rtp = (import ./vim.nix {inherit pkgs neovim-unconfigured;}).rtpFile;
     neovim-rtp-cygwin = (import ./vim.nix {inherit pkgs neovim-unconfigured; cygwin = true;}).rtpFile;
@@ -122,12 +50,6 @@ rec {
           --replace "source $out/nix-support/add-hardening.sh" "" \
           --replace "dontLink=0" "dontLink=1"
       '';
-    };
-
-    weechat = super.weechat.override {
-      # aspell = pkgs.aspellWithDicts (ps: [ps.en]);
-      # useEnchant = true;
-      # enchantHunspellDicts = [pkgs.hunspellDicts.en-us];
     };
 
     tssh = writeTextFile {
