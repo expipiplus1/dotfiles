@@ -12,26 +12,20 @@ dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
 files="agignore
        bashrc
-       tmux/plugins/tpm
        config/nvim/init.vim
        config/nvim/autoload/plug.vim
        config/base16-shell
        config/nixpkgs/home.nix
        nixpkgs/config.nix
-       nixpkgs/myrtle.nix
        nixpkgs/plugs.nix
        nixpkgs/vim.nix
        stack/config.yaml
        ghci
-       irssi
-       gitconfig
        aspell.conf
        xinitrc
        xkb/symbols/local
        xkb/types/local
        xkb/keymap/custom
-       moc/config
-       moc/themes/base16
        XCompose
        Xmodmap
        haskeline
