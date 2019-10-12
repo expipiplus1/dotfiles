@@ -258,7 +258,6 @@ rec {
         tmux
         tree
         tssh
-        zsh
         glibcLocales
         graphviz
       ];
