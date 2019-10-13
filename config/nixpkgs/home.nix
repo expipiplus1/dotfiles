@@ -42,5 +42,6 @@
     cachix
     upfind
     update-nix-fetchgit
+    powerline-fonts
   ];
 }
