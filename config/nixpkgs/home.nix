@@ -22,6 +22,7 @@
 
   home.packages = with pkgs; [
     bmon
+    cachix
     coreutils
     curl
     ffmpeg
@@ -34,18 +35,18 @@
     jq
     mosh
     nix
-    nixfmt
-    nix-prefetch-github
     nix-prefetch-git
+    nix-prefetch-github
+    nixfmt
     pandoc
     pdftk
+    powerline-fonts
     silver-searcher
     tig
     tree
-    cachix
-    upfind
+    tssh
     update-nix-fetchgit
-    powerline-fonts
+    upfind
   ];
 
   xdg.configFile."nixpkgs/config.nix".source = pkgs.writeTextFile {
