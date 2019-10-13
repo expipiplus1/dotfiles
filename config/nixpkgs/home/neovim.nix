@@ -5,14 +5,63 @@ let
     drv.overrideAttrs (old: { patches = old.patches or [ ] ++ patches; });
 
   pluginsWithConfig = with pkgs.vimPlugins; [
-    (base16-vim.overrideAttrs (old: {
-      src = pkgs.fetchFromGitHub {
-        owner = "expipiplus1";
-        repo = "base16-vim";
-        rev = "9daeb991ee51977c3deea4b45846abfab34e9439";
-        sha256 = "0n9pcpam15vrnjdl3ghlsr02kldwzi4dlb1w2mwfi57fp65akbnd";
-      };
-    }))
+    {
+      plugin = (base16-vim.overrideAttrs (old: {
+        src = pkgs.fetchFromGitHub {
+          owner = "expipiplus1";
+          repo = "base16-vim";
+          rev = "9daeb991ee51977c3deea4b45846abfab34e9439";
+          sha256 = "0n9pcpam15vrnjdl3ghlsr02kldwzi4dlb1w2mwfi57fp65akbnd";
+        };
+      }));
+      config = ''
+        " Color scheme
+        if empty(glob("~/.config/light"))
+          set background=dark
+        else
+          set background=light
+        endif
+
+        " needs base16-shell run
+        let base16colorspace=256
+        colorscheme base16-tomorrow
+
+        if &background == "light"
+          hi QuickFixLine ctermbg=21 guibg=#e0e0e0
+        else
+          hi QuickFixLine ctermbg=18 guibg=#282a2e
+        endif
+
+        " Operators different from functions
+        hi Operator       ctermfg=2 guifg=#a1b56c
+        " String same as old comment
+        hi String         ctermfg=8 guifg=#585858
+        " String same as comment
+        hi Comment         ctermfg=8 guifg=#585858
+        " less distracting matching
+        hi MatchParen cterm=bold ctermbg=none ctermfg=none
+        " Blue types
+        hi Type ctermfg=4 guifg=#268bd2
+        " purple imports
+        hi Include ctermfg=5 guifg=#6c71c4
+
+        " to play nicely with diminactive make it the same as cursorline
+        if &background == "light"
+          hi NonText ctermbg=21 guibg=#e0e0e0
+        else
+          hi NonText ctermbg=18 guibg=#282a2e
+        endif
+
+
+        " Split separator colors
+        set fillchars+=stlnc:-
+        set fillchars+=stl:-
+        hi VertSplit ctermfg=8 ctermbg=0 guifg=#93a1a1 guibg=#073642
+
+        " Search highlighting
+        hi Search term=bold,underline gui=bold,underline
+      '';
+    }
     fzf-vim
     {
       plugin = ncm2;
@@ -114,7 +163,22 @@ let
         endfunction
       '';
     }
-    neovim-fuzzy
+    {
+      plugin = neovim-fuzzy;
+      config = ''
+        let g:fuzzy_rootcmds = [
+        \ '${pkgs.upfind}/bin/upfind -d build.hs',
+        \ '${pkgs.upfind}/bin/upfind -d Main.mu',
+        \ '${pkgs.upfind}/bin/upfind -d CMakeLists.txt',
+        \ '${pkgs.upfind}/bin/upfind -d Makefile',
+        \ '${pkgs.upfind}/bin/upfind -d "".+\.cabal""',
+        \ '${config.programs.git.package}/bin/git rev-parse --show-toplevel',
+        \ '${pkgs.mercurial}/bin/hg root'
+        \ ]
+
+        nnoremap <C-p> :FuzzyOpen<CR>
+      '';
+    }
     open-browser-vim
     open-browser-github-vim
     {
@@ -175,7 +239,42 @@ let
     vim-unimpaired
     vim-visual-increment
     vim-yaml
-    LanguageClient-neovim
+    {
+      plugin = LanguageClient-neovim;
+      config = ''
+        let g:LanguageClient_serverCommands = {
+          \ 'haskell': ['hie', '--lsp'],
+          \ }
+
+        map <Leader>ll :call LanguageClient_contextMenu()<CR>
+        map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
+        map <Leader>lg :call LanguageClient#textDocument_definition()<CR>
+        map <Leader>lr :call LanguageClient#textDocument_rename()<CR>
+        map <Leader>lf :call LanguageClient#textDocument_rangeFormatting()<CR>
+        map <Leader>ld :call LanguageClient#textDocument_formatting()<CR>
+        map <Leader>lb :call LanguageClient#textDocument_references()<CR>
+        map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
+        map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
+        map <Leader>lh :call LanguageClient#textDocument_documentHighlight()<CR>
+        map <Leader>le :call LanguageClient#workspace_applyEdit()<CR>
+        nnoremap <nowait> <leader>R :call LanguageClient#textDocument_rename()<CR>
+
+        " Rename - rn => rename
+        noremap <leader>rn :call LanguageClient#textDocument_rename()<CR>
+
+        " Rename - rc => rename camelCase
+        noremap <leader>rc :call LanguageClient#textDocument_rename(
+                    \ {'newName': Abolish.camelcase(expand('<cword>'))})<CR>
+
+        " Rename - rs => rename snake_case
+        noremap <leader>rs :call LanguageClient#textDocument_rename(
+                    \ {'newName': Abolish.snakecase(expand('<cword>'))})<CR>
+
+        " Rename - ru => rename UPPERCASE
+        noremap <leader>ru :call LanguageClient#textDocument_rename(
+                    \ {'newName': Abolish.uppercase(expand('<cword>'))})<CR>
+      '';
+    }
   ];
 
   pluginConfig = p:

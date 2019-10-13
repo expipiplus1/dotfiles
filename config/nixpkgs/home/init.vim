@@ -163,60 +163,6 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 let &t_AB="\e[48;5;%dm"
 let &t_AF="\e[38;5;%dm"
 
-" no scrollbars
-set guioptions-=m
-set guioptions-=T
-set guioptions-=l
-set guioptions-=L
-set guioptions-=r
-set guioptions-=R
-
-" Color scheme
-if empty(glob("~/.config/light"))
-  set background=dark
-else
-  set background=light
-endif
-
-" needs base16-shell run
-let base16colorspace=256
-colorscheme base16-tomorrow
-
-if &background == "light"
-  hi QuickFixLine ctermbg=21 guibg=#e0e0e0
-else
-  hi QuickFixLine ctermbg=18 guibg=#282a2e
-endif
-
-" Operators different from functions
-hi Operator       ctermfg=2 guifg=#a1b56c
-" String same as old comment
-hi String         ctermfg=8 guifg=#585858
-" String same as comment
-hi Comment         ctermfg=8 guifg=#585858
-" less distracting matching
-hi MatchParen cterm=bold ctermbg=none ctermfg=none
-" Blue types
-hi Type ctermfg=4 guifg=#268bd2
-" purple imports
-hi Include ctermfg=5 guifg=#6c71c4
-
-" to play nicely with diminactive make it the same as cursorline
-if &background == "light"
-  hi NonText ctermbg=21 guibg=#e0e0e0
-else
-  hi NonText ctermbg=18 guibg=#282a2e
-endif
-
-
-" Split separator colors
-set fillchars+=stlnc:-
-set fillchars+=stl:-
-hi VertSplit ctermfg=8 ctermbg=0 guifg=#93a1a1 guibg=#073642
-
-" Search highlighting
-hi Search term=bold,underline gui=bold,underline
-
 " Split vertically by default
 cnoreabbrev sb vert sb
 cnoreabbrev hsb sb
@@ -357,43 +303,6 @@ set wildmode=list:longest
 set nohlsearch
 set incsearch " ...dynamically as they are typed.
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Fuzzy
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-let g:fuzzy_rootcmds = [
-\ 'upfind -d build.hs',
-\ 'upfind -d Main.mu',
-\ 'upfind -d CMakeLists.txt',
-\ 'upfind -d Makefile',
-\ 'upfind -d ''.+\.cabal''',
-\ 'git rev-parse --show-toplevel',
-\ 'hg root'
-\ ]
-
-nnoremap <C-p> :FuzzyOpen<CR>
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Align
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-vnoremap a= :Align =<CR>
-vnoremap a- :Align -><CR>
-vnoremap a: :Align ::<CR>
-vnoremap a\| :Align \| \| =<CR>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" snippets
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Plugin key-mappings.
-imap <C-s>     <Plug>(neosnippet_expand_or_jump)
-smap <C-s>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-s>     <Plug>(neosnippet_expand_target)
-
-" This makes <| and |> into syntax high lighting delimeters, which is bad for
-" Haskell code.
-let g:neosnippet#enable_conceal_markers=0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
@@ -403,50 +312,6 @@ set tabstop=2
 set softtabstop=2
 set expandtab
 set shiftwidth=2
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Unimpared
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-function! <SID>QFPrevious()
-  try
-    cprev
-  catch /^Vim\%((\a\+)\)\=:E553/
-    clast
-  catch a:e
-    throw a:e
-  endtry
-endfunction
-
-function! <SID>QFNext()
-  try
-    cnext
-  catch /^Vim\%((\a\+)\)\=:E553/
-    cfirst
-  catch a:e
-    throw a:e
-  endtry
-endfunction
-
-nnoremap <silent> <Plug>QFPrevious    :<C-u>exe 'call <SID>QFPrevious()'<CR>
-nnoremap <silent> <Plug>QFNext        :<C-u>exe 'call <SID>QFNext()'<CR>
-nmap <silent> <S-F8>    <Plug>QFPrevious
-nmap <silent> <F8>    <Plug>QFNext
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" vim2hs
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:haskell_conceal       = 0
-let g:haskell_quasi         = 0
-let g:haskell_interpolation = 0
-let g:haskell_regex         = 0
-let g:haskell_jmacro        = 0
-let g:haskell_shqq          = 0
-let g:haskell_sql           = 0
-let g:haskell_json          = 0
-let g:haskell_xml           = 0
-let g:haskell_hsp           = 0
-let g:haskell_tabular       = 0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Haskell stuff
@@ -608,52 +473,6 @@ digraphs [x 9745
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 autocmd Filetype * nnoremap <nowait> <buffer> <leader>p <ESC>1z=e
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Language server
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-let g:LanguageClient_serverCommands = {
-  \ 'haskell': ['hie', '--lsp'],
-  \ }
-
-map <Leader>ll :call LanguageClient_contextMenu()<CR>
-map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
-map <Leader>lg :call LanguageClient#textDocument_definition()<CR>
-map <Leader>lr :call LanguageClient#textDocument_rename()<CR>
-map <Leader>lf :call LanguageClient#textDocument_rangeFormatting()<CR>
-map <Leader>ld :call LanguageClient#textDocument_formatting()<CR>
-map <Leader>lb :call LanguageClient#textDocument_references()<CR>
-map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
-map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
-map <Leader>lh :call LanguageClient#textDocument_documentHighlight()<CR>
-map <Leader>le :call LanguageClient#workspace_applyEdit()<CR>
-nnoremap <nowait> <leader>R :call LanguageClient#textDocument_rename()<CR>
-
-" Rename - rn => rename
-noremap <leader>rn :call LanguageClient#textDocument_rename()<CR>
-
-" Rename - rc => rename camelCase
-noremap <leader>rc :call LanguageClient#textDocument_rename(
-            \ {'newName': Abolish.camelcase(expand('<cword>'))})<CR>
-
-" Rename - rs => rename snake_case
-noremap <leader>rs :call LanguageClient#textDocument_rename(
-            \ {'newName': Abolish.snakecase(expand('<cword>'))})<CR>
-
-" Rename - ru => rename UPPERCASE
-noremap <leader>ru :call LanguageClient#textDocument_rename(
-            \ {'newName': Abolish.uppercase(expand('<cword>'))})<CR>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" vim-better-whitespace
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Don't highlight whitespace
-let g:better_whitespace_enabled=0
-let g:strip_whitespace_on_save=1
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Write faster
