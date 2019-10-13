@@ -75,5 +75,16 @@
   };
 
   nixpkgs.overlays = [
+    (self: super: {
+      tssh = self.writeTextFile {
+        name = "tssh";
+        text = ''
+          #/usr/bin/env sh
+          ${pkgs.mosh}/bin/mosh --server=.nix-profile/bin/mosh-server "$@" -- .nix-profile/bin/tmux attach
+        '';
+        executable = true;
+        destination = "/bin/tssh";
+      };
+    })
   ];
 }
