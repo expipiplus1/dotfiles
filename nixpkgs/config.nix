@@ -17,41 +17,6 @@ rec {
 
   packageOverrides = super: let pkgs = super.pkgs; in with pkgs; rec {
 
-    neovim-unconfigured = super.neovim;
-    neovim-rtp = (import ./vim.nix {inherit pkgs neovim-unconfigured;}).rtpFile;
-    neovim-rtp-cygwin = (import ./vim.nix {inherit pkgs neovim-unconfigured; cygwin = true;}).rtpFile;
-    neovim = stdenv.mkDerivation {
-      name = "neovim-configured";
-
-      nativeBuildInputs = [ makeWrapper ];
-
-      buildCommand = ''
-        mkdir -p $out/bin
-        for item in ${neovim-unconfigured}/bin/*; do
-          ln -s $item $out/bin/
-        done
-        ln -s $out/bin/nvim $out/bin/vim
-        wrapProgram $out/bin/nvim \
-          --add-flags "--cmd 'source ${neovim-rtp}'" \
-          --prefix PATH : \
-          ${lib.makeBinPath [lessWrappedClang clang-tools]};
-
-      '';
-    };
-
-    # Clang suitable for vim checking
-    lessWrappedClang = clang.override {
-      # Fixes http://lists.llvm.org/pipermail/cfe-users/2017-March/001112.html
-      extraBuildCommands = ''
-        sed -i 's|-B[^ ]*||g' $out/nix-support/libc-cflags
-        sed -i 's|-B[^ ]*||g' $out/nix-support/cc-cflags
-        sed -i 2d $out/nix-support/add-flags.sh
-        substituteInPlace $out/bin/clang \
-          --replace "source $out/nix-support/add-hardening.sh" "" \
-          --replace "dontLink=0" "dontLink=1"
-      '';
-    };
-
     tssh = writeTextFile {
       name = "tssh";
       text = ''
@@ -75,19 +40,6 @@ rec {
     #
 
     ghc8Packages = hp: with hp; [
-      apply-refact
-      # hdevtools
-      ghcid
-      hindent
-      hlint
-      pretty-show
-      stylish-haskell
-      cabal2nix
-      # HaRe
-      brittany
-      upfind
-      nix-diff
-      hpack
     ];
 
     haskell-env = buildEnv {
