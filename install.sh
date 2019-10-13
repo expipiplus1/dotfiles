@@ -13,9 +13,6 @@ olddir=~/dotfiles_old             # old dotfiles backup directory
 files="agignore
        bashrc
        config/nixpkgs/home.nix
-       nixpkgs/config.nix
-       nixpkgs/plugs.nix
-       nixpkgs/vim.nix
        ghci
        aspell.conf
        xinitrc
