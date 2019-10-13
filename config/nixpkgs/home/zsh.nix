@@ -58,9 +58,11 @@ in {
       {
         touch ~/.config/light
         ${base16}/base16-solarized.light.sh
-        if command -v gconftool-2 2>&1 >/dev/null; then
-          gconftool-2 --set "/apps/gnome-terminal/profiles/Default/background_color" --type string "#EEE8D5"
-          gconftool-2 --set "/apps/gnome-terminal/profiles/Default/foreground_color" --type string "#586E75"
+        if command -v gsettings 2>&1 >/dev/null; then
+          profile=''${"$(gsettings get org.gnome.Terminal.ProfilesList default)":1:-1}
+          gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" background-color "#EEE8D5"
+          gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" foreground-color "#586E75"
+          gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" bold-color       "#586E75"
         fi
         ${config.programs.tmux.package}/bin/tmux set-window-option -g window-active-style bg=colour15
         ${config.programs.tmux.package}/bin/tmux set-window-option -g window-style bg=colour21
@@ -72,9 +74,11 @@ in {
           rm ~/.config/light
         fi
         ${base16}/base16-tomorrow.dark.sh
-        if command -v gconftool-2 2>&1 >/dev/null; then
-          gconftool-2 --set "/apps/gnome-terminal/profiles/Default/background_color" --type string "#282A2E"
-          gconftool-2 --set "/apps/gnome-terminal/profiles/Default/foreground_color" --type string "#C5C8C6"
+        if command -v gsettings 2>&1 >/dev/null; then
+          profile=''${"$(gsettings get org.gnome.Terminal.ProfilesList default)":1:-1}
+          gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" background-color "#282A2E"
+          gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" foreground-color "#C5C8C6"
+          gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" bold-color       "#C5C8C6"
         fi
         ${config.programs.tmux.package}/bin/tmux set-window-option -g window-active-style 'bg=black'
         ${config.programs.tmux.package}/bin/tmux set-window-option -g window-style bg=colour18
