@@ -182,7 +182,7 @@ let
         \ '${pkgs.upfind}/bin/upfind -d Main.mu',
         \ '${pkgs.upfind}/bin/upfind -d CMakeLists.txt',
         \ '${pkgs.upfind}/bin/upfind -d Makefile',
-        \ '${pkgs.upfind}/bin/upfind -d "".+\.cabal""',
+        \ '${pkgs.upfind}/bin/upfind -d "".+\\.cabal""',
         \ '${config.programs.git.package}/bin/git rev-parse --show-toplevel',
         \ '${pkgs.mercurial}/bin/hg root'
         \ ]
