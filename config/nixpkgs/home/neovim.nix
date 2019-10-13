@@ -300,7 +300,9 @@ let
 in {
   programs.neovim = {
     enable = true;
-    package = appendPatches [ ./nvim-backupdir.patch ] pkgs.neovim-unwrapped;
+    package =
+      appendPatches [ ./nvim-backup-dir.patch ./nvim-backup-perms.patch ]
+      pkgs.neovim-unwrapped;
     vimAlias = true;
     plugins = map (p: p.plugin or p) pluginsWithConfig;
     extraConfig = builtins.readFile ./init.vim

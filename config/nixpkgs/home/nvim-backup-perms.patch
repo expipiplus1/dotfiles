@@ -1,0 +1,34 @@
+diff --git a/src/nvim/fileio.c b/src/nvim/fileio.c
+index 58e6b2ae9..4b8bfe186 100644
+--- a/src/nvim/fileio.c
++++ b/src/nvim/fileio.c
+@@ -2687,6 +2687,7 @@ buf_write(
+         else {
+ # ifdef UNIX
+           os_fchown(fd, file_info_old.stat.st_uid, file_info_old.stat.st_gid);
++          os_fsetperm(fd, perm);
+           if (!os_fileinfo((char *)IObuff, &file_info)
+               || file_info.stat.st_uid != file_info_old.stat.st_uid
+               || file_info.stat.st_gid != file_info_old.stat.st_gid
+diff --git a/src/nvim/os/fs.c b/src/nvim/os/fs.c
+index ae922e404..8ef32554d 100644
+--- a/src/nvim/os/fs.c
++++ b/src/nvim/os/fs.c
+@@ -773,6 +773,17 @@ int os_setperm(const char *const name, int perm)
+   return (r == kLibuvSuccess ? OK : FAIL);
+ }
+ 
++/// Set the permission of a file referred to by the open file
++/// descriptor, like fchmod(2).
++///
++/// @return 0 on success, or libuv error code on failure.
++int os_fsetperm(int fd, int perm)
++{
++  int r;
++  RUN_UV_FS_FUNC(r, uv_fs_fchmod, fd, perm, NULL);
++  return r;
++}
++
+ /// Changes the owner and group of a file, like chown(2).
+ ///
+ /// @return 0 on success, or libuv error code on failure.

@@ -36,10 +36,10 @@ index 971c4ffbd..f77058086 100644
  	  of the directory name.  To have a space at the start of a directory
  	  name, precede it with a backslash.
 diff --git a/src/nvim/fileio.c b/src/nvim/fileio.c
-index 58e6b2ae9..669fac6f4 100644
+index 58e6b2ae9..2aaea709d 100644
 --- a/src/nvim/fileio.c
 +++ b/src/nvim/fileio.c
-@@ -2734,10 +2734,19 @@ buf_write(
+@@ -2734,9 +2734,11 @@ buf_write(
  
      if (backup_copy) {
        char_u *wp;
@@ -48,28 +48,19 @@ index 58e6b2ae9..669fac6f4 100644
        char_u      *dirp;
        char_u      *rootname;
 +      char_u      *p;
-+      char_u      *copybuf;
  
-+      copybuf = verbose_try_malloc(BUFSIZE + 1);
-+      if (copybuf == NULL) {
-+        // out of memory
-+        some_error = TRUE;
-+        goto nobackup;
-+      }
        /*
         * Try to make the backup in each directory in the 'bdir' option.
-        *
-@@ -2755,8 +2764,19 @@ buf_write(
+@@ -2755,7 +2757,18 @@ buf_write(
          /*
           * Isolate one directory name, using an entry in 'bdir'.
           */
 -        (void)copy_option_part(&dirp, IObuff, IOSIZE, ",");
--        rootname = get_file_in_dir(fname, IObuff);
-+        (void)copy_option_part(&dirp, copybuf, BUFSIZE, ",");
-+        p = copybuf + STRLEN(copybuf);
-+        if (after_pathsep((char *)copybuf, (char *)p) && p[-1] == p[-2]) {
++        (void)copy_option_part(&dirp, IObuff, BUFSIZE, ",");
++        p = IObuff + STRLEN(IObuff);
++        if (after_pathsep((char *)IObuff, (char *)p) && p[-1] == p[-2]) {
 +          // Ends with '//', Use Full path
-+          if ((p = (char_u *)make_percent_swname((char *)copybuf,
++          if ((p = (char_u *)make_percent_swname((char *)IObuff,
 +                                                 (char *)fname)) != NULL) {
 +            backup = (char_u *)modname((char *)p,
 +                                       (char *)backup_ext,
@@ -77,11 +68,10 @@ index 58e6b2ae9..669fac6f4 100644
 +          }
 +        }
 +
-+        rootname = get_file_in_dir(fname, copybuf);
+         rootname = get_file_in_dir(fname, IObuff);
          if (rootname == NULL) {
            some_error = TRUE;                /* out of memory */
-           goto nobackup;
-@@ -2767,7 +2787,12 @@ buf_write(
+@@ -2767,7 +2780,12 @@ buf_write(
            /*
             * Make backup file name.
             */
@@ -95,29 +85,7 @@ index 58e6b2ae9..669fac6f4 100644
            if (backup == NULL) {
              xfree(rootname);
              some_error = TRUE;                          /* out of memory */
-@@ -2836,6 +2861,12 @@ buf_write(
-           // copy the file
-           if (os_copy((char *)fname, (char *)backup, UV_FS_COPYFILE_FICLONE)
-               != 0) {
-+            {
-+                FILE * fp;
-+                fp = fopen ("file.txt", "a");
-+                fprintf(fp, "%s %s\n", fname, backup);
-+                fclose(fp);
-+            }
-             SET_ERRMSG(_("E506: Can't write to backup file "
-                          "(add ! to override)"));
-           }
-@@ -2853,6 +2884,8 @@ buf_write(
-       }
- 
- nobackup:
-+      xfree(copybuf);
-+
-       if (backup == NULL && errmsg == NULL) {
-         SET_ERRMSG(_(
-             "E509: Cannot create backup file (add ! to override)"));
-@@ -2864,6 +2897,7 @@ nobackup:
+@@ -2864,6 +2882,7 @@ nobackup:
        }
        SET_ERRMSG(NULL);
      } else {
@@ -125,7 +93,7 @@ index 58e6b2ae9..669fac6f4 100644
        char_u      *dirp;
        char_u      *p;
        char_u      *rootname;
-@@ -2893,12 +2927,27 @@ nobackup:
+@@ -2893,12 +2912,27 @@ nobackup:
           * Isolate one directory name and make the backup file name.
           */
          (void)copy_option_part(&dirp, IObuff, IOSIZE, ",");
