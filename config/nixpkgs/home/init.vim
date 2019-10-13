@@ -59,8 +59,6 @@ set title
 
 set history=1000
 
-set tags=./.tags;
-
 " Save your backups to a less annoying place than the current directory.
 " If you have .vim-backup in the current directory, it'll use that.
 " Otherwise it saves it to ~/.vim/backup or . if all else fails.
@@ -330,8 +328,6 @@ let g:haskell_indent_where            = 6
 let g:haskell_indent_do               = 3
 let g:haskell_indent_in               = 0
 
-let g:necoghc_enable_detailed_browse = 1
-
 "
 " stylish-haskell
 "
@@ -354,53 +350,8 @@ endif
 "   autocmd BufWritePost *.hs silent call s:myStylishHaskell()
 " augroup END
 
-"
-" ghc mod
-"
-let &l:statusline = '%{empty(getqflist()) ? "[No Errors]" : "[Errors Found]"}' . (empty(&l:statusline) ? &statusline : &l:statusline)
-
-let g:ghcmod_hlint_options = ['--hint=HLint', '--hint=Default', '--hint=Dollar', '--cpp-define=HLINT', '--color']
-
-if(s:use_ghc_mod)
-  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>i :GhcModInfo!<CR>
-  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>c :GhcModTypeClear<CR>
-  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>t :GhcModType!<CR>
-  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>T :GhcModTypeInsert!<CR>
-else
-  let g:hdevtools_options = '-g-Wall -g-isrc -g-itest -g-fbyte-code'
-
-  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>i :HdevtoolsInfo<CR>
-  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>c :HdevtoolsClear<CR>
-  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>t :HdevtoolsType<CR>
-  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>T :HdevtoolsSig<CR>
-  autocmd Filetype haskell nnoremap <buffer> <nowait> <leader>d :HdevtoolsFindsymbol<CR>
-endif
-
-if(s:use_ghc_mod)
-  let g:neomake_haskell_enabled_makers = ['ghcmod', 'hlint']
-else
-  let g:neomake_haskell_enabled_makers= ['hdevtools', 'hlint']
-endif
-
 " highlight long columns
 au FileType haskell let &colorcolumn=join(range(81,81),",")
-if &background == "light"
-  hi ColorColumn ctermbg=21 guibg=#e0e0e0
-else
-  hi ColorColumn ctermbg=18 guibg=#282a2e
-endif
-
-autocmd FileType haskell let b:easytags_auto_highlight = 1
-
-let g:easytags_languages = {
-      \   'haskell': {
-      \       'cmd': '~/.cabal/bin/lushtags',
-      \       'args': [],
-      \       'fileoutput_opt': '-f',
-      \       'stdout_opt': '-f-',
-      \       'recurse_flag': '-R'
-      \   }
-      \}
 
 function! Preserve(command)
   let w = winsaveview()

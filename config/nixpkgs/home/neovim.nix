@@ -56,7 +56,18 @@ let
         " Split separator colors
         set fillchars+=stlnc:-
         set fillchars+=stl:-
-        hi VertSplit ctermfg=8 ctermbg=0 guifg=#93a1a1 guibg=#073642
+        if &background == "light"
+          hi VertSplit ctermfg=0 ctermbg=21
+        else
+          hi VertSplit ctermfg=8 ctermbg=18
+        endif
+
+        " Column marker color
+        if &background == "light"
+          hi ColorColumn ctermbg=21 guibg=#e0e0e0
+        else
+          hi ColorColumn ctermbg=18 guibg=#282a2e
+        endif
 
         " Search highlighting
         hi Search term=bold,underline gui=bold,underline
