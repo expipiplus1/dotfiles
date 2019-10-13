@@ -39,9 +39,6 @@ rec {
     # Some useful haskell tools
     #
 
-    ghc8Packages = hp: with hp; [
-    ];
-
     haskell-env = buildEnv {
       name = "haskell-env";
       paths = [
