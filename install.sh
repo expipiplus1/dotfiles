@@ -12,9 +12,6 @@ dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
 files="agignore
        bashrc
-       config/nvim/init.vim
-       config/nvim/autoload/plug.vim
-       config/base16-shell
        config/nixpkgs/home.nix
        nixpkgs/config.nix
        nixpkgs/plugs.nix
