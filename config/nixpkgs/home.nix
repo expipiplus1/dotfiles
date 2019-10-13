@@ -34,6 +34,9 @@
     jq
     mosh
     nix
+    nixfmt
+    nix-prefetch-github
+    nix-prefetch-git
     pandoc
     pdftk
     silver-searcher
