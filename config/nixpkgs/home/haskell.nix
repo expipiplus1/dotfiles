@@ -29,6 +29,7 @@
     (self: super: {
       haskellPackages = self.haskell.lib.properExtend super.haskellPackages
         (self: super: {
+          vulkan = import (builtins.getEnv "HOME" + "/src/vulkan") {inherit pkgs;};
           upfind = import (pkgs.fetchFromGitHub {
             owner = "expipiplus1";
             repo = "upfind";
