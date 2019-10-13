@@ -62,18 +62,18 @@
       # vi vi vi
       set -g mode-keys vi
       bind-key -Tcopy-mode-vi 'v' send -X begin-selection
-      bind-key -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel 'xsel -i --clipboard'
+      bind-key -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel '${pkgs.xsel}/bin/xsel -i --clipboard'
       # move x clipboard into tmux paste buffer
-      bind C-p run "tmux set-buffer \"$(xsel -o --clipboard)\"; tmux paste-buffer"
+      bind C-p run "${config.programs.tmux.package}/bin/tmux set-buffer \"$(${pkgs.xsel}/bin/xsel -o --clipboard)\"; ${config.programs.tmux.package}/bin/tmux paste-buffer"
       # move tmux copy buffer into x clipboard
-      bind C-y run "tmux show-buffer | xsel -i --clipboard"
+      bind C-y run "${config.programs.tmux.package}/bin/tmux show-buffer | ${pkgs.xsel}/bin/xsel -i --clipboard"
 
       # no status bar
       set -g status off
 
       # Smart pane switching with awareness of vim splits and nested tmux sessions
-      is_vim='tmux display -p #{pane_current_command} | grep -iqE "(^|\/)\.?g?(view|n?vim?)(diff)?(-wrapped)?$"'
-      is_tmux='tmux display -p #{pane_pid} | xargs ps h -oargs --ppid | grep -q "tssh"'
+      is_vim='${config.programs.tmux.package}/bin/tmux display -p #{pane_current_command} | grep -iqE "(^|\/)\.?g?(view|n?vim?)(diff)?(-wrapped)?$"'
+      is_tmux='${config.programs.tmux.package}/bin/tmux display -p #{pane_pid} | xargs ps h -oargs --ppid | grep -q "tssh"'
       is_paned="$is_vim || $is_tmux"
       bind -n C-h if-shell "$is_paned" "send-keys C-h" "select-pane -L"
       bind -n C-j if-shell "$is_paned" "send-keys C-j" "select-pane -D"
@@ -114,7 +114,7 @@
       set -g set-clipboard off
 
       # C-c: save into system clipboard (+). With preselection.
-      bind C-c choose-buffer "run \"tmux save-buffer -b %% - | xsel -i --clipboard\" \; run \" tmux display \\\"Clipboard \(+\) filled with: $(tmux save-buffer -b %1 - | dd ibs=1 obs=1 status=noxfer count=80 2> /dev/null)... \\\" \" "
+      bind C-c choose-buffer "run \"${config.programs.tmux.package}/bin/tmux save-buffer -b %% - | ${pkgs.xsel}/bin/xsel -i --clipboard\" \; run \" ${config.programs.tmux.package}/bin/tmux display \\\"Clipboard \(+\) filled with: $(${config.programs.tmux.package}/bin/tmux save-buffer -b %1 - | dd ibs=1 obs=1 status=noxfer count=80 2> /dev/null)... \\\" \" "
 
       # from https://gist.github.com/towo/b5643ba96f987df54acc54470e6be460
       set -g update-environment 'DISPLAY SSH_ASKPASS SSH_AUTH_SOCK SSH_AGENT_PID SSH_CONNECTION WINDOWID XAUTHORITY DBUS_SESSION_BUS_ADDRESS'
