@@ -148,9 +148,21 @@ let
     vim-markdown
     vim-nix
     vim-repeat
-    vim-startify
+    {
+      plugin = vim-startify;
+      config = ''
+        let g:startify_change_to_dir = 0
+        let g:startify_change_to_vcs_root = 0
+      '';
+    }
     vim-surround
-    vim-table-mode
+    {
+      plugin = vim-table-mode;
+      config = ''
+        let g:table_mode_corner="|"
+        autocmd Filetype * nnoremap <nowait> <buffer> <leader>m :TableModeToggle<CR>
+      '';
+    }
     vim-textobj-function
     (appendPatches [
       ./plug-patches/vim-textobj-haskell-typesig.patch
@@ -166,6 +178,15 @@ let
     LanguageClient-neovim
   ];
 
+  pluginConfig = p:
+    if builtins.hasAttr "plugin" p && builtins.hasAttr "config" p then ''
+      """"""""""""""""""""""""""""""""
+      " ${p.plugin.pname}
+      """"""""""""""""""""""""""""""""
+      ${p.config}
+    '' else
+      "";
+
 in {
   programs.neovim = {
     enable = true;
@@ -173,6 +194,6 @@ in {
     vimAlias = true;
     plugins = map (p: p.plugin or p) pluginsWithConfig;
     extraConfig = builtins.readFile ./init.vim
-      + pkgs.lib.concatMapStrings (p: p.config or "") pluginsWithConfig;
+      + pkgs.lib.concatMapStrings pluginConfig pluginsWithConfig;
   };
 }
