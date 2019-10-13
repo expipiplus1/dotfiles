@@ -33,11 +33,13 @@
       htop
       jq
       mosh
+      nix
       pandoc
       pdftk
       silver-searcher
       tig
       tree
+      cachix
     ] ++ (with haskellPackages; [
       apply-refact
       ghcid
@@ -50,6 +52,12 @@
       upfind
       nix-diff
       hpack
+      ((import (builtins.fetchTarball
+        "https://github.com/infinisil/all-hies/tarball/master")
+        { }).bios.selection { selector = p: { inherit (p) ghc865; }; })
+      (import (builtins.fetchTarball
+        "https://github.com/hercules-ci/ghcide-nix/tarball/master")
+        { }).ghcide-ghc865
     ]);
 
   nixpkgs.overlays = [
@@ -66,7 +74,7 @@
             repo = "upfind";
             rev = "cb451254f5b112f839aa36e5b6fd83b60cf9b9ae";
             sha256 = "15g5nvs6azgb2fkdna1dxbyiabx9n63if0wcbdvs91hjafhzjaqa";
-          } ) {};
+          }) { };
         });
     })
   ];

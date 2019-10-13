@@ -23,8 +23,7 @@ in {
       ncm2-bufword
       tmux-complete-vim
       gist-vim
-      (appendPatches [ ../../../nixpkgs/plug-patches/cabal-module-word.patch ]
-        haskell-vim)
+      (appendPatches [ ./plug-patches/cabal-module-word.patch ] haskell-vim)
       hlint-refactor-vim
       lessspace-vim
       lightline-vim
@@ -46,8 +45,8 @@ in {
       vim-table-mode
       vim-textobj-function
       (appendPatches [
-        ../../../nixpkgs/plug-patches/vim-textobj-haskell-typesig.patch
-        ../../../nixpkgs/plug-patches/vim-textobj-haskell-end.patch
+        ./plug-patches/vim-textobj-haskell-typesig.patch
+        ./plug-patches/vim-textobj-haskell-end.patch
       ] vim-textobj-haskell)
       vim-textobj-user
       vim-tmux-focus-events
@@ -56,6 +55,7 @@ in {
       vim-unimpaired
       vim-visual-increment
       vim-yaml
+      LanguageClient-neovim
     ];
     extraConfig = builtins.readFile ./init.vim;
   };
