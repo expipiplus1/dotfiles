@@ -41,16 +41,6 @@ if has('nvim')
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" Commentary
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd FileType vhdl setlocal commentstring=--\ %s
-autocmd FileType vhdl setlocal comments=:--
-autocmd FileType cpp setlocal commentstring=//\ %s
-autocmd FileType cpp setlocal comments=://
-autocmd FileType c setlocal commentstring=//\ %s
-autocmd FileType c setlocal comments=://
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Misc options
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -366,19 +356,6 @@ set wildmode=list:longest
 " Highlight search terms...
 set nohlsearch
 set incsearch " ...dynamically as they are typed.
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" vim diminactive
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-let g:diminactive_enable_focus = 1
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" vim prev_indent
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-imap <silent> <C-d> <Plug>PrevIndent
-nmap <silent> <C-g><C-g> :PrevIndent<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Fuzzy
