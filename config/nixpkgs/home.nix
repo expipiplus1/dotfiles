@@ -36,7 +36,6 @@
     nix
     nix-prefetch-git
     nix-prefetch-github
-    nixfmt
     silver-searcher
     tree
     tssh
