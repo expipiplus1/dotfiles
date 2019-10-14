@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   appendPatches = patches: drv:
@@ -169,15 +169,18 @@ let
     {
       plugin = neovim-fuzzy;
       config = ''
-        let g:fuzzy_rootcmds = [
-        \ '${pkgs.upfind}/bin/upfind -d build.hs',
-        \ '${pkgs.upfind}/bin/upfind -d Main.mu',
-        \ '${pkgs.upfind}/bin/upfind -d CMakeLists.txt',
-        \ '${pkgs.upfind}/bin/upfind -d Makefile',
-        \ '${pkgs.upfind}/bin/upfind -d "".+\\.cabal""',
-        \ '${config.programs.git.package}/bin/git rev-parse --show-toplevel',
-        \ '${pkgs.mercurial}/bin/hg root'
-        \ ]
+        let g:fuzzy_rootcmds = [ ${lib.concatMapStringsSep ", " (s: "'${s}'") (
+          lib.optionals (lib.hasAttr "upfind" pkgs) [
+            "${pkgs.upfind}/bin/upfind -d build.hs"
+            "${pkgs.upfind}/bin/upfind -d Main.mu"
+            "${pkgs.upfind}/bin/upfind -d CMakeLists.txt"
+            "${pkgs.upfind}/bin/upfind -d Makefile"
+            ''${pkgs.upfind}/bin/upfind -d "".+\\.cabal""''
+          ] ++ [
+            "${config.programs.git.package}/bin/git rev-parse --show-toplevel"
+            "${pkgs.mercurial}/bin/hg root"
+          ])
+        } ]
 
         nnoremap <C-p> :FuzzyOpen<CR>
       '';
