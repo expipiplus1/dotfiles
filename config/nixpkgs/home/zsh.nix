@@ -120,6 +120,14 @@ in {
         find "$@" -mindepth 1 -maxdepth 1 -print0 | xargs -0 du -sh | sort -h
       }
 
+      function nix-source() {
+        git remote get-url origin |
+          sed 's|\.git||' |
+          awk -F '/|:' '{print $(NF-1),"\t",$NF}' |
+          read owner repo &&
+          ${pkgs.nix-prefetch-github}/bin/nix-prefetch-github --prefetch --nix --rev $(git rev-parse HEAD) $owner $repo
+      }
+
       function highlight() {
         declare -A fg_color_map
         fg_color_map[black]=30
