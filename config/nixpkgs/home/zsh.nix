@@ -120,14 +120,6 @@ in {
         find "$@" -mindepth 1 -maxdepth 1 -print0 | xargs -0 du -sh | sort -h
       }
 
-      wd() {
-        nix-store -q --graph "$1" |
-          ${pkgs.graphviz}/bin/dijkstra -da "$2" |
-          ${pkgs.graphviz}/bin/gvpr -c 'N[dist>1000.0]{delete(NULL, $)}' |
-          ${pkgs.graphviz}/bin/dot -Tsvg |
-          ${pkgs.imagemagick}/bin/display
-      }
-
       function highlight() {
         declare -A fg_color_map
         fg_color_map[black]=30
