@@ -6,8 +6,7 @@
     ./home/git.nix
     ./home/tmux.nix
     ./home/neovim.nix
-    ./home/tex.nix
-    ./home/haskell.nix
+    ./home/pc.nix
   ] ++ lib.optional (builtins.getEnv "BANKID" != "") ./home/scb.nix;
 
   # Let Home Manager install and manage itself.
