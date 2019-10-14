@@ -48,6 +48,8 @@
         set -g default-terminal "screen-256color"
         set-option -g default-shell ~/.nix-profile/bin/zsh
 
+        set -g prefix2 C-space
+
         set-option -g -q mouse on
 
         # Resize with Shift-arrow
