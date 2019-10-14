@@ -45,8 +45,6 @@
     silver-searcher
     tree
     tssh
-    update-nix-fetchgit
-    upfind
   ];
 
   xdg.configFile."nixpkgs/config.nix".source = pkgs.writeTextFile {
