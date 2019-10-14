@@ -13,8 +13,6 @@ in {
     vimAlias = true;
     plugins = with pkgs.vimPlugins; [
       fzf-vim
-      # ncm2-path
-      # ncm2-bufword
       tmux-complete-vim
       gist-vim
       (appendPatches [ ./plug-patches/cabal-module-word.patch ] haskell-vim)
@@ -39,30 +37,6 @@ in {
       vim-unimpaired
       vim-visual-increment
       vim-yaml
-      # {
-      #   plugin = ncm2;
-      #   config = ''
-      #     " enable ncm2 for all buffers
-      #     autocmd BufEnter * call ncm2#enable_for_buffer()
-
-      #     " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
-      #     " found' messages
-      #     set shortmess+=c
-
-      #     " IMPORTANT: :help Ncm2PopupOpen for more information
-      #     set completeopt=noinsert,menuone,noselect
-
-      #     set pumheight=10
-
-      #     " Use <TAB> to select the popup menu:
-      #     inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-      #     inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-      #     imap <silent><expr> <C-Space>
-      #     		\ pumvisible() ?  "\<C-n>" :
-      #     		\ "\<Plug>(ncm2_manual_trigger)"
-      #   '';
-      # }
       {
         plugin = (base16-vim.overrideAttrs (old: {
           src = pkgs.fetchFromGitHub {
@@ -109,6 +83,7 @@ in {
 
           hi! def link VertSplit StatusLineNC
 
+          hi! def link CocErrorSign ErrorMsg
           hi! def link CocErrorSign ErrorMsg
 
           " Fancy windows and popups
