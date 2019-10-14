@@ -4,6 +4,7 @@
   home.packages = with pkgs.haskellPackages; [
     pkgs.upfind
     pkgs.update-nix-fetchgit
+  ] ++ map pkgs.haskell.lib.justStaticExecutables [
     apply-refact
     ghcid
     hindent
@@ -14,6 +15,7 @@
     brittany
     nix-diff
     hpack
+  ] ++ [
     ((import (builtins.fetchTarball
       "https://github.com/infinisil/all-hies/tarball/master")
       { }).bios.selection { selector = p: { inherit (p) ghc865; }; })
