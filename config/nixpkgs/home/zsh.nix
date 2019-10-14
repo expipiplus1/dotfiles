@@ -113,7 +113,7 @@ in {
       }
 
       sr(){
-        ag -0 -l $1 | xargs -0 perl -pi -e "s/$1/$2/g"
+        ${pkgs.silver-searcher}/bin/ag -0 -l $1 | xargs -0 perl -pi -e "s/$1/$2/g"
       }
 
       ss() {
@@ -121,7 +121,11 @@ in {
       }
 
       wd() {
-        nix-store -q --graph "$1" | dijkstra -da "$2" | gvpr -c 'N[dist>1000.0]{delete(NULL, $)}' | dot -Tsvg | display
+        nix-store -q --graph "$1" |
+          ${pkgs.graphviz}/bin/dijkstra -da "$2" |
+          ${pkgs.graphviz}/bin/gvpr -c 'N[dist>1000.0]{delete(NULL, $)}' |
+          ${pkgs.graphviz}/bin/dot -Tsvg |
+          ${pkgs.imagemagick}/bin/display
       }
 
       function highlight() {
