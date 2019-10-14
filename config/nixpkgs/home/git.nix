@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  home.packages = with pkgs; [ gitAndTools.hub ];
+  home.packages = with pkgs; [ gitAndTools.hub tig ];
   programs.zsh = {
     oh-my-zsh.plugins = [ "gitfast" "github" ];
     shellAliases = {

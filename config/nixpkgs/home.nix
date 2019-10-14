@@ -39,11 +39,8 @@
     nix-prefetch-git
     nix-prefetch-github
     nixfmt
-    pandoc
-    pdftk
     powerline-fonts
     silver-searcher
-    tig
     tree
     tssh
     update-nix-fetchgit

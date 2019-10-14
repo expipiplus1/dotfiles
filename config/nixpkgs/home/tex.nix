@@ -1,6 +1,11 @@
 { config, pkgs, ... }:
 
 {
+  home.packages = with pkgs; [
+    pandoc
+    pdftk
+  ];
+
   programs.texlive = {
     enable = true;
     extraPackages = tpkgs: {
