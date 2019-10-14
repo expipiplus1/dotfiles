@@ -8,6 +8,7 @@
     ./home/neovim.nix
     ./home/tex.nix
     ./home/haskell.nix
+    ./home/scb.nix
   ];
 
   # Let Home Manager install and manage itself.
@@ -37,15 +38,11 @@
     htop
     jq
     mosh
-    nix
     nix-prefetch-git
     nix-prefetch-github
     nixfmt
-    pandoc
-    pdftk
     powerline-fonts
     silver-searcher
-    tig
     tree
     tssh
     update-nix-fetchgit

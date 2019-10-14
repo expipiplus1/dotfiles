@@ -134,7 +134,7 @@ let
               \   'filetype': 'MyFiletype',
               \ },
               \ 'component': {
-              \   'readonly': '%{&readonly?"":""}',
+              \   'readonly': '%{&readonly?"r":""}',
               \ }
               \ }
 
