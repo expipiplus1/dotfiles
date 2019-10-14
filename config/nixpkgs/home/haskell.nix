@@ -2,6 +2,8 @@
 
 {
   home.packages = with pkgs.haskellPackages; [
+    pkgs.upfind
+    pkgs.update-nix-fetchgit
     apply-refact
     ghcid
     hindent
