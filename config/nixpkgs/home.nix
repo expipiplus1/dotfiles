@@ -28,12 +28,10 @@
     cachix
     coreutils
     curl
-    ffmpeg
     file
     fzf
     fzy
     gist
-    graphviz
     htop
     jq
     mosh
@@ -41,7 +39,6 @@
     nix-prefetch-git
     nix-prefetch-github
     nixfmt
-    powerline-fonts
     silver-searcher
     tree
     tssh
