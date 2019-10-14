@@ -37,6 +37,7 @@
     htop
     jq
     mosh
+    nix
     nix-prefetch-git
     nix-prefetch-github
     nixfmt
