@@ -4,6 +4,7 @@
   home.packages = with pkgs.haskellPackages; [
     pkgs.upfind
     pkgs.update-nix-fetchgit
+    pkgs.cachix
   ] ++ map pkgs.haskell.lib.justStaticExecutables [
     apply-refact
     ghcid

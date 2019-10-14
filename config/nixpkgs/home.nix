@@ -24,7 +24,6 @@
 
   home.packages = with pkgs; [
     bmon
-    cachix
     coreutils
     curl
     file
