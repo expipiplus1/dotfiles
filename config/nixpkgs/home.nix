@@ -11,7 +11,10 @@
   ];
 
   # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
+  programs.home-manager = {
+    enable = true;
+    path = builtins.getEnv "HOME" + "/src/home-manager";
+  };
   news.display = "silent";
 
   home.sessionVariables = {
