@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [
@@ -8,8 +8,7 @@
     ./home/neovim.nix
     ./home/tex.nix
     ./home/haskell.nix
-    ./home/scb.nix
-  ];
+  ] ++ lib.optional (builtins.getEnv "BANKID" != "") ./home/scb.nix;
 
   # Let Home Manager install and manage itself.
   programs.home-manager = {
