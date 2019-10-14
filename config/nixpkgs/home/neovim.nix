@@ -47,12 +47,17 @@ in {
           };
         }));
         config = ''
-          set t_8f=^[[38;2;%lu;%lu;%lum
-          set t_8b=^[[48;2;%lu;%lu;%lum
-          set termguicolors
-
-          " needs base16-shell run
-          " let base16colorspace=256
+          if 1
+            set t_8f=^[[38;2;%lu;%lu;%lum
+            set t_8b=^[[48;2;%lu;%lu;%lum
+            set termguicolors
+            " Fancy windows and popups
+            set pumblend=10
+            set winblend=10
+          else
+            " needs base16-shell run
+            let base16colorspace=256
+          endif
 
           " Color scheme
           if empty(glob("~/.config/light"))
@@ -65,7 +70,8 @@ in {
             let lightLineColorScheme = "solarized"
           endif
 
-          exec "hi String ctermfg=" . base16_cterm03 . " guifg=#" . base16_gui03
+          hi! def link String Comment
+
           exec "hi ConId ctermfg=" . 4 . " guifg=" . g:terminal_color_4
           exec "hi Operator ctermfg=" . 10 . " guifg=" . g:terminal_color_10
           exec "hi Statement gui=none"
@@ -85,10 +91,6 @@ in {
 
           hi! def link CocErrorSign ErrorMsg
           hi! def link CocErrorSign ErrorMsg
-
-          " Fancy windows and popups
-          set pumblend=10
-          set winblend=10
         '';
       }
       {
