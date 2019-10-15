@@ -1,29 +1,33 @@
 { config, pkgs, ... }:
 
 {
-  home.packages = with pkgs.haskellPackages; [
-    pkgs.upfind
-    pkgs.update-nix-fetchgit
-    pkgs.cachix
-    pkgs.nixfmt
-    apply-refact
-    ghcid
-    hindent
-    hlint
-    pretty-show
-    stylish-haskell
-    cabal2nix
-    brittany
-    nix-diff
-    hpack
-  ] ++ [
-    ((import (builtins.fetchTarball
-      "https://github.com/infinisil/all-hies/tarball/master")
-      { }).bios.selection { selector = p: { inherit (p) ghc865; }; })
-    (import (builtins.fetchTarball
-      "https://github.com/hercules-ci/ghcide-nix/tarball/master")
-      { }).ghcide-ghc865
-  ];
+  home.packages = with pkgs.haskellPackages;
+    [
+      pkgs.upfind
+      pkgs.update-nix-fetchgit
+      pkgs.cachix
+      pkgs.nixfmt
+      apply-refact
+      ghcid
+      hindent
+      hlint
+      pretty-show
+      stylish-haskell
+      cabal2nix
+      brittany
+      nix-diff
+      hpack
+    ] ++ [
+      ((import (builtins.fetchTarball
+        "https://github.com/infinisil/all-hies/tarball/master")
+        { }).bios.selection { selector = p: { inherit (p) ghc865; }; })
+      (import (pkgs.fetchFromGitHub {
+        owner = "hercules-ci";
+        repo = "ghcide-nix";
+        rev = "fd42f62613d491565c1676821148c008b2011584";
+        sha256 = "1cd60hlr58ih5j21a64rdrmyrh28dhwz0wgmkb3p3j8jmrya8fv7";
+      }) { }).ghcide-ghc865
+    ];
 
   nixpkgs.overlays = [
     (import ((builtins.fetchTarball {
@@ -34,7 +38,8 @@
     (self: super: {
       haskellPackages = self.haskell.lib.properExtend super.haskellPackages
         (self: super: {
-          vulkan = import (builtins.getEnv "HOME" + "/src/vulkan") {inherit pkgs;};
+          vulkan =
+            import (builtins.getEnv "HOME" + "/src/vulkan") { inherit pkgs; };
           upfind = import (pkgs.fetchFromGitHub {
             owner = "expipiplus1";
             repo = "upfind";
