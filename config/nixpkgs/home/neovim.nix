@@ -78,7 +78,7 @@ in {
           hi! def link Character String
 
           " less distracting matching
-          hi MatchParen cterm=bold gui=bold ctermbg=none ctermfg=none
+          hi MatchParen cterm=bold gui=bold guibg=none guifg=none ctermbg=none ctermfg=none
 
           " Search highlighting
           hi Search term=bold,underline gui=bold,underline
@@ -141,7 +141,7 @@ in {
           function! MyFugitive()
             try
               if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
-                let mark = ' '  " edit here for cool mark
+                let mark = 'ᚠ '  " edit here for cool mark
                 let _ = fugitive#head()
                 return strlen(_) ? mark._ : ""
               endif
