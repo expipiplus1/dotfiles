@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   home.sessionVariables = rec {
@@ -13,7 +13,7 @@
     hub = { protocol = "https"; };
   };
 
-  programs.tmux.update-environment = [ "SSH_ASKPASS" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "SSH_CONNECTION" "WINDOWID" "DBUS_SESSION_BUS_ADDRESS" ];
+  programs.tmux.update-environment = lib.mkForce [ "SSH_ASKPASS" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "SSH_CONNECTION" "WINDOWID" "DBUS_SESSION_BUS_ADDRESS" ];
 
   programs.zsh = {
     shellAliases = {
