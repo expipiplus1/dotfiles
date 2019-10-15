@@ -113,15 +113,19 @@ in {
       }
 
       sr(){
-        ag -0 -l $1 | xargs -0 perl -pi -e "s/$1/$2/g"
+        ${pkgs.silver-searcher}/bin/ag -0 -l $1 | xargs -0 perl -pi -e "s/$1/$2/g"
       }
 
       ss() {
         find "$@" -mindepth 1 -maxdepth 1 -print0 | xargs -0 du -sh | sort -h
       }
 
-      wd() {
-        nix-store -q --graph "$1" | dijkstra -da "$2" | gvpr -c 'N[dist>1000.0]{delete(NULL, $)}' | dot -Tsvg | display
+      function nix-source() {
+        git remote get-url origin |
+          sed 's|\.git||' |
+          awk -F '/|:' '{print $(NF-1),"\t",$NF}' |
+          read owner repo &&
+          ${pkgs.nix-prefetch-github}/bin/nix-prefetch-github --prefetch --nix --rev $(git rev-parse HEAD) $owner $repo
       }
 
       function highlight() {

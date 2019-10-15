@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [
@@ -6,13 +6,14 @@
     ./home/git.nix
     ./home/tmux.nix
     ./home/neovim.nix
-    ./home/tex.nix
-    ./home/haskell.nix
-    ./home/scb.nix
-  ];
+    ./home/pc.nix
+  ] ++ lib.optional (builtins.getEnv "BANKID" != "") ./home/scb.nix;
 
   # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
+  programs.home-manager = {
+    enable = true;
+    path = builtins.getEnv "HOME" + "/src/home-manager";
+  };
   news.display = "silent";
 
   home.sessionVariables = {
@@ -23,27 +24,21 @@
 
   home.packages = with pkgs; [
     bmon
-    cachix
     coreutils
     curl
-    ffmpeg
     file
     fzf
     fzy
     gist
-    graphviz
     htop
     jq
     mosh
+    nix
     nix-prefetch-git
     nix-prefetch-github
-    nixfmt
-    powerline-fonts
     silver-searcher
     tree
     tssh
-    update-nix-fetchgit
-    upfind
   ];
 
   xdg.configFile."nixpkgs/config.nix".source = pkgs.writeTextFile {
