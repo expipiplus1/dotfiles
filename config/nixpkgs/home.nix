@@ -44,19 +44,10 @@
   xdg.configFile."nixpkgs/config.nix".source = pkgs.writeTextFile {
     name = "config.nix";
     text = ''
-      (import <home-manager/modules> {
-        pkgs = import <nixpkgs> {config={}; overlays=[];};
+      (import ${config.programs.home-manager.path}/modules {
+        pkgs = import <nixpkgs> {config={};};
           configuration = import (builtins.getEnv "HOME" + "/.config/nixpkgs/home.nix");
         }).config.nixpkgs.config
-    '';
-  };
-  xdg.configFile."nixpkgs/overlays.nix".source = pkgs.writeTextFile {
-    name = "overlays.nix";
-    text = ''
-      (import <home-manager/modules> {
-        pkgs = import <nixpkgs> {config={}; overlays=[];};
-          configuration = import (builtins.getEnv "HOME" + "/.config/nixpkgs/home.nix");
-        }).config.nixpkgs.overlays
     '';
   };
 
