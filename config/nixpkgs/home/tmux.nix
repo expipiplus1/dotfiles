@@ -18,11 +18,14 @@
       enable = true;
       shortcut = "w";
       newSession = true;
+      shell = pkgs.zsh + "/bin/zsh";
       baseIndex = 1;
       clock24 = true;
       historyLimit = 40000;
       keyMode = "vi";
       update-environment = [ "DISPLAY" "SSH_ASKPASS" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "SSH_CONNECTION" "WINDOWID" "XAUTHORITY" "DBUS_SESSION_BUS_ADDRESS" ];
+      terminal = "screen-256color";
+      secureSocket = false;
       plugins = with pkgs; [
         tmuxPlugins.open
         {
@@ -45,7 +48,6 @@
       ];
       extraConfig = ''
         # Something sensible
-        set -g default-terminal "screen-256color"
         set-option -g default-shell ~/.nix-profile/bin/zsh
 
         set -g prefix2 C-space
