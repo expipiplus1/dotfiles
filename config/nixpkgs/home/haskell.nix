@@ -18,9 +18,12 @@
       nix-diff
       hpack
     ] ++ [
-      ((import (builtins.fetchTarball
-        "https://github.com/infinisil/all-hies/tarball/master")
-        { }).bios.selection { selector = p: { inherit (p) ghc865; }; })
+      ((import (pkgs.fetchFromGitHub {
+        owner = "Infinisil";
+        repo = "all-hies";
+        rev = "b286d3ece6d89bdec30c04991369e9ca5317ca8f";
+        sha256 = "022q8fjs9q75jajwlmn8axc0rkjdl31s2h9fkydcn33f82rpf8dr";
+      }) { }).bios.selection { selector = p: { inherit (p) ghc865; }; })
       (import (pkgs.fetchFromGitHub {
         owner = "hercules-ci";
         repo = "ghcide-nix";
