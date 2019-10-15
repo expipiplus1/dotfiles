@@ -6,7 +6,6 @@
     pkgs.update-nix-fetchgit
     pkgs.cachix
     pkgs.nixfmt
-  ] ++ map pkgs.haskell.lib.justStaticExecutables [
     apply-refact
     ghcid
     hindent
