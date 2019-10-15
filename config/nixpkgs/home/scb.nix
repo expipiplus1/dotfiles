@@ -49,8 +49,4 @@
       echo -ne "\e[5 q"
     '';
   };
-
-  programs.neovim.extraConfig = ''
-    set guicursor=
-  '';
 }
