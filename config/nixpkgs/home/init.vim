@@ -430,11 +430,3 @@ autocmd Filetype * nnoremap <nowait> <buffer> <leader>p <ESC>1z=e
 " Write faster
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 noremap <Leader>s :write<CR>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" SCB
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-au BufRead,BufNewFile *.mu set filetype=haskell
-
-set guicursor=
