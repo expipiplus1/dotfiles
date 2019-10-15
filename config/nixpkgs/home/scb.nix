@@ -8,6 +8,8 @@
     CORTEX_EFFECTIVE_USER_ID = builtins.getEnv "STAFFID";
   };
 
+  home.packages = [ pkgs.weechat ];
+
   programs.git.extraConfig = {
     http = { sslcainfo = config.home.sessionVariables.SSL_CERT_FILE; };
     hub = { protocol = "https"; };
@@ -33,6 +35,11 @@
         j edit "$1" --noedit --override=assignee="'"$bankid"'" --override=reporter="'"$bankid"'"
         j transition "In Progress" "$1" --noedit
       }
+
+      start-bitlbee(){
+        PURPLE_PLUGIN_PATH=${pkgs.pidgin-sipe}/lib/purple-2 \
+          ${pkgs.bitlbee}/bin/bitlbee -F -p 6667 -v -d ~/.config/bitlbee -c ~/.config/bitlbee/bitlbee.conf "$@"
+      }
     '';
     initExtra = ''
       zle-keymap-select () {
@@ -49,4 +56,15 @@
       echo -ne "\e[5 q"
     '';
   };
+
+  nixpkgs.overlays = [
+    (self: super: {
+      bitlbee =
+        (super.bitlbee.override { enableLibPurple = true; }).overrideAttrs
+        (old: {
+          patches = (old.drvAttrs.patches or [ ]) ++ [ ./scb_first_name.patch ];
+        });
+
+    })
+  ];
 }

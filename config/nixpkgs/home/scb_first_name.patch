@@ -1,0 +1,69 @@
+diff --git a/doc/user-guide/commands.xml b/doc/user-guide/commands.xml
+index f4fb2eb0..2cf92af0 100644
+--- a/doc/user-guide/commands.xml
++++ b/doc/user-guide/commands.xml
+@@ -1141,7 +1141,7 @@
+ 
+ 	<bitlbee-setting name="nick_source" type="string" scope="account">
+ 		<default>handle</default>
+-		<possible-values>handle, full_name, first_name</possible-values>
++		<possible-values>handle, full_name, first_name, sc_first_name</possible-values>
+ 
+ 		<description>
+ 			<para>
+@@ -1149,7 +1149,7 @@
+ 			</para>
+ 
+ 			<para>
+-				With this setting set to <emphasis>full_name</emphasis>, the person's full name is used to generate a nickname. Or if you don't like long nicknames, set this setting to <emphasis>first_name</emphasis> instead and only the first word will be used. Note that the full name can be full of non-ASCII characters which will be stripped off.
++        With this setting set to <emphasis>full_name</emphasis>, the person's full name is used to generate a nickname. Or if you don't like long nicknames, set this setting to <emphasis>first_name</emphasis> instead and only the first word will be used; if this setting is set to <emphasis>scb_first_name</emphasis> (strip comma before first name) then it behaves the same as <emphasis>first_name</emphasis> after stripping up to the first comma (for organisations which store names as "Lastname, Firstname Middlename". Note that the full name can be full of non-ASCII characters which will be stripped off.
+ 			</para>
+ 		</description>
+ 	</bitlbee-setting>
+diff --git a/doc/user-guide/misc.xml b/doc/user-guide/misc.xml
+index 4ad687f1..f1a3a469 100644
+--- a/doc/user-guide/misc.xml
++++ b/doc/user-guide/misc.xml
+@@ -189,6 +189,7 @@ text that will be copied to the nick, combined with several variables:
+ 	<varlistentry><term>%handle</term><listitem><para>The handle/screenname of the contact.</para></listitem></varlistentry>
+ 	<varlistentry><term>%full_name</term><listitem><para>The full name of the contact.</para></listitem></varlistentry>
+ 	<varlistentry><term>%first_name</term><listitem><para>The first name of the contact (the full name up to the first space).</para></listitem></varlistentry>
++	<varlistentry><term>%scb_first_name</term><listitem><para>The first name of the contact (the full name after the first comma up to the first space).</para></listitem></varlistentry>
+ 	<varlistentry><term>%group</term><listitem><para>The name of the group this contact is a member of</para></listitem></varlistentry>
+ 	<varlistentry><term>%account</term><listitem><para>Account tag of the contact</para></listitem></varlistentry>
+ </variablelist>
+diff --git a/nick.c b/nick.c
+index 68cdabd3..cb161971 100644
+--- a/nick.c
++++ b/nick.c
+@@ -162,6 +162,17 @@ char *nick_gen(bee_user_t *bu)
+ 				ok |= part && *part;
+ 				chop = ' ';
+ 				break;
++			} else if (g_strncasecmp(fmt, "scb_first_name", 14) == 0) {
++        /* Find the first comma */
++				part = bu->fullname ? strchr(bu->fullname, ',') : NULL;
++        /* If there were no commas use the full name */
++        part = part ? part + 1 : bu->fullname;
++        /* Strip leading whitespace */
++        if (part) while (isspace((unsigned char)*part)) ++part;
++				fmt += 14;
++				ok |= part && *part;
++				chop = ' ';
++				break;
+ 			} else if (g_strncasecmp(fmt, "group", 5) == 0) {
+ 				part = bu->group ? bu->group->name : NULL;
+ 				fmt += 5;
+diff --git a/protocols/account.c b/protocols/account.c
+index 36848640..39e13617 100644
+--- a/protocols/account.c
++++ b/protocols/account.c
+@@ -207,6 +207,8 @@ static char *set_eval_nick_source(set_t *set, char *value)
+ 		set_setstr(&a->set, "nick_format", "%full_name");
+ 	} else if (strcmp(value, "first_name") == 0) {
+ 		set_setstr(&a->set, "nick_format", "%first_name");
++	} else if (strcmp(value, "scb_first_name") == 0) {
++		set_setstr(&a->set, "nick_format", "%scb_first_name");
+ 	} else {
+ 		set_setstr(&a->set, "nick_format", "%-@nick");
+ 	}
