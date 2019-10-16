@@ -153,6 +153,15 @@ in {
 
       bindkey -M vicmd 'k' history-substring-search-up
       bindkey -M vicmd 'j' history-substring-search-down
+
+      bindkey "''${terminfo[khome]}" beginning-of-line
+      bindkey "''${terminfo[kend]}"  end-of-line
+      bindkey "''${terminfo[kich1]}" overwrite-mode
+      bindkey "''${terminfo[kdch1]}" delete-char
+      bindkey "''${terminfo[kcuu1]}" up-line-or-history
+      bindkey "''${terminfo[kcud1]}" down-line-or-history
+      bindkey "''${terminfo[kcub1]}" backward-char
+      bindkey "''${terminfo[kcuf1]}" forward-char
     '';
 
     # So ssh machine -- foo works
