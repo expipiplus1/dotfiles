@@ -213,6 +213,11 @@ in {
         '';
       }
     ];
-    extraConfig = builtins.readFile ./init.vim;
+    extraConfig = ''
+      source ${pkgs.substituteAll {
+        src = ./init.vim;
+        shortcut = config.programs.tmux.shortcut;
+      }}
+    '';
   };
 }

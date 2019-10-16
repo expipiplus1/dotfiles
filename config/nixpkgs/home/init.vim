@@ -259,6 +259,9 @@ if has('nvim')
   tnoremap <C-H> <C-\><C-n><C-W><C-H>
 endif
 
+nnoremap <C-@shortcut@> <C-w>
+nnoremap <C-w> <nop>
+
 " no Ex mode
 nnoremap Q <Nop>
 
