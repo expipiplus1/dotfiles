@@ -97,12 +97,12 @@
 
         # Smart window splitting with awareness of vim
         bind s   if-shell "$is_paned" "send-keys C-${config.programs.tmux.shortcut} s"   "split-window -v -c '#{pane_current_path}'"
-        bind C-s if-shell "$is_paned" "send-keys C-${config.programs.tmux.shortcut} C-s" "split-window -v -c '#{pane_current_path}'"
         bind v   if-shell "$is_paned" "send-keys C-${config.programs.tmux.shortcut} v"   "split-window -h -c '#{pane_current_path}'"
-        bind C-v if-shell "$is_paned" "send-keys C-${config.programs.tmux.shortcut} C-v" "split-window -h -c '#{pane_current_path}'"
 
         bind '"' split-window -c '#{pane_current_path}'
         bind % split-window -h -c '#{pane_current_path}'
+        bind C-s split-window -c '#{pane_current_path}'
+        bind C-v split-window -h -c '#{pane_current_path}'
         bind c new-window -c '#{pane_current_path}'
 
         # Clear on C-k
