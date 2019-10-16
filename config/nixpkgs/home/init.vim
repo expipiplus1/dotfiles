@@ -278,6 +278,7 @@ command Qw wq
 command QW wq
 command W w
 command Q q
+command E e
 
 " sort
 vnoremap <nowait> <leader>r :sort<CR>
