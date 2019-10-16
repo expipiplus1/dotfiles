@@ -285,7 +285,8 @@ vnoremap <nowait> <leader>r :sort<CR>
 " Searching
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-set wildmode=list:longest
+set wildmenu
+set wildmode=longest:full,full
 
 " Highlight search terms...
 set nohlsearch
