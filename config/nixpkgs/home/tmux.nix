@@ -27,7 +27,6 @@
       terminal = "screen-256color";
       secureSocket = false;
       plugins = with pkgs; [
-        tmuxPlugins.open
         {
           plugin = tmuxPlugins.resurrect;
           extraConfig = ''

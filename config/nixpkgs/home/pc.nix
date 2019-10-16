@@ -31,6 +31,10 @@ in
     ];
   };
 
+  programs.tmux = {
+    plugins = [ pkgs.tmuxPlugins.open ];
+  };
+
   programs.zsh = {
     initExtraBeforeCompInit = ''
       wd() {
