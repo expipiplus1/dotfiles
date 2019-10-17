@@ -103,6 +103,7 @@
         bind C-s split-window -c '#{pane_current_path}'
         bind C-v split-window -h -c '#{pane_current_path}'
         bind c new-window -c '#{pane_current_path}'
+        bind C-c new-window -c '#{pane_current_path}'
 
         # Clear on C-k
         bind C-k send-keys -R \; send-keys C-l \; clear-history
