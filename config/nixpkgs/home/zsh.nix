@@ -48,7 +48,6 @@ in {
     localVariables = {
       HYPHEN_INSENSITIVE = "true";
       DISABLE_AUTO_UPDATE = "true";
-      ENABLE_CORRECTION = "true";
       HISTCONTROL = "ignoredups:ignorespace";
       HISTSIZE = 10000000;
       HISTFILESIZE = 20000000;
