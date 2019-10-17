@@ -4,13 +4,6 @@
   programs.neovim = {
     plugins = with pkgs.vimPlugins; [ coc-nvim ];
     withNodeJs = true;
-    extraConfig = ''
-      """"""""""""""""""""""""""""""
-      " SCB
-      """"""""""""""""""""""""""""""
-
-      au BufRead,BufNewFile *.mu set filetype=haskell
-    '';
   };
 
   xdg.configFile."nvim/coc-settings.json".source = pkgs.writeTextFile {

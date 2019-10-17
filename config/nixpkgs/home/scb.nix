@@ -62,6 +62,16 @@
     '';
   };
 
+  programs.neovim = {
+    extraConfig = ''
+      """"""""""""""""""""""""""""""
+      " SCB
+      """"""""""""""""""""""""""""""
+
+      au BufRead,BufNewFile *.mu set filetype=haskell
+    '';
+  };
+
   nixpkgs.overlays = [
     (self: super: {
       bitlbee =
