@@ -34,7 +34,11 @@
     };
     extraConfig = {
       oh-my-zsh = { only-branch = 1; };
-      rebase = { instructionFormat = "[%an] %s"; };
+      pull = { rebase = true; };
+      rebase = {
+        instructionFormat = "[%an] %s";
+        autoStash = true;
+      };
       github = { user = "expipiplus1"; };
       mergetool = { keepBackup = false; };
       merge = { tool = "vimdiff"; };
