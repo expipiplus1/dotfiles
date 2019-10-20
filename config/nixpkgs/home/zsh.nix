@@ -40,6 +40,13 @@ in {
       theme = "spaceship";
       plugins = [ "cabal" "history-substring-search" "nix" "vi-mode" ];
     };
+    history = {
+      share = false;
+      size = 1000000;
+      save = 1000000;
+      ignoreDups = true;
+      extended = true;
+    };
     shellAliases = {
       cb = "cabal build -j8";
       nb = "nix-build -j8";
@@ -48,9 +55,6 @@ in {
     localVariables = {
       HYPHEN_INSENSITIVE = "true";
       DISABLE_AUTO_UPDATE = "true";
-      HISTCONTROL = "ignoredups:ignorespace";
-      HISTSIZE = 10000000;
-      HISTFILESIZE = 20000000;
     };
     initExtraBeforeCompInit = ''
       function light()
@@ -148,8 +152,7 @@ in {
 
       unsetopt AUTO_CD
 
-      unsetopt share_history
-
+      setopt histignorespace
       bindkey -M vicmd 'k' history-substring-search-up
       bindkey -M vicmd 'j' history-substring-search-down
 
