@@ -33,7 +33,6 @@ in {
       vim-textobj-user
       vim-tmux-focus-events
       vim-tmux-navigator
-      vim-togglelist
       vim-unimpaired
       vim-visual-increment
       vim-yaml

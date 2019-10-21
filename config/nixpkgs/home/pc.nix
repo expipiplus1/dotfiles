@@ -20,14 +20,6 @@ in
     plugins = with pkgs.vimPlugins; [
       open-browser-vim
       open-browser-github-vim
-      {
-        plugin = hlint-refactor-vim;
-        config = ''
-          let g:hlintRefactor#disableDefaultKeybindings = 1
-          map <silent> <nowait> <leader>e :call ApplyOneSuggestion()<CR>
-          map <silent> <nowait> <leader>E :call ApplyAllSuggestions()<CR>
-        '';
-      }
     ];
   };
 
