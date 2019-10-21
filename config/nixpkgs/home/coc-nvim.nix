@@ -74,6 +74,19 @@
     name = "coc-settings.json";
     text = builtins.toJSON {
       languageServerHaskell = { trace.server = "verbose"; };
+      languageserver = {
+        clangd = {
+          command = "${pkgs.clang-tools}/bin/clangd";
+          args = [ "--background-index" "--compile-commands-dir=build" ];
+          rootPatterns = [
+            "compile_flags.txt"
+            "compile_commands.json"
+            ".git"
+            "CMakeLists.txt"
+          ];
+          filetypes = [ "c" "cpp" "objc" "objcpp" ];
+        };
+      };
     };
   };
 }
