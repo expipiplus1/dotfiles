@@ -3,11 +3,9 @@
 {
   programs.neovim = {
     plugins = with pkgs.vimPlugins; [{
-      plugin = coc-nvim.overrideAttrs (old: { src = /home/j/src/coc.nvim; });
+      plugin = coc-nvim;
       config = ''
-        set runtimepath^=${
-          builtins.getEnv "HOME"
-        }/src/vscode-hie-server
+        set runtimepath^=${builtins.getEnv "HOME"}/src/vscode-hie-server
 
         function! s:show_documentation()
           if (index(['vim','help'], &filetype) >= 0)
@@ -75,57 +73,7 @@
   xdg.configFile."nvim/coc-settings.json".source = pkgs.writeTextFile {
     name = "coc-settings.json";
     text = builtins.toJSON {
-      languageServerHaskell = {
-        trace.server = "verbose";
-      };
-      #   hlintOn = true;
-      #   maxNumberOfProblems = 100;
-      #   diagnosticsOnChange = true;
-      #   liquidOn = false;
-      #   completionSnippetsOn = true;
-      #   formatOnImportOn = true;
-      #   formattingProvider = "brittany";
-      #   hieExecutablePath = "hie-wrapper";
-      #   useCustomHieWrapper = false;
-      #   useCustomHieWrapperPath = "";
-      #   showTypeForSelection.onHover = true;
-      #   showTypeForSelection.command.location = "dropdown";
-      #   trace.server = "verbose";
-      #   enableHIE = true;
-      # };
-      languageserverJoe = {
-        haskell = {
-          # command = "/home/j/src/haskell-ide-engine2/dist-newstyle/build/x86_64-linux/ghc-8.6.5/haskell-ide-engine-1.0.0.0/x/hie/build/hie/hie";
-          command = "hie-wrapper";
-          args = [ "--vomit" "-l" ".hie-log" "-d" ];
-          rootPatterns =
-            [ ".stack.yaml" "cabal.config" "cabal.project" "package.yaml" ];
-          requireRootPattern = true;
-          filetypes = [ "hs" "lhs" "haskell" ];
-          initializationOptions = { languageServerHaskell = { }; };
-        };
-      };
-      languageserver = {
-        # haskell = {
-        #   # command = "/home/j/src/haskell-ide-engine2/dist-newstyle/build/x86_64-linux/ghc-8.6.5/haskell-ide-engine-1.0.0.0/x/hie/build/hie/hie";
-        #   command = "hie-wrapper";
-        #   args = [ "--vomit" "-l" ".hie-log" "-d" ];
-        #   rootPatterns =
-        #     [ ".stack.yaml" "cabal.config" "cabal.project" "package.yaml" ];
-        #   requireRootPattern = true;
-        #   filetypes = [ "hs" "lhs" "haskell" ];
-        #   initializationOptions = { languageServerHaskell = { }; };
-        # };
-
-        # haskell = {
-        #   command = "ghcide";
-        # args = ["--lsp"];
-        #   rootPatterns =
-        #     [ ".stack.yaml" "cabal.config" "cabal.project" "package.yaml" ];
-        #   requireRootPattern = true;
-        #   filetypes = [ "hs" "lhs" "haskell" ];
-        # };
-      };
+      languageServerHaskell = { trace.server = "verbose"; };
     };
   };
 }
