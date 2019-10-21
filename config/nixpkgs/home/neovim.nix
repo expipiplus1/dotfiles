@@ -212,56 +212,6 @@ in {
           autocmd FileType c setlocal comments=://
         '';
       }
-      nvim-yarp
-      {
-        plugin = ncm2;
-        config = ''
-          " enable ncm2 for all buffers
-          autocmd BufEnter * call ncm2#enable_for_buffer()
-
-          " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
-          " found' messages
-          set shortmess+=c
-
-          " IMPORTANT: :help Ncm2PopupOpen for more information
-          set completeopt=noinsert,menuone,noselect
-
-          set pumheight=10
-
-          " Use <TAB> to select the popup menu:
-          inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-          inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-          imap <silent><expr> <C-Space>
-                     \ pumvisible() ?  "\<C-n>" :
-                     \ "\<Plug>(ncm2_manual_trigger)"
-        '';
-      }
-
-      {
-        plugin = LanguageClient-neovim;
-        config = ''
-          let g:LanguageClient_serverCommands = {
-              \ 'haskell': ['hie', "--vomit", "-l", "hie-log", "-d"],
-              \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-              \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-              \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-              \ 'python': ['/usr/local/bin/pyls'],
-              \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
-              \ }
-          nnoremap <leader>ll :call LanguageClient_contextMenu()<CR>
-          let g:LanguageClient_rootMarkers = {
-              \ 'haskell': ['cabal.project'],
-              \ 'javascript': ['project.json'],
-              \ 'rust': ['Cargo.toml'],
-              \ }
-
-          function! Expand(exp) abort
-            let l:result = expand(a:exp)
-            return l:result ==# "" ? "" : "file://" . l:result
-          endfunction
-        '';
-      }
     ];
     extraConfig = ''
       source ${pkgs.substituteAll {
