@@ -24,6 +24,7 @@ in {
       vim-markdown
       vim-nix
       vim-repeat
+      vim-signify
       vim-surround
       vim-textobj-function
       (appendPatches [
