@@ -28,7 +28,7 @@
     shellAliases = { lon = "TZ=/usr/share/zoneinfo/Europe/London date"; };
     initExtraBeforeCompInit = ''
       j(){
-        ${pkgs.atlassian-jira}/bin/jira --endpoint=https://jira.global.standardchartered.com --user="$STAFFID" "$@"
+        jira --endpoint=https://jira.global.standardchartered.com --user="$STAFFID" "$@"
       }
 
       jc(){
