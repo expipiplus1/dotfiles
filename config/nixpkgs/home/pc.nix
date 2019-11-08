@@ -14,6 +14,7 @@ in
   home.packages = with pkgs; [
     ffmpeg
     powerline-fonts
+    xsel
   ];
 
   programs.neovim = {
