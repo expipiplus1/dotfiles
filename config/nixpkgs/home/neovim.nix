@@ -24,7 +24,12 @@ in {
       vim-markdown
       vim-nix
       vim-repeat
-      vim-signify
+      {
+        plugin = vim-signify;
+        config = ''
+          let g:signify_disable_by_default = 1
+        '';
+      }
       vim-surround
       vim-textobj-function
       (appendPatches [
