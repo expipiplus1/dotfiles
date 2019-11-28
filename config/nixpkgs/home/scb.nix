@@ -43,7 +43,7 @@
 
       start-bitlbee(){
         PURPLE_PLUGIN_PATH=${pkgs.pidgin-sipe}/lib/purple-2 \
-          ${pkgs.bitlbee}/bin/bitlbee -F -p 6667 -v -d ~/.config/bitlbee -c ~/.config/bitlbee/bitlbee.conf "$@"
+          ${pkgs.bitlbee}/bin/bitlbee -F -p 6667 -v -d ~/.config/bitlbee "$@"
       }
     '';
     initExtra = ''
