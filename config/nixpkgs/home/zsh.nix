@@ -112,7 +112,7 @@ in {
       }
 
       c2n(){
-        cp -v -n "$HOME/dotfiles/nix-haskell-skeleton/default.nix" "$HOME/dotfiles/nix-haskell-skeleton/shell.nix" .
+        cp -v -n "$HOME/dotfiles/nix-haskell-skeleton/default.nix" .
       }
 
       sr(){
