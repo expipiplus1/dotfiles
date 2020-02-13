@@ -39,6 +39,7 @@
     silver-searcher
     tree
     tssh
+    cached-nix-shell
   ];
 
   xdg.configFile."nixpkgs/config.nix".source = pkgs.writeTextFile {
@@ -68,6 +69,12 @@
         executable = true;
         destination = "/bin/tssh";
       };
+      cached-nix-shell = import (pkgs.fetchFromGitHub {
+        owner = "xzfc";
+        repo = "cached-nix-shell";
+        rev = "137390213d0b6cedce5f618f3141e69aeeae797c";
+        sha256 = "00p0sf24165n2wbdc0q8gqdbp85clq4b4ri39cklysr4ryadqica";
+      }) { inherit pkgs; };
     })
   ];
 }
