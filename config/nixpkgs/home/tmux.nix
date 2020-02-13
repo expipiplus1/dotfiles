@@ -18,7 +18,6 @@
       enable = true;
       shortcut = "space";
       newSession = true;
-      shell = pkgs.zsh + "/bin/zsh";
       baseIndex = 1;
       clock24 = true;
       historyLimit = 40000;
@@ -92,7 +91,7 @@
         bind -n C-j if-shell "$is_paned" "send-keys C-j" "select-pane -D"
         bind -n C-k if-shell "$is_paned" "send-keys C-k" "select-pane -U"
         bind -n C-l if-shell "$is_paned" "send-keys C-l" "select-pane -R"
-        bind -n C-\ if-shell "$is_paned" "send-keys C-\\" "select-pane -l"
+        bind -n C-\\ if-shell "$is_paned" "send-keys C-\\" "select-pane -l"
 
         # Smart window splitting with awareness of vim
         bind s   if-shell "$is_paned" "send-keys C-${config.programs.tmux.shortcut} s"   "split-window -v -c '#{pane_current_path}'"

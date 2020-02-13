@@ -12,24 +12,18 @@
       hindent
       hlint
       pretty-show
-      stylish-haskell
       cabal2nix
       brittany
       nix-diff
       hpack
+      cabal-install
     ] ++ [
-      ((import (pkgs.fetchFromGitHub {
-        owner = "Infinisil";
-        repo = "all-hies";
-        rev = "b286d3ece6d89bdec30c04991369e9ca5317ca8f";
-        sha256 = "022q8fjs9q75jajwlmn8axc0rkjdl31s2h9fkydcn33f82rpf8dr";
-      }) { }).bios.selection { selector = p: { inherit (p) ghc865; }; })
-      (import (pkgs.fetchFromGitHub {
-        owner = "hercules-ci";
-        repo = "ghcide-nix";
-        rev = "fd42f62613d491565c1676821148c008b2011584";
-        sha256 = "1cd60hlr58ih5j21a64rdrmyrh28dhwz0wgmkb3p3j8jmrya8fv7";
-      }) { }).ghcide-ghc865
+     ((import (pkgs.fetchFromGitHub {
+       owner = "Infinisil";
+       repo = "all-hies";
+       rev = "92148680060ed68f24738128d8489f4f9387d2ff";
+       sha256 = "1yb75f8p09dp4yx5d3w3wvdiflaav9a5202xz9whigk2p9ndwbp5";
+     }) { }).unstableFallback.selection { selector = p: { inherit (p) ghc865 ghc882; }; })
     ];
 
   nixpkgs.overlays = [
