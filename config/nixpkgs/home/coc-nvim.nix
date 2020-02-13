@@ -5,7 +5,11 @@
     plugins = with pkgs.vimPlugins; [{
       plugin = coc-nvim;
       config = ''
-        set runtimepath^=${builtins.getEnv "HOME"}/src/vscode-hie-server
+        set runtimepath^=${
+          import "${builtins.getEnv "HOME"}/src/vscode-hie-server" {
+            inherit pkgs;
+          }
+        }
 
         function! s:show_documentation()
           if (index(['vim','help'], &filetype) >= 0)
@@ -73,7 +77,16 @@
   xdg.configFile."nvim/coc-settings.json".source = pkgs.writeTextFile {
     name = "coc-settings.json";
     text = builtins.toJSON {
-      languageServerHaskell = { trace.server = "verbose"; };
+      languageServerHaskell = {
+        trace.server = "verbose";
+        hieExecutablePath = pkgs.writeShellScript "nix-shell-hie" ''
+          if [[ -f default.nix || -f shell.nix ]]; then
+            ${pkgs.cached-nix-shell}/bin/cached-nix-shell --run "hie $(printf "''${1+ %q}" "$@")"
+          else
+            exec hie "$@"
+          fi
+        '';
+      };
       languageserver = {
         clangd = {
           command = "${pkgs.clang-tools}/bin/clangd";
