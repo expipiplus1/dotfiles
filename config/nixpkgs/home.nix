@@ -42,15 +42,32 @@
     cached-nix-shell
   ];
 
-  xdg.configFile."nixpkgs/config.nix".source = pkgs.writeTextFile {
-    name = "config.nix";
-    text = ''
-      (import ${config.programs.home-manager.path}/modules {
-        pkgs = import <nixpkgs> {config={};};
-          configuration = import (builtins.getEnv "HOME" + "/.config/nixpkgs/home.nix");
-        }).config.nixpkgs.config
-    '';
-  };
+  xdg.configFile = let
+    autostart = c: {
+      "autostart/${c}.desktop".source = pkgs.writeTextFile {
+        name = "a.desktop";
+        text = ''
+          [Desktop Entry]
+          Type=Application
+          Exec=${c}
+          Hidden=false
+          X-GNOME-Autostart-enabled=true
+          Name=${c}
+                   '';
+      };
+    };
+  in {
+    "nixpkgs/config.nix".source = pkgs.writeTextFile {
+      name = "config.nix";
+      text = ''
+        (import ${config.programs.home-manager.path}/modules {
+          pkgs = import <nixpkgs> {config={};};
+            configuration = import (builtins.getEnv "HOME" + "/.config/nixpkgs/home.nix");
+          }).config.nixpkgs.config
+      '';
+    };
+  } // autostart "firefox"
+  // autostart "alacritty --command zsh -i -c 'tmux attach'";
 
   nixpkgs.config = {
     allowUnfree = true;
