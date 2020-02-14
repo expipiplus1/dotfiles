@@ -23,7 +23,7 @@
       historyLimit = 40000;
       keyMode = "vi";
       update-environment = [ "DISPLAY" "SSH_ASKPASS" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "SSH_CONNECTION" "WINDOWID" "XAUTHORITY" "DBUS_SESSION_BUS_ADDRESS" ];
-      terminal = "screen-256color";
+      terminal = "tmux-256color";
       secureSocket = false;
       plugins = with pkgs; [
         {
@@ -123,6 +123,7 @@
         # don't use ansi colors
         # set -as terminal-overrides ",*-256color:setaf@:setab@"
         set -ga terminal-overrides ',xterm-256color:Tc'
+        set -ga terminal-overrides ",alacritty:RGB"
 
         set -g set-clipboard off
 

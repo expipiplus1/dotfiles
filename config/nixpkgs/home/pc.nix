@@ -9,6 +9,7 @@ in
     ./tex.nix
     ./haskell.nix
     ./coc-nvim.nix
+    ./alacritty.nix
   ];
 
   home.packages = with pkgs; [

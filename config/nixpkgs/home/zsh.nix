@@ -13,10 +13,10 @@ let
     in pkgs.linkFarm "zsh-custom" links;
 
   base16 = pkgs.fetchFromGitHub {
-    owner = "mz026";
+    owner = "chriskempson";
     repo = "base16-shell";
-    rev = "773ce86a09c2d2700da39a7342df0776ebb69033";
-    sha256 = "19fbc44mf0sbjhaw7dcffsignr7qzaw9fzd3k36bx4npp351vfl0";
+    rev = "ce8e1e540367ea83cc3e01eec7b2a11783b3f9e1";
+    sha256 = "1yj36k64zz65lxh28bb5rb5skwlinixxz6qwkwaf845ajvm45j1q";
   };
 
 in {
@@ -60,15 +60,15 @@ in {
       function light()
       {
         touch ~/.config/light
-        ${base16}/base16-solarized.light.sh
+        . ${base16}/scripts/base16-solarized-light.sh
         if command -v gsettings 2>&1 >/dev/null; then
-          profile=''${"$(gsettings get org.gnome.Terminal.ProfilesList default)":1:-1}
-          gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" background-color "#EEE8D5"
-          gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" foreground-color "#586E75"
-          gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" bold-color       "#586E75"
+          # profile=''${"$(gsettings get org.gnome.Terminal.ProfilesList default)":1:-1}
+          # gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" background-color "#EEE8D5"
+          # gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" foreground-color "#586E75"
+          # gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" bold-color       "#586E75"
         fi
-        ${config.programs.tmux.package}/bin/tmux set-window-option -g window-active-style bg=colour15
-        ${config.programs.tmux.package}/bin/tmux set-window-option -g window-style bg=colour21
+        ${config.programs.tmux.package}/bin/tmux set-window-option -g window-active-style "bg=colour0"
+        ${config.programs.tmux.package}/bin/tmux set-window-option -g window-style "bg=colour18"
       }
 
       function dark()
@@ -76,14 +76,14 @@ in {
         if [ -f ~/.config/light ]; then
           rm ~/.config/light
         fi
-        ${base16}/base16-tomorrow.dark.sh
+        . ${base16}/scripts/base16-tomorrow-night.sh
         if command -v gsettings 2>&1 >/dev/null; then
-          profile=''${"$(gsettings get org.gnome.Terminal.ProfilesList default)":1:-1}
-          gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" background-color "#282A2E"
-          gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" foreground-color "#C5C8C6"
-          gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" bold-color       "#C5C8C6"
+          # profile=''${"$(gsettings get org.gnome.Terminal.ProfilesList default)":1:-1}
+          # gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" background-color "#282A2E"
+          # gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" foreground-color "#C5C8C6"
+          # gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" bold-color       "#C5C8C6"
         fi
-        ${config.programs.tmux.package}/bin/tmux set-window-option -g window-active-style 'bg=black'
+        ${config.programs.tmux.package}/bin/tmux set-window-option -g window-active-style bg=colour0
         ${config.programs.tmux.package}/bin/tmux set-window-option -g window-style bg=colour18
       }
 
