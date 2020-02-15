@@ -16,6 +16,7 @@ in
     ffmpeg
     powerline-fonts
     xsel
+    vscode
   ];
 
   programs.neovim = {
