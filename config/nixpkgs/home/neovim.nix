@@ -12,7 +12,6 @@ in {
       pkgs.neovim-unwrapped;
     vimAlias = true;
     plugins = with pkgs.vimPlugins; [
-      auto-pairs
       fzf-vim
       tmux-complete-vim
       gist-vim
