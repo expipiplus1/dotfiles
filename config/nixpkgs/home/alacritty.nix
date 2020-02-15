@@ -9,6 +9,15 @@
         lines = 67;
         columns = 240;
       };
+      font = {size = 10.0;} // pkgs.lib.mapAttrs (name: value: {
+        family = "DejaVu Sans Mono";
+        style = value;
+      }) {
+        normal = "Book";
+        bold = "Bold";
+        italic = "Oblique";
+        bold_italic = "Bold Oblique";
+      };
     };
   };
 }
