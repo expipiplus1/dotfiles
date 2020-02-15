@@ -1,6 +1,53 @@
 { config, pkgs, ... }:
 
-{
+let
+  ghcOpts = [
+    "-XBangPatterns"
+    "-XBinaryLiterals"
+    "-XDataKinds"
+    "-XDeriveDataTypeable"
+    "-XDeriveFoldable"
+    "-XDeriveFunctor"
+    "-XDeriveGeneric"
+    "-XDeriveTraversable"
+    "-XDisambiguateRecordFields"
+    "-XDuplicateRecordFields"
+    "-XEmptyCase"
+    "-XExplicitForAll"
+    "-XFlexibleContexts"
+    "-XFlexibleInstances"
+    "-XFunctionalDependencies"
+    "-XGADTs"
+    "-XImplicitParams"
+    "-XInstanceSigs"
+    "-XKindSignatures"
+    "-XLambdaCase"
+    "-XMagicHash"
+    "-XMonadComprehensions"
+    "-XMultiParamTypeClasses"
+    "-XMultiWayIf"
+    "-XNumDecimals"
+    "-XOverloadedStrings"
+    "-XParallelListComp"
+    "-XPartialTypeSignatures"
+    "-XPatternGuards"
+    "-XPatternSynonyms"
+    "-XPolyKinds"
+    "-XQuasiQuotes"
+    "-XRankNTypes"
+    "-XRecordWildCards"
+    "-XRecursiveDo"
+    "-XScopedTypeVariables"
+    "-XStandaloneDeriving"
+    "-XTemplateHaskell"
+    "-XTupleSections"
+    "-XTypeApplications"
+    "-XTypeFamilies"
+    "-XTypeOperators"
+    "-XViewPatterns"
+  ];
+
+in {
   home.packages = with pkgs.haskellPackages;
     [
       pkgs.upfind
@@ -18,13 +65,28 @@
       hpack
       cabal-install
     ] ++ [
-     ((import (pkgs.fetchFromGitHub {
-       owner = "Infinisil";
-       repo = "all-hies";
-       rev = "92148680060ed68f24738128d8489f4f9387d2ff";
-       sha256 = "1yb75f8p09dp4yx5d3w3wvdiflaav9a5202xz9whigk2p9ndwbp5";
-     }) { }).unstableFallback.selection { selector = p: { inherit (p) ghc865 ghc882; }; })
+      ((import (pkgs.fetchFromGitHub {
+        owner = "Infinisil";
+        repo = "all-hies";
+        rev = "92148680060ed68f24738128d8489f4f9387d2ff";
+        sha256 = "1yb75f8p09dp4yx5d3w3wvdiflaav9a5202xz9whigk2p9ndwbp5";
+      }) { }).unstableFallback.selection {
+        selector = p: { inherit (p) ghc865 ghc882; };
+      })
     ];
+
+  xdg.configFile."brittany/config.yaml".source = pkgs.writeText "config.yaml"
+    (builtins.toJSON { conf_forward = { options_ghc = ghcOpts; }; });
+
+  home.file.".ghci".source = pkgs.writeText "ghci" ''
+    :set prompt "\SOH\ESC[34m\STXλ>\SOH\ESC[m\STX "
+    ${pkgs.lib.concatMapStringsSep "\n" (s: ":set ${s}") ghcOpts}
+    import qualified Prelude as P
+    :def hoogle \s -> P.pure P.$ ":! hoogle search -cl --count=15 \"" P.++ s P.++ "\""
+    :def doc \s -> P.pure P.$ ":! hoogle search -cl --info \"" P.++ s P.++ "\""
+    :def pretty \_ -> P.pure ("import Text.Show.Pretty (pPrint, ppShow)\n:set -interactive-print pPrint")
+    :def no-pretty \_ -> P.pure (":set -interactive-print System.IO.print")
+  '';
 
   nixpkgs.overlays = [
     (import ((builtins.fetchTarball {
