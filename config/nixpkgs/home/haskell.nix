@@ -88,6 +88,12 @@ in {
     :def no-pretty \_ -> P.pure (":set -interactive-print System.IO.print")
   '';
 
+  home.file.".haskeline".source = pkgs.writeText "haskeline" ''
+    maxhistorysize: Just 999999
+    editMode: Vi
+    historyDuplicates: IgnoreConsecutive
+  '';
+
   nixpkgs.overlays = [
     (import ((builtins.fetchTarball {
       url =
