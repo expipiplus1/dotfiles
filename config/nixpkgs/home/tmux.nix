@@ -1,15 +1,16 @@
 { config, pkgs, lib, ... }:
 
 {
-  options.programs.tmux.update-environment = with lib; mkOption {
-    default = null;
-    type = types.nullOr (types.listOf types.str);
-    description = ''
-      A list of environment variables to pass to
-      `update-environment`
-    '';
-    example = [ "DBUS_SESSION_BUS_ADDRESS" ];
-  };
+  options.programs.tmux.update-environment = with lib;
+    mkOption {
+      default = null;
+      type = types.nullOr (types.listOf types.str);
+      description = ''
+        A list of environment variables to pass to
+        `update-environment`
+      '';
+      example = [ "DBUS_SESSION_BUS_ADDRESS" ];
+    };
 
   config = {
     programs.zsh.oh-my-zsh.plugins = [ "tmux" ];
@@ -22,28 +23,35 @@
       clock24 = true;
       historyLimit = 40000;
       keyMode = "vi";
-      update-environment = [ "DISPLAY" "SSH_ASKPASS" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "SSH_CONNECTION" "WINDOWID" "XAUTHORITY" "DBUS_SESSION_BUS_ADDRESS" ];
+      update-environment = [
+        "DISPLAY"
+        "SSH_ASKPASS"
+        "SSH_AUTH_SOCK"
+        "SSH_AGENT_PID"
+        "SSH_CONNECTION"
+        "WINDOWID"
+        "XAUTHORITY"
+        "DBUS_SESSION_BUS_ADDRESS"
+      ];
       terminal = "tmux-256color";
       secureSocket = false;
-      plugins = with pkgs; [
-        {
-          plugin = tmuxPlugins.resurrect;
-          extraConfig = ''
-            # resurrection settings
-            set -g @resurrect-save 'S'
-            set -g @resurrect-restore 'R'
+      plugins = with pkgs; [{
+        plugin = tmuxPlugins.resurrect;
+        extraConfig = ''
+          # resurrection settings
+          set -g @resurrect-save 'S'
+          set -g @resurrect-restore 'R'
 
-            # for vim
-            set -g @resurrect-strategy-vim 'session'
-            # for neovim
-            set -g @resurrect-strategy-nvim 'session'
+          # for vim
+          set -g @resurrect-strategy-vim 'session'
+          # for neovim
+          set -g @resurrect-strategy-nvim 'session'
 
-            set -g @resurrect-capture-pane-contents 'on'
+          set -g @resurrect-capture-pane-contents 'on'
 
-            set -g @resurrect-processes '~vi ~vim ~nvim ~man ~less ~more ~tail ~top ~htop ~irssi ~mutt'
-          '';
-        }
-      ];
+          set -g @resurrect-processes '~vi ~vim ~nvim ~man ~less ~more ~tail ~top ~htop ~irssi ~mutt'
+        '';
+      }];
       extraConfig = ''
         # Something sensible
         set-option -g default-shell ~/.nix-profile/bin/zsh
@@ -131,8 +139,11 @@
         bind C-c choose-buffer "run \"${config.programs.tmux.package}/bin/tmux save-buffer -b %% - | ${pkgs.xsel}/bin/xsel -i --clipboard\" \; run \" ${config.programs.tmux.package}/bin/tmux display \\\"Clipboard \(+\) filled with: $(${config.programs.tmux.package}/bin/tmux save-buffer -b %1 - | dd ibs=1 obs=1 status=noxfer count=80 2> /dev/null)... \\\" \" "
 
         # from https://gist.github.com/towo/b5643ba96f987df54acc54470e6be460
-        ${lib.optionalString (config.programs.tmux.update-environment != null) ''
-        set -g update-environment '${lib.concatStringsSep " " config.programs.tmux.update-environment}'
+        ${lib.optionalString
+        (config.programs.tmux.update-environment != null) ''
+          set -g update-environment '${
+            lib.concatStringsSep " " config.programs.tmux.update-environment
+          }'
         ''}
       '';
     };
