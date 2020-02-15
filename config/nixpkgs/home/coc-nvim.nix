@@ -22,6 +22,30 @@
         " Use K to show documentation in preview window
         nnoremap <silent> K :call <SID>show_documentation()<CR>
 
+        " Open the documentation window, search for a link and follow it in the
+        " browser
+        function! s:open_documentation_link(target)
+          call s:show_documentation()
+          let float_window = coc#util#get_float()
+          if !float_window
+            echo "No documentation available"
+            return
+          endif
+          if !win_gotoid(float_window)
+            echo "Unable to go to documentation window"
+            return
+          endif
+          if !search("\\[" . a:target . "](", "ce")
+            echo "No documenation link found"
+          else
+            exe "normal gx"
+          endif
+          call coc#util#float_hide()
+        endfunction
+
+        nnoremap <silent> <leader>l :call <SID>open_documentation_link("Source")<CR>
+        nnoremap <silent> <leader>k :call <SID>open_documentation_link("Documentation")<CR>
+
         "
         " Coc navigation
         "
