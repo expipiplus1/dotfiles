@@ -1,0 +1,27 @@
+xkb_symbols "fc660c" {
+	include "pc+us+inet(evdev)"
+
+  modifier_map Mod3 { <MENU> }; 
+
+  key <MENU> {
+    type = "UNMODIFIED",
+    [ Meta_R ],
+    repeat = no
+  };
+
+  key <CAPS> {
+    [ Escape ]
+  };
+
+  key <ESC> {
+    [ grave ]
+  };
+
+  key <AD11> { type[Group1] = "CTRL_SHIFT"
+             , symbols[Group1] = [ bracketleft, braceleft, Prior ]
+             };
+  key <AD12> { type[Group1] = "CTRL_SHIFT"
+             , symbols[Group1] = [ bracketright, braceright, Next ]
+             };
+};
+
