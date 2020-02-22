@@ -89,8 +89,8 @@
       cached-nix-shell = import (pkgs.fetchFromGitHub {
         owner = "xzfc";
         repo = "cached-nix-shell";
-        rev = "137390213d0b6cedce5f618f3141e69aeeae797c";
-        sha256 = "00p0sf24165n2wbdc0q8gqdbp85clq4b4ri39cklysr4ryadqica";
+        rev = "aa0919ce6d6b4b5cb12b8e02cfbe8d272e9f89f8";
+        sha256 = "0ip6ynvf8jkimk1y66n9a7qpg25vkv53nn5ri594xaslfzylh232";
       }) { inherit pkgs; };
     })
   ];
