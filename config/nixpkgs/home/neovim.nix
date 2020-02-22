@@ -167,6 +167,7 @@ in {
           let g:fuzzy_rootcmds = [ ${
             lib.concatMapStringsSep ", " (s: "'${s}'")
             (lib.optionals (lib.hasAttr "upfind" pkgs) [
+              "${pkgs.upfind}/bin/upfind -d default.nix"
               "${pkgs.upfind}/bin/upfind -d build.hs"
               "${pkgs.upfind}/bin/upfind -d Main.mu"
               "${pkgs.upfind}/bin/upfind -d CMakeLists.txt"
