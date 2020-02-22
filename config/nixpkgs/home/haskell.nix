@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  ghcOpts = [
+  hindentOps = [
     "-XBangPatterns"
     "-XBinaryLiterals"
     "-XDataKinds"
@@ -11,7 +11,6 @@ let
     "-XDeriveGeneric"
     "-XDeriveTraversable"
     "-XDisambiguateRecordFields"
-    "-XDuplicateRecordFields"
     "-XEmptyCase"
     "-XExplicitForAll"
     "-XFlexibleContexts"
@@ -23,10 +22,8 @@ let
     "-XKindSignatures"
     "-XLambdaCase"
     "-XMagicHash"
-    "-XMonadComprehensions"
     "-XMultiParamTypeClasses"
     "-XMultiWayIf"
-    "-XNumDecimals"
     "-XOverloadedStrings"
     "-XParallelListComp"
     "-XPartialTypeSignatures"
@@ -46,6 +43,11 @@ let
     "-XTypeOperators"
     "-XViewPatterns"
   ];
+  notHindentOpts =
+    [ "-XDuplicateRecordFields" "-XMonadComprehensions" "-XNumDecimals" ];
+  ghcOpts = hindentOps ++ notHindentOpts;
+
+  refactor = import /home/j/src/apply-refact {inherit pkgs;};
 
 in {
   home.packages = with pkgs.haskellPackages;
@@ -54,10 +56,27 @@ in {
       pkgs.update-nix-fetchgit
       pkgs.cachix
       pkgs.nixfmt
-      apply-refact
+      refactor
       ghcid
-      hindent
-      hlint
+      (pkgs.symlinkJoin {
+        name = "hindent";
+        paths = [ hindent ];
+        buildInputs = [ pkgs.makeWrapper ];
+        postBuild = ''
+          wrapProgram $out/bin/hindent \
+            --add-flags "${pkgs.lib.concatStringsSep " " hindentOps}"
+        '';
+      })
+      (pkgs.symlinkJoin {
+        name = "hlint";
+        paths = [ hlint ];
+        buildInputs = [ pkgs.makeWrapper ];
+        postBuild = ''
+          wrapProgram $out/bin/hlint \
+            --add-flags '--with-refactor=${refactor}/bin/refactor' \
+            --add-flags '--refactor-options="${pkgs.lib.concatStringsSep " " hindentOps}"'
+        '';
+      })
       pretty-show
       cabal2nix
       brittany
