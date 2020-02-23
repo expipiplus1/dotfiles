@@ -17,6 +17,7 @@ in
     powerline-fonts
     xsel
     vscode
+    signal-desktop
   ];
 
   programs.neovim = {
