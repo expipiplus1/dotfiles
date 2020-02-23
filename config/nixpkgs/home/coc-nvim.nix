@@ -57,6 +57,9 @@
 
         nmap <leader>e  <Plug>(coc-references)
 
+        nmap <silent> <leader>n <Plug>(coc-diagnostic-next-error)
+        nmap <silent> <leader>N <Plug>(coc-diagnostic-next)
+
         "
         " Coc visuals
         "
