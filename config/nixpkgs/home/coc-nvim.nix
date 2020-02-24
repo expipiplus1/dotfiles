@@ -106,11 +106,20 @@
   xdg.configFile."nvim/coc-settings.json".source = pkgs.writeTextFile {
     name = "coc-settings.json";
     text = builtins.toJSON {
+      coc.preferences.diagnostic = {
+        virtualText = true;
+        virtualTextPrefix = "▷ ";
+        errorSign = ">";
+        warningSign = ">";
+        infoSign = ">";
+        hintSign = ">";
+      };
+      coc.preferences.codeLens.enable = true;
       languageServerHaskell = {
         trace.server = "verbose";
         hieExecutablePath = pkgs.writeShellScript "nix-shell-hie" ''
           if [[ -f default.nix || -f shell.nix ]]; then
-            ${pkgs.cached-nix-shell}/bin/cached-nix-shell --run "hie $(printf "''${1+ %q}" "$@")"
+            ${pkgs.cached-nix-shell}/bin/cached-nix-shell --run "hie -l /tmp/hie.log $(printf "''${1+ %q}" "$@")"
           else
             exec hie "$@"
           fi
