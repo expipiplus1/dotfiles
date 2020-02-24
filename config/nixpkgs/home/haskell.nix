@@ -47,7 +47,21 @@ let
     [ "-XDuplicateRecordFields" "-XMonadComprehensions" "-XNumDecimals" ];
   ghcOpts = hindentOps ++ notHindentOpts;
 
-  refactor = import /home/j/src/apply-refact {inherit pkgs;};
+  refactor-unwrapped = import (pkgs.fetchFromGitHub {
+    owner = "mpickering";
+    repo = "apply-refact";
+    rev = "f8ccb9338fdc7efe59ca31df12b3d1b10804221c";
+    sha256 = "1hxn1ixad9qkmcjx55sk0pkyrly490h91bksc9ziqhqi0fvhrmw6";
+  }) { inherit pkgs; };
+  refactor = pkgs.symlinkJoin {
+    name = "refactor";
+    paths = [ refactor-unwrapped ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/refactor \
+        --add-flags "${pkgs.lib.concatStringsSep " " ghcOpts}"
+    '';
+  };
 
 in {
   home.packages = with pkgs.haskellPackages;
@@ -56,7 +70,6 @@ in {
       pkgs.update-nix-fetchgit
       pkgs.cachix
       pkgs.nixfmt
-      refactor
       ghcid
       (pkgs.symlinkJoin {
         name = "hindent";
@@ -73,8 +86,8 @@ in {
         buildInputs = [ pkgs.makeWrapper ];
         postBuild = ''
           wrapProgram $out/bin/hlint \
-            --add-flags '--with-refactor=${refactor}/bin/refactor' \
-            --add-flags '--refactor-options="${pkgs.lib.concatStringsSep " " hindentOps}"'
+            --add-flags "${pkgs.lib.concatStringsSep " " ghcOpts}" \
+            --add-flags "--with-refactor=${refactor}/bin/refactor"
         '';
       })
       pretty-show
