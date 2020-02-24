@@ -43,6 +43,8 @@
           call coc#util#float_hide()
         endfunction
 
+        nnoremap <silent> <leader>i :CocList<CR>
+
         nnoremap <silent> <leader>l :call <SID>open_documentation_link("Source")<CR>
         nnoremap <silent> <leader>k :call <SID>open_documentation_link("Documentation")<CR>
 
@@ -57,8 +59,8 @@
 
         nmap <leader>e  <Plug>(coc-references)
 
-        nmap <silent> <leader>n <Plug>(coc-diagnostic-next-error)
-        nmap <silent> <leader>N <Plug>(coc-diagnostic-next)
+        nmap <silent> <leader>[ <Plug>(coc-diagnostic-prev)
+        nmap <silent> <leader>] <Plug>(coc-diagnostic-next)
 
         "
         " Coc visuals
