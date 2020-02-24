@@ -6,10 +6,10 @@
     settings = {
       draw_bold_text_with_bright_colors = false;
       window.dimensions = {
-        lines = 67;
-        columns = 240;
+        lines = 84;
+        columns = 295;
       };
-      font = {size = 10.5;} // pkgs.lib.mapAttrs (name: value: {
+      font = {size = 8.0;} // pkgs.lib.mapAttrs (name: value: {
         family = "DejaVu Sans Mono";
         style = value;
       }) {
