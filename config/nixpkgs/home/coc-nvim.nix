@@ -3,7 +3,14 @@
 {
   programs.neovim = {
     plugins = with pkgs.vimPlugins; [{
-      plugin = coc-nvim;
+      plugin = coc-nvim.overrideAttrs (old: {
+        src = import (pkgs.fetchgit {
+          url = https://github.com/expipiplus1/coc.nvim;
+          rev = "e59b21ddc4465c11551a43825e0c90983767deed";
+          sha256 = "0b7nf295bw1slzzwr44c1lvn62aay4xkmswdwanz63qdcay5m8j0";
+          leaveDotGit = true;
+        }) { inherit pkgs; };
+      });
       config = ''
         set runtimepath^=${
           import "${builtins.getEnv "HOME"}/src/vscode-hie-server" {
