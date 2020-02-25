@@ -61,9 +61,18 @@
       name = "config.nix";
       text = ''
         (import ${config.programs.home-manager.path}/modules {
-          pkgs = import <nixpkgs> {config={};};
+          pkgs = import <nixpkgs> {config={}; overlays=[];};
             configuration = import (builtins.getEnv "HOME" + "/.config/nixpkgs/home.nix");
           }).config.nixpkgs.config
+      '';
+    };
+    "nixpkgs/overlays.nix".source = pkgs.writeTextFile {
+      name = "overlays.nix";
+      text = ''
+        (import ${config.programs.home-manager.path}/modules {
+          pkgs = import <nixpkgs> {config={}; overlays=[];};
+            configuration = import (builtins.getEnv "HOME" + "/.config/nixpkgs/home.nix");
+          }).config.nixpkgs.overlays
       '';
     };
   } // autostart "firefox"
