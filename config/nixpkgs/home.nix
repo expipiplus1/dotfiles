@@ -100,7 +100,7 @@
         repo = "cached-nix-shell";
         rev = "aa0919ce6d6b4b5cb12b8e02cfbe8d272e9f89f8";
         sha256 = "0ip6ynvf8jkimk1y66n9a7qpg25vkv53nn5ri594xaslfzylh232";
-      }) { inherit pkgs; };
+      }) { pkgs = self; };
     })
   ];
 }
