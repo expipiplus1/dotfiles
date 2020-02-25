@@ -20,7 +20,7 @@ gsettings set org.gnome.desktop.wm.keybindings switch-applications "[]"
 gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward "[]"
 
 firefoxSetting() {
-  for d in "$HOME/.mozilla/firefox"/*/; do
+  for d in "$HOME/.mozilla/firefox"/*default/; do
     u="$d/user.js"
     touch "$u"
     sed -i 's/user_pref("'"$1"'",.*);/user_pref("'"$1"'",'"$2"');/' "$u"
@@ -30,10 +30,11 @@ firefoxSetting() {
 
 firefoxSetting browser.urlbar.doubleClickSelectsAll false
 firefoxSetting browser.tabs.tabMinWidth 0
+firefoxSetting browser.uidensity 1
 firefoxSetting toolkit.legacyUserProfileCustomizations.stylesheets true
 firefoxSetting layers.acceleration.force-enabled true
 
-for d in "$HOME/.mozilla/firefox"/*/; do
+for d in "$HOME/.mozilla/firefox"/*default/; do
   mkdir -p "$d/chrome"
   cat > "$d/chrome/userChrome.css" << EOF
 .tabbrowser-tab:not([pinned]) {
