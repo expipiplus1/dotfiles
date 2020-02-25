@@ -13,6 +13,7 @@ let
     "-XDisambiguateRecordFields"
     "-XEmptyCase"
     "-XExplicitForAll"
+    "-XExplicitNamespaces"
     "-XFlexibleContexts"
     "-XFlexibleInstances"
     "-XFunctionalDependencies"
