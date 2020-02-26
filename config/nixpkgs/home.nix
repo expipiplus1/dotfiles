@@ -95,12 +95,28 @@
         executable = true;
         destination = "/bin/tssh";
       };
-      cached-nix-shell = import (pkgs.fetchFromGitHub {
-        owner = "xzfc";
-        repo = "cached-nix-shell";
-        rev = "aa0919ce6d6b4b5cb12b8e02cfbe8d272e9f89f8";
-        sha256 = "0ip6ynvf8jkimk1y66n9a7qpg25vkv53nn5ri594xaslfzylh232";
-      }) { pkgs = self; };
+      cached-nix-shell = self.rustPlatform.buildRustPackage rec {
+        name = "cached-nix-shell";
+
+        src = self.fetchFromGitHub {
+          owner = "xzfc";
+          repo = "cached-nix-shell";
+          rev = "264d34405eecdcfa670d0a0451ee92877b615e3a";
+          sha256 = "1gkdwbn252790cadfiniv41v131mrgkfq3k3myj98rs19hazbrxf";
+        };
+
+        cargoSha256 = "1rzhahbp5fwwpafa04xs4zfajcpf3bm73v691d13kgjg56p0iwyf";
+
+        CNS_IN_NIX_BUILD = "1";
+
+        buildInputs = [ self.openssl ];
+
+        postInstall = ''
+          mkdir -p $out/lib $out/var/empty $out/share/cached-nix-shell
+          cp target/release/build/cached-nix-shell-*/out/trace-nix.so $out/lib
+          cp rcfile.sh $out/share/cached-nix-shell/rcfile.sh
+        '';
+      };
     })
   ];
 }
