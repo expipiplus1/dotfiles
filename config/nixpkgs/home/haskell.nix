@@ -93,7 +93,14 @@ in {
       })
       pretty-show
       cabal2nix
-      brittany
+      (pkgs.haskell.lib.overrideSrc brittany {
+        src = pkgs.fetchFromGitHub {
+          owner = "lspitzner";
+          repo = "brittany";
+          rev = "4b673d1d9db70e3a0d01a6b3315618e30b887c78";
+          sha256 = "0m74dryw1ijpc4m21cxf4yln77fqpfyh47nhhnipvlygi5rc6n1w";
+        };
+      })
       nix-diff
       hpack
       cabal-install
