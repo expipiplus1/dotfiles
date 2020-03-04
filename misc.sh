@@ -23,7 +23,7 @@ firefoxSetting() {
   for d in "$HOME/.mozilla/firefox"/*default/; do
     u="$d/user.js"
     touch "$u"
-    sed -i 's/user_pref("'"$1"'",.*);/user_pref("'"$1"'",'"$2"');/' "$u"
+    sed -i '/user_pref("'"$1"'",.*);/d' "$u"
     grep -q "$1" "$u" || echo "user_pref(\"$1\",$2);" >> "$u"
   done
 }
