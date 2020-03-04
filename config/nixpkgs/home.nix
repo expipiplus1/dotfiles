@@ -9,6 +9,8 @@
     ./home/pc.nix
   ] ++ lib.optional (builtins.getEnv "BANKID" != "") ./home/scb.nix;
 
+  home.username = "j";
+
   # Let Home Manager install and manage itself.
   programs.home-manager = {
     enable = true;
