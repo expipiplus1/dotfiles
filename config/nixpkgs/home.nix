@@ -51,7 +51,7 @@
         text = ''
           [Desktop Entry]
           Type=Application
-          Exec=${c}
+          Exec=sh -c 'sleep 1 && ${c}'
           Hidden=false
           X-GNOME-Autostart-enabled=true
           Name=${c}
