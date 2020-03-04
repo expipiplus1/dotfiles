@@ -5,7 +5,9 @@ rec {
     http_proxy = "SG-MBFC-LAN-PRX01.global.standardchartered.com:8080";
     https_proxy = http_proxy;
     SSL_CERT_FILE = "/etc/ssl/certs/ca-bundle.crt";
-    CORTEX_EFFECTIVE_USER_ID = builtins.getEnv "BANKID";
+    BANKID = builtins.getEnv "BANKID";
+    STAFFID = BANKID;
+    CORTEX_EFFECTIVE_USER_ID = BANKID;
   };
 
   home.packages = [ pkgs.weechat ];
