@@ -122,6 +122,7 @@
         hintSign = ">";
       };
       coc.preferences.codeLens.enable = true;
+      coc.preferences.rootPatterns = ["default.nix"];
       languageServerHaskell = {
         trace.server = "verbose";
         hieExecutablePath = pkgs.writeShellScript "nix-shell-hie" ''
