@@ -77,6 +77,25 @@
           }).config.nixpkgs.overlays
       '';
     };
+    "autostart/setxkb-helper.desktop".source = pkgs.writeTextFile {
+      name = "setxkb-helper.desktop";
+      text = ''
+        [Desktop Entry]
+        Type=Application
+        Exec=${pkgs.writeShellScript "setxkb-helper" ''
+          sleep 1
+          setxkbmap -verbose 10 fc660c -types fc660c 2>&1 >> /home/j/baz
+          gdbus monitor -y -d org.freedesktop.login1 | while read l; do
+            grep -q "'LockedHint': <false>" <<< $l || continue
+            sleep 1
+            setxkbmap -verbose 10 fc660c -types fc660c 2>&1 >> /home/j/bar
+          done
+        ''}
+        Hidden=false
+        X-GNOME-Autostart-enabled=true
+        Name=setxkb-helper
+      '';
+    };
   } // autostart "firefox"
   // autostart "alacritty --command zsh -i -c 'tmux attach'";
 
