@@ -50,10 +50,10 @@
           call coc#util#float_hide()
         endfunction
 
-        nnoremap <silent> <leader>i :CocList<CR>
-
         nnoremap <silent> <leader>l :call <SID>open_documentation_link("Source")<CR>
         nnoremap <silent> <leader>k :call <SID>open_documentation_link("Documentation")<CR>
+
+        nnoremap <silent> <leader>i :CocList<CR>
 
         "
         " Coc navigation
