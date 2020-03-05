@@ -19,6 +19,8 @@ rec {
     };
     https = http;
     hub = { protocol = "https"; };
+    credential.helper = "store";
+    core.askPass = "";
   };
 
   programs.tmux.update-environment = lib.mkForce [
