@@ -5,9 +5,9 @@
     plugins = with pkgs.vimPlugins; [{
       plugin = coc-nvim.overrideAttrs (old: {
         src = import (pkgs.fetchgit {
-          url = https://github.com/expipiplus1/coc.nvim;
-          rev = "e59b21ddc4465c11551a43825e0c90983767deed";
-          sha256 = "0cadw9z1ha8hih6lcmqjclqa3p1z0nys3lam1iz2gz047yknvg4r";
+          url = "https://github.com/expipiplus1/coc.nvim";
+          rev = "af7c85843a00747b18a6028ae750e3f4e7d5abe5";
+          sha256 = "1j7k2lysnq0vqvwnvv62wyr1s16ipzw1sg6misnhy82gqd7glzf9";
           leaveDotGit = true;
         }) { inherit pkgs; };
       });
@@ -122,7 +122,7 @@
         hintSign = ">";
       };
       coc.preferences.codeLens.enable = true;
-      coc.preferences.rootPatterns = ["default.nix"];
+      coc.preferences.rootPatterns = [ "default.nix" ];
       languageServerHaskell = {
         trace.server = "verbose";
         hieExecutablePath = pkgs.writeShellScript "nix-shell-hie" ''
