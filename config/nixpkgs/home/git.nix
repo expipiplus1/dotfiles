@@ -32,7 +32,7 @@
         "!f(){ set -o pipefail; git blame $1 --line-porcelain | grep 'author ' | grep -v 'Not Committed Yet' | sed 's/author //' | sort | uniq -c | sort -nr | head -n1 | sed 's/ *[0-9]* *//' ; }; f"'';
       cane = ''"commit --amend --no-edit"'';
     };
-    extraConfig = {
+    extraConfig = rec {
       oh-my-zsh = { only-branch = 1; };
       pull = { rebase = true; };
       rebase = {
@@ -40,6 +40,7 @@
         autoStash = true;
       };
       github = { user = "expipiplus1"; };
+      "credential \"https://github.com\"".username = github.user;
       mergetool = { keepBackup = false; };
       merge = { tool = "vimdiff"; };
       core = { editor = "vim"; };
