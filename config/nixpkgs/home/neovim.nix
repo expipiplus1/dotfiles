@@ -22,7 +22,12 @@ in {
       vim-fugitive
       vim-rhubarb
       vim-markdown
-      vim-nix
+      {
+        plugin = vim-nix;
+        config = ''
+          autocmd FileType nix setlocal formatprg=nixfmt
+        '';
+      }
       vim-repeat
       {
         plugin = vim-signify;

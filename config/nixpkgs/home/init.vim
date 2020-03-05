@@ -421,3 +421,9 @@ autocmd Filetype * nnoremap <nowait> <buffer> <leader>p <ESC>1z=e
 " Write faster
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 noremap <Leader>s :write<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" formatting
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+nnoremap g= :call Preserve("normal gggqG")<CR>:echo "file formatted"<CR>
