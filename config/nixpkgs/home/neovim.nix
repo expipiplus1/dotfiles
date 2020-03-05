@@ -221,10 +221,12 @@ in {
       }
     ];
     extraConfig = ''
-      source ${pkgs.substituteAll {
-        src = ./init.vim;
-        shortcut = config.programs.tmux.shortcut;
-      }}
+      source ${
+        pkgs.substituteAll {
+          src = ./init.vim;
+          shortcut = config.programs.tmux.shortcut;
+        }
+      }
     '';
   };
 }
