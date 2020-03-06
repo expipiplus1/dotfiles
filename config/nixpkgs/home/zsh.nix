@@ -49,7 +49,7 @@ in {
     };
     shellAliases = {
       cb = "cabal build -j8";
-      nb = "IN_NIX_SHELL=0 nix-build -j8";
+      nb = "IN_NIX_SHELL= nix-build -j8";
       ne = "nix-env -f '<nixpkgs>'";
     };
     localVariables = {
