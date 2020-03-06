@@ -13,9 +13,12 @@
       });
       config = ''
         set runtimepath^=${
-          import "${builtins.getEnv "HOME"}/src/vscode-hie-server" {
-            inherit pkgs;
-          }
+          import (pkgs.fetchFromGitHub {
+            owner = "alanz";
+            repo = "vscode-hie-server";
+            rev = "3b6ecc7e91cc9778e8fc46a565d67530d7b2859c";
+            sha256 = "0ks074nz4252jq5cknyinhm8hg1sv2prka7qg23h59i3fvlh2jzj";
+          }) { inherit pkgs; }
         }
 
         function! s:show_documentation()
