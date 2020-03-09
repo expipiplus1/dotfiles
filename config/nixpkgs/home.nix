@@ -34,6 +34,7 @@
     gist
     htop
     jq
+    yq
     mosh
     nix
     nix-prefetch-git
