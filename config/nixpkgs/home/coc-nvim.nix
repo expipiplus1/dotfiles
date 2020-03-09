@@ -21,6 +21,26 @@
           }) { inherit pkgs; }
         }
 
+        """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+        " Highlight current word
+        """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+        set runtimepath^=${
+          pkgs.fetchFromGitHub {
+            owner = "neoclide";
+            repo = "coc-highlight";
+            rev = "b4e82ebd5fe855d004dd481e2ecf2fa88faed284";
+            sha256 = "06h64jq8cgj5hc19inidns046kkb76750179jsw7xv5zbp93ygap";
+          }
+        }
+        " Highlight symbol under cursor on CursorHold
+        autocmd CursorHold * silent call CocActionAsync('highlight')
+        highlight CocHighlightText gui=underline guibg=#282a2e cterm=underline ctermbg=10
+        " TODO, this doesn't belong here
+        set updatetime=100
+
+        """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+        " Browse documentation
+        """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
         function! s:show_documentation()
           if (index(['vim','help'], &filetype) >= 0)
             execute 'h '.expand('<cword>')
@@ -75,8 +95,6 @@
         "
         " Coc visuals
         "
-        " Highlight symbol under cursor on CursorHold
-        autocmd CursorHold * silent call CocActionAsync('highlight')
 
         " Remap for format selected region
         xmap <leader>f  <Plug>(coc-format-selected)
