@@ -6,8 +6,8 @@
       plugin = coc-nvim.overrideAttrs (old: {
         src = import (pkgs.fetchgit {
           url = "https://github.com/expipiplus1/coc.nvim";
-          rev = "983e11718a769862526fa175328bc6cae8fbe081";
-          sha256 = "0i62piq6yz501rs84gww5aay004wbcp0g9nc1175vs8y0jm3clks";
+          rev = "12400280fb132578b2ed7cf4135873893639282d";
+          sha256 = "1x2m1flb78r8v2wqgg9ya61v9kz4f6npkbqczd8dbbn515n80p8d";
           leaveDotGit = true;
         }) { inherit pkgs; };
       });
