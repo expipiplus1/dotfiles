@@ -108,8 +108,8 @@ in {
       ((import (pkgs.fetchFromGitHub {
         owner = "Infinisil";
         repo = "all-hies";
-        rev = "329d740561641b2c2c6e261d5870a1dc4ab9cfdc";
-        sha256 = "14w9hh1m1njk9p32j2y2blrsf61x4x2m3a46rq9n1qzb2yk6ywg0";
+        rev = "4baf989413bde9a8d9e075c58506e16ce6f5c751";
+        sha256 = "1lbckghkcs9am4074fk566z1wfnxjx0r5pspnrqshqacihbaz1rv";
       }) { inherit pkgs; }).unstableFallback.selection {
         selector = p: { inherit (p) ghc882; };
       })
