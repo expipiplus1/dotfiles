@@ -93,10 +93,6 @@ in {
           " Search highlighting
           hi Search term=bold,underline gui=bold,underline
 
-          " Split separator colors
-          set fillchars+=stlnc:-
-          set fillchars+=stl:-
-
           hi! def link VertSplit StatusLineNC
 
           hi! def link CocErrorSign ErrorMsg
