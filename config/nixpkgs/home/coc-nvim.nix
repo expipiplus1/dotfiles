@@ -6,8 +6,8 @@
       plugin = coc-nvim.overrideAttrs (old: {
         src = import (pkgs.fetchgit {
           url = "https://github.com/expipiplus1/coc.nvim";
-          rev = "af7c85843a00747b18a6028ae750e3f4e7d5abe5";
-          sha256 = "1j7k2lysnq0vqvwnvv62wyr1s16ipzw1sg6misnhy82gqd7glzf9";
+          rev = "983e11718a769862526fa175328bc6cae8fbe081";
+          sha256 = "0i62piq6yz501rs84gww5aay004wbcp0g9nc1175vs8y0jm3clks";
           leaveDotGit = true;
         }) { inherit pkgs; };
       });
@@ -24,7 +24,7 @@
         """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
         " Highlight current word
         """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-        set runtimepath^=${
+        " set runtimepath^=${
           pkgs.fetchFromGitHub {
             owner = "neoclide";
             repo = "coc-highlight";

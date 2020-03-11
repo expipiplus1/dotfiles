@@ -112,8 +112,8 @@ in {
           let g:lightline = {
                 \ 'colorscheme': lightLineColorScheme,
                 \ 'active': {
-                \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'readonly' ], ['filename' ] ],
-                \   'right': [ [ 'lineinfo' ], [ 'cocstatus', 'percent'], ['filetype' ] ]
+                \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'readonly' ], ['filename' ], [ 'cocstatus' ] ],
+                \   'right': [ [ 'lineinfo' ], [ 'percent'], ['filetype' ] ]
                 \ },
                 \ 'inactive': {
                 \   'left': [ [], [ 'readonly', 'filename'] ],
