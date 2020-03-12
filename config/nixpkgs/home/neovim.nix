@@ -179,7 +179,7 @@ in {
             ])
           } ]
 
-          nnoremap <C-p> :FuzzyOpen<CR>
+          nnoremap ; :FuzzyOpen<CR>
         '';
       }
       {
