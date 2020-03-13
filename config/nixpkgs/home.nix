@@ -114,7 +114,7 @@
         name = "tssh";
         text = ''
           #/usr/bin/env sh
-          ${pkgs.mosh}/bin/mosh --server=.nix-profile/bin/mosh-server "$@" -- .nix-profile/bin/tmux attach
+          ${self.mosh}/bin/mosh --server=.nix-profile/bin/mosh-server "$@" -- .nix-profile/bin/tmux attach
         '';
         executable = true;
         destination = "/bin/tssh";
