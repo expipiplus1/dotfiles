@@ -30,7 +30,7 @@
     curl
     file
     fzf
-    fzy
+    fd
     gist
     htop
     jq
