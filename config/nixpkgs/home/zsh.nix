@@ -56,6 +56,9 @@ in {
       HYPHEN_INSENSITIVE = "true";
       DISABLE_AUTO_UPDATE = "true";
     };
+    sessionVariables = {
+      FZF_DEFAULT_COMMAND = "${pkgs.fd}/bin/fd";
+    };
     initExtraBeforeCompInit = ''
       function light()
       {
