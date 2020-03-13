@@ -119,6 +119,16 @@
         executable = true;
         destination = "/bin/tssh";
       };
+      fzf = super.fzf.overrideAttrs (old: rec {
+        name = "fzf-${version}";
+        version = "2020-03-13";
+        src = pkgs.fetchFromGitHub {
+          owner = "junegunn";
+          repo = "fzf";
+          rev = "14f90502a49b868b6c9fed4a86d413427052fb81";
+          sha256 = "1d4bwcmjirwkkv0m01sx9rxp01iik57iy54zxhdkkz842pxlr2xv";
+        };
+      });
       cached-nix-shell = self.rustPlatform.buildRustPackage rec {
         name = "cached-nix-shell";
 
