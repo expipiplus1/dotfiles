@@ -25,7 +25,7 @@ in {
       {
         plugin = vim-nix;
         config = ''
-          autocmd FileType nix setlocal formatprg=nixfmt
+          autocmd FileType nix setlocal formatprg=${pkgs.nixfmt}/bin/nixfmt
         '';
       }
       vim-repeat
