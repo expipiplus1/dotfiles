@@ -76,9 +76,6 @@
         nnoremap <silent> <leader>l :call <SID>open_documentation_link("Source")<CR>
         nnoremap <silent> <leader>k :call <SID>open_documentation_link("Documentation")<CR>
 
-        nnoremap <silent> <leader>i :CocList<CR>
-        nnoremap <silent> <leader>d :CocList diagnostics<CR>
-
         "
         " Coc navigation
         "
@@ -128,7 +125,15 @@
         inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
         inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
       '';
-    }];
+    }
+    {
+      plugin = coc-fzf;
+      config = ''
+        nnoremap <silent> <leader>i :CocFzfList<CR>
+        nnoremap <silent> <leader>d :CocFzfList diagnostics<CR>
+      '';
+    }
+    ];
     withNodeJs = true;
   };
 

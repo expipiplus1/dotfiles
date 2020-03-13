@@ -12,7 +12,14 @@ in {
       pkgs.neovim-unwrapped;
     vimAlias = true;
     plugins = with pkgs.vimPlugins; [
-      fzf-vim
+      {
+        plugin = fzf-vim;
+        config = ''
+          let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'border': 'sharp' } }
+
+          nnoremap ; :FZF<CR>
+        '';
+      }
       tmux-complete-vim
       gist-vim
       (appendPatches [ ./plug-patches/cabal-module-word.patch ] haskell-vim)
@@ -160,26 +167,6 @@ in {
           function! MyFiletype()
             return winwidth(0) > 100 ? (strlen(&filetype) ? &filetype : 'no ft') : ""
           endfunction
-        '';
-      }
-      {
-        plugin = neovim-fuzzy;
-        config = ''
-          let g:fuzzy_rootcmds = [ ${
-            lib.concatMapStringsSep ", " (s: "'${s}'")
-            (lib.optionals (lib.hasAttr "upfind" pkgs) [
-              "${pkgs.upfind}/bin/upfind -d default.nix"
-              "${pkgs.upfind}/bin/upfind -d build.hs"
-              "${pkgs.upfind}/bin/upfind -d Main.mu"
-              "${pkgs.upfind}/bin/upfind -d CMakeLists.txt"
-              "${pkgs.upfind}/bin/upfind -d Makefile"
-              ''${pkgs.upfind}/bin/upfind -d "".+\\.cabal""''
-            ] ++ [
-              "${config.programs.git.package}/bin/git rev-parse --show-toplevel"
-            ])
-          } ]
-
-          nnoremap ; :FuzzyOpen<CR>
         '';
       }
       {
