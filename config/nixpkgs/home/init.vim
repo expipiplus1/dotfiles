@@ -250,12 +250,6 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-if has('nvim')
-  tnoremap <C-J> <C-\><C-n><C-W><C-J>
-  tnoremap <C-K> <C-\><C-n><C-W><C-K>
-  tnoremap <C-L> <C-\><C-n><C-W><C-L>
-  tnoremap <C-H> <C-\><C-n><C-W><C-H>
-endif
 
 nnoremap <C-@shortcut@> <C-w>
 nnoremap <C-w> <nop>
