@@ -32,7 +32,8 @@ firefoxSetting browser.urlbar.doubleClickSelectsAll false
 firefoxSetting browser.tabs.tabMinWidth 0
 firefoxSetting browser.uidensity 1
 firefoxSetting toolkit.legacyUserProfileCustomizations.stylesheets true
-firefoxSetting layers.acceleration.force-enabled true
+firefoxSetting layers.acceleration.force-enabled false
+firefoxSetting gfx.webrender.all false
 
 for d in "$HOME/.mozilla/firefox"/*default/; do
   mkdir -p "$d/chrome"
