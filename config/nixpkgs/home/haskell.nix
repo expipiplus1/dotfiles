@@ -4,6 +4,7 @@ let
   hindentOps = [
     "-XBangPatterns"
     "-XBinaryLiterals"
+    "-XBlockArguments"
     "-XDataKinds"
     "-XDeriveDataTypeable"
     "-XDeriveFoldable"
@@ -34,7 +35,6 @@ let
     "-XQuasiQuotes"
     "-XRankNTypes"
     "-XRecordWildCards"
-    "-XRecursiveDo"
     "-XScopedTypeVariables"
     "-XStandaloneDeriving"
     "-XTemplateHaskell"
