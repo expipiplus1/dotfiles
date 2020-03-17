@@ -25,16 +25,18 @@
   };
 
   home.packages = with pkgs; [
+    bat
     bmon
+    cached-nix-shell
     coreutils
     curl
+    fd
     file
     fzf
-    fd
     gist
     htop
     jq
-    yq
+    killall
     mosh
     nix
     nix-prefetch-git
@@ -42,7 +44,7 @@
     silver-searcher
     tree
     tssh
-    cached-nix-shell
+    yq
   ];
 
   xdg.configFile = let
@@ -56,7 +58,7 @@
           Hidden=false
           X-GNOME-Autostart-enabled=true
           Name=${c}
-                   '';
+        '';
       };
     };
   in {
