@@ -31,6 +31,8 @@
     coreutils
     curl
     fd
+    du-dust
+    efibootmgr
     file
     fzf
     gist
