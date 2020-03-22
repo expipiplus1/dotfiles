@@ -93,14 +93,14 @@ in {
       })
       pretty-show
       cabal2nix
-      (pkgs.haskell.lib.overrideSrc brittany {
+      (pkgs.haskell.lib.dontCheck (pkgs.haskell.lib.overrideSrc brittany {
         src = pkgs.fetchFromGitHub {
           owner = "lspitzner";
           repo = "brittany";
-          rev = "4b673d1d9db70e3a0d01a6b3315618e30b887c78";
-          sha256 = "0m74dryw1ijpc4m21cxf4yln77fqpfyh47nhhnipvlygi5rc6n1w";
+          rev = "71aaab89689443269cee31c5741c5086e0cff885";
+          sha256 = "0kb789jqfd457l6ik0r1rvqlp5fs7i6w5n6m76rk4747byhn8dhr";
         };
-      })
+      }))
       nix-diff
       hpack
       cabal-install
@@ -108,8 +108,8 @@ in {
       ((import (pkgs.fetchFromGitHub {
         owner = "Infinisil";
         repo = "all-hies";
-        rev = "4baf989413bde9a8d9e075c58506e16ce6f5c751";
-        sha256 = "1lbckghkcs9am4074fk566z1wfnxjx0r5pspnrqshqacihbaz1rv";
+        rev = "5f1ac6c3910c72658b1e11440fd9163804640c7d";
+        sha256 = "0k0ybng5i58p1dcrq681i3jh1bjh5xs7qsi9ki1dyn0m41ndbvbm";
       }) { inherit pkgs; }).unstableFallback.selection {
         selector = p: { inherit (p) ghc882; };
       })
