@@ -114,7 +114,7 @@ in {
         rev = "5f1ac6c3910c72658b1e11440fd9163804640c7d";
         sha256 = "0k0ybng5i58p1dcrq681i3jh1bjh5xs7qsi9ki1dyn0m41ndbvbm";
       }) { inherit pkgs; }).unstableFallback.selection {
-        selector = p: { inherit (p) ghc882; };
+        selector = p: { inherit (p) ghc865 ghc882; };
       })
     ];
 
