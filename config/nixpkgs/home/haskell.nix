@@ -128,33 +128,6 @@ in {
     import qualified Prelude as P
     :def hoogle \s -> P.pure P.$ ":! hoogle search -cl --count=15 \"" P.++ s P.++ "\""
     :def doc \s -> P.pure P.$ ":! hoogle search -cl --info \"" P.++ s P.++ "\""
-
-
-    -- Typing `:pretty` will turn on the pretty-printing
-    :set -package process
-    import qualified System.Process
-    :{
-    :def pretty \_ -> P.pure P.$ P.unlines P.$
-      [ ":{"
-      , "let pprint x = System.Process.withCreateProcess cp' P.$ \\(P.Just i) _ _ ph -> do"
-      , "        System.IO.hPutStrLn i (P.show x)"
-      , "        System.IO.hClose i"
-      , "        _ <- System.Process.waitForProcess ph"
-      , "        P.pure ()"
-      , "      where cp = System.Process.proc \"${pkgs.haskellPackages.pretty-ghci}/bin/pp-ghci\" [\"--value\", \"--smarter-layout\"]"
-      , "            cp' = cp{ System.Process.std_out = System.Process.Inherit"
-      , "                    , System.Process.std_err = System.Process.Inherit"
-      , "                    , System.Process.std_in  = System.Process.CreatePipe }"
-      , ":}"
-      , ":set -interactive-print pprint"
-      ]
-    :}
-
-    -- Typing `:no-pretty` will turn off the pretty-printing
-    :def no-pretty \_ -> P.pure (":set -interactive-print System.IO.print")
-
-    -- Make things pretty by default!
-    :pretty
   '';
 
   home.file.".haskeline".source = pkgs.writeText "haskeline" ''
