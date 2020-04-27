@@ -128,7 +128,7 @@
         '';
       }
       {
-        plugin = coc-fzf.overrideAttrs (old: { src = /home/j/src/coc-fzf; });
+        plugin = coc-fzf;
         config = ''
           nnoremap <silent> <leader>i :CocFzfList<CR>
           nnoremap <silent> <leader>d :CocFzfList diagnostics<CR>
