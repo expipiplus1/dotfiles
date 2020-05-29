@@ -17,8 +17,8 @@
             import (pkgs.fetchFromGitHub {
               owner = "alanz";
               repo = "vscode-hie-server";
-              rev = "3b6ecc7e91cc9778e8fc46a565d67530d7b2859c";
-              sha256 = "0ks074nz4252jq5cknyinhm8hg1sv2prka7qg23h59i3fvlh2jzj";
+              rev = "79ce9166ad7e4eb67153a5ba5a552243b85b7d4f";
+              sha256 = "0w4cgprfyr12mgrkd172l27fx10vnb47kwv0r7x3i969ih6p05s7";
             }) { inherit pkgs; }
           }
 
