@@ -18,7 +18,7 @@ in
     xsel
     vscode
     signal-desktop
-    (firefox-devedition-bin.override { nameSuffix = ""; })
+    firefox
   ];
 
   programs.neovim = {
