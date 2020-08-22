@@ -13,7 +13,7 @@ in
   ];
 
   home.packages = with pkgs; [
-    ffmpeg
+    ffmpeg-full
     powerline-fonts
     xsel
     vscode
