@@ -30,9 +30,11 @@
     cached-nix-shell
     coreutils
     curl
-    fd
+    dnsutils
     du-dust
     efibootmgr
+    entr
+    fd
     file
     fzf
     gist
@@ -43,7 +45,10 @@
     nix
     nix-prefetch-git
     nix-prefetch-github
+    nmap
+    openssl
     silver-searcher
+    tio
     tree
     tssh
     yq
