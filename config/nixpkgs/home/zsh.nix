@@ -173,7 +173,11 @@ in {
     envExtra = ''
       # set PATH so it includes user's private bin directories
       PATH="$HOME/bin:$HOME/.local/bin:$PATH"
-      if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi
+      if [ -z ''${NIX_PROFILES+x} ]; then
+        if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
+          . $HOME/.nix-profile/etc/profile.d/nix.sh;
+        fi
+      fi
     '';
   };
 }
