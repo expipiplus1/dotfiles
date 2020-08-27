@@ -7,32 +7,24 @@
         plugin = coc-nvim.overrideAttrs (old: {
           src = import (pkgs.fetchgit {
             url = "https://github.com/expipiplus1/coc.nvim";
-            rev = "12400280fb132578b2ed7cf4135873893639282d";
-            sha256 = "1arwg5ybf2f3hsy8y7kgnck0pmqalpjkyckj9wyc3l32wj5n33l1";
+            rev = "94e50ff7dc9b42e1bb1d18ef2d264ab2bcb4265e";
+            sha256 = "1xzkgqa3kxx4ma08yhd62yb37ya4a6962dv8qybgqwp2v0spxk6g";
             leaveDotGit = true;
           }) { inherit pkgs; };
         });
         config = ''
           set runtimepath^=${
             import (pkgs.fetchFromGitHub {
-              owner = "alanz";
+              owner = "expipiplus1";
               repo = "vscode-hie-server";
-              rev = "79ce9166ad7e4eb67153a5ba5a552243b85b7d4f";
-              sha256 = "0w4cgprfyr12mgrkd172l27fx10vnb47kwv0r7x3i969ih6p05s7";
+              rev = "83e855bc2d8cddd317bc80f3d4b645691bc818ce";
+              sha256 = "1wlkwdzc4znwmrfidwj2vnx828wndlqvs87pq70xj39w4gz1q36s";
             }) { inherit pkgs; }
           }
 
           """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
           " Highlight current word
           """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-          " set runtimepath^=${
-            pkgs.fetchFromGitHub {
-              owner = "neoclide";
-              repo = "coc-highlight";
-              rev = "b4e82ebd5fe855d004dd481e2ecf2fa88faed284";
-              sha256 = "06h64jq8cgj5hc19inidns046kkb76750179jsw7xv5zbp93ygap";
-            }
-          }
           " Highlight symbol under cursor on CursorHold
           autocmd CursorHold * silent call CocActionAsync('highlight')
           highlight CocHighlightText gui=underline guibg=#282a2e cterm=underline ctermbg=10
@@ -151,13 +143,15 @@
       };
       coc.preferences.codeLens.enable = true;
       coc.preferences.rootPatterns = [ "default.nix" ];
-      languageServerHaskell = {
-        trace.server = "verbose";
-        hieExecutablePath = pkgs.writeShellScript "nix-shell-hie" ''
+      haskell = {
+        # trace.server = "verbose";
+        logFile = "/tmp/hls.log";
+        formattingProvider = "brittany";
+        serverExecutablePath = pkgs.writeShellScript "nix-shell-hie" ''
           if [[ -f default.nix || -f shell.nix ]]; then
-            ${pkgs.cached-nix-shell}/bin/cached-nix-shell --keep XDG_DATA_DIRS --arg hoogle true --run "hie -l /tmp/hie.log $(printf "''${1+ %q}" "$@")"
+            ${pkgs.cached-nix-shell}/bin/cached-nix-shell --keep XDG_DATA_DIRS --arg hoogle true --run "${pkgs.haskell-language-server}/bin/haskell-language-server $(printf "''${1+ %q}" "$@")"
           else
-            exec hie "$@"
+            exec ${pkgs.haskell-language-server}/bin/haskell-language-server "$@"
           fi
         '';
       };

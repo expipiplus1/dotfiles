@@ -100,22 +100,15 @@ in {
         src = pkgs.fetchFromGitHub {
           owner = "lspitzner";
           repo = "brittany";
-          rev = "71aaab89689443269cee31c5741c5086e0cff885";
-          sha256 = "0kb789jqfd457l6ik0r1rvqlp5fs7i6w5n6m76rk4747byhn8dhr";
+          rev = "5bf6d4a8591dda549ceac618a20146e6953a81ee";
+          sha256 = "0gv57kj17r8x6h82rwabx84g2xqx5g351kr78rcfqqbw0335d9hl";
+          # rev = "71aaab89689443269cee31c5741c5086e0cff885";
+          # sha256 = "0kb789jqfd457l6ik0r1rvqlp5fs7i6w5n6m76rk4747byhn8dhr";
         };
       }))
       nix-diff
       hpack
       cabal-install
-    ] ++ [
-      ((import (pkgs.fetchFromGitHub {
-        owner = "Infinisil";
-        repo = "all-hies";
-        rev = "5f1ac6c3910c72658b1e11440fd9163804640c7d";
-        sha256 = "0k0ybng5i58p1dcrq681i3jh1bjh5xs7qsi9ki1dyn0m41ndbvbm";
-      }) { inherit pkgs; }).unstableFallback.selection {
-        selector = p: { inherit (p) ghc865 ghc882; };
-      })
     ];
 
   xdg.configFile."brittany/config.yaml".source = pkgs.writeText "config.yaml"
@@ -145,8 +138,6 @@ in {
     (self: super: {
       haskellPackages = self.haskell.lib.properExtend super.haskellPackages
         (self: super: {
-          vulkan =
-            import (builtins.getEnv "HOME" + "/src/vulkan") { inherit pkgs; };
           upfind = import (pkgs.fetchFromGitHub {
             owner = "expipiplus1";
             repo = "upfind";
@@ -165,6 +156,13 @@ in {
         self.haskell.lib.justStaticExecutables self.haskellPackages.upfind;
       update-nix-fetchgit = self.haskell.lib.justStaticExecutables
         self.haskellPackages.update-nix-fetchgit;
+
+      haskell-language-server = (import (pkgs.fetchFromGitHub {
+        owner = "expipiplus1";
+        repo = "nixpkgs";
+        rev = "aa0baffd24179e663e45f086fcf2a62a3109a8c5";
+        sha256 = "0pbskvvw0nirqlsmpxfrvfblqnhfsm80bbqpsc0rc4fb5gh9d8n8";
+      }) { inherit config; }).haskellPackages.haskell-language-server;
     })
   ];
 }
