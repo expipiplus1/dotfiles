@@ -156,6 +156,7 @@ in {
       unsetopt AUTO_CD
 
       setopt histignorespace
+      setopt inc_append_history
       bindkey -M vicmd 'k' history-substring-search-up
       bindkey -M vicmd 'j' history-substring-search-down
 
