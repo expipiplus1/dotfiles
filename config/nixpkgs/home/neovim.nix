@@ -24,14 +24,14 @@ in {
         '';
       }
       tmux-complete-vim
-      gist-vim
       (appendPatches [ ./plug-patches/cabal-module-word.patch ] haskell-vim)
       lessspace-vim
       vim-abolish
       vim-easy-align
       vim-fugitive
-      vim-rhubarb
+      vim-gist
       vim-markdown
+      vim-rhubarb
       {
         plugin = vim-nix;
         config = ''
