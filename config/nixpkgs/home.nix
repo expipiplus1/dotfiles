@@ -134,6 +134,11 @@
         rev = "0e73944dc31132d2aa9a769f4cc677eea6984bec";
         sha256 = "1hzrjvxk9rpqdxw0v27ngn5k3andm1xfkak4ly75x6gxwgb5mdw5";
       }) { pkgs = self; };
+      spotify = super.spotify.overrideAttrs (old: {
+        postInstall = ''
+          sed -i 's/^Exec=spotify/Exec=spotify --force-device-scale-factor=2/' "$out/share/applications/spotify.desktop"
+        '';
+      });
     })
   ];
 }
