@@ -122,7 +122,14 @@
         '';
       }
       {
-        plugin = coc-fzf;
+        plugin = coc-fzf.overrideAttrs (old: {
+          src = pkgs.fetchFromGitHub {
+            owner = "antoinemadec";
+            repo = "coc-fzf";
+            rev = "341ea7db0ab85a2ecb3a067ca721c1327fcd7013";
+            sha256 = "0gqs6xdnmg33xraxqv10jl7dhaca19dlidmc86zdki2hg1bckr9b";
+          };
+        });
         config = ''
           nnoremap <silent> <leader>i :CocFzfList<CR>
           nnoremap <silent> <leader>d :CocFzfList diagnostics<CR>
