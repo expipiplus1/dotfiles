@@ -137,8 +137,8 @@ in {
           update-nix-fetchgit = import (pkgs.fetchFromGitHub {
             owner = "expipiplus1";
             repo = "update-nix-fetchgit";
-            rev = "38d8fdc44833e3dc036ab9b59aedae2e673d6c33";
-            sha256 = "12y32zw6k2wlr3s7vqlci5akb8szpy2xk44pavapcgsxfrp4bb2q";
+            rev = "eec9ef8861f0ca5bd5e7826b856dafe0270e0c0d";
+            sha256 = "1vx0ppkg8kvsjdq2xwxmhibxp8507hwr2jij7qq2a9kvjh8l7577";
           }) { };
         });
 
