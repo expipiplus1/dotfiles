@@ -19,6 +19,7 @@ in
     vscode
     signal-desktop
     firefox
+    spotify
   ];
 
   programs.neovim = {
