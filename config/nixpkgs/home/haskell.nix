@@ -54,8 +54,8 @@ let
   refactor-unwrapped = import (pkgs.fetchFromGitHub {
     owner = "mpickering";
     repo = "apply-refact";
-    rev = "f8ccb9338fdc7efe59ca31df12b3d1b10804221c";
-    sha256 = "1hxn1ixad9qkmcjx55sk0pkyrly490h91bksc9ziqhqi0fvhrmw6";
+    rev = "d86470d0868683c38ef2d836d1a0c25ad5749685";
+    sha256 = "0nvp0812qq7gsps2q2l6f84d7j4s90y2j5cwg8h31zcvswx4r1mr";
   }) { inherit pkgs; };
   refactor = pkgs.symlinkJoin {
     name = "refactor";
