@@ -1,0 +1,36 @@
+[TaskBar]
+active-task-frame=true
+appview-button-icon='/home/j/.local/share/gnome-shell/extensions/TaskBar@c0ldplasma/images/appview-button-default.svg'
+bottom-panel=false
+bottom-panel-original-background-color='rgba(0, 0, 0, 255)'
+content-size=7
+desktop-button-icon='/home/j/.local/share/gnome-shell/extensions/TaskBar@c0ldplasma/images/desktop-button-default.png'
+display-desktop-button=false
+display-favorites=false
+display-showapps-button=false
+display-tasks=false
+display-workspace-button=false
+extension-path='/home/j/.local/share/gnome-shell/extensions/TaskBar@c0ldplasma'
+first-start=false
+hover-event=0
+panel-size=17
+position-max-right=4
+tb-icon-size=0
+tb-label-size=0
+top-panel=true
+top-panel-original-background-color='rgba(0, 0, 0, 255)'
+tray-button-icon='/home/j/.local/share/gnome-shell/extensions/TaskBar@c0ldplasma/images/bottom-panel-tray-button.svg'
+
+[freon]
+gpu-utility='nvidia-settings'
+group-voltage=true
+hot-sensors=['GeForce RTX 2080 Ti', 'ST2000LM015-2E8174', 'Package id 0']
+panel-box-index=0
+position-in-panel='center'
+show-voltage=true
+unit='centigrade'
+update-time=5
+
+[unite]
+hide-activities-button='always'
+window-buttons-placement='first'
