@@ -68,48 +68,38 @@ let
   };
 
 in {
-  home.packages = with pkgs.haskellPackages;
-    [
-      pkgs.upfind
-      pkgs.update-nix-fetchgit
-      pkgs.cachix
-      pkgs.nixfmt
-      ghcid
-      (pkgs.symlinkJoin {
-        name = "hindent";
-        paths = [ hindent ];
-        buildInputs = [ pkgs.makeWrapper ];
-        postBuild = ''
-          wrapProgram $out/bin/hindent \
-            --add-flags "${pkgs.lib.concatStringsSep " " hindentOps}"
-        '';
-      })
-      (pkgs.symlinkJoin {
-        name = "hlint";
-        paths = [ hlint ];
-        buildInputs = [ pkgs.makeWrapper ];
-        postBuild = ''
-          wrapProgram $out/bin/hlint \
-            --add-flags "${pkgs.lib.concatStringsSep " " ghcOpts}" \
-            --add-flags "--with-refactor=${refactor}/bin/refactor"
-        '';
-      })
-      pretty-show
-      cabal2nix
-      (pkgs.haskell.lib.dontCheck (pkgs.haskell.lib.overrideSrc brittany {
-        src = pkgs.fetchFromGitHub {
-          owner = "lspitzner";
-          repo = "brittany";
-          rev = "5bf6d4a8591dda549ceac618a20146e6953a81ee";
-          sha256 = "0gv57kj17r8x6h82rwabx84g2xqx5g351kr78rcfqqbw0335d9hl";
-          # rev = "71aaab89689443269cee31c5741c5086e0cff885";
-          # sha256 = "0kb789jqfd457l6ik0r1rvqlp5fs7i6w5n6m76rk4747byhn8dhr";
-        };
-      }))
-      nix-diff
-      hpack
-      cabal-install
-    ];
+  home.packages = with pkgs.haskellPackages; [
+    pkgs.upfind
+    pkgs.update-nix-fetchgit
+    pkgs.cachix
+    pkgs.nixfmt
+    ghcid
+    (pkgs.symlinkJoin {
+      name = "hlint";
+      paths = [ hlint ];
+      buildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/hlint \
+          --add-flags "${pkgs.lib.concatStringsSep " " ghcOpts}" \
+          --add-flags "--with-refactor=${refactor}/bin/refactor"
+      '';
+    })
+    pretty-show
+    cabal2nix
+    (pkgs.haskell.lib.dontCheck (pkgs.haskell.lib.overrideSrc brittany {
+      src = pkgs.fetchFromGitHub {
+        owner = "lspitzner";
+        repo = "brittany";
+        rev = "5bf6d4a8591dda549ceac618a20146e6953a81ee";
+        sha256 = "0gv57kj17r8x6h82rwabx84g2xqx5g351kr78rcfqqbw0335d9hl";
+        # rev = "71aaab89689443269cee31c5741c5086e0cff885";
+        # sha256 = "0kb789jqfd457l6ik0r1rvqlp5fs7i6w5n6m76rk4747byhn8dhr";
+      };
+    }))
+    nix-diff
+    hpack
+    cabal-install
+  ];
 
   xdg.configFile."brittany/config.yaml".source = pkgs.writeText "config.yaml"
     (builtins.toJSON { conf_forward = { options_ghc = ghcOpts; }; });
