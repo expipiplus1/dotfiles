@@ -3,6 +3,7 @@
 {
   imports = [
     ./home/zsh.nix
+    ./home/fish.nix
     ./home/git.nix
     ./home/tmux.nix
     ./home/neovim.nix
@@ -109,7 +110,7 @@
       '';
     };
   } // autostart "firefox"
-  // autostart "alacritty --command zsh -i -c 'tmux attach'";
+  // autostart "alacritty --command bash -i -c 'tmux attach'";
 
   nixpkgs.config = {
     allowUnfree = true;
