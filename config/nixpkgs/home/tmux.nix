@@ -108,7 +108,7 @@
         # Smart pane switching with awareness of vim splits and nested tmux sessions
         is_vim='${config.programs.tmux.package}/bin/tmux display -p #{pane_current_command} | grep -iqE "(^|\/)\.?g?(view|n?vim?)(diff)?(-wrapped)?$"'
         is_tmux='${config.programs.tmux.package}/bin/tmux display -p #{pane_pid} | xargs ps h -oargs --ppid | grep -q "tssh"'
-        is_fzf='${config.programs.tmux.package}/bin/tmux display -p #{pane_current_command} | grep -q "fzf"'
+        is_fzf='${config.programs.tmux.package}/bin/tmux display -p #{pane_pid} | xargs -n1 ps h -o comm -g | grep -q -x "fzf"'
         is_paned="$is_vim || $is_tmux"
         is_vert_movable="$is_paned || $is_fzf"
         bind -n C-h if-shell "$is_paned" "send-keys C-h" "select-pane -L"
