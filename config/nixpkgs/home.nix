@@ -95,12 +95,12 @@
         Type=Application
         Exec=${
           pkgs.writeShellScript "setxkb-helper" ''
-            sleep 1
-            setxkbmap -verbose 10 fc660c -types fc660c 2>&1 >> /home/j/baz
+            sleep 2
+            setxkbmap -verbose 10 fc660c -types fc660c 2>&1
             gdbus monitor -y -d org.freedesktop.login1 | while read l; do
               grep -q "'LockedHint': <false>" <<< $l || continue
-              sleep 1
-              setxkbmap -verbose 10 fc660c -types fc660c 2>&1 >> /home/j/bar
+              sleep 2
+              setxkbmap -verbose 10 fc660c -types fc660c 2>&1
             done
           ''
         }
