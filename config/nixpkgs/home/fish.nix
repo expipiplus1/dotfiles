@@ -155,6 +155,7 @@ in {
 
       directory = {
         fish_style_pwd_dir_length = 1;
+        truncation_length = 3;
       };
 
       nix_shell = {
