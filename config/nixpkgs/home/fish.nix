@@ -154,8 +154,8 @@ in {
       package.disabled = true;
 
       directory = {
-        fish_style_pwd_dir_length = 1;
-        truncation_length = 3;
+        truncate_to_repo = false;
+        truncation_length = 0;
       };
 
       nix_shell = {
