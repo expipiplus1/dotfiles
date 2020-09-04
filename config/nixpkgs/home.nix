@@ -110,6 +110,7 @@
       '';
     };
   } // autostart "firefox"
+  // autostart "spotify"
   // autostart "alacritty --command bash -i -c 'tmux attach'";
 
   nixpkgs.config = {
