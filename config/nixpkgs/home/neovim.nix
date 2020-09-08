@@ -19,7 +19,6 @@ in {
 
 
           let $FZF_DEFAULT_COMMAND='${pkgs.fd}/bin/fd --type f'
-          let $FZF_DEFAULT_OPTS='--bind ctrl-j:down,ctrl-k:up'
           nnoremap ; :FZF<CR>
         '';
       }

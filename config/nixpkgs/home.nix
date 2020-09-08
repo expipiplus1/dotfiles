@@ -6,6 +6,7 @@ in {
   imports = [
     ./home/zsh.nix
     ./home/fish.nix
+    ./home/fzf.nix
     ./home/git.nix
     ./home/tmux.nix
     ./home/neovim.nix
@@ -39,7 +40,6 @@ in {
     entr
     fd
     file
-    fzf
     gist
     htop
     jq
