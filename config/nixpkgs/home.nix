@@ -1,6 +1,8 @@
 { config, pkgs, lib, ... }:
 
-{
+let spotifyCommand = "spotify --force-device-scale-factor=2";
+
+in {
   imports = [
     ./home/zsh.nix
     ./home/fish.nix
@@ -110,7 +112,7 @@
       '';
     };
   } // autostart "firefox"
-  // autostart "spotify"
+  // autostart "${spotifyCommand}"
   // autostart "alacritty --command bash -i -c 'tmux attach'";
 
   nixpkgs.config = {
@@ -138,7 +140,7 @@
       }) { pkgs = self; };
       spotify = super.spotify.overrideAttrs (old: {
         postInstall = ''
-          sed -i 's/^Exec=spotify/Exec=spotify --force-device-scale-factor=2/' "$out/share/applications/spotify.desktop"
+          sed -i 's/^Exec=spotify/Exec=${spotifyCommand}/' "$out/share/applications/spotify.desktop"
         '';
       });
     })
