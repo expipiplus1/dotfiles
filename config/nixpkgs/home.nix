@@ -5,7 +5,7 @@ let spotifyCommand = "spotify --force-device-scale-factor=2";
 in {
   imports = [
     ./home/zsh.nix
-    ./home/fish.nix
+    # ./home/fish.nix
     ./home/fzf.nix
     ./home/git.nix
     ./home/tmux.nix

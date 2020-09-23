@@ -2,11 +2,10 @@
 
 {
   home.packages = with pkgs; [ gitAndTools.hub tig ];
-  programs.fish = {
+  programs.zsh = {
+    oh-my-zsh.plugins = [ "gitfast" "github" ];
     shellAliases = {
       git = "${pkgs.gitAndTools.hub}/bin/hub";
-    };
-    shellAbbrs = {
       gs = "git status";
       gd = "git diff";
     };
