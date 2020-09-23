@@ -24,14 +24,14 @@ in {
     enable = true;
     oh-my-zsh = {
       enable = true;
-      plugins = [ "vi-mode" ];
+      plugins = [ "cabal" "gitfast" "vi-mode" ];
     };
     plugins = let
       p = name: {
         inherit name;
         src = "${pkgs."zsh-${name}"}/share/zsh/site-functions";
       };
-    in [ (p "fast-syntax-highlighting") ];
+    in builtins.map p [ "fast-syntax-highlighting" ];
     enableAutosuggestions = true;
     history = {
       share = false;
@@ -147,8 +147,6 @@ in {
 
       setopt histignorespace
       setopt inc_append_history
-      bindkey -M vicmd 'k' history-substring-search-up
-      bindkey -M vicmd 'j' history-substring-search-down
 
       bindkey '^f' autosuggest-accept
 

@@ -8,6 +8,7 @@
       git = "${pkgs.gitAndTools.hub}/bin/hub";
       gs = "git status";
       gd = "git diff";
+      g = "git";
     };
   };
 
