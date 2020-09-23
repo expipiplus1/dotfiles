@@ -1,16 +1,6 @@
 { config, pkgs, ... }:
 
 let
-  oh-my-zsh-custom = attrs:
-    let
-      links = with pkgs.lib;
-        concatLists (mapAttrsToList (prefix: as:
-          mapAttrsToList (plugName: path: {
-            inherit path;
-            name = "${prefix}/" + plugName;
-          }) as) attrs);
-
-    in pkgs.linkFarm "zsh-custom" links;
 
   base16 = pkgs.fetchFromGitHub {
     owner = "tomyun";

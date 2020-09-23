@@ -50,6 +50,7 @@ in {
     nix-prefetch-github
     nmap
     openssl
+    perl
     silver-searcher
     tio
     tree

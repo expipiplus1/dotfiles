@@ -24,22 +24,15 @@ in {
     enable = true;
     oh-my-zsh = {
       enable = true;
-      custom = toString (oh-my-zsh-custom {
-        plugins = {
-          nix = pkgs.fetchFromGitHub {
-            owner = "expipiplus1";
-            repo = "nix-zsh-completions";
-            rev = "1f5ff97e5f71d4a668d6bfaec852a108568ea8f7";
-            sha256 = "138wvvwgcazgvnvyl898flz2h614z02203d2ri4724fb4xmzzif9";
-          };
-        };
-        themes = {
-          "spaceship.zsh-theme" = ./spaceship.zsh-theme;
-        };
-      });
-      theme = "spaceship";
-      plugins = [ "cabal" "history-substring-search" "nix" "vi-mode" ];
+      plugins = [ "vi-mode" ];
     };
+    plugins = let
+      p = name: {
+        inherit name;
+        src = "${pkgs."zsh-${name}"}/share/zsh/site-functions";
+      };
+    in [ (p "fast-syntax-highlighting") ];
+    enableAutosuggestions = true;
     history = {
       share = false;
       size = 1000000;
@@ -157,6 +150,8 @@ in {
       bindkey -M vicmd 'k' history-substring-search-up
       bindkey -M vicmd 'j' history-substring-search-down
 
+      bindkey '^f' autosuggest-accept
+
       bindkey "''${terminfo[khome]}" beginning-of-line
       bindkey "''${terminfo[kend]}"  end-of-line
       bindkey "''${terminfo[kich1]}" overwrite-mode
@@ -177,5 +172,30 @@ in {
         fi
       fi
     '';
+  };
+
+  programs.starship = {
+    enable = true;
+    settings = {
+      character.symbol = "$";
+      package.disabled = true;
+
+      directory = {
+        truncate_to_repo = false;
+        truncation_length = 0;
+      };
+
+      nix_shell = {
+        disabled = false;
+        use_name = false;
+        impure_msg = "";
+        pure_msg = "";
+        symbol = "[nix-shell]";
+        style = "bold green";
+      };
+
+      git_branch = { symbol = ""; };
+      git_status = { disabled = true; };
+    };
   };
 }
