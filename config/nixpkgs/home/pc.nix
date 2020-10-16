@@ -20,6 +20,7 @@ in
     signal-desktop
     firefox
     spotify
+    darktable
   ];
 
   programs.neovim = {
