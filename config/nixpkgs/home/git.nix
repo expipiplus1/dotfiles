@@ -18,7 +18,7 @@
     userName = "Joe Hermaszewski";
     aliases = {
       po = ''
-        !git push --set-upstream origin \"$(git rev-parse --abbrev-ref HEAD)\"'';
+        !git push --set-upstream origin "$(git rev-parse --abbrev-ref HEAD)"'';
       s = "status -s";
       cp = "cherry-pick";
       co = "checkout";
