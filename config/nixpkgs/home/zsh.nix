@@ -95,7 +95,7 @@ in {
       }
 
       ns(){
-        ${pkgs.cached-nix-shell}/bin/cached-nix-shell --keep XDG_DATA_DIRS --command "IN_NIX_SHELL=1 exec zsh; return" "$@"
+        ${pkgs.cached-nix-shell}/bin/cached-nix-shell --keep XDG_DATA_DIRS --command "IN_NIX_SHELL=impure exec zsh; return" "$@"
       }
 
       c2n(){
