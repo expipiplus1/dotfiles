@@ -80,12 +80,6 @@ in {
         ${config.programs.tmux.package}/bin/tmux set-window-option -g window-style bg=colour18
       }
 
-      if [ -f ~/.config/light ]; then
-        light
-      else
-        dark
-      fi
-
       if command -v xdg-open 2>&1 >/dev/null; then
         open(){
           xdg-open "$@" 2> /dev/null
@@ -142,6 +136,13 @@ in {
       function color-results () {
         highlight red 'Failure\|Error' | highlight green 'Success' | highlight yellow 'Warning'
       }
+    '';
+    initExtra = ''
+      if [ -f ~/.config/light ]; then
+        light
+      else
+        dark
+      fi
 
       unsetopt AUTO_CD
 
