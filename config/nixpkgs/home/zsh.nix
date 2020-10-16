@@ -186,11 +186,8 @@ in {
 
       nix_shell = {
         disabled = false;
-        use_name = false;
-        impure_msg = "";
-        pure_msg = "";
-        symbol = "[nix-shell]";
-        style = "bold green";
+        symbol = "\\[nix-shell\\]";
+        format = "[$symbol]($style) ";
       };
 
       git_branch = { symbol = ""; };
