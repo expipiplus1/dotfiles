@@ -58,6 +58,20 @@ in {
     yq
   ];
 
+  xdg.dataFile."applications/windows.desktop".source = pkgs.writeTextFile {
+    name = "windows.desktop";
+    text = ''
+      [Desktop Entry]
+      Type=Application
+      Name=Boot To Windows Next
+      Comment=Set this computer to start Windows after rebooting
+      Exec=sh -c 'pkexec efibootmgr --bootnext 0000 && reboot'
+      Terminal=false
+      Hidden=false
+      Icon=/home/j/Downloads/windows.png
+    '';
+  };
+
   xdg.configFile = let
     autostart = c: {
       "autostart/${c}.desktop".source = pkgs.writeTextFile {
@@ -112,21 +126,7 @@ in {
         Name=setxkb-helper
       '';
     };
-    "applications/windows.desktop".source = pkgs.writeTextFile {
-      name = "windows.desktop";
-      text = ''
-        [Desktop Entry]
-        Type=Application
-        Name=Boot To Windows Next
-        Comment=Set this computer to start Windows after rebooting
-        Exec=pkexec efibootmgr --bootnext 0000
-        Terminal=false
-        Hidden=false
-        Icon=/home/j/Downloads/windows.png
-      '';
-    };
-  } // autostart "firefox"
-  // autostart "${spotifyCommand}"
+  } // autostart "firefox" // autostart "${spotifyCommand}"
   // autostart "alacritty --command bash -i -c 'tmux attach'";
 
   nixpkgs.config = {
