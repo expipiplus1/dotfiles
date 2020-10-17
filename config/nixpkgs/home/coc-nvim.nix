@@ -4,24 +4,8 @@
   programs.neovim = {
     plugins = with pkgs.vimPlugins; [
       {
-        plugin = coc-nvim.overrideAttrs (old: {
-          src = import (pkgs.fetchgit {
-            url = "https://github.com/expipiplus1/coc.nvim";
-            rev = "a0db9f0b60948fdccaa349a6eb7c881f0afc944f";
-            sha256 = "0zd1jgc8nbsc36sbb5mm57xcni0czijcbg75h7qhwcjzb57kwcfj";
-            leaveDotGit = true;
-          }) { inherit pkgs; };
-        });
+        plugin = coc-nvim;
         config = ''
-          set runtimepath^=${
-            import (pkgs.fetchFromGitHub {
-              owner = "expipiplus1";
-              repo = "vscode-hie-server";
-              rev = "83e855bc2d8cddd317bc80f3d4b645691bc818ce";
-              sha256 = "1wlkwdzc4znwmrfidwj2vnx828wndlqvs87pq70xj39w4gz1q36s";
-            }) { inherit pkgs; }
-          }
-
           """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
           " Highlight current word
           """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -122,22 +106,30 @@
         '';
       }
       {
-        plugin = coc-fzf.overrideAttrs (old: {
-          src = pkgs.fetchFromGitHub {
-            owner = "antoinemadec";
-            repo = "coc-fzf";
-            rev = "341ea7db0ab85a2ecb3a067ca721c1327fcd7013";
-            sha256 = "0gqs6xdnmg33xraxqv10jl7dhaca19dlidmc86zdki2hg1bckr9b";
-          };
-        });
+        plugin = coc-fzf;
         config = ''
           nnoremap <silent> <leader>i :CocFzfList<CR>
           nnoremap <silent> <leader>d :CocFzfList diagnostics<CR>
         '';
       }
+      (pkgs.vimUtils.buildVimPluginFrom2Nix {
+        name = "vscode-haskell";
+        src = import (pkgs.fetchFromGitHub {
+          owner = "expipiplus1";
+          repo = "vscode-hie-server";
+          rev = "ff20690c99595aaa920047855104336357b062ed";
+          sha256 = "12zwrvw6nw76qlpc7xjlg70f1fmi0gfamflng0n5srsbgqdi02wz";
+        }) { inherit pkgs; };
+      })
+      coc-diagnostic
     ];
     withNodeJs = true;
   };
+
+  home.packages = with pkgs; [
+    nodePackages.diagnostic-languageserver
+    shellcheck
+  ];
 
   xdg.configFile."nvim/coc-settings.json".source = pkgs.writeTextFile {
     name = "coc-settings.json";
@@ -152,6 +144,7 @@
       };
       coc.preferences.codeLens.enable = true;
       coc.preferences.rootPatterns = [ "default.nix" ];
+
       haskell = {
         # trace.server = "verbose";
         logFile = "/tmp/hls.log";
@@ -163,6 +156,14 @@
             exec ${pkgs.haskell-language-server}/bin/haskell-language-server "$@"
           fi
         '';
+      };
+
+      diagnostic-languageserver = {
+        # annoyingly this removes the other necessary settings for shellcheck....
+        # linters.shellcheck.command = "${pkgs.shellcheck}/bin/shellcheck";
+        formatters.nixfmt.command = "${pkgs.nixfmt}/bin/nixfmt";
+        formatFiletypes = { nix = "nixfmt"; };
+        filetypes = { sh = "shellcheck"; };
       };
       languageserver = {
         clangd = {
