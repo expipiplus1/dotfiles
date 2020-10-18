@@ -121,15 +121,17 @@
           sha256 = "12zwrvw6nw76qlpc7xjlg70f1fmi0gfamflng0n5srsbgqdi02wz";
         }) { inherit pkgs; };
       })
-      coc-diagnostic
+      (coc-diagnostic.overrideAttrs (old: {
+        src = import (pkgs.fetchFromGitHub {
+          owner = "expipiplus1";
+          repo = "coc-diagnostic";
+          rev = "ffbd066a3c4dcfec72106dc7150c7a35a6b415dd";
+          sha256 = "1gl4dxphwyxx3d0pw02ivwxa5d6npc9bl2yrbfmw3s0c0rflhspi";
+        }) { inherit pkgs; };
+      }))
     ];
     withNodeJs = true;
   };
-
-  home.packages = with pkgs; [
-    nodePackages.diagnostic-languageserver
-    shellcheck
-  ];
 
   xdg.configFile."nvim/coc-settings.json".source = pkgs.writeTextFile {
     name = "coc-settings.json";
@@ -146,7 +148,6 @@
       coc.preferences.rootPatterns = [ "default.nix" ];
 
       haskell = {
-        # trace.server = "verbose";
         logFile = "/tmp/hls.log";
         formattingProvider = "brittany";
         serverExecutablePath = pkgs.writeShellScript "nix-shell-hie" ''
@@ -159,11 +160,37 @@
       };
 
       diagnostic-languageserver = {
-        # annoyingly this removes the other necessary settings for shellcheck....
-        # linters.shellcheck.command = "${pkgs.shellcheck}/bin/shellcheck";
-        formatters.nixfmt.command = "${pkgs.nixfmt}/bin/nixfmt";
-        formatFiletypes = { nix = "nixfmt"; };
-        filetypes = { sh = "shellcheck"; };
+        linters = {
+          shellcheck.command = "${pkgs.shellcheck}/bin/shellcheck";
+          nix-linter = {
+            command = pkgs.writeShellScript "nix-linter-json-list" ''
+              echo '['
+              cat | ${pkgs.nix-linter}/bin/nix-linter --json-stream - | sed '$!s/$/,/'
+              echo ']'
+            '';
+            sourceName = "nix-linter";
+            debounce = 100;
+            parseJson = {
+              line = "pos.spanBegin.sourceLine";
+              column = "pos.spanBegin.sourceColumn";
+              endLine = "pos.spanEnd.sourceLine";
+              endColumn = "pos.spanEnd.sourceColumn";
+              message = "\${description}";
+            };
+          };
+        };
+        formatters = {
+          nixfmt.command = "${pkgs.nixfmt}/bin/nixfmt";
+          shfmt.command = "${pkgs.shfmt}/bin/shfmt";
+        };
+        formatFiletypes = {
+          nix = "nixfmt";
+          sh = "shfmt";
+        };
+        filetypes = {
+          nix = "nix-linter";
+          sh = "shellcheck";
+        };
       };
       languageserver = {
         clangd = {
