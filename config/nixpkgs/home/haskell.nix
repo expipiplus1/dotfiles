@@ -99,6 +99,7 @@ in {
     nix-diff
     hpack
     cabal-install
+    haskell-language-server
   ];
 
   xdg.configFile."brittany/config.yaml".source = pkgs.writeText "config.yaml"
