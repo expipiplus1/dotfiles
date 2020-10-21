@@ -1,6 +1,26 @@
 { config, pkgs, lib, ... }:
 
-let spotifyCommand = "spotify --force-device-scale-factor=2";
+let
+  spotifyCommand = "spotify --force-device-scale-factor=2";
+
+  ymlfmt = pkgs.stdenv.mkDerivation {
+    name = "ymlfmt";
+    buildInputs = [
+      (pkgs.python3.withPackages
+        (pythonPackages: with pythonPackages; [ ruamel_yaml ]))
+    ];
+    unpackPhase = "true";
+    installPhase = ''
+      mkdir -p $out/bin
+      cat > "$out/bin/ymlfmt" << EOF
+      #!/usr/bin/env python
+      import sys
+      from ruamel import yaml
+      yaml.round_trip_dump(yaml.round_trip_load(sys.stdin), sys.stdout)
+      EOF
+      chmod +x "$out/bin/ymlfmt"
+    '';
+  };
 
 in {
   imports = [
@@ -157,6 +177,7 @@ in {
           sed -i 's/^Exec=spotify/Exec=${spotifyCommand}/' "$out/share/applications/spotify.desktop"
         '';
       });
+      ymlfmt = ymlfmt;
     })
   ];
 }
