@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, ... }:
 
 {
   programs.neovim = {
@@ -121,7 +121,7 @@
           sha256 = "12zwrvw6nw76qlpc7xjlg70f1fmi0gfamflng0n5srsbgqdi02wz";
         }) { inherit pkgs; };
       })
-      (coc-diagnostic.overrideAttrs (old: {
+      (coc-diagnostic.overrideAttrs (_old: {
         src = import (pkgs.fetchFromGitHub {
           owner = "expipiplus1";
           repo = "coc-diagnostic";
