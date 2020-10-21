@@ -136,15 +136,17 @@
   xdg.configFile."nvim/coc-settings.json".source = pkgs.writeTextFile {
     name = "coc-settings.json";
     text = builtins.toJSON {
-      coc.preferences.diagnostic = {
+      diagnostic = {
         virtualText = true;
+        checkCurrentLine = true;
+        virtualTextCurrentLineOnly = false;
         virtualTextPrefix = "▷ ";
         errorSign = ">";
         warningSign = ">";
         infoSign = ">";
         hintSign = ">";
       };
-      coc.preferences.codeLens.enable = true;
+      codeLens.enable = true;
       coc.preferences.rootPatterns = [ "default.nix" ];
 
       haskell = {
@@ -181,11 +183,16 @@
         };
         formatters = {
           nixfmt.command = "${pkgs.nixfmt}/bin/nixfmt";
-          shfmt.command = "${pkgs.shfmt}/bin/shfmt";
+          shfmt = {
+            command = "${pkgs.shfmt}/bin/shfmt";
+            args = [ "-i" "2" ];
+          };
+          ymlfmt.command = "${pkgs.ymlfmt}/bin/ymlfmt";
         };
         formatFiletypes = {
           nix = "nixfmt";
           sh = "shfmt";
+          yaml = "ymlfmt";
         };
         filetypes = {
           nix = "nix-linter";
