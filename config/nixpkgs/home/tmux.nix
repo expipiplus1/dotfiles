@@ -97,10 +97,12 @@
         set -g mode-keys vi
         bind-key -Tcopy-mode-vi 'v' send -X begin-selection
         bind-key -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel '${pkgs.xsel}/bin/xsel -i --clipboard'
-        # move x clipboard into tmux paste buffer
-        bind C-p run "${config.programs.tmux.package}/bin/tmux set-buffer \"$(${pkgs.xsel}/bin/xsel -o --clipboard)\"; ${config.programs.tmux.package}/bin/tmux paste-buffer"
+        # move x clipboard into tmux paste buffer and paste
+        bind C-p run "${config.programs.tmux.package}/bin/tmux set-buffer \"$(${pkgs.xsel}/bin/xsel -o --clipboard)\"; ${config.programs.tmux.package}/bin/tmux paste-buffer -p"
         # move tmux copy buffer into x clipboard
         bind C-y run "${config.programs.tmux.package}/bin/tmux show-buffer | ${pkgs.xsel}/bin/xsel -i --clipboard"
+
+        bind ] paste-buffer -p
 
         # no status bar
         set -g status off
