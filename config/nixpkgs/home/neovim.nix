@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 let
   appendPatches = patches: drv:
@@ -57,7 +57,7 @@ in {
       vim-visual-increment
       vim-yaml
       {
-        plugin = (base16-vim.overrideAttrs (old: {
+        plugin = (base16-vim.overrideAttrs (_old: {
           src = pkgs.fetchFromGitHub {
             owner = "chriskempson";
             repo = "base16-vim";
