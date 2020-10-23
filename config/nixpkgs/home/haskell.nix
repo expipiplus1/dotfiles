@@ -103,7 +103,11 @@ in {
   ];
 
   xdg.configFile."brittany/config.yaml".source = pkgs.writeText "config.yaml"
-    (builtins.toJSON { conf_forward = { options_ghc = ghcOpts; }; });
+    (builtins.toJSON {
+      conf_errorHandling = { econf_Werror = false; };
+      conf_preprocessor = { ppconf_CPPMode = "CPPModeWarn"; };
+      conf_forward = { options_ghc = ghcOpts; };
+    });
 
   home.file.".ghci".source = pkgs.writeText "ghci" ''
     :set prompt "\SOH\ESC[34m\STXλ>\SOH\ESC[m\STX "
