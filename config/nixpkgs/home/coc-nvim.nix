@@ -84,7 +84,7 @@
           " Fix autofix problem of current line
           nmap <leader>qf  <Plug>(coc-fix-current)
           nmap <leader>ql  <Plug>(coc-codelens-action)
-
+          nmap <leader>re  <Plug>(coc-rename)
 
           "
           " Coc completion
