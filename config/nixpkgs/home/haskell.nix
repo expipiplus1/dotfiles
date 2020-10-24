@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 let
   hindentOps = [
@@ -123,7 +123,7 @@ in {
     }) + "/overlays/haskell/lib.nix"))
     (self: super: {
       haskellPackages = self.haskell.lib.properExtend super.haskellPackages
-        (self: super: {
+        (_self: super: {
           upfind = import (pkgs.fetchFromGitHub {
             owner = "expipiplus1";
             repo = "upfind";
