@@ -140,8 +140,15 @@ in {
           nix-linter = pkgs.haskell.lib.appendPatch super.nix-linter
             ../../../patches/linter-unused.patch;
 
-          brittany = pkgs.haskell.lib.appendPatch super.hls-brittany
-            ../../../patches/brittany-exportlist.patch;
+          brittany = pkgs.haskell.lib.appendPatch (pkgs.haskell.lib.dontCheck
+            (pkgs.haskell.lib.overrideSrc super.brittany {
+              src = pkgs.fetchFromGitHub {
+                owner = "lspitzner";
+                repo = "brittany";
+                rev = "5bf6d4a8591dda549ceac618a20146e6953a81ee";
+                sha256 = "0gv57kj17r8x6h82rwabx84g2xqx5g351kr78rcfqqbw0335d9hl";
+              };
+            })) ../../../patches/brittany-exportlist.patch;
         });
 
       upfind =
