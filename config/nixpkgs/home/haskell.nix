@@ -86,16 +86,7 @@ in {
     })
     pretty-show
     cabal2nix
-    (pkgs.haskell.lib.dontCheck (pkgs.haskell.lib.overrideSrc brittany {
-      src = pkgs.fetchFromGitHub {
-        owner = "lspitzner";
-        repo = "brittany";
-        rev = "5bf6d4a8591dda549ceac618a20146e6953a81ee";
-        sha256 = "0gv57kj17r8x6h82rwabx84g2xqx5g351kr78rcfqqbw0335d9hl";
-        # rev = "71aaab89689443269cee31c5741c5086e0cff885";
-        # sha256 = "0kb789jqfd457l6ik0r1rvqlp5fs7i6w5n6m76rk4747byhn8dhr";
-      };
-    }))
+    brittany
     nix-diff
     hpack
     cabal-install
@@ -105,7 +96,7 @@ in {
   xdg.configFile."brittany/config.yaml".source = pkgs.writeText "config.yaml"
     (builtins.toJSON {
       conf_errorHandling = { econf_Werror = false; };
-      conf_preprocessor = { ppconf_CPPMode = "CPPModeWarn"; };
+      conf_preprocessor = { ppconf_CPPMode = "CPPModeNowarn"; };
       conf_forward = { options_ghc = ghcOpts; };
     });
 
@@ -145,6 +136,12 @@ in {
             rev = "0056dae5beb49acd0139cc931af7e7ebb9f95de9";
             sha256 = "1k8mxdp789lp3pwcm8i8dz65yjcsx5ijz1fmiwghwr4kzsa6z20c";
           }) { };
+
+          nix-linter = pkgs.haskell.lib.appendPatch super.nix-linter
+            ../../../patches/linter-unused.patch;
+
+          brittany = pkgs.haskell.lib.appendPatch super.hls-brittany
+            ../../../patches/brittany-exportlist.patch;
         });
 
       upfind =
