@@ -156,12 +156,7 @@ in {
       update-nix-fetchgit = self.haskell.lib.justStaticExecutables
         self.haskellPackages.update-nix-fetchgit;
 
-      haskell-language-server = (import (pkgs.fetchFromGitHub {
-        owner = "expipiplus1";
-        repo = "nixpkgs";
-        rev = "aa0baffd24179e663e45f086fcf2a62a3109a8c5";
-        sha256 = "0pbskvvw0nirqlsmpxfrvfblqnhfsm80bbqpsc0rc4fb5gh9d8n8";
-      }) { inherit config; }).haskellPackages.haskell-language-server;
+        haskell-language-server = self.haskellPackages.haskell-language-server;
     })
   ];
 }
