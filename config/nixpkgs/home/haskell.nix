@@ -91,6 +91,7 @@ in {
     hpack
     cabal-install
     haskell-language-server
+    weeder
   ];
 
   xdg.configFile."brittany/config.yaml".source = pkgs.writeText "config.yaml"
