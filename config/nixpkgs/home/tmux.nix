@@ -49,23 +49,6 @@
       ];
       terminal = "tmux-256color";
       secureSocket = false;
-      plugins = with pkgs; [{
-        plugin = tmuxPlugins.resurrect;
-        extraConfig = ''
-          # resurrection settings
-          set -g @resurrect-save 'S'
-          set -g @resurrect-restore 'R'
-
-          # for vim
-          set -g @resurrect-strategy-vim 'session'
-          # for neovim
-          set -g @resurrect-strategy-nvim 'session'
-
-          set -g @resurrect-capture-pane-contents 'on'
-
-          set -g @resurrect-processes '~vi ~vim ~nvim ~man ~less ~more ~tail ~top ~htop ~irssi ~mutt'
-        '';
-      }];
       extraConfig = ''
         # Something sensible
         set-option -g default-shell ~/.nix-profile/bin/zsh
