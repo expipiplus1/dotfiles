@@ -355,15 +355,8 @@ autocmd FileType cpp map <nowait> <leader>h <ESC>:set paste<CR><ESC>o<ESC>64a/<E
 autocmd FileType sh map <nowait> <leader>h <ESC>:set paste<CR><ESC>o<ESC>64a#<ESC>o#<ESC>o<ESC>64a#<ESC>:set nopaste<CR>kA<space>
 autocmd FileType nix map <nowait> <leader>h <ESC>:set paste<CR><ESC>o<ESC>64a#<ESC>o#<ESC>o<ESC>64a#<ESC>:set nopaste<CR>kA<space>
 
-let s:use_hindent=0
-if(s:use_hindent)
-  let g:hindent_style="gibiansky"
-  let g:formatprg_haskell = "hindent"
-  let g:formatprg_args_haskell = "--style " . g:hindent_style . " --line-length 80"
-else
-  let g:formatprg_haskell = "brittany"
-  let g:formatprg_args_haskell = "--columns 80 --indent 2"
-endif
+let g:formatprg_haskell = "brittany"
+let g:formatprg_args_haskell = "--columns 80 --indent 2"
 
 function! FormatHaskell()
   if !empty(v:char)
