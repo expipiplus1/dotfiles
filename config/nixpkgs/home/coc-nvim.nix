@@ -110,6 +110,7 @@
         config = ''
           nnoremap <silent> <leader>i :CocFzfList<CR>
           nnoremap <silent> <leader>d :CocFzfList diagnostics<CR>
+          nnoremap <silent> <leader>o :CocFzfList outline<CR>
         '';
       }
       (pkgs.vimUtils.buildVimPluginFrom2Nix {
