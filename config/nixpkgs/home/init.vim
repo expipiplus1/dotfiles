@@ -374,6 +374,14 @@ autocmd Filetype haskell setlocal omnifunc=necoghc#omnifunc
 autocmd Filetype haskell setlocal iskeyword+=39
 autocmd Filetype haskell setlocal iskeyword-=.
 
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Nix
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Update fetcher under cursor
+autocmd FileType nix map <nowait> <leader>u :call Preserve("%!update-nix-fetchgit --location=" . line(".") . ":" . col("."))<CR>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Ag
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
