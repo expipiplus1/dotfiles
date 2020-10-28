@@ -13,7 +13,7 @@ in {
     enable = true;
     oh-my-zsh = {
       enable = true;
-      plugins = [ "cabal" "gitfast" "vi-mode" "safe-paste" ];
+      plugins = [ "gitfast" "vi-mode" "safe-paste" ];
     };
     plugins = let
       p = name: {
