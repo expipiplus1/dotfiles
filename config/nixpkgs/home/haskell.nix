@@ -157,7 +157,7 @@ in {
       update-nix-fetchgit = self.haskell.lib.justStaticExecutables
         self.haskellPackages.update-nix-fetchgit;
 
-        haskell-language-server = self.haskellPackages.haskell-language-server;
+      haskell-language-server = self.haskellPackages.haskell-language-server;
     })
   ];
 }

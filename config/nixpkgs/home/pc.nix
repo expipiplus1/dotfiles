@@ -1,9 +1,5 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, ... }:
 
-let
-
-
-in
 {
   imports = [
     ./tex.nix
