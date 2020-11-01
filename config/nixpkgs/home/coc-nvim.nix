@@ -182,6 +182,29 @@
               message = "\${description}";
             };
           };
+          yamllint = {
+            command = "${pkgs.yamllint}/bin/yamllint";
+            args = [ "-f" "parsable" "-d" "relaxed" "-" ];
+            sourceName = "yamllint";
+            debounce = 100;
+            formatLines = 1;
+            formatPattern = [
+              "^.*?:(\\d+):(\\d+): \\[(.*?)] (.*) \\((.*)\\)"
+              {
+                line = 1;
+                column = 2;
+                endline = 1;
+                endColumn = 2;
+                message = 4;
+                security = 3;
+                code = 5;
+              }
+            ];
+            securities = {
+              error = "error";
+              warning = "warning";
+            };
+          };
         };
         formatters = {
           nixfmt.command = "${pkgs.nixfmt}/bin/nixfmt";
@@ -198,6 +221,7 @@
         };
         filetypes = {
           nix = "nix-linter";
+          yaml = "yamllint";
           sh = "shellcheck";
         };
       };
