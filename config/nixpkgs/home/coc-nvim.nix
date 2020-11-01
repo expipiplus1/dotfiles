@@ -184,7 +184,7 @@
           };
           yamllint = {
             command = "${pkgs.yamllint}/bin/yamllint";
-            args = [ "-f" "parsable" "-d" "relaxed" "-" ];
+            args = [ "-f" "parsable" "-" ];
             sourceName = "yamllint";
             debounce = 100;
             formatLines = 1;

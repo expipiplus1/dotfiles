@@ -125,6 +125,13 @@ in {
           }).config.nixpkgs.overlays
       '';
     };
+    "yamllint/config".source = pkgs.writeTextFile {
+      name = "yamllint-config";
+      text = builtins.toJSON {
+        extends = "relaxed";
+        rules.line-length.max = 120;
+      };
+    };
     "autostart/setxkb-helper.desktop".source = pkgs.writeTextFile {
       name = "setxkb-helper.desktop";
       text = ''
