@@ -131,15 +131,7 @@ in {
             rev = "cb451254f5b112f839aa36e5b6fd83b60cf9b9ae";
             sha256 = "15g5nvs6azgb2fkdna1dxbyiabx9n63if0wcbdvs91hjafhzjaqa";
           }) { };
-          update-nix-fetchgit = import (pkgs.fetchFromGitHub {
-            owner = "expipiplus1";
-            repo = "update-nix-fetchgit";
-            rev = "0056dae5beb49acd0139cc931af7e7ebb9f95de9";
-            sha256 = "1k8mxdp789lp3pwcm8i8dz65yjcsx5ijz1fmiwghwr4kzsa6z20c";
-          }) { };
-
-          nix-linter = pkgs.haskell.lib.appendPatch super.nix-linter
-            ../../../patches/linter-unused.patch;
+          update-nix-fetchgit = import /home/j/projects/update-nix-fetchgit { };
 
           brittany = pkgs.haskell.lib.appendPatch (pkgs.haskell.lib.dontCheck
             (pkgs.haskell.lib.overrideSrc super.brittany {
@@ -158,6 +150,8 @@ in {
         self.haskellPackages.update-nix-fetchgit;
 
       haskell-language-server = self.haskellPackages.haskell-language-server;
+      nix-linter = pkgs.haskell.lib.appendPatch super.nix-linter
+        ../../../patches/linter-unused.patch;
     })
   ];
 }
