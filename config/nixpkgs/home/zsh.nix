@@ -167,6 +167,7 @@ in {
     settings = {
       character.symbol = "$";
       package.disabled = true;
+      aws.disabled = true;
 
       directory = {
         truncate_to_repo = false;
