@@ -150,8 +150,10 @@ in {
         self.haskellPackages.update-nix-fetchgit;
 
       haskell-language-server = self.haskellPackages.haskell-language-server;
-      nix-linter = pkgs.haskell.lib.appendPatch super.nix-linter
-        ../../../patches/linter-unused.patch;
+      nix-linter = pkgs.haskell.lib.appendPatches super.nix-linter [
+        ../../../patches/linter-unused.patch
+        ../../../patches/linter-jailbreak.patch
+      ];
     })
   ];
 }
