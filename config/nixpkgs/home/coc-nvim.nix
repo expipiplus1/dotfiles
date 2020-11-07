@@ -131,6 +131,9 @@
           sha256 = "1gl4dxphwyxx3d0pw02ivwxa5d6npc9bl2yrbfmw3s0c0rflhspi";
         }) { inherit pkgs; };
       }))
+      {
+        plugin = coc-rls;
+      }
     ];
     withNodeJs = true;
   };
