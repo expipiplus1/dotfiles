@@ -92,6 +92,7 @@ in {
     cabal-install
     haskell-language-server
     weeder
+    nix-output-monitor
   ];
 
   xdg.configFile."brittany/config.yaml".source = pkgs.writeText "config.yaml"
