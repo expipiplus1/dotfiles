@@ -34,4 +34,33 @@
       }
     '';
   };
+
+  systemd.user = {
+    services.restic = {
+      Unit.Description = "Perform restic backup";
+      Service = {
+        Type = "oneshot";
+        ExecStart = toString (pkgs.writeShellScript "restic" ''
+          export RESTIC_REPOSITORY_FILE=$HOME/.ssh/restic/repo
+          export RESTIC_PASSWORD_FILE=$HOME/.ssh/restic/password
+          ${pkgs.restic}/bin/restic \
+            backup \
+            --one-file-system \
+            projects src/nixpkgs* src/prints dotfiles Pictures work .ssh \
+            --exclude .stack-work \
+            --exclude dist-newstyle
+        '');
+      };
+    };
+
+    timers.restic = {
+      Unit.Description = "Timer for backup";
+      Timer = {
+        Unit = "restic.service";
+        AccuracySec = "60s";
+        OnCalendar = "hourly";
+      };
+      Install = { WantedBy = [ "timers.target" ]; };
+    };
+  };
 }
