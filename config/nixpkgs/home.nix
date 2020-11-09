@@ -179,12 +179,6 @@ in {
         executable = true;
         destination = "/bin/tssh";
       };
-      cached-nix-shell = import (self.fetchFromGitHub {
-        owner = "xzfc";
-        repo = "cached-nix-shell";
-        rev = "0e73944dc31132d2aa9a769f4cc677eea6984bec";
-        sha256 = "1hzrjvxk9rpqdxw0v27ngn5k3andm1xfkak4ly75x6gxwgb5mdw5";
-      }) { pkgs = self; };
       spotify = super.spotify.overrideAttrs (old: {
         postInstall = ''
           sed -i 's/^Exec=spotify/Exec=${spotifyCommand}/' "$out/share/applications/spotify.desktop"
