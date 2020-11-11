@@ -1,0 +1,15 @@
+diff --git a/src/Nix/Linter/Checks.hs b/src/Nix/Linter/Checks.hs
+index c94cd39..4cacae6 100644
+--- a/src/Nix/Linter/Checks.hs
++++ b/src/Nix/Linter/Checks.hs
+@@ -44,8 +44,9 @@ checkUnusedLetBinding warn e = [ (warn UnusedLetBind)
+ 
+ checkUnusedArg :: CheckBase
+ checkUnusedArg warn e = [ warn UnusedArg
++  & setLoc begin
+   & note' varName name
+-  | NAbs_ _ params usedIn <- [unFix e]
++  | NAbs_ (SrcSpan begin _) params usedIn <- [unFix e]
+   , let (names, siblingExprs) = case params of
+           Param name -> ([name], [])
+           ParamSet xs _ global ->
