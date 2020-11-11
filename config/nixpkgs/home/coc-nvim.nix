@@ -47,7 +47,7 @@
             else
               exe "normal gx"
             endif
-            call coc#util#float_hide()
+            call coc#float#close_all()
           endfunction
 
           nnoremap <silent> <leader>l :call <SID>open_documentation_link("Source")<CR>
