@@ -178,6 +178,7 @@ in {
           sed -i 's/^Exec=spotify/Exec=${spotifyCommand}/' "$out/share/applications/spotify.desktop"
         '';
       });
+      wine = (self.winePackagesFor "wine64").minimal;
       inherit ymlfmt;
     })
   ];
