@@ -122,7 +122,6 @@ in {
       upfind =
         self.haskell.lib.justStaticExecutables self.haskellPackages.upfind;
 
-      haskell-language-server = self.haskellPackages.haskell-language-server;
       nix-linter = pkgs.haskell.lib.appendPatches super.nix-linter [
         ../../../patches/linter-unused.patch
         ../../../patches/linter-unused-pos.patch
