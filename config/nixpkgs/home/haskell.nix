@@ -106,7 +106,6 @@ in {
             rev = "cb451254f5b112f839aa36e5b6fd83b60cf9b9ae";
             sha256 = "15g5nvs6azgb2fkdna1dxbyiabx9n63if0wcbdvs91hjafhzjaqa";
           }) { };
-          update-nix-fetchgit = import /home/j/projects/update-nix-fetchgit { };
 
           brittany = pkgs.haskell.lib.appendPatch (pkgs.haskell.lib.dontCheck
             (pkgs.haskell.lib.overrideSrc super.brittany {
@@ -121,8 +120,6 @@ in {
 
       upfind =
         self.haskell.lib.justStaticExecutables self.haskellPackages.upfind;
-      update-nix-fetchgit = self.haskell.lib.justStaticExecutables
-        self.haskellPackages.update-nix-fetchgit;
 
       haskell-language-server = self.haskellPackages.haskell-language-server;
       nix-linter = pkgs.haskell.lib.appendPatches super.nix-linter [
