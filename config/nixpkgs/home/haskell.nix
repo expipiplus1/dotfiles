@@ -50,23 +50,6 @@ let
   notHindentOpts =
     [ "-XDuplicateRecordFields" "-XMonadComprehensions" "-XNumDecimals" ];
   ghcOpts = hindentOps ++ notHindentOpts;
-
-  refactor-unwrapped = import (pkgs.fetchFromGitHub {
-    owner = "mpickering";
-    repo = "apply-refact";
-    rev = "d86470d0868683c38ef2d836d1a0c25ad5749685";
-    sha256 = "0nvp0812qq7gsps2q2l6f84d7j4s90y2j5cwg8h31zcvswx4r1mr";
-  }) { inherit pkgs; };
-  refactor = pkgs.symlinkJoin {
-    name = "refactor";
-    paths = [ refactor-unwrapped ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/refactor \
-        --add-flags "${pkgs.lib.concatStringsSep " " ghcOpts}"
-    '';
-  };
-
 in {
   home.packages = with pkgs.haskellPackages; [
     pkgs.upfind
@@ -74,16 +57,7 @@ in {
     pkgs.cachix
     pkgs.nixfmt
     ghcid
-    (pkgs.symlinkJoin {
-      name = "hlint";
-      paths = [ hlint ];
-      buildInputs = [ pkgs.makeWrapper ];
-      postBuild = ''
-        wrapProgram $out/bin/hlint \
-          --add-flags "${pkgs.lib.concatStringsSep " " ghcOpts}" \
-          --add-flags "--with-refactor=${refactor}/bin/refactor"
-      '';
-    })
+    pkgs.hlint
     pretty-show
     cabal2nix
     brittany
