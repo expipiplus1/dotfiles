@@ -33,7 +33,7 @@
           " browser
           function! s:open_documentation_link(target)
             call s:show_documentation()
-            let float_window = coc#util#get_float()
+            let float_window = coc#float#get_float_win()
             if !float_window
               echo "No documentation available"
               return
