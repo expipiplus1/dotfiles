@@ -99,7 +99,7 @@ in {
     }) + "/overlays/haskell/lib.nix"))
     (self: super: {
       haskellPackages = self.haskell.lib.properExtend super.haskellPackages
-        (_self: super: {
+        (self: super: {
           upfind = import (pkgs.fetchFromGitHub {
             owner = "expipiplus1";
             repo = "upfind";
@@ -107,15 +107,16 @@ in {
             sha256 = "15g5nvs6azgb2fkdna1dxbyiabx9n63if0wcbdvs91hjafhzjaqa";
           }) { };
 
-          brittany = pkgs.haskell.lib.appendPatch (pkgs.haskell.lib.dontCheck
-            (pkgs.haskell.lib.overrideSrc super.brittany {
+          brittany = pkgs.haskell.lib.dontCheck
+            (pkgs.haskell.lib.overrideSrc super.hls-brittany {
               src = pkgs.fetchFromGitHub {
-                owner = "lspitzner";
+                owner = "expipiplus1";
                 repo = "brittany";
-                rev = "5bf6d4a8591dda549ceac618a20146e6953a81ee";
-                sha256 = "0gv57kj17r8x6h82rwabx84g2xqx5g351kr78rcfqqbw0335d9hl";
+                rev = "86ef825b541636c71c17d3c10caee52af3f2d7b5"; # joe
+                sha256 = "0clyphk6d047bkn73hmk11mxcd7xh3imd4h1zynpqslgqyv3islf";
               };
-            })) ../../../patches/brittany-exportlist.patch;
+            });
+          hls-brittany = self.brittany;
         });
 
       upfind =
