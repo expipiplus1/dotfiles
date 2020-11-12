@@ -94,7 +94,7 @@ in {
   nixpkgs.overlays = [
     (import ((builtins.fetchTarball {
       url =
-        "https://github.com/dhess/dhess-lib-nix/archive/b351d482784b11829d1d31979ecd11d437038fc3.tar.gz";
+        "https://github.com/dhess/dhess-lib-nix/archive/b351d482784b11829d1d31979ecd11d437038fc3.tar.gz"; # pin
       sha256 = "0b1v4jlbm1z11q9zq6h40sh72cwc0c194zk88bpdm8j4ill98hc3";
     }) + "/overlays/haskell/lib.nix"))
     (self: super: {
