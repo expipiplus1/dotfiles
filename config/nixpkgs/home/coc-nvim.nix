@@ -4,7 +4,14 @@
   programs.neovim = {
     plugins = with pkgs.vimPlugins; [
       {
-        plugin = coc-nvim;
+        plugin = coc-nvim.overrideAttrs (_: {
+          src = import (pkgs.fetchgit {
+            url = "https://github.com/expipiplus1/coc.nvim";
+            rev = "0b7929395ac539a87dfbb89db7b3d9db90d99556"; # joe-links
+            sha256 = "1kvwp1mh511dk1ic7c82ipq0ih27ycz95zysmnl3sadqnxw9s9d0";
+            leaveDotGit = true;
+          }) { inherit pkgs; };
+        });
         config = ''
           """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
           " Highlight current word
