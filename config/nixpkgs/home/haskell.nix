@@ -64,7 +64,7 @@ in {
     nix-diff
     hpack
     cabal-install
-    haskell-language-server
+    pkgs.haskell-language-server
     weeder
     nix-output-monitor
   ];
@@ -126,6 +126,10 @@ in {
         ../../../patches/linter-unused.patch
         ../../../patches/linter-unused-pos.patch
       ];
+
+      haskell-language-server = super.haskell-language-server.override {
+        supportedGhcVersions = [ "884" ];
+      };
     })
   ];
 }
