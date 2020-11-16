@@ -113,7 +113,14 @@
         '';
       }
       {
-        plugin = coc-fzf;
+        plugin = coc-fzf.overrideAttrs (_: {
+          src = pkgs.fetchFromGitHub {
+            owner = "expipiplus1";
+            repo = "coc-fzf";
+            rev = "a91c674ddbf6da334745c51c7ae3ca3bcbaad010"; # joe-actions
+            sha256 = "1ibqdfzdr03lg2sy46l3jmira2iv4qvwhvl2rrd1n59b1s63lg5n";
+          };
+        });
         config = ''
           nnoremap <silent> <leader>ca :CocFzfList actions<CR>
           nnoremap <silent> <leader>i  :CocFzfList<CR>
