@@ -117,6 +117,13 @@ in {
               };
             });
           hls-brittany = self.brittany;
+
+          ghc-exactprint_0_6_3_3 =
+            pkgs.haskell.lib.appendPatch super.ghc-exactprint
+            ../../../patches/exactprint-exts.patch;
+
+          apply-refact =
+            pkgs.haskell.lib.dontCheck super.apply-refact;
         });
 
       upfind =

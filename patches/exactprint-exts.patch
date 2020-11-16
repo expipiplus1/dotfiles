@@ -1,0 +1,74 @@
+diff --git a/src/Language/Haskell/GHC/ExactPrint/Parsers.hs b/src/Language/Haskell/GHC/ExactPrint/Parsers.hs
+index 2d65665..885d1d2 100644
+--- a/src/Language/Haskell/GHC/ExactPrint/Parsers.hs
++++ b/src/Language/Haskell/GHC/ExactPrint/Parsers.hs
+@@ -359,7 +359,7 @@ initDynFlags file = do
+   -- Prevent parsing of .ghc.environment.* "package environment files"
+   (dflags3, _, _) <- GHC.parseDynamicFlagsCmdLine
+     dflags2
+-    [GHC.noLoc "-hide-all-packages"]
++    (GHC.noLoc <$> ("-hide-all-packages" : extraExts))
+   _ <- GHC.setSessionDynFlags dflags3
+   return dflags3
+ 
+@@ -385,7 +385,7 @@ initDynFlagsPure fp s = do
+   -- Prevent parsing of .ghc.environment.* "package environment files"
+   (dflags3, _, _) <- GHC.parseDynamicFlagsCmdLine
+     dflags2
+-    [GHC.noLoc "-hide-all-packages"]
++    (GHC.noLoc <$> ("-hide-all-packages" : extraExts))
+   _ <- GHC.setSessionDynFlags dflags3
+   return dflags3
+ 
+@@ -395,3 +395,51 @@ mkApiAnns :: GHC.PState -> GHC.ApiAnns
+ mkApiAnns pstate
+   = ( Map.fromListWith (++) . GHC.annotations $ pstate
+     , Map.fromList ((GHC.noSrcSpan, GHC.comment_q pstate) : GHC.annotations_comments pstate))
++
++extraExts :: [String]
++extraExts =
++  [ "-XBangPatterns"
++  , "-XBinaryLiterals"
++  , "-XCPP"
++  , "-XDataKinds"
++  , "-XDeriveDataTypeable"
++  , "-XDeriveFoldable"
++  , "-XDeriveFunctor"
++  , "-XDeriveGeneric"
++  , "-XDeriveTraversable"
++  , "-XDisambiguateRecordFields"
++  , "-XEmptyCase"
++  , "-XExplicitForAll"
++  , "-XFlexibleContexts"
++  , "-XFlexibleInstances"
++  , "-XFunctionalDependencies"
++  , "-XGADTs"
++  , "-XImplicitParams"
++  , "-XInstanceSigs"
++  , "-XKindSignatures"
++  , "-XLambdaCase"
++  , "-XMagicHash"
++  , "-XMultiParamTypeClasses"
++  , "-XMultiWayIf"
++  , "-XOverloadedStrings"
++  , "-XParallelListComp"
++  , "-XPartialTypeSignatures"
++  , "-XPatternGuards"
++  , "-XPatternSynonyms"
++  , "-XPolyKinds"
++  , "-XQuasiQuotes"
++  , "-XRankNTypes"
++  , "-XRecordWildCards"
++  , "-XRecursiveDo"
++  , "-XScopedTypeVariables"
++  , "-XStandaloneDeriving"
++  , "-XTemplateHaskell"
++  , "-XTupleSections"
++  , "-XTypeApplications"
++  , "-XTypeFamilies"
++  , "-XTypeOperators"
++  , "-XViewPatterns"
++  , "-XDuplicateRecordFields"
++  , "-XMonadComprehensions"
++  , "-XNumDecimals"
++  ]
