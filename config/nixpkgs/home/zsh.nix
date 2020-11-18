@@ -168,6 +168,7 @@ in {
       character.symbol = "$";
       package.disabled = true;
       aws.disabled = true;
+      cmake.disabled = true;
 
       directory = {
         truncate_to_repo = false;
