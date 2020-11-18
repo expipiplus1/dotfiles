@@ -15,6 +15,8 @@ haskell-test ({ pkgs, ... }: ''
   machine.wait_until_tty_matches(
       1, re.escape("Write a string to the standard output device")
   )
+  # Wait for the new type of foo to appear as well
+  machine.wait_until_tty_matches(1, re.escape("foo :: String -> IO ()"))
 
   ${assert-tmux pkgs "suggestion-docs" ''
     module Foo where

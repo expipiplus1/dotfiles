@@ -1,5 +1,4 @@
-[
-  (import ./vim-hls-error.nix)
-  (import ./vim-complete-docs.nix)
-  (import ./vim-diagnostic-list.nix)
-]
+with (import <nixpkgs> { }).lib;
+
+genAttrs [ "vim-hls-error" "vim-complete-docs" "vim-diagnostic-list" ]
+(name: import (./. + "/${name}.nix"))

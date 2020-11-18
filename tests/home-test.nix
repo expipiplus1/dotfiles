@@ -1,6 +1,7 @@
 { capture-golden ? false }: rec {
+  make-test = f: import <nixpkgs/nixos/tests/make-test-python.nix> f { };
   home-test = test:
-    import <nixpkgs/nixos/tests/make-test-python.nix> ({ pkgs, ... }:
+    make-test ({ pkgs, ... }:
       let
         home-manager = import <home-manager/home-manager/home-manager.nix> {
           confPath = "/home/j/.config/nixpkgs/home.nix";
@@ -64,14 +65,19 @@
             machine.wait_for_unit("multi-user.target")
             machine.wait_until_succeeds("pgrep -f 'agetty.*tty1'")
 
+            # Activate our home-manager setup
             machine.succeed("${su "activate"}")
 
+            # Login
             machine.wait_until_tty_matches(1, "login: ")
             machine.send_chars("${user.name}\n")
             machine.wait_until_tty_matches(1, "Password: ")
             machine.send_chars("${user.password}\n")
             machine.wait_until_tty_matches(1, "${user.name}@machine")
 
+            # Start a tmux session, we use tmux because capturing seems to work
+            # much better than get_tty_contents or screendump (regarding non
+            # ASCII chars)
             machine.send_chars("tmux\n")
             machine.wait_until_tty_matches(1, re.compile("^~", re.MULTILINE))
           '' + test {
@@ -90,7 +96,7 @@
         machine.send_chars(":e Foo.hs\n")
         machine.wait_until_tty_matches(1, "NORMAL.*Foo.hs")
         # let vim collect itself
-        machine.sleep(1)
+        machine.sleep(3)
           '' + test args));
 
   assert-tmux = pkgs: name: contents:
