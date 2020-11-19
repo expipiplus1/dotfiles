@@ -117,8 +117,9 @@
           src = pkgs.fetchFromGitHub {
             owner = "expipiplus1";
             repo = "coc-fzf";
-            rev = "a91c674ddbf6da334745c51c7ae3ca3bcbaad010"; # joe-actions
-            sha256 = "1ibqdfzdr03lg2sy46l3jmira2iv4qvwhvl2rrd1n59b1s63lg5n";
+            rev =
+              "9e480fc0744bb4718563030f4877edfeea10b4e4"; # joe-cleaner-actions
+            sha256 = "014rx7w6x62v47nij4ix08xxm7pjlb3c6szdnyckxypha09sfl0l";
           };
         });
         config = ''
