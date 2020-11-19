@@ -54,7 +54,7 @@ in {
   home.packages = with pkgs.haskellPackages; [
     pkgs.upfind
     pkgs.update-nix-fetchgit
-    pkgs.cachix
+    # pkgs.cachix
     pkgs.nixfmt
     ghcid
     pkgs.hlint
@@ -145,8 +145,6 @@ in {
           ../../../patches/linter-unused-pos.patch
           ../../../patches/linter-streamly-prelude.patch
         ];
-
-        cachix = justStaticExecutables self.haskell.packages.ghc884.cachix;
       })
   ];
 }
