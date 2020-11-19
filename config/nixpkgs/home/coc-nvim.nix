@@ -171,7 +171,7 @@
         formattingProvider = "brittany";
         serverExecutablePath = pkgs.writeShellScript "nix-shell-hie" ''
           if [[ -f default.nix || -f shell.nix ]]; then
-            ${pkgs.cached-nix-shell}/bin/cached-nix-shell --keep XDG_DATA_DIRS --arg hoogle true --run "${pkgs.haskell-language-server}/bin/haskell-language-server $(printf "''${1+ %q}" "$@")"
+            ${pkgs.cached-nix-shell}/bin/cached-nix-shell --keep XDG_DATA_DIRS --arg hoogle true --run "${pkgs.haskell-language-server}/bin/haskell-language-server-wrapper $(printf "''${1+ %q}" "$@")"
           else
             exec ${pkgs.haskell-language-server}/bin/haskell-language-server "$@"
           fi
