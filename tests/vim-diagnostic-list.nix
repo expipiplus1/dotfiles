@@ -1,4 +1,4 @@
-with (import ./home-test.nix { capture-golden = false; });
+{ haskell-test, assert-tmux, ... }:
 
 haskell-test ({ pkgs, ... }: ''
   # Insert some text

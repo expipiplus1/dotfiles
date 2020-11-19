@@ -1,4 +1,9 @@
+{ capture-golden ? false }:
+
 with (import <nixpkgs> { }).lib;
 
-genAttrs [ "vim-hls-error" "vim-complete-docs" "vim-diagnostic-list" ]
-(name: import (./. + "/${name}.nix"))
+let
+  home-test = import ./home-test.nix { inherit capture-golden; };
+  tests = [ "vim-hls-error" "vim-complete-docs" "vim-diagnostic-list" ];
+
+in genAttrs tests (name: import (./. + "/${name}.nix") home-test)

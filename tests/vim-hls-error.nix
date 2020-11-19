@@ -1,4 +1,4 @@
-with (import ./home-test.nix {});
+{ haskell-test, ... }:
 
 haskell-test ({ ... }: ''
   machine.send_chars("i")
