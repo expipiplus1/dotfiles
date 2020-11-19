@@ -1,0 +1,27 @@
+diff --git a/main/Main.hs b/main/Main.hs
+index c2f518a..e32a072 100644
+--- a/main/Main.hs
++++ b/main/Main.hs
+@@ -38,8 +38,7 @@ import           Nix.Parser
+ 
+ import qualified Data.Set               as Set
+ 
+-import           Streamly
+-import           Streamly.Prelude       ((.:))
++import           Streamly.Prelude       ((.:) , IsStream , aheadly , serial)
+ import qualified Streamly.Prelude       as S
+ 
+ import           Data.Aeson             (encode)
+diff --git a/nix-linter.cabal b/nix-linter.cabal
+index 21790e0..ada05fe 100644
+--- a/nix-linter.cabal
++++ b/nix-linter.cabal
+@@ -94,7 +94,7 @@ executable nix-linter
+     nix-linter,
+ 
+     -- Packages only used here:
+-    streamly >=0.5,
++    streamly >=0.7.2,
+     mtl >=1.1,
+     path-io >=1.4,
+     path >= 0.6,

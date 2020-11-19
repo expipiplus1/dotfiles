@@ -97,9 +97,9 @@ in {
         "https://github.com/dhess/dhess-lib-nix/archive/b351d482784b11829d1d31979ecd11d437038fc3.tar.gz"; # pin
       sha256 = "0b1v4jlbm1z11q9zq6h40sh72cwc0c194zk88bpdm8j4ill98hc3";
     }) + "/overlays/haskell/lib.nix"))
-    (self: super: {
-      haskellPackages = self.haskell.lib.properExtend super.haskellPackages
-        (self: super: {
+    (self: super:
+      with self.haskell.lib; {
+        haskellPackages = properExtend super.haskellPackages (self: super: {
           upfind = import (pkgs.fetchFromGitHub {
             owner = "expipiplus1";
             repo = "upfind";
@@ -107,36 +107,46 @@ in {
             sha256 = "15g5nvs6azgb2fkdna1dxbyiabx9n63if0wcbdvs91hjafhzjaqa";
           }) { };
 
-          brittany = pkgs.haskell.lib.dontCheck
-            (pkgs.haskell.lib.overrideSrc super.hls-brittany {
-              src = pkgs.fetchFromGitHub {
-                owner = "expipiplus1";
-                repo = "brittany";
-                rev = "86ef825b541636c71c17d3c10caee52af3f2d7b5"; # joe
-                sha256 = "0clyphk6d047bkn73hmk11mxcd7xh3imd4h1zynpqslgqyv3islf";
-              };
-            });
+          brittany = doJailbreak (dontCheck (overrideSrc super.hls-brittany {
+            version = "0.12.2.0";
+            src = pkgs.fetchFromGitHub {
+              owner = "expipiplus1";
+              repo = "brittany";
+              rev = "b80f77c36bda563665c616abbdb1eaaf35b1da1c"; # joe
+              sha256 = "1ih2qd73and863yzn7r96vg89mlayq8rr91jql2w5mf9n17lkj4w";
+            };
+          }));
           hls-brittany = self.brittany;
 
-          ghc-exactprint_0_6_3_3 =
-            pkgs.haskell.lib.appendPatch super.ghc-exactprint
-            ../../../patches/exactprint-exts.patch;
+          update-nix-fetchgit = import /home/j/projects/update-nix-fetchgit {
+            inherit pkgs;
+            forShell = false;
+          };
 
-          apply-refact =
-            pkgs.haskell.lib.dontCheck super.apply-refact;
+          # Fixes for HLS
+          apply-refact = dontCheck super.apply-refact;
+          # A patch to add heaps of default (safe) extensions
+          ghc-exactprint = dontCheck (appendPatch super.ghc-exactprint
+            ../../../patches/exactprint-exts.patch);
+          streamly = overrideSrc super.streamly {
+            src = pkgs.fetchFromGitHub {
+              owner = "composewell";
+              repo = "streamly";
+              rev = "f72dcaf4932b2fc24a10156507a980858e2c108d";
+              sha256 = "123dqb8hiq04flff1rga3qb01rh2mpnb4aax6vx1gd472s5kvcc2";
+            };
+          };
         });
 
-      upfind =
-        self.haskell.lib.justStaticExecutables self.haskellPackages.upfind;
+        upfind = justStaticExecutables self.haskellPackages.upfind;
 
-      nix-linter = pkgs.haskell.lib.appendPatches super.nix-linter [
-        ../../../patches/linter-unused.patch
-        ../../../patches/linter-unused-pos.patch
-      ];
+        nix-linter = appendPatches super.nix-linter [
+          ../../../patches/linter-unused.patch
+          ../../../patches/linter-unused-pos.patch
+          ../../../patches/linter-streamly-prelude.patch
+        ];
 
-      haskell-language-server = super.haskell-language-server.override {
-        supportedGhcVersions = [ "884" ];
-      };
-    })
+        cachix = justStaticExecutables self.haskell.packages.ghc884.cachix;
+      })
   ];
 }
