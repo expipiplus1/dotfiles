@@ -33,11 +33,11 @@ haskell-test ({ pkgs, ... }: ''
     ~
     ~                      ---
     ~
-    ~                      [Documentation](file:///nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ghc-8.8.4-
-    ~                      doc/share/doc/ghc/html/libraries/base-4.13.0.0/System-IO.html#v:
+    ~                      [Documentation](file:///nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ghc-8.10.2-
+    ~                      doc/share/doc/ghc/html/libraries/base-4.14.1.0/System-IO.html#v:
     ~                      putStr)*    *    *
-    ~                      [Source](file:///nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ghc-8.8.4-doc/
-    ~                      share/doc/ghc/html/libraries/base-4.13.0.0/src/System-IO.html#putStr)
+    ~                      [Source](file:///nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ghc-8.10.2-doc/
+    ~                      share/doc/ghc/html/libraries/base-4.14.1.0/src/System-IO.html#putStr)
     ~
     ~
     ~
