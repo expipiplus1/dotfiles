@@ -67,6 +67,7 @@ in {
     pkgs.haskell-language-server
     weeder
     nix-output-monitor
+    pkgs.docServer
   ];
 
   xdg.configFile."brittany/config.yaml".source = pkgs.writeText "config.yaml"
@@ -141,12 +142,24 @@ in {
       nix-linter = pkgs.haskell.lib.appendPatches super.nix-linter [
         ../../../patches/linter-unused.patch
         ../../../patches/linter-unused-pos.patch
-        ../../../patches/linter-streamly-prelude.patch
       ];
 
       haskell-language-server = super.haskell-language-server.override {
         supportedGhcVersions = [ "884" "8102" ];
       };
+
+      docServer = self.writeShellScriptBin "doc-server" ''
+        dir=''${1:-.}
+        if [ -f package.yaml ]; then
+          echo package.yaml |
+            ${pkgs.entr}/bin/entr -r -- \
+              sh -c "hpack && cached-nix-shell $dir --keep XDG_DATA_DIRS --run 'hoogle server --local'"
+        else
+          echo *.cabal |
+            ${pkgs.entr}/bin/entr -r -- \
+              sh -c "cached-nix-shell $dir --keep XDG_DATA_DIRS --run 'hoogle server --local'"
+        fi
+      '';
     })
   ];
 }
