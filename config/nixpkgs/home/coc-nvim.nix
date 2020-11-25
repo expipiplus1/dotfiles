@@ -165,7 +165,8 @@
         hintSign = ">";
       };
       codeLens.enable = true;
-      coc.preferences.rootPatterns = [ "default.nix" ];
+      coc.preferences.rootPatterns =
+        [ "default.nix" "shell.nix" "cabal.project" "hie.yaml" ];
 
       haskell = {
         logFile = "/tmp/hls.log";
