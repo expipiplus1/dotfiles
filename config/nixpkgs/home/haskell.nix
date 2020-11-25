@@ -113,7 +113,6 @@ in {
                 sha256 = "1ih2qd73and863yzn7r96vg89mlayq8rr91jql2w5mf9n17lkj4w";
               };
             }));
-            hls-brittany = self.brittany;
 
             update-nix-fetchgit = import /home/j/projects/update-nix-fetchgit {
               inherit pkgs;
@@ -125,14 +124,6 @@ in {
             # A patch to add heaps of default (safe) extensions
             ghc-exactprint = dontCheck (appendPatch super.ghc-exactprint
               ../../../patches/exactprint-exts.patch);
-            streamly = overrideSrc super.streamly {
-              src = pkgs.fetchFromGitHub {
-                owner = "composewell";
-                repo = "streamly";
-                rev = "f72dcaf4932b2fc24a10156507a980858e2c108d";
-                sha256 = "123dqb8hiq04flff1rga3qb01rh2mpnb4aax6vx1gd472s5kvcc2";
-              };
-            };
           }));
       };
 

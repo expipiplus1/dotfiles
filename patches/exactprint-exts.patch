@@ -29,7 +29,7 @@ index 2d65665..885d1d2 100644
 +extraExts =
 +  [ "-XBangPatterns"
 +  , "-XBinaryLiterals"
-+  , "-XCPP"
++  -- , "-XCPP"
 +  , "-XDataKinds"
 +  , "-XDeriveDataTypeable"
 +  , "-XDeriveFoldable"
