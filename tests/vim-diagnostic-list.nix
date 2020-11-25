@@ -7,8 +7,8 @@ haskell-test ({ pkgs, ... }: ''
   machine.send_key("esc")
   machine.send_chars(":w\n")
 
-  # Wait until an error is reported
-  machine.wait_until_tty_matches(1, "E1")
+  # Wait until the correct error is reported
+  machine.wait_until_tty_matches(1, "Variable not in scope: putSt")
 
   # Open the diagnostics list and see if it's as we expect
   leader = " "
