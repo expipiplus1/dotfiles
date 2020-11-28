@@ -38,13 +38,13 @@ in {
   # Let Home Manager install and manage itself.
   programs.home-manager = {
     enable = true;
-    path = builtins.getEnv "HOME" + "/src/home-manager";
+    path = toString ../../home-manager;
   };
   news.display = "silent";
 
   home.sessionVariables = {
     LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
-    NIX_PATH = "nixpkgs=$HOME/src/nixpkgs:home-manager=$HOME/src/home-manager";
+    NIX_PATH = "nixpkgs=$HOME/src/nixpkgs:home-manager=${toString ../../home-manager}";
     EDITOR = "vim";
   };
 
