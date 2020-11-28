@@ -10,6 +10,7 @@
       gd = "git diff";
       gdc = "git diff --cached";
       g = "git";
+      glog = "git log --oneline --graph";
     };
   };
 
