@@ -8,7 +8,7 @@
           src = import (pkgs.fetchgit {
             url = "https://github.com/expipiplus1/coc.nvim";
             rev = "8baff05b4c7bb770cda0a088670a069d8eb8c1b4"; # joe
-            sha256 = "0szbbgvh77z5kad38rz0piwvyrmqq7ib3qyiizbhmhd585fg4xgi";
+            sha256 = "161j877h2dnl8gwgvfs39v5gd329hh72msl8kmahx70fh7vnxi4h";
             leaveDotGit = true;
           }) { inherit pkgs; };
         });
