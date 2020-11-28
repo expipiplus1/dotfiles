@@ -3,7 +3,7 @@
   home-test = test:
     make-test ({ pkgs, ... }:
       let
-        home-manager = import <home-manager/home-manager/home-manager.nix> {
+        home-manager = import ../home-manager/home-manager/home-manager.nix {
           confPath = "/home/j/.config/nixpkgs/home.nix";
         };
         activation = pkgs.runCommand "bin-activation" { } ''
