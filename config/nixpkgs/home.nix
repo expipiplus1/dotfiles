@@ -112,7 +112,7 @@ in {
       text = ''
         (import ${config.programs.home-manager.path}/modules {
           pkgs = import <nixpkgs> {config={}; overlays=[];};
-            configuration = import (builtins.getEnv "HOME" + "/.config/nixpkgs/home.nix");
+            configuration = import (${toString ./home.nix});
           }).config.nixpkgs.config
       '';
     };
@@ -121,7 +121,7 @@ in {
       text = ''
         (import ${config.programs.home-manager.path}/modules {
           pkgs = import <nixpkgs> {config={}; overlays=[];};
-            configuration = import (builtins.getEnv "HOME" + "/.config/nixpkgs/home.nix");
+            configuration = import (${toString ./home.nix});
           }).config.nixpkgs.overlays
       '';
     };
