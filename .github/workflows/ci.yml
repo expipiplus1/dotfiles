@@ -21,7 +21,14 @@ jobs:
         echo system-features = kvm nixos-test >> ~/.config/nix/nix.conf
 
         git apply < ./make-small.patch
-        nix-build tests -k
+
+        # build deps
+        drvs=$(nix-instantiate tests)
+        deps=$(nix-store --query --references --include-outputs $drvs)
+        nix-store --realise $deps
+
+        # Run tests one by one
+        nix-build -k -j1 $drvs
 
   shellcheck:
     runs-on: ubuntu-20.04
