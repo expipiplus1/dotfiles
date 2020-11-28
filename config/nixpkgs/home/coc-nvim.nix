@@ -88,6 +88,7 @@
           "
           " Fix autofix problem of current line
           nmap <leader>ca  <Plug>(coc-codeaction)
+          vmap <leader>ca  <Plug>(coc-codeaction)
           " Fix autofix problem of current line
           nmap <leader>qf  <Plug>(coc-fix-current)
           nmap <leader>ql  <Plug>(coc-codelens-action)
@@ -114,16 +115,18 @@
       }
       {
         plugin = coc-fzf.overrideAttrs (_: {
+          # src = /home/j/src/coc-fzf;
           src = pkgs.fetchFromGitHub {
             owner = "expipiplus1";
             repo = "coc-fzf";
             rev =
-              "9e480fc0744bb4718563030f4877edfeea10b4e4"; # joe-cleaner-actions
-            sha256 = "014rx7w6x62v47nij4ix08xxm7pjlb3c6szdnyckxypha09sfl0l";
+              "d7a0f035e774fc12900ace0dfe849e259698a6f8"; # joe-cleaner-actions
+            sha256 = "0g9b8ncqg848pgf00zv9zv7hwvk1yjiiwd0nd62yhaps2hsx1sqm";
           };
         });
         config = ''
           nnoremap <silent> <leader>ca :CocFzfList actions<CR>
+          vnoremap <silent> <leader>ca :CocFzfList actions<CR>
           nnoremap <silent> <leader>i  :CocFzfList<CR>
           nnoremap <silent> <leader>d  :CocFzfList diagnostics<CR>
           nnoremap <silent> <leader>o  :CocFzfList outline<CR>
