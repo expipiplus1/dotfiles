@@ -4,7 +4,11 @@ haskell-test ({ pkgs, ... }: ''
   # Insert some text
   machine.send_chars("i")
   machine.send_chars("module Foo where\n\nfoo = putSt")
+  machine.sleep(2)
   machine.send_key("esc")
+  machine.sleep(2)
+  machine.send_key("k")
+  machine.sleep(2)
   machine.send_chars(":w\n")
 
   # Wait until the correct error is reported
