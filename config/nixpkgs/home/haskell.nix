@@ -114,10 +114,10 @@ in {
               };
             }));
 
-            update-nix-fetchgit = import /home/j/projects/update-nix-fetchgit {
-              inherit pkgs;
-              forShell = false;
-            };
+            # update-nix-fetchgit = import /home/j/projects/update-nix-fetchgit {
+            #   inherit pkgs;
+            #   forShell = false;
+            # };
 
             # Fixes for HLS
             apply-refact = dontCheck super.apply-refact;
