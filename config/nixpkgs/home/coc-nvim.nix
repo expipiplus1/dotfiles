@@ -119,8 +119,8 @@
             owner = "expipiplus1";
             repo = "coc-fzf";
             rev =
-              "d7a0f035e774fc12900ace0dfe849e259698a6f8"; # joe-cleaner-actions
-            sha256 = "0g9b8ncqg848pgf00zv9zv7hwvk1yjiiwd0nd62yhaps2hsx1sqm";
+              "4df7be7ff9b1d9be679efd7625a96703d685b17b"; # joe-cleaner-actions
+            sha256 = "0w1m1cx1ig9mjsq41ci2833wwdlhgja3yqj41ng13f0kpkmswyl2";
           };
         });
         config = ''
