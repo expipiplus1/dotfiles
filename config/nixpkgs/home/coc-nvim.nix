@@ -18,7 +18,6 @@
           """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
           " Highlight symbol under cursor on CursorHold
           autocmd CursorHold * silent call CocActionAsync('highlight')
-          highlight CocHighlightText gui=underline guibg=#282a2e cterm=underline ctermbg=10
           " TODO, this doesn't belong here
           set updatetime=100
 

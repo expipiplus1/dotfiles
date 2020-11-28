@@ -106,6 +106,7 @@ in {
 
           hi! def link CocErrorSign ErrorMsg
           hi! def link CocErrorSign ErrorMsg
+          highlight CocHighlightText gui=underline guibg=#282a2e cterm=underline ctermbg=10
         '';
       }
       {
