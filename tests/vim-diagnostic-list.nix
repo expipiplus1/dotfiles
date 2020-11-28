@@ -14,6 +14,8 @@ haskell-test ({ pkgs, ... }: ''
   leader = " "
   machine.send_chars(f"{leader}d")
   machine.wait_until_tty_matches(1, "[Dd]iagnostics")
+  # fzf might take some time to loader this
+  machine.wait_until_tty_matches(1, "1 module Foo where")
 
   ${assert-tmux pkgs "fzf-diagnostics" ''
       module Foo where

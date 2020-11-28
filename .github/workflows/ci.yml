@@ -27,8 +27,16 @@ jobs:
         deps=$(nix-store --query --references --include-outputs $drvs)
         nix-store --realise $deps
 
-        # Run tests one by one
-        nix-build -k -j1 $drvs
+    # Run tests one by one
+    - run: nix-build tests -A vim-hls-error
+      if: success() || failure()
+    - run: nix-build tests -A vim-complete-docs
+      if: success() || failure()
+    - run: nix-build tests -A vim-diagnostic-list
+      if: success() || failure()
+
+    # Run any leftover tests
+    - run: nix-build tests
 
   shellcheck:
     runs-on: ubuntu-20.04

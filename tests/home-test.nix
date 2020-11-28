@@ -96,7 +96,7 @@
         machine.send_chars(":e Foo.hs\n")
         machine.wait_until_tty_matches(1, "NORMAL.*Foo.hs")
         # let vim collect itself
-        machine.sleep(3)
+        machine.sleep(10)
           '' + test args));
 
   assert-tmux = pkgs: name: contents:
