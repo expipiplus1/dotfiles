@@ -124,6 +124,9 @@ in {
             # A patch to add heaps of default (safe) extensions
             ghc-exactprint = dontCheck (appendPatch super.ghc-exactprint
               ../../../patches/exactprint-exts.patch);
+
+            haskell-language-server = dontCheck (appendPatch super.haskell-language-server
+              ../../../patches/hls-eval-space.patch);
           }));
       };
 
