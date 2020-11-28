@@ -21,11 +21,6 @@ jobs:
         echo system-features = kvm nixos-test >> ~/.config/nix/nix.conf
 
         git apply < ./make-small.patch
-        ./scripts/paths.sh
-        # Fetch dependencies
-        xargs <fetched nix-store --realise
-
-        # Build things to build
         nix-build tests -k
 
   shellcheck:
