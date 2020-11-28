@@ -313,28 +313,6 @@ let g:haskell_indent_where            = 6
 let g:haskell_indent_do               = 3
 let g:haskell_indent_in               = 0
 
-"
-" stylish-haskell
-"
-
-function s:myStylishHaskell()
-  let s=system("git author " . @%)
-  if v:shell_error || !empty(matchstr(s, ".*ermaszewski.*"))
-    call StylishHaskell()
-  endif
-endfunction
-
-let s:stylish_haskell_config = systemlist("upfind --fixed .stylish-haskell")
-
-if len(s:stylish_haskell_config) != 0
-  let g:stylish_haskell_args = "--config " . s:stylish_haskell_config[0]
-endif
-
-" augroup stylish-haskell
-"   autocmd!
-"   autocmd BufWritePost *.hs silent call s:myStylishHaskell()
-" augroup END
-
 " highlight long columns
 au FileType haskell let &colorcolumn=join(range(81,81),",")
 
@@ -343,6 +321,30 @@ function! Preserve(command)
   execute a:command
   call winrestview(w)
 endfunction
+
+function! ExecuteLeader(suffix)
+  let l:leader = get(g:,"mapleader","\\")
+
+  if l:leader == ' '
+    let l:leader = '1' . l:leader
+  endif
+
+  execute "normal ".l:leader.a:suffix
+endfunction
+
+" Format files only if I am the primary author
+function s:formatMyFiles()
+  let s=system("git author " . @%)
+  if v:shell_error || !empty(matchstr(s, ".*ermaszewski.*"))
+    call Preserve("call ExecuteLeader('F')")
+  endif
+endfunction
+
+augroup autoformat
+  autocmd!
+  autocmd BufWritePost *.hs  silent call s:formatMyFiles()
+  autocmd BufWritePost *.nix silent call s:formatMyFiles()
+augroup END
 
 " Format current function
 autocmd FileType haskell map <nowait> <leader>f :call Preserve("normal gqah")<CR>
