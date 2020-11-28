@@ -16,7 +16,8 @@ jobs:
       with:
         nix_path: nixpkgs=channel:nixos-unstable
 
-    - run: nix-build tests -k -j1
+    - run: |
+        nix-build tests -k
 
   shellcheck:
     runs-on: ubuntu-20.04
