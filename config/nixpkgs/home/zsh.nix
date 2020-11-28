@@ -135,6 +135,8 @@ in {
 
       unsetopt AUTO_CD
 
+      unset RPS1
+
       setopt histignorespace
       setopt inc_append_history
 
