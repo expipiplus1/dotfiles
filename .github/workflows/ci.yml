@@ -17,6 +17,7 @@ jobs:
         nix_path: nixpkgs=channel:nixos-unstable
 
     - run: |
+        git apply < ./make-small.patch
         nix-build tests -k
 
   shellcheck:
