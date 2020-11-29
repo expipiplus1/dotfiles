@@ -3,17 +3,10 @@
 haskell-test ({ pkgs, ... }: ''
   # Insert some text
   machine.send_chars("i")
-  machine.send_chars("module Foo where\n\nfoo = putSt")
-  machine.sleep(2)
+  slow_typing("module Foo where\n\nfoo = putSt")
   machine.send_key("esc")
   machine.sleep(2)
   machine.send_chars(":w\n")
-
-  # Wiggle cursor, another GH runner patch
-  machine.send_key("h")
-  machine.sleep(2)
-  machine.send_key("l")
-  machine.sleep(2)
 
   # Wait until the correct error is reported
   machine.wait_until_tty_matches(1, "Variable not in scope: putSt")
@@ -73,7 +66,7 @@ haskell-test ({ pkgs, ... }: ''
     ~
     ~
      Foo.hs                                                                                                   haskell  100%    3:11
-    "Foo.hs" line 3 of 3 --100%-- col 11
+    "Foo.hs" [New] 3L, 30C [w]
   ''}
   #
 '')

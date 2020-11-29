@@ -3,9 +3,7 @@
 haskell-test ({ pkgs, ... }: ''
   # Insert some text
   machine.send_chars("i")
-  machine.send_chars("module Foo where\n\nfoo = putS")
-  machine.sleep(2)
-  machine.send_chars("t")
+  slow_typing("module Foo where\n\nfoo = putSt")
 
   # Observe the completion suggestions
   machine.wait_until_tty_matches(1, r"putStr +f +\[LS]")
