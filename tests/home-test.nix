@@ -66,7 +66,7 @@
               with machine.nested("sending keys ‘{}‘".format(chars)):
                   for char in chars:
                       machine.send_key(char)
-                      machine.sleep(0.2)
+                      machine.sleep(1)
 
 
             machine.wait_for_unit("multi-user.target")
