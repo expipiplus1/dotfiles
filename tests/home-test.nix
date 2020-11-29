@@ -17,7 +17,7 @@
           environment.systemPackages = [ pkgs.vim pkgs.ghc activation ];
           # Work around https://github.com/haskell/ghcide/issues/911
           virtualisation.cores = 2;
-          virtualisation.memorySize = 512;
+          virtualisation.memorySize = 1024;
 
           i18n.defaultLocale = "en_us.UTF-8";
         };
