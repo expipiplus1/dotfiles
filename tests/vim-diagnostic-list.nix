@@ -7,8 +7,6 @@ haskell-test ({ pkgs, ... }: ''
   machine.sleep(2)
   machine.send_key("esc")
   machine.sleep(2)
-  machine.send_key("k")
-  machine.sleep(2)
   machine.send_chars(":w\n")
 
   # Wait until the correct error is reported
