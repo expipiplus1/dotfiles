@@ -17,9 +17,6 @@ jobs:
         nix_path: nixpkgs=channel:nixos-unstable
 
     - run: |
-        mkdir -p ~/.config/nix
-        echo system-features = kvm nixos-test >> ~/.config/nix/nix.conf
-
         git apply < ./make-small.patch
 
         # build deps

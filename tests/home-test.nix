@@ -1,153 +1,108 @@
-{ capture-golden ? false }: rec {
-  make-test = f: import <nixpkgs/nixos/tests/make-test-python.nix> f { };
-  home-test = test:
-    make-test ({ pkgs, ... }:
-      let
-        home-manager = import ../home-manager/home-manager/home-manager.nix {
-          confPath = toString ../config/nixpkgs/home.nix;
-        };
-        activation = pkgs.runCommand "bin-activation" { } ''
-          mkdir -p "$out"/bin
-          ln -s ${home-manager.activationPackage}/activate "$out"/bin/activate
-        '';
-      in {
-        name = "vim";
-        machine = { ... }: {
-          imports = [ <nixpkgs/nixos/tests/common/user-account.nix> ];
-          environment.systemPackages = [ pkgs.vim pkgs.ghc activation ];
-          # Work around https://github.com/haskell/ghcide/issues/911
-          virtualisation.cores = 2;
-          virtualisation.memorySize = 1024;
+{ pkgs ? import <nixpkgs> { }, capture-golden ? false }: rec {
+  inherit pkgs;
 
-          i18n.defaultLocale = "en_us.UTF-8";
-        };
-        # enableOCR = true;
-        testScript = { nodes, ... }:
-          let
-            user = nodes.machine.config.users.users.alice;
-            su = command: "su - ${user.name} -c '${command}'";
-            # such quoting
-            tmux = args: ''machine.succeed(f"""${su "tmux ${args}"}""")'';
-          in ''
-            # fmt: off
-            def nuke_references(filename: str):
-                d = "/tmp/nuked"
-                r = os.path.join(d, os.path.basename(filename))
-                machine.succeed(f"mkdir -p {d}")
-                machine.succeed(
-                  f'${pkgs.perl}/bin/perl -pe "s|\Q$NIX_STORE\E/[a-z0-9]{{32}}-|$NIX_STORE/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-|g" < "{filename}" > {r}'
-                )
-                return r
+  home = import ../home-manager/modules {
+    inherit pkgs;
+    configuration = toString ../config/nixpkgs/home.nix;
+  };
 
+  activation = pkgs.runCommand "bin-activation" { } ''
+    mkdir -p "$out"/bin
+    ln -s ${home.activationPackage}/activate "$out"/bin/activate
+  '';
 
-            def dump_tmux(filename: str):
-                ${tmux "capture-pane -b temp-capture-buffer -S -"}
-                ${tmux "save-buffer -b temp-capture-buffer {filename}"}
-                ${tmux "delete-buffer -b capture-buffer"}
-                r = nuke_references(filename)
-                machine.succeed(f'mv "{r}" "{filename}"')
+  make-test = name: inputs: test:
+    with pkgs;
+    # Which for https://github.com/haskell/vscode-haskell/issues/327
+    pkgs.runCommand name { nativeBuildInputs = inputs ++ [ which ]; } ''
+      wait_for() {
+        p=$1
+        n=30
+        for (( i=1; i<=$n; i++ )); do
+          tmux capture-pane -p > pane-contents
+          if [ $i -eq $n ]; then
+            echo "Last chance waiting for \"$p\" to appear"
+            echo "Current pane contents:"
+            cat pane-contents
+          fi
+          if grep -q "$p" pane-contents; then
+            return
+          fi
+          sleep 1
+        done
+        return 1
+      }
+      assert_contents() {
+        golden=$1
+        actual=actual
+        tmux capture-pane -p |
+          ${pkgs.perl}/bin/perl -pe "s|/nix/store/[a-z0-9]{32}-|/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-|g" \
+          > "$actual"
+        diff "$golden" "$actual"
+      }
+      slow_keys() {
+        str=$1
+        for (( i=0; i<''${#str}; i++ )); do
+          tmux send-keys "''${str:$i:1}"
+          sleep 0.1
+        done
+      }
+      enter() {
+        tmux send-keys Enter
+      }
+      esc() {
+        tmux send-keys Escape
+      }
+      tab() {
+        tmux send-keys Tab
+      }
 
+      #
+      # Stuff home-manager script wants
+      #
+      export HOME=$(mktemp -d)
+      export USER=user
+      export NIX_STORE=$(mktemp -d)
+      export NIX_STATE_DIR=$NIX_STORE/var
+      mkdir -p $NIX_STATE_DIR/gcroots/per-user/$USER/
 
-            # Compare a golden string to the current tmux contents
-            def compare_tmux(golden: str, name: str, tty: str = 1):
-                actual = f"/tmp/{name}"
-                dump_tmux(actual)
-                machine.succeed(f'diff "{golden}" "{actual}"')
+      # Make a phony nix-env and nix-build so the activation script doesn't try
+      # to fiddle with the Nix store
+      mkdir -p bin
+      echo "#!${bash}/bin/bash" > bin/nix-env
+      chmod +x bin/nix-env
+      echo "#!${bash}/bin/bash" > bin/nix-build
+      chmod +x bin/nix-build
+      PATH=$(pwd)/bin:$PATH
 
+      # Put links in home directory, do the path insertion manually, seems to
+      # be good enough
+      ${activation}/bin/activate
+      PATH=${home.config.home.path}/bin:$PATH
 
-            # Save the tmux contents with a name
-            def capture_tmux(filename: str):
-                actual = f"/tmp/{filename}"
-                dump_tmux(actual)
-                machine.copy_from_vm(actual)
+      # Start the tmux session in which we'll do the interaction
+      tmux new-session -d -x 120 -y 40
 
-
-            def slow_typing(chars: List [str]):
-              with machine.nested("sending keys ‘{}‘".format(chars)):
-                  for char in chars:
-                      machine.send_key(char)
-                      machine.sleep(1)
-
-
-            machine.wait_for_unit("multi-user.target")
-            machine.wait_until_succeeds("pgrep -f 'agetty.*tty1'")
-
-            # Activate our home-manager setup
-            machine.succeed("${su "activate"}")
-
-            # Login
-            machine.wait_until_tty_matches(1, "login: ")
-            machine.send_chars("${user.name}\n")
-            machine.wait_until_tty_matches(1, "Password: ")
-            machine.send_chars("${user.password}\n")
-            machine.wait_until_tty_matches(1, "${user.name}@machine")
-
-            # Start a tmux session, we use tmux because capturing seems to work
-            # much better than get_tty_contents or screendump (regarding non
-            # ASCII chars)
-            machine.send_chars("tmux\n")
-            machine.wait_until_tty_matches(1, re.compile("^~", re.MULTILINE))
-          '' + test {
-            inherit pkgs user;
-            inherit (nodes) machine;
-          };
-      });
+      ${test}
+      mkdir -p "$out"
+      tmux capture-pane -p >"$out/final-contents" || :
+    '';
 
   # Create a vim session editing a file "Foo.hs" with a direct cradle with no arguments
-  haskell-test = test:
-    home-test ({ user, pkgs, ... }@args:
-      let
-        indentLines = n: str:
-          pkgs.lib.concatMapStrings (line: ''
-            ${pkgs.lib.fixedWidthString n " " " "}${line}
-          '') (pkgs.lib.splitString "\n" str);
-      in (''
-        # Create a hie.yaml file
-        machine.succeed('echo "cradle:\n  direct:\n    arguments: []" > ${user.home}/hie.yaml')
+  haskell-test = name: test:
+    make-test name [ pkgs.ghc ] ''
+      # Create a hie.yaml to avoid any warnings/infos
+      echo $'cradle:\n  direct:\n    arguments: []' > hie.yaml
 
-        coc_log = "coc.log"
-        log_files = ["hls.log", coc_log]
-        machine.send_chars("export NVIM_COC_LOG_LEVEL=debug\n")
-        machine.send_chars(f"export NVIM_COC_LOG_FILE=/tmp/{coc_log}\n")
-        for log_file in log_files:
-          machine.send_chars(f"touch /tmp/{log_file}\n")
-        def informative_vim(f: callable):
-          try:
-            f()
-          except Exception as e:
+      # Start vim
+      slow_keys vim; enter
+      wait_for "NORMAL"
+      slow_keys $':e Foo.hs\n'
+      wait_for "NORMAL.*Foo.hs"
+      # let vim collect itself
+      sleep 1
 
-            host_subdir = "logs"
-            host_dir = f"""{pathlib.Path(os.environ.get("out", os.getcwd()))}/{host_subdir}"""
-
-            for log_file in log_files:
-              machine.copy_from_vm(f"/tmp/{log_file}", host_subdir)
-              machine.log(80 * "#")
-              machine.log(f"# {log_file}:")
-              machine.log(80 * "#")
-              with open(f"{host_dir}/{log_file}", 'r') as log_fd:
-                machine.log(log_fd.read())
-            raise
-
-        # Start vim
-        machine.send_chars("vim\n")
-        machine.wait_until_tty_matches(1, "NORMAL")
-        machine.send_chars(":e Foo.hs\n")
-        machine.wait_until_tty_matches(1, "NORMAL.*Foo.hs")
-        # let vim collect itself
-        machine.sleep(10)
-
-        def go():
-          # The test itself
-        ${indentLines 2 (test args)}
-
-        informative_vim(go)
-      ''));
-
-  assert-tmux = pkgs: name: contents:
-    let f = pkgs.writeText name contents;
-    in if capture-golden then ''
-      capture_tmux("${name}")
-    '' else ''
-      compare_tmux("${f}", "${name}")
+      # Run the Vim+Haskell test
+      ${test}
     '';
 }
