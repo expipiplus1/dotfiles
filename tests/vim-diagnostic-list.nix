@@ -9,6 +9,12 @@ haskell-test ({ pkgs, ... }: ''
   machine.sleep(2)
   machine.send_chars(":w\n")
 
+  # Wiggle cursor, another GH runner patch
+  machine.send_key("h")
+  machine.sleep(2)
+  machine.send_key("l")
+  machine.sleep(2)
+
   # Wait until the correct error is reported
   machine.wait_until_tty_matches(1, "Variable not in scope: putSt")
 
