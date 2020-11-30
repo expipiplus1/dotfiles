@@ -97,6 +97,13 @@
 
       # Start vim
       slow_keys 'vim Foo.hs'; enter
+      sleep 1
+      slow_keys ':messages'; enter
+      tmux capture-pane -p
+      sleep 1
+      slow_keys ':messages'; enter
+      tmux capture-pane -p
+
       wait_for "NORMAL.*Foo.hs"
       # let vim collect itself
       sleep 1
