@@ -15,6 +15,9 @@
     with pkgs;
     # Which for https://github.com/haskell/vscode-haskell/issues/327
     pkgs.runCommand name { nativeBuildInputs = inputs ++ [ which ]; } ''
+      #
+      # Some utility functions
+      #
       wait_for() {
         p=$1
         n=30
@@ -70,10 +73,10 @@
       # Make a phony nix-env and nix-build so the activation script doesn't try
       # to fiddle with the Nix store
       mkdir -p bin
-      echo "#!${bash}/bin/bash" > bin/nix-env
-      chmod +x bin/nix-env
-      echo "#!${bash}/bin/bash" > bin/nix-build
-      chmod +x bin/nix-build
+      for f in nix-env nix-build; do
+        echo "#!${bash}/bin/bash" > bin/$f
+        chmod +x bin/$f
+      done
       export PATH=$(pwd)/bin:$PATH
 
       # Put links in home directory, do the path insertion manually, seems to
@@ -82,7 +85,8 @@
       export PATH=${home.config.home.path}/bin:$PATH
 
       # Start the tmux session in which we'll do the interaction
-      tmux new-session -d -x 120 -y 40
+      tmux new-session -d
+      tmux resize-window -x 120 -y 40
 
       ${test}
 
