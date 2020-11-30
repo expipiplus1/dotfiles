@@ -32,12 +32,13 @@
         done
         return 1
       }
+      nuke_references() {
+        ${pkgs.perl}/bin/perl -pe "s|/nix/store/[a-z0-9]{32}-|/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-|g"
+      }
       assert_contents() {
         golden=$1
         actual=actual
-        tmux capture-pane -p |
-          ${pkgs.perl}/bin/perl -pe "s|/nix/store/[a-z0-9]{32}-|/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-|g" \
-          > "$actual"
+        tmux capture-pane -p | nuke_references > "$actual"
         diff "$golden" "$actual"
       }
       slow_keys() {
@@ -73,12 +74,12 @@
       chmod +x bin/nix-env
       echo "#!${bash}/bin/bash" > bin/nix-build
       chmod +x bin/nix-build
-      PATH=$(pwd)/bin:$PATH
+      export PATH=$(pwd)/bin:$PATH
 
       # Put links in home directory, do the path insertion manually, seems to
       # be good enough
       ${activation}/bin/activate
-      PATH=${home.config.home.path}/bin:$PATH
+      export PATH=${home.config.home.path}/bin:$PATH
 
       # Start the tmux session in which we'll do the interaction
       tmux new-session -d -x 120 -y 40
