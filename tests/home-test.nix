@@ -95,9 +95,7 @@
       echo $'cradle:\n  direct:\n    arguments: []' > hie.yaml
 
       # Start vim
-      slow_keys vim; enter
-      wait_for "NORMAL"
-      slow_keys $':e Foo.hs\n'
+      slow_keys 'vim Foo.hs'; enter
       wait_for "NORMAL.*Foo.hs"
       # let vim collect itself
       sleep 1
