@@ -2,16 +2,16 @@
 
 haskell-test "vim-diagnostic-list" ''
   # Insert some text
-  slow_keys i
-  slow_keys $'module Foo where\n\nfoo = putSt'; esc
-  slow_keys :w; enter
+  keys i
+  keys $'module Foo where\n\nfoo = putSt'; esc
+  keys :w; enter
 
   # Wait until the correct error is reported
   wait_for "Variable not in scope: putSt"
 
   # Open the diagnostics list and see if it's as we expect
   leader=" "
-  slow_keys "''${leader}d"
+  keys "''${leader}d"
   wait_for "[Dd]iagnostics"
   # fzf might take some time to load this
   wait_for "1 module Foo where"

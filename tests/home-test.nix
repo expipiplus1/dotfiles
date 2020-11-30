@@ -41,7 +41,7 @@
         tmux capture-pane -p | nuke_references > "$actual"
         diff "$golden" "$actual"
       }
-      slow_keys() {
+      keys() {
         str=$1
         for (( i=0; i<''${#str}; i++ )); do
           tmux send-keys "''${str:$i:1}"
@@ -93,15 +93,16 @@
   # Create a vim session editing a file "Foo.hs" with a direct cradle with no arguments
   haskell-test = name: test:
     make-test name [ pkgs.ghc ] ''
-      # Create a hie.yaml to avoid any warnings/infos
-      echo $'cradle:\n  direct:\n    arguments: []' > hie.yaml
       # Edit a file so we don't get any first-run confusion
       vim /dev/null -Es
 
+      # Create a hie.yaml to avoid any warnings/infos
+      echo $'cradle:\n  direct:\n    arguments: []' > hie.yaml
+
       # Start vim
-      slow_keys 'vim'; enter
-      sleep 1
-      slow_keys ':e Foo.hs'; enter
+      keys 'vim'; enter
+      wait_for "NORMAL"
+      keys ':e Foo.hs'; enter
       wait_for "NORMAL.*Foo.hs"
       # let vim collect itself
       sleep 1

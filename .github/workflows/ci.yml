@@ -16,7 +16,8 @@ jobs:
       with:
         nix_path: nixpkgs=channel:nixos-unstable
 
-    - run: |
+    - name: Build dependencies
+      run: |
         git apply < ./make-small.patch
 
         # build deps

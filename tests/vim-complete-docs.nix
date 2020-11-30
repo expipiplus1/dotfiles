@@ -2,8 +2,8 @@
 
 haskell-test "vim-complete-docs" ''
   # Insert some text
-  slow_keys i
-  slow_keys $'module Foo where\n\nfoo = putSt'
+  keys i
+  keys $'module Foo where\n\nfoo = putSt'
 
   # Observe the completion suggestions
   wait_for "putStr \+f \+\[LS]"
