@@ -85,6 +85,7 @@
       tmux new-session -d -x 120 -y 40
 
       ${test}
+
       mkdir -p "$out"
       tmux capture-pane -p >"$out/final-contents" || :
     '';
@@ -94,16 +95,13 @@
     make-test name [ pkgs.ghc ] ''
       # Create a hie.yaml to avoid any warnings/infos
       echo $'cradle:\n  direct:\n    arguments: []' > hie.yaml
+      # Edit a file so we don't get any first-run confusion
+      vim /dev/null -Es
 
       # Start vim
-      slow_keys 'vim Foo.hs'; enter
+      slow_keys 'vim'; enter
       sleep 1
-      slow_keys ':messages'; enter
-      tmux capture-pane -p
-      sleep 1
-      slow_keys ':messages'; enter
-      tmux capture-pane -p
-
+      slow_keys ':e Foo.hs'; enter
       wait_for "NORMAL.*Foo.hs"
       # let vim collect itself
       sleep 1
