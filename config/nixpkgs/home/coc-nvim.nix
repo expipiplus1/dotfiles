@@ -169,10 +169,6 @@
   xdg.configFile."nvim/coc-settings.json".source = pkgs.writeTextFile {
     name = "coc-settings.json";
     text = builtins.toJSON {
-      suggest.timeout = 15000;
-      signature.triggerSignatureWait = 300;
-      coc.preferences.highlightTimeout = 5000;
-
       diagnostic = {
         virtualText = true;
         checkCurrentLine = true;

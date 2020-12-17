@@ -44,13 +44,6 @@
         tmux capture-pane -p | nuke_references > "$actual"
         diff "$golden" "$actual"
       }
-      keys() {
-        str=$1
-        for (( i=0; i<''${#str}; i++ )); do
-          tmux send-keys "''${str:$i:1}"
-          sleep 0.1
-        done
-      }
       enter() {
         tmux send-keys Enter
       }
@@ -59,6 +52,18 @@
       }
       tab() {
         tmux send-keys Tab
+      }
+      keys() {
+        str=$1
+        for (( i=0; i<''${#str}; i++ )); do
+          c=''${str:$i:1}
+          if [ "$c" = $'\n' ]; then
+            enter
+          else
+            tmux send-keys "$c"
+          fi
+          sleep 0.1
+        done
       }
 
       #

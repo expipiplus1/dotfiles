@@ -5,9 +5,9 @@ haskell-test "vim-complete-docs" ''
   keys i
   keys $'module Foo where\n\nfoo = putSt'
 
-  # Observe the completion suggestions
-  wait_for "putStr \+f \+\[LS]"
-  wait_for "putStrLn \+f \+\[LS]"
+  # Observe the completion snippet suggestions
+  wait_for "putStr\~ \+f \+\[LS]"
+  wait_for "putStrLn\~ \+f \+\[LS]"
 
   # Navigate to one of them and wait for the documentation
   # to appear
@@ -21,22 +21,22 @@ haskell-test "vim-complete-docs" ''
       module Foo where
 
       foo = putStr ‣ foo :: String -> IO ()
-      ~     putStr   f [LS]  :: String -> IO ()
-      ~     putStrLn f [LS]  ——————————————————————————————————————————————————————————————————————————————
-      ~                      Defined in 'Prelude'
+      ~     putStr~   f [LS]  :: String -> IO ()
+      ~     putStrLn~ f [LS]  ——————————————————————————————————————————————————————————————————————————————
+      ~                       Defined in 'Prelude'
       ~
-      ~                      ---
+      ~                       ---
       ~
-      ~                      Write a string to the standard output device
-      ~                       (same as  hPutStr   stdout ).*    *    *
+      ~                       Write a string to the standard output device
+      ~                        (same as  hPutStr   stdout ).*    *    *
       ~
-      ~                      ---
+      ~                       ---
       ~
-      ~                      [Documentation](file:///nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ghc-8.10.2-
-      ~                      doc/share/doc/ghc/html/libraries/base-4.14.1.0/System-IO.html#v:
-      ~                      putStr)*    *    *
-      ~                      [Source](file:///nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ghc-8.10.2-doc/
-      ~                      share/doc/ghc/html/libraries/base-4.14.1.0/src/System-IO.html#putStr)
+      ~                       [Documentation](file:///nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ghc-8.10.2-
+      ~                       doc/share/doc/ghc/html/libraries/base-4.14.1.0/System-IO.html#v:
+      ~                       putStr)*    *    *
+      ~                       [Source](file:///nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ghc-8.10.2-doc/
+      ~                       share/doc/ghc/html/libraries/base-4.14.1.0/src/System-IO.html#putStr)
       ~
       ~
       ~
