@@ -131,6 +131,19 @@
           nnoremap <silent> <leader>o  :CocFzfList outline<CR>
         '';
       }
+      {
+        plugin = coc-snippets;
+        config = ''
+          " Use <C-j> for both expand and jump (make expand higher priority.)
+          imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+          " Use <C-j> for jump to next placeholder, it's default of coc.nvim
+          let g:coc_snippet_next = '<c-j>'
+
+          " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+          let g:coc_snippet_prev = '<c-k>'
+        '';
+      }
       (pkgs.vimUtils.buildVimPluginFrom2Nix {
         name = "vscode-haskell";
         src = import (pkgs.fetchFromGitHub {
