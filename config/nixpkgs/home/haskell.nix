@@ -105,12 +105,12 @@ in {
             }) { };
 
             brittany = doJailbreak (dontCheck (overrideSrc super.brittany {
-              version = "0.12.2.0";
+              version = "2020-12-15";
               src = pkgs.fetchFromGitHub {
-                owner = "expipiplus1";
+                owner = "lspitzner";
                 repo = "brittany";
-                rev = "b80f77c36bda563665c616abbdb1eaaf35b1da1c"; # joe
-                sha256 = "1ih2qd73and863yzn7r96vg89mlayq8rr91jql2w5mf9n17lkj4w";
+                rev = "b1bfef5b8a96d0d114cc90c8ce38b8209d871348";
+                sha256 = "1plj9f1yrd895zsz5iifk15dcxvscyyqdnikqxmcgkl5jryb4c6g";
               };
             }));
 
@@ -124,9 +124,6 @@ in {
             # A patch to add heaps of default (safe) extensions
             ghc-exactprint = dontCheck (appendPatch super.ghc-exactprint
               ../../../patches/exactprint-exts.patch);
-
-            haskell-language-server = dontCheck (appendPatch super.haskell-language-server
-              ../../../patches/hls-eval-space.patch);
           }));
       };
 
