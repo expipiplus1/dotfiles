@@ -1,0 +1,11 @@
+diff --git a/src/Development/IDE/Plugin/Completions/Logic.hs b/src/Development/IDE/Plugin/Completions/Logic.hs
+index 42f91ad..ab52074 100644
+--- a/src/Development/IDE/Plugin/Completions/Logic.hs
++++ b/src/Development/IDE/Plugin/Completions/Logic.hs
+@@ -191,7 +191,7 @@ mkNameCompItem origName origMod thingType isInfix docs !imp = CI{..}
+     insertText = case isInfix of
+             Nothing -> case getArgText <$> thingType of
+                             Nothing -> label
+-                            Just argText -> label <> " " <> argText
++                            Just argText -> (stripPrefix label) <> " " <> argText
+             Just LeftSide -> label <> "`"
