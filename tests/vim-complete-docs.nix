@@ -32,10 +32,10 @@ haskell-test "vim-complete-docs" ''
       ~
       ~                       ---
       ~
-      ~                       [Documentation](file:///nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ghc-8.10.2-
+      ~                       [Documentation](file:///nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ghc-8.10.3-
       ~                       doc/share/doc/ghc/html/libraries/base-4.14.1.0/System-IO.html#v:
       ~                       putStr)*    *    *
-      ~                       [Source](file:///nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ghc-8.10.2-doc/
+      ~                       [Source](file:///nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ghc-8.10.3-doc/
       ~                       share/doc/ghc/html/libraries/base-4.14.1.0/src/System-IO.html#putStr)
       ~
       ~
