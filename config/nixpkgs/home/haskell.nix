@@ -124,7 +124,6 @@ in {
             # A patch to add heaps of default (safe) extensions
             ghc-exactprint = dontCheck (appendPatch super.ghc-exactprint
               ../../../patches/exactprint-exts.patch);
-            ghcide = appendPatch super.ghcide ../../../patches/ghcide-682.patch;
           }));
       };
 
