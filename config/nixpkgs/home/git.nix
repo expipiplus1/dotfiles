@@ -7,6 +7,7 @@
     shellAliases = {
       git = "${pkgs.gitAndTools.hub}/bin/hub";
       gs = "git status";
+      gsi = "git switch";
       gd = "git diff";
       gdc = "git diff --cached";
       g = "git";
