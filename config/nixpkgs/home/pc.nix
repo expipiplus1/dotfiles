@@ -12,6 +12,7 @@
     firefox
     spotify
     darktable
+    opentx
   ];
 
   programs.neovim = {
