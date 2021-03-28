@@ -4,6 +4,12 @@
 gsettings set org.gnome.shell.overrides edge-tiling true
 gsettings set org.gnome.mutter edge-tiling true
 
+# Disable annoying sounds
+gsettings set org.gnome.desktop.sound event-sounds false
+
+# Move popups without moving parent
+gsettings set org.gnome.shell.overrides attach-modal-dialogs false
+
 # Remove the wasted space in the terminal.
 #
 # Currently a bug for fullscreen where there is one frame of graphical
