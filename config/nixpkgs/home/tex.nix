@@ -13,7 +13,8 @@
           everypage fancyvrb filehook fontspec greek-inputenc koma-script lm
           mathspec mdframed metafont microtype needspace parskip pgf pgfgantt
           pgfkeyx scheme-basic siunitx standalone ucharcat unicode-math vntex
-          wallpaper xcolor xetex xkeyval xunicode zapfding;
+          wallpaper xcolor xetex xkeyval xunicode zapfding typewriter
+          cm-unicode;
       } // { # Doxygen
         inherit (tpkgs)
           float varwidth multirow hanging adjustbox stackengine ulem sectsty
