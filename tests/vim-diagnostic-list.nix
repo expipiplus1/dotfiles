@@ -21,9 +21,9 @@ haskell-test "vim-diagnostic-list" ''
         module Foo where
 
       > foo = putSt ▷ • Variable not in scope: putSt \ • Perhaps you meant ‘putStr’ (imported from Prelude)
-      ~            [typecheck] [E] • Variable not in scope: putSt
+      ~            [typecheck -Wdeferred-out-of-scope-variables] [E] • Variable not in scope:
+      ~            putSt
       ~            • Perhaps you meant ‘putStr’ (imported from Prelude)
-      ~
       ~
       ~
       ~     ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -38,7 +38,7 @@ haskell-test "vim-diagnostic-list" ''
       ~     │ │                                                                                                      │ │
       ~     │ │                                                                                                      │ │
       ~     │ ╰──────────────────────────────────────────────────────────────────────────────────────────────────────╯ │
-      ~     │ > Foo.hs:3:7 Error [typecheck] • Variable not in scope: putSt • Perhaps you meant ‘putStr’ (imported ..  │
+      ~     │ > Foo.hs:3:7 Error [typecheck -Wdeferred-out-of-scope-variables] • Variable not in scope: putSt • Per..  │
       ~     │                                                                                                          │
       ~     │                                                                                                          │
       ~     │                                                                                                          │
