@@ -11,6 +11,7 @@ haskell-test "vim-format-function" ''
   leader=" "
   keys "''${leader}f"
   wait_for "foo = foo"
+  wait_for "foo :: t"
 
   assert_contents ${
     pkgs.writeText "fzf-diagnostics" ''

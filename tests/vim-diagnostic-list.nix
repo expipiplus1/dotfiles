@@ -7,7 +7,7 @@ haskell-test "vim-diagnostic-list" ''
   keys :w; enter
 
   # Wait until the correct error is reported
-  wait_for "Variable not in scope: putSt"
+  wait_for "Variable not in scope:"
 
   # Open the diagnostics list and see if it's as we expect
   leader=" "
@@ -20,7 +20,7 @@ haskell-test "vim-diagnostic-list" ''
     pkgs.writeText "fzf-diagnostics" ''
         module Foo where
 
-      > foo = putSt ▷ • Variable not in scope: putSt \ • Perhaps you meant ‘putStr’ (imported from Prelude)
+      > foo = putSt ‣ foo :: t
       ~            [typecheck -Wdeferred-out-of-scope-variables] [E] • Variable not in scope:
       ~            putSt
       ~            • Perhaps you meant ‘putStr’ (imported from Prelude)
@@ -38,7 +38,7 @@ haskell-test "vim-diagnostic-list" ''
       ~     │ │                                                                                                      │ │
       ~     │ │                                                                                                      │ │
       ~     │ ╰──────────────────────────────────────────────────────────────────────────────────────────────────────╯ │
-      ~     │ > Foo.hs:3:7 Error [typecheck -Wdeferred-out-of-scope-variables] • Variable not in scope: putSt • Per..  │
+      ~     │ > Foo.hs:3:7 Error • Variable not in scope: putSt • Perhaps you meant ‘putStr’ (imported from Prelude)   │
       ~     │                                                                                                          │
       ~     │                                                                                                          │
       ~     │                                                                                                          │

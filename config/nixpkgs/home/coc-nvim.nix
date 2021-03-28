@@ -4,14 +4,16 @@
   programs.neovim = {
     plugins = with pkgs.vimPlugins; [
       {
-        plugin = coc-nvim.overrideAttrs (_: {
-          src = import (pkgs.fetchgit {
-            url = "https://github.com/expipiplus1/coc.nvim";
-            rev = "8baff05b4c7bb770cda0a088670a069d8eb8c1b4"; # joe
-            sha256 = "1wwbdc1qbqk0xsyfmyd48hbxjv9z3ajm8vm2jxl4ah55jf3wb2la";
-            leaveDotGit = true;
-          }) { inherit pkgs; };
-        });
+        plugin = coc-nvim;
+        # plugin = coc-nvim.overrideAttrs (_: {
+        #   # src = import (pkgs.fetchgit {
+        #   #   url = "https://github.com/expipiplus1/coc.nvim";
+        #   #   rev = "8baff05b4c7bb770cda0a088670a069d8eb8c1b4"; # joe
+        #   #   sha256 = "1wwbdc1qbqk0xsyfmyd48hbxjv9z3ajm8vm2jxl4ah55jf3wb2la";
+        #   #   leaveDotGit = true;
+        #   # }) { inherit pkgs; };
+        #   src = import /home/j/src/coc.nvim { inherit pkgs; };
+        # });
         config = ''
           """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
           " Highlight current word
@@ -48,7 +50,7 @@
               echo "Unable to go to documentation window"
               return
             endif
-            if !search("\\[" . a:target . "](", "ce")
+            if !search(a:target . ": ", "bce")
               echo "No documenation link found"
             else
               exe "normal gx"
@@ -149,8 +151,8 @@
         src = import (pkgs.fetchFromGitHub {
           owner = "expipiplus1";
           repo = "vscode-hie-server";
-          rev = "ff20690c99595aaa920047855104336357b062ed";
-          sha256 = "12zwrvw6nw76qlpc7xjlg70f1fmi0gfamflng0n5srsbgqdi02wz";
+          rev = "ac031baef8daf8f898c57085a1be1baf3781626b"; # coc.nvim
+          sha256 = "18dv4ljrvnd8ngd7b9pi81njp76gi66iqfkly0k53ypim5d698va";
         }) { inherit pkgs; };
       })
       (coc-diagnostic.overrideAttrs (_old: {
