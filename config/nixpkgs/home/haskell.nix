@@ -132,7 +132,7 @@ in {
       ];
 
       haskell-language-server = super.haskell-language-server.override {
-        supportedGhcVersions = [ "884" "8103" ];
+        supportedGhcVersions = [ "8104" ];
       };
 
       docServer = self.writeShellScriptBin "doc-server" ''
