@@ -105,12 +105,12 @@ in {
             }) { };
 
             brittany = doJailbreak (dontCheck (overrideSrc super.brittany {
-              version = "2020-12-15";
+              version = "2021-02-26";
               src = pkgs.fetchFromGitHub {
                 owner = "lspitzner";
                 repo = "brittany";
-                rev = "b1bfef5b8a96d0d114cc90c8ce38b8209d871348";
-                sha256 = "1plj9f1yrd895zsz5iifk15dcxvscyyqdnikqxmcgkl5jryb4c6g";
+                rev = "4d064db674203626fe5011d10874fcbc335ec9b1"; # master
+                sha256 = "1sanc1n72s4jknnx6snryvynrccp1hvzlqfpfb3fy5gn6aapfwzi";
               };
             }));
 
