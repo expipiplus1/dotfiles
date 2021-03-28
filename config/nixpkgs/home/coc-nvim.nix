@@ -267,18 +267,16 @@
           sh = "shellcheck";
         };
       };
-      languageserver = {
-        clangd = {
-          command = "${pkgs.clang-tools}/bin/clangd";
-          args = [ "--background-index" "--compile-commands-dir=build" ];
-          rootPatterns = [
-            "compile_flags.txt"
-            "compile_commands.json"
-            ".git"
-            "CMakeLists.txt"
-          ];
-          filetypes = [ "c" "cpp" "objc" "objcpp" ];
-        };
+      languageserver.clangd = {
+        command = "${pkgs.clang-tools}/bin/clangd";
+        args = [ "--background-index" "--compile-commands-dir=build" ];
+        rootPatterns = [
+          "compile_flags.txt"
+          "compile_commands.json"
+          ".git"
+          "CMakeLists.txt"
+        ];
+        filetypes = [ "c" "cpp" "objc" "objcpp" ];
       };
     };
   };
