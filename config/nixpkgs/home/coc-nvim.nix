@@ -185,17 +185,24 @@
       coc.preferences.rootPatterns =
         [ "default.nix" "shell.nix" "cabal.project" "hie.yaml" ];
 
+      # languageserver.haskell = {
+      #   command = "haskell-language-server-wrapper";
+      #   args = [ "--lsp" ];
+      #   filetypes = [ "hs" "lhs" "haskell" ];
+      #   rootPatterns =
+      #     [ ".stack.yaml" ".hie-bios" "cabal.config" "package.yaml" ];
+      # };
       haskell = {
         logFile = "/tmp/hls.log";
         formattingProvider = "brittany";
         formatOnImportOn = true;
-        serverExecutablePath = pkgs.writeShellScript "nix-shell-hie" ''
-          if [[ -f default.nix || -f shell.nix ]]; then
-            ${pkgs.cached-nix-shell}/bin/cached-nix-shell --keep XDG_DATA_DIRS --arg hoogle true --run "${pkgs.haskell-language-server}/bin/haskell-language-server-wrapper --debug $(printf "''${1+ %q}" "$@")"
-          else
-            exec ${pkgs.haskell-language-server}/bin/haskell-language-server-wrapper "$@"
-          fi
-        '';
+        # serverExecutablePath = pkgs.writeShellScript "nix-shell-hie" ''
+        #   if [[ -f default.nix || -f shell.nix ]]; then
+        #     ${pkgs.cached-nix-shell}/bin/cached-nix-shell --keep XDG_DATA_DIRS --arg hoogle true --run "${pkgs.haskell-language-server}/bin/haskell-language-server-wrapper --debug $(printf "''${1+ %q}" "$@")"
+        #   else
+        #     exec ${pkgs.haskell-language-server}/bin/haskell-language-server-wrapper "$@"
+        #   fi
+        # '';
       };
 
       diagnostic-languageserver = {
