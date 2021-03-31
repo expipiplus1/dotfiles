@@ -13,6 +13,7 @@
     spotify
     darktable
     opentx
+    element-desktop
   ];
 
   programs.neovim = {
