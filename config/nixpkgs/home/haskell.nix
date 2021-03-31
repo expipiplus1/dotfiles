@@ -61,6 +61,11 @@ in {
     pretty-show
     cabal2nix
     brittany
+    (pkgs.writeShellScriptBin "fourmolu" ''
+      exec ${fourmolu}/bin/fourmolu ${
+        pkgs.lib.concatMapStringsSep " " (s: "--ghc-opt ${s}") ghcOpts
+      } "$@"
+    '')
     nix-diff
     hpack
     cabal-install
@@ -75,6 +80,20 @@ in {
       conf_errorHandling = { econf_Werror = false; };
       conf_preprocessor = { ppconf_CPPMode = "CPPModeNowarn"; };
       conf_forward = { options_ghc = ghcOpts; };
+    });
+
+  xdg.configFile."fourmolu.yaml".source = pkgs.writeText "fourmolu.yaml"
+    (builtins.toJSON {
+      indentation = 2;
+      comma-style = "leading"; # for lists, tuples etc. - can also be 'trailing'
+      record-brace-space = false; # rec {x = 1} vs. rec{x = 1}
+      indent-wheres =
+        false; # 'false' means save space by only half-indenting the 'where' keyword
+      diff-friendly-import-export = false; # 'false' uses Ormolu-style lists
+      respectful = true; # don't be too opinionated about newlines etc.
+      haddock-style = "single-line"; # '--' vs. '{-'
+      newlines-between-decls =
+        1; # number of newlines between top-level declarations
     });
 
   home.file.".ghci".source = pkgs.writeText "ghci" ''
