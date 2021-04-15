@@ -334,8 +334,12 @@ endfunction
 
 " Format files only if I am the primary author
 function s:formatMyFiles()
-  let s=system("git author " . @%)
-  if v:shell_error || !empty(matchstr(s, ".*ermaszewski.*"))
+  let g=system("git ls-files --error-unmatch " . @%)
+  let isnt_tracked=!v:shell_error
+  let s=system("timeout 0.5s git author " . @%)
+  let timedout=v:shell_error
+  let mine=(!timedout && !empty(matchstr(s,".*ermaszewski.*")))
+  if isnt_tracked || mine
     call Preserve("call ExecuteLeader('F')")
   endif
 endfunction
@@ -422,9 +426,3 @@ autocmd Filetype * nnoremap <nowait> <buffer> <leader>p <ESC>1z=e
 noremap <Leader>s :write<CR>
 noremap <Leader>S :wall<CR>
 noremap <Leader>q :quit<CR>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" formatting
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-nnoremap g= :call Preserve("normal gggqG")<CR>:echo "file formatted"<CR>
