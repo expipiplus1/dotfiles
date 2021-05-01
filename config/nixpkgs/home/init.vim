@@ -335,8 +335,8 @@ endfunction
 " Format files only if I am the primary author
 function s:formatMyFiles()
   let g=system("git ls-files --error-unmatch " . @%)
-  let isnt_tracked=!v:shell_error
-  let s=system("timeout 0.5s git author " . @%)
+  let isnt_tracked=v:shell_error
+  let s=system("timeout 0.2s git author " . @%)
   let timedout=v:shell_error
   let mine=(!timedout && !empty(matchstr(s,".*ermaszewski.*")))
   if isnt_tracked || mine
@@ -346,8 +346,8 @@ endfunction
 
 augroup autoformat
   autocmd!
-  autocmd BufWritePost *.hs  silent call s:formatMyFiles()
-  autocmd BufWritePost *.nix silent call s:formatMyFiles()
+  autocmd BufWritePre *.hs  silent call s:formatMyFiles()
+  autocmd BufWritePre *.nix silent call s:formatMyFiles()
 augroup END
 
 " Format current function

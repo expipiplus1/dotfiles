@@ -88,7 +88,7 @@
           " Coc modification
           "
           " Fix autofix problem of current line
-          nmap <leader>ca  <Plug>(coc-codeaction)
+          nmap <leader>ca  <Plug>(coc-codeaction-cursor)
           vmap <leader>ca  <Plug>(coc-codeaction)
           " Fix autofix problem of current line
           nmap <leader>qf  <Plug>(coc-fix-current)
@@ -118,11 +118,10 @@
         plugin = coc-fzf.overrideAttrs (_: {
           # src = /home/j/src/coc-fzf;
           src = pkgs.fetchFromGitHub {
-            owner = "expipiplus1";
+            owner = "antoinemadec";
             repo = "coc-fzf";
-            rev =
-              "4df7be7ff9b1d9be679efd7625a96703d685b17b"; # joe-cleaner-actions
-            sha256 = "0w1m1cx1ig9mjsq41ci2833wwdlhgja3yqj41ng13f0kpkmswyl2";
+            rev = "8f27377229c5d2dcee9ae9cda8dea0fad4a5ac3b"; # master
+            sha256 = "0ri0rlz4fwxli6ssz69zyifrdwhc8yx4p996rw8d2m76nm7hflv0";
           };
         });
         config = ''

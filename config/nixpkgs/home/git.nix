@@ -37,6 +37,7 @@
       cane = "commit --amend --no-edit";
     };
     extraConfig = rec {
+      init.defaultBranch = "main";
       oh-my-zsh = { only-branch = 1; };
       pull = { rebase = true; };
       rebase = {
