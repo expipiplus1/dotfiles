@@ -155,7 +155,8 @@ in {
       '';
     };
   } // autostart "firefox" // autostart "${spotifyCommand}"
-  // autostart "alacritty --command bash -i -c 'tmux attach'";
+  // autostart "alacritty --command bash -i -c 'tmux attach'"
+  // autostart "element-desktop";
 
   nixpkgs.config = {
     allowUnfree = true;
