@@ -48,6 +48,7 @@ in {
       (appendPatches [
         ./plug-patches/vim-textobj-haskell-typesig.patch
         ./plug-patches/vim-textobj-haskell-end.patch
+        ./plug-patches/vim-textobj-haskell-python3.patch
       ] vim-textobj-haskell)
       vim-textobj-user
       vim-tmux-focus-events

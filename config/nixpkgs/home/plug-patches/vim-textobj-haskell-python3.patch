@@ -1,0 +1,77 @@
+diff --git a/autoload/textobj/haskell.vim b/autoload/textobj/haskell.vim
+index fe1da98..41c6abc 100644
+--- a/autoload/textobj/haskell.vim
++++ b/autoload/textobj/haskell.vim
+@@ -1,10 +1,10 @@
+-if !has('python')
++if !has('python3')
+     echomsg "Warning: textobj-haskell requires python"
+     finish
+ endif
+ 
+ function! textobj#haskell#select_i()
+-    python select_haskell_block(vim.current.buffer, vim.current.window.cursor[0], False)
++    python3 select_haskell_block(vim.current.buffer, vim.current.window.cursor[0], False)
+ 
+     let start_position = g:haskell_textobj_ret[0]
+     let end_position = g:haskell_textobj_ret[1]
+@@ -12,7 +12,7 @@ function! textobj#haskell#select_i()
+ endfunction
+ 
+ function! textobj#haskell#select_a()
+-    python select_haskell_block(vim.current.buffer, vim.current.window.cursor[0], True)
++    python3 select_haskell_block(vim.current.buffer, vim.current.window.cursor[0], True)
+ 
+     let start_position = g:haskell_textobj_ret[0]
+     let end_position = g:haskell_textobj_ret[1]
+diff --git a/plugin/textobj/haskell.vim b/plugin/textobj/haskell.vim
+index 65a326d..fabc2fa 100644
+--- a/plugin/textobj/haskell.vim
++++ b/plugin/textobj/haskell.vim
+@@ -11,8 +11,8 @@ if !exists('g:haskell_textobj_path')
+     endif
+ endif
+ 
+-python import vim
+-execute 'pyfile ' . g:haskell_textobj_path
++python3 import vim
++execute 'py3file ' . g:haskell_textobj_path
+ 
+ call textobj#user#plugin('haskell', {
+       \ '-': {
+diff --git a/python/haskell-textobj.py b/python/haskell-textobj.py
+index ad6457c..bcbb47b 100755
+--- a/python/haskell-textobj.py
++++ b/python/haskell-textobj.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python3
+ 
+ VIM_RETURN_VAR = 'haskell_textobj_ret'
+ 
+@@ -7,7 +7,7 @@ import sys
+ try:
+     import vim
+ except ImportError:
+-    print "Warning: Not running inside Vim."
++    print("Warning: Not running inside Vim.")
+ 
+ 
+ def vim_return(start_line, end_line, lines):
+@@ -233,10 +233,10 @@ def find_block(lines, index):
+ 
+ if __name__ == "__main__" and 'vim' not in sys.modules:
+     lines = open(sys.argv[1]).readlines()
+-    for ind in xrange(len(lines)):
++    for ind in range(len(lines)):
+         start, end = find_block(lines, ind)
+-        for i in xrange(start, end + 1):
+-            print lines[i][:-1]
+-        print ind, find_block(lines, ind)
+-        raw_input()
+-        print '---'
++        for i in range(start, end + 1):
++            print(lines[i][:-1])
++        print(ind, find_block(lines, ind))
++        input()
++        print('---')
