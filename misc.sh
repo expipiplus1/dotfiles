@@ -9,6 +9,7 @@ gsettings set org.gnome.desktop.sound event-sounds false
 
 # Move popups without moving parent
 gsettings set org.gnome.shell.overrides attach-modal-dialogs false
+gsettings set org.gnome.mutter attach-modal-dialogs false
 
 # Remove the wasted space in the terminal.
 #
