@@ -110,7 +110,6 @@
                 \ <SID>check_back_space() ? "\<Tab>" :
                 \ coc#refresh()
 
-          inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
           inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
         '';
       }
@@ -136,7 +135,8 @@
         plugin = coc-snippets;
         config = ''
           " Use <C-j> for both expand and jump (make expand higher priority.)
-          imap <C-j> <Plug>(coc-snippets-expand-jump)
+          imap <expr><C-j> coc#_select_confirm()
+          imap <expr><C-b> coc#_select_confirm()
 
           " Use <C-j> for jump to next placeholder, it's default of coc.nvim
           let g:coc_snippet_next = '<c-j>'
