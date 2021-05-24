@@ -26,6 +26,9 @@ gsettings set org.gnome.desktop.wm.keybindings switch-windows-backward "['<Shift
 gsettings set org.gnome.desktop.wm.keybindings switch-applications "[]"
 gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward "[]"
 
+# No hot corner
+gsettings set org.gnome.desktop.interface enable-hot-corners false
+
 firefoxSetting() {
   for d in "$HOME/.mozilla/firefox"/*default/; do
     u="$d/user.js"
