@@ -20,10 +20,10 @@ haskell-test "vim-diagnostic-list" ''
     pkgs.writeText "fzf-diagnostics" ''
         module Foo where
 
-      > foo = putSt ‣ foo :: t
-      ~            [typecheck -Wdeferred-out-of-scope-variables] [E] • Variable not in scope:
-      ~            putSt
-      ~            • Perhaps you meant ‘putStr’ (imported from Prelude)
+      > foo = putSt ▷ • Variable not in scope: putSt \ • Perhaps you meant ‘putStr’ (imported from Prelude)
+      ~
+      ~
+      ~
       ~
       ~
       ~     ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -31,7 +31,6 @@ haskell-test "vim-diagnostic-list" ''
       ~     │ │    1 module Foo where                                                                                │ │
       ~     │ │    2                                                                                                 │ │
       ~     │ │    3 foo = putSt                                                                                     │ │
-      ~     │ │                                                                                                      │ │
       ~     │ │                                                                                                      │ │
       ~     │ │                                                                                                      │ │
       ~     │ │                                                                                                      │ │
@@ -56,7 +55,8 @@ haskell-test "vim-diagnostic-list" ''
       ~
       ~
       ~
-       Foo.hs                                                                                           haskell  100%    3:11
+      ~
+       TERMINAL  Foo.hs  E1                                                                             haskell  100%    3:11
       "Foo.hs" line 3 of 3 --100%-- col 11
     ''
   }

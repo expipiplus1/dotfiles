@@ -4,12 +4,27 @@ let
   appendPatches = patches: drv:
     drv.overrideAttrs (old: { patches = old.patches or [ ] ++ patches; });
 
+  luaConfig = lua: ''
+    lua <<EOF
+    ${lua}
+    EOF
+  '';
+
 in {
   programs.neovim = {
     enable = true;
     package =
-      appendPatches [ ./nvim-backup-dir.patch ./nvim-backup-perms.patch ]
-      pkgs.neovim-unwrapped;
+      # appendPatches [ ./nvim-backup-dir.patch ./nvim-backup-perms.patch ]
+      ((import pkgs.path {
+        overlays = [
+          (import (builtins.fetchTarball {
+            url =
+              "https://github.com/nix-community/neovim-nightly-overlay/archive/125b7af69ec99e79749877cd820d614f35a64a29.tar.gz";
+            sha256 = "1k2243scs65sa0zfharwnz30633qcyh2z4ld1wkc0dpk06vnylh3";
+          }))
+        ];
+      }).neovim-unwrapped);
+    # pkgs.neovim-unwrapped;
     vimAlias = true;
     plugins = with pkgs.vimPlugins; [
       {
@@ -24,6 +39,40 @@ in {
       tmux-complete-vim
       (appendPatches [ ./plug-patches/cabal-module-word.patch ] haskell-vim)
       lessspace-vim
+      (nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
+      {
+        plugin = (pkgs.vimUtils.buildVimPlugin {
+          name = "tree-sitter-playground";
+          src = pkgs.fetchFromGitHub {
+            owner = "nvim-treesitter";
+            repo = "playground";
+            rev = "79f71e2bd73978dfc7d228042d5e90c8545df623";
+            sha256 = "1yrf0bdfn7xqmkzzwkzcf2hbcyaf21va3nd7fr5c9f4cvin3p0vr";
+          };
+        });
+        config = luaConfig ''
+            require "nvim-treesitter.configs".setup {
+            playground = {
+              enable = true,
+              disable = {},
+              updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+              persist_queries = false, -- Whether the query persists across vim sessions
+              keybindings = {
+                toggle_query_editor = 'o',
+                toggle_hl_groups = 'i',
+                toggle_injected_languages = 't',
+                toggle_anonymous_nodes = 'a',
+                toggle_language_display = 'I',
+                focus_language = 'f',
+                unfocus_language = 'F',
+                update = 'R',
+                goto_node = '<cr>',
+                show_help = '?',
+              },
+            }
+          }
+        '';
+      }
       vim-abolish
       vim-easy-align
       vim-fugitive
