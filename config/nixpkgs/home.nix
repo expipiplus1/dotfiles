@@ -142,9 +142,13 @@ in {
           pkgs.writeShellScript "setxkb-helper" ''
             sleep 2
             setxkbmap -verbose 10 fc660c -types fc660c 2>&1
+            sleep 20
+            setxkbmap -verbose 10 fc660c -types fc660c 2>&1
             gdbus monitor -y -d org.freedesktop.login1 | while read l; do
               grep -q "'LockedHint': <false>" <<< $l || continue
               sleep 2
+              setxkbmap -verbose 10 fc660c -types fc660c 2>&1
+              sleep 20
               setxkbmap -verbose 10 fc660c -types fc660c 2>&1
             done
           ''
