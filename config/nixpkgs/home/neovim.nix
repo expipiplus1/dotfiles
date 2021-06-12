@@ -19,8 +19,8 @@ in {
         overlays = [
           (import (builtins.fetchTarball {
             url =
-              "https://github.com/nix-community/neovim-nightly-overlay/archive/125b7af69ec99e79749877cd820d614f35a64a29.tar.gz";
-            sha256 = "1k2243scs65sa0zfharwnz30633qcyh2z4ld1wkc0dpk06vnylh3";
+              "https://github.com/nix-community/neovim-nightly-overlay/archive/69a010fae35c40df7bef20c686a0b1f96a7e20f1.tar.gz";
+            sha256 = "0xzywmm76rvk5y16dl6azanj61w2zww3nqvhdndx7nvahxjqkjsc";
           }))
         ];
       }).neovim-unwrapped);
