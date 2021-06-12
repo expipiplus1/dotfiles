@@ -94,6 +94,7 @@ in {
       haddock-style = "single-line"; # '--' vs. '{-'
       newlines-between-decls =
         1; # number of newlines between top-level declarations
+      align = true;
     });
 
   home.file.".ghci".source = pkgs.writeText "ghci" ''
