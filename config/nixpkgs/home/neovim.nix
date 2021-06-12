@@ -30,7 +30,11 @@ in {
       {
         plugin = fzf-vim;
         config = ''
-          let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'border': 'sharp' } }
+          if $TMUX != ""
+            let g:fzf_layout = { 'tmux': '-p80%,80%' }
+          else
+            let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'border': 'sharp' } }
+          endif
 
           let $FZF_DEFAULT_COMMAND='${pkgs.fd}/bin/fd --type f'
           nnoremap ; :FZF<CR>

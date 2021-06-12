@@ -109,7 +109,7 @@
       echo $'cradle:\n  direct:\n    arguments: []' > hie.yaml
 
       # Start vim
-      keys 'vim'; enter
+      keys 'TMUX= vim'; enter
       wait_for "NORMAL"
       keys ':e Foo.hs'; enter
       wait_for "NORMAL.*Foo.hs"
