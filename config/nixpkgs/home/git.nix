@@ -6,6 +6,7 @@
     oh-my-zsh.plugins = [ "gitfast" "github" ];
     shellAliases = {
       git = "${pkgs.gitAndTools.hub}/bin/hub";
+      gap = "git add -p";
       gs = "git status";
       gsi = "git switch";
       gd = "git diff";
