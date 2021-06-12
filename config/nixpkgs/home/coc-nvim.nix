@@ -50,7 +50,7 @@
               echo "Unable to go to documentation window"
               return
             endif
-            if !search(a:target . ": ", "bce")
+            if !search(a:target . ": .", "bcew")
               echo "No documenation link found"
             else
               exe "normal gx"

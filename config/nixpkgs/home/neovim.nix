@@ -41,6 +41,15 @@ in {
       lessspace-vim
       (nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
       {
+        plugin = open-browser-vim;
+        config = ''
+          " Disable netrw gx mapping.
+          let g:netrw_nogx = get(g:, 'netrw_nogx', 1)
+          nmap gx <Plug>(openbrowser-open)
+          vmap gx <Plug>(openbrowser-open)
+        '';
+      }
+      {
         plugin = (pkgs.vimUtils.buildVimPlugin {
           name = "tree-sitter-playground";
           src = pkgs.fetchFromGitHub {
