@@ -423,3 +423,9 @@ autocmd Filetype * nnoremap <nowait> <buffer> <leader>p <ESC>1z=e
 noremap <Leader>s :write<CR>
 noremap <Leader>S :wall<CR>
 noremap <Leader>q :quit<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Don't use stderr on filter
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set shellredir=>
