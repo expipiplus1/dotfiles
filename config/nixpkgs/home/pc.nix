@@ -14,6 +14,7 @@
     darktable
     opentx
     element-desktop
+    pinta
   ];
 
   programs.neovim = {
