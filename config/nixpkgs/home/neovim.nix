@@ -43,7 +43,31 @@ in {
       tmux-complete-vim
       (appendPatches [ ./plug-patches/cabal-module-word.patch ] haskell-vim)
       lessspace-vim
-      (nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
+      {
+        plugin = (nvim-treesitter.overrideAttrs (_old: {
+          src = pkgs.fetchFromGitHub {
+            owner = "nvim-treesitter";
+            repo = "nvim-treesitter";
+            rev = "37ed50f28f8350de8dc70b56d8ac198aac9b1178";
+            sha256 = "16mmjpk0pqqshlw1qj3zxx197iv4g7mscgfya17c7r03rybz0q19";
+          };
+          postPatch = let
+            grammars =
+              pkgs.tree-sitter.withPlugins (_: pkgs.tree-sitter.allGrammars);
+          in ''
+            rm -r parser
+            ln -s ${grammars} parser
+          '';
+
+        }));
+        config = luaConfig ''
+          require'nvim-treesitter.configs'.setup {
+            highlight = {
+              enable = true,
+            },
+          }
+        '';
+      }
       {
         plugin = open-browser-vim;
         config = ''
@@ -59,12 +83,12 @@ in {
           src = pkgs.fetchFromGitHub {
             owner = "nvim-treesitter";
             repo = "playground";
-            rev = "79f71e2bd73978dfc7d228042d5e90c8545df623";
-            sha256 = "1yrf0bdfn7xqmkzzwkzcf2hbcyaf21va3nd7fr5c9f4cvin3p0vr";
+            rev = "1e02dece0daa4bef6a24c7a8b6edd48169885b18";
+            sha256 = "182nkdzcviz3ap3vphcks4gzw99d4jsmxxlkmb42m0gzd54k1hwq";
           };
         });
         config = luaConfig ''
-            require "nvim-treesitter.configs".setup {
+          require "nvim-treesitter.configs".setup {
             playground = {
               enable = true,
               disable = {},
