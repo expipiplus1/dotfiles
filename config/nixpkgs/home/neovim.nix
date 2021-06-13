@@ -19,8 +19,8 @@ in {
         overlays = [
           (import (builtins.fetchTarball {
             url =
-              "https://github.com/nix-community/neovim-nightly-overlay/archive/69a010fae35c40df7bef20c686a0b1f96a7e20f1.tar.gz";
-            sha256 = "0xzywmm76rvk5y16dl6azanj61w2zww3nqvhdndx7nvahxjqkjsc";
+              "https://github.com/nix-community/neovim-nightly-overlay/archive/362bf582a8421b5619b5d48d8e715af651ad774d.tar.gz";
+            sha256 = "053zz9iy7617mq92i5hm548d7cgcq75c03g5861ff1wl9gfcmxzx";
           }))
         ];
       }).neovim-unwrapped);
@@ -48,8 +48,8 @@ in {
           src = pkgs.fetchFromGitHub {
             owner = "nvim-treesitter";
             repo = "nvim-treesitter";
-            rev = "37ed50f28f8350de8dc70b56d8ac198aac9b1178";
-            sha256 = "16mmjpk0pqqshlw1qj3zxx197iv4g7mscgfya17c7r03rybz0q19";
+            rev = "5634b175c42a3765405060e7407330d354c69369";
+            sha256 = "04d7rhn8kfdjyddxkp5g721fj94ms4rjahih9l0rrhzvfzhld72d";
           };
           postPatch = let
             grammars =

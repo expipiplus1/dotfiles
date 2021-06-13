@@ -139,7 +139,8 @@ in {
               src = pkgs.fetchFromGitHub {
                 owner = "expipiplus1";
                 repo = "fourmolu";
-                rev = "2c07857d631413c6eed47a515826b775d6401c45"; # joe-align-leading
+                rev =
+                  "2c07857d631413c6eed47a515826b775d6401c45"; # joe-align-leading
                 sha256 = "1z2wx9y8l6xarc33jpmmsd698scfvm8wrwyd3gjqcm07szgdz9h8";
               };
             };
