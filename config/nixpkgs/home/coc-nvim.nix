@@ -150,8 +150,8 @@
         src = import (pkgs.fetchFromGitHub {
           owner = "expipiplus1";
           repo = "vscode-hie-server";
-          rev = "ac031baef8daf8f898c57085a1be1baf3781626b"; # coc.nvim
-          sha256 = "18dv4ljrvnd8ngd7b9pi81njp76gi66iqfkly0k53ypim5d698va";
+          rev = "b7ed3d80262bed55b37fafc7d3d8de8bbcf76564"; # coc.nvim
+          sha256 = "0lbjc5dr33n6fcbmr70ppkijj2wbnkdriww219sczjyx84pvajgs";
         }) { inherit pkgs; };
       })
       (coc-diagnostic.overrideAttrs (_old: {
