@@ -134,7 +134,6 @@ in {
               };
             }));
 
-            # update-nix-fetchgit = import /home/j/projects/update-nix-fetchgit {
             fourmolu = overrideSrc super.fourmolu {
               version = "2021-06-13";
               src = pkgs.fetchFromGitHub {
@@ -144,9 +143,6 @@ in {
                 sha256 = "1z2wx9y8l6xarc33jpmmsd698scfvm8wrwyd3gjqcm07szgdz9h8";
               };
             };
-            #   inherit pkgs;
-            #   forShell = false;
-            # };
 
             nix-diff = doJailbreak super.nix-diff;
           }));
