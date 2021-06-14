@@ -37,6 +37,10 @@
         "!f(){ set -o pipefail; git blame $1 --line-porcelain | grep 'author ' | grep -v 'Not Committed Yet' | sed 's/author //' | sort | uniq -c | sort -nr | head -n1 | sed 's/ *[0-9]* *//' ; }; f";
       cane = "commit --amend --no-edit";
     };
+    signing = {
+      signByDefault = true;
+      key = null;
+    };
     extraConfig = rec {
       init.defaultBranch = "main";
       oh-my-zsh = { only-branch = 1; };
