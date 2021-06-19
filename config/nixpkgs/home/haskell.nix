@@ -91,6 +91,7 @@ in {
       diff-friendly-import-export = false; # 'false' uses Ormolu-style lists
       respectful = true; # don't be too opinionated about newlines etc.
       haddock-style = "single-line"; # '--' vs. '{-'
+      record-haddock-location = "leading";
       newlines-between-decls =
         1; # number of newlines between top-level declarations
       align = true;
@@ -139,8 +140,8 @@ in {
                 owner = "expipiplus1";
                 repo = "fourmolu";
                 rev =
-                  "2c07857d631413c6eed47a515826b775d6401c45"; # joe-align-leading
-                sha256 = "1z2wx9y8l6xarc33jpmmsd698scfvm8wrwyd3gjqcm07szgdz9h8";
+                  "35dbface79d722952163e0c862951cbd6ca175fc"; # joe-align-leading
+                sha256 = "1p9bmzvy7g14g348s1f3ymfy0c5k4dxr9jqw180jix0ichrg9r7h";
               };
             };
 
