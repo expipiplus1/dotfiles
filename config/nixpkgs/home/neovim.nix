@@ -37,7 +37,7 @@ in {
           endif
 
           let $FZF_DEFAULT_COMMAND='${pkgs.fd}/bin/fd --type f'
-          nnoremap ; :FZF<CR>
+          nnoremap ; :FZF --preview bat\ --color=always\ {}<CR>
         '';
       }
       tmux-complete-vim
