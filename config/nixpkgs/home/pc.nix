@@ -49,7 +49,9 @@
           ${pkgs.restic}/bin/restic \
             backup \
             --one-file-system \
-            Documents projects src/nixpkgs* src/prints dotfiles Pictures work .ssh \
+            Documents projects src/nixpkgs* \
+            src/prints dotfiles Pictures work \
+            .gnupg .ssh \
             --exclude .stack-work \
             --exclude dist-newstyle
         '');

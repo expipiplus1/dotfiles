@@ -16,6 +16,9 @@
     };
   };
 
+  programs.gpg = { enable = true; };
+  services.gpg-agent = { enable = true; pinentryFlavor = "gnome3"; };
+
   programs.git = {
     enable = true;
     userEmail = "git@monoid.al";
