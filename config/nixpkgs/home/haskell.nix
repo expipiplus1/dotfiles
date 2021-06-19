@@ -47,8 +47,7 @@ let
     "-XTypeOperators"
     "-XViewPatterns"
   ];
-  notHindentOpts =
-    [ "-XDuplicateRecordFields" "-XMonadComprehensions" "-XNumDecimals" ];
+  notHindentOpts = [ "-XDuplicateRecordFields" "-XNumDecimals" ];
   ghcOpts = hindentOps ++ notHindentOpts;
 in {
   home.packages = with pkgs.haskellPackages; [
