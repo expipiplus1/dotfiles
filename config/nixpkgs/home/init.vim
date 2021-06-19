@@ -331,11 +331,15 @@ endfunction
 
 " Format files only if I am the primary author
 function s:formatMyFiles()
+  let inSrc=(!empty(matchstr(expand('%:p'),$HOME . "/src")))
+
   let g=system("git ls-files --error-unmatch " . @%)
   let isnt_tracked=v:shell_error
+
   let s=system("timeout 0.2s git author " . @%)
   let timedout=v:shell_error
-  let mine=(!timedout && !empty(matchstr(s,".*ermaszewski.*")))
+  let mine=(!timedout && !empty(matchstr(s,".*ermaszewski.*")) && !inSrc)
+
   if isnt_tracked || mine
     call Preserve("call ExecuteLeader('F')")
   endif
