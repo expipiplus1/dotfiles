@@ -9,8 +9,11 @@
         lines = 84;
         columns = 295;
       };
-      font = {size = 8.0;} // pkgs.lib.mapAttrs (name: value: {
-        family = "DejaVu Sans Mono";
+      font = {
+        size = 8.0;
+      } // pkgs.lib.mapAttrs (name: value: {
+        family = "DejaVu Sans Mono Nerd Font";
+        # or family = "DejaVu Sans Mono";
         style = value;
       }) {
         normal = "Book";

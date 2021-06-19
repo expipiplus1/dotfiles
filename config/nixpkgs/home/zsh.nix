@@ -33,6 +33,7 @@ in {
       cb = "cabal build -j8";
       nb = "IN_NIX_SHELL= nix-build -j8";
       ne = "nix-env -f '<nixpkgs>'";
+      ls = "lsd";
     };
     localVariables = {
       HYPHEN_INSENSITIVE = "true";

@@ -66,6 +66,7 @@ in {
     htop
     jq
     killall
+    lsd
     mosh
     nix
     nix-prefetch-git
