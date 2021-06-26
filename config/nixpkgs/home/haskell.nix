@@ -152,11 +152,6 @@ in {
       upfind =
         pkgs.haskell.lib.justStaticExecutables self.haskellPackages.upfind;
 
-      nix-linter = pkgs.haskell.lib.appendPatches super.nix-linter [
-        ../../../patches/linter-unused.patch
-        ../../../patches/linter-unused-pos.patch
-      ];
-
       haskell-language-server = super.haskell-language-server.override {
         supportedGhcVersions = [ "8104" ];
       };
