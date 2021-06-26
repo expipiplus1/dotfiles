@@ -78,6 +78,7 @@ in {
     tio
     tree
     tssh
+    hackage-release
     yq
   ];
 
@@ -181,6 +182,19 @@ in {
         executable = true;
         destination = "/bin/tssh";
       };
+      hackage-release = self.writeShellScriptBin "hackage-release" ''
+        ${pkgs.gitAndTools.hub}/bin/hub release download "refs/tags/$1" |
+          cut -d' ' -f2 |
+          sort -r |
+          while read f; do
+            if [[ "$f" =~ "-docs.tar.gz" ]]; then
+              ${pkgs.cabal-install}/bin/cabal upload --publish --doc "$f"
+            else
+              ${pkgs.cabal-install}/bin/cabal upload --publish "$f"
+            fi
+            rm "$f"
+          done
+      '';
       spotify = super.spotify.overrideAttrs (old: {
         postInstall = ''
           sed -i 's/^Exec=spotify/Exec=${spotifyCommand}/' "$out/share/applications/spotify.desktop"
