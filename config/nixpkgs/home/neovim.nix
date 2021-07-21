@@ -19,8 +19,8 @@ in {
         overlays = [
           (import (builtins.fetchTarball {
             url =
-              "https://github.com/nix-community/neovim-nightly-overlay/archive/48d4df526669e0b3d723b4b57f4e16cf51137b10.tar.gz";
-            sha256 = "0k8dqv8yi6g4bg4c1qzg98n9a2z8566m4r8arz87b4hgwp3cbx1w";
+              "https://github.com/nix-community/neovim-nightly-overlay/archive/f4a792e4e540887e0c34af068ba6f9347ef576ac.tar.gz";
+            sha256 = "1g12hm446g8nw5x66jf33anyfnis77i2qpd1flfjaqyzv2194pgh";
           }))
         ];
       }).neovim-unwrapped);
@@ -48,8 +48,8 @@ in {
           src = pkgs.fetchFromGitHub {
             owner = "nvim-treesitter";
             repo = "nvim-treesitter";
-            rev = "d1f6a2a3d8372725e777e96740bfdf0cde7eb2c8";
-            sha256 = "13xqk8vy7v3ib36vdhg0ckzljg1g6rr5859xm4c06wrqxf4x2j2c";
+            rev = "e473630fe0872cb0ed97cd7085e724aa58bc1c84";
+            sha256 = "1l6cv9znpwnk4hmg3vh8gy26s8hvlbg03wmd7snjwxcpfyj6vi84";
           };
           postPatch = let
             grammars =
@@ -83,8 +83,8 @@ in {
           src = pkgs.fetchFromGitHub {
             owner = "nvim-treesitter";
             repo = "playground";
-            rev = "1e02dece0daa4bef6a24c7a8b6edd48169885b18";
-            sha256 = "182nkdzcviz3ap3vphcks4gzw99d4jsmxxlkmb42m0gzd54k1hwq";
+            rev = "2715d35f27cbdfe6231e48212d12be383013f442";
+            sha256 = "0z1vlsdmhlw6pbga9nypsihzjybglyr8is3maqbyqswrmz1yg87h";
           };
         });
         config = luaConfig ''
@@ -147,7 +147,7 @@ in {
           src = pkgs.fetchFromGitHub {
             owner = "chriskempson";
             repo = "base16-vim";
-            rev = "6191622d5806d4448fa2285047936bdcee57a098";
+            rev = "6191622d5806d4448fa2285047936bdcee57a098"; # pin
             sha256 = "1qz21jizcy533mqk9wff1wqchhixkcfkysqcqs0x35wwpbri6nz8";
           };
         }));
