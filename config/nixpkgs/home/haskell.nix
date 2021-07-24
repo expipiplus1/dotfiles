@@ -124,6 +124,8 @@ in {
               sha256 = "15g5nvs6azgb2fkdna1dxbyiabx9n63if0wcbdvs91hjafhzjaqa";
             }) { };
 
+            update-nix-fetchgit = dontCheck super.update-nix-fetchgit;
+
             brittany = doJailbreak (dontCheck (overrideSrc super.brittany {
               version = "2021-02-26";
               src = pkgs.fetchFromGitHub {
