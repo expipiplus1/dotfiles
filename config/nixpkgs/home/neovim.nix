@@ -13,18 +13,9 @@ let
 in {
   programs.neovim = {
     enable = true;
-    package =
+    # package =
       # appendPatches [ ./nvim-backup-dir.patch ./nvim-backup-perms.patch ]
-      ((import pkgs.path {
-        overlays = [
-          (import (builtins.fetchTarball {
-            url =
-              "https://github.com/nix-community/neovim-nightly-overlay/archive/f4a792e4e540887e0c34af068ba6f9347ef576ac.tar.gz";
-            sha256 = "1g12hm446g8nw5x66jf33anyfnis77i2qpd1flfjaqyzv2194pgh";
-          }))
-        ];
-      }).neovim-unwrapped);
-    # pkgs.neovim-unwrapped;
+      # pkgs.neovim-unwrapped;
     vimAlias = true;
     plugins = with pkgs.vimPlugins; [
       {
