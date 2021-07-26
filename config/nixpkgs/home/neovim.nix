@@ -39,8 +39,8 @@ in {
           src = pkgs.fetchFromGitHub {
             owner = "nvim-treesitter";
             repo = "nvim-treesitter";
-            rev = "e473630fe0872cb0ed97cd7085e724aa58bc1c84";
-            sha256 = "1l6cv9znpwnk4hmg3vh8gy26s8hvlbg03wmd7snjwxcpfyj6vi84";
+            rev = "9e147d23566f58f2da6682242ffb89cb0de426b5";
+            sha256 = "06c8ss5k91gcbcq46k7jlxy74qfv9i32brhnmvlmgzivl5wqxvfb";
           };
           postPatch = let
             grammars =
