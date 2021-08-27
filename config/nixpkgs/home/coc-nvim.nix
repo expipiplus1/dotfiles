@@ -119,8 +119,8 @@
           src = pkgs.fetchFromGitHub {
             owner = "antoinemadec";
             repo = "coc-fzf";
-            rev = "1be2273dc37c07b98b7a1b2b67fd57c80feb85a9"; # master
-            sha256 = "06w052x13idb8wfvyasg36hakffxnzfs7paj3wk83qa2m1kiz1n4";
+            rev = "5b133aaa8c15f1c6fa831713892efd87189b0637"; # master
+            sha256 = "18cb39d113z8yxriidc0dmkkkzpp6x5hl414n5fcqwhjk5h514rn";
           };
         });
         config = ''
@@ -158,8 +158,8 @@
         src = import (pkgs.fetchFromGitHub {
           owner = "expipiplus1";
           repo = "coc-diagnostic";
-          rev = "ffbd066a3c4dcfec72106dc7150c7a35a6b415dd";
-          sha256 = "1gl4dxphwyxx3d0pw02ivwxa5d6npc9bl2yrbfmw3s0c0rflhspi";
+          rev = "30db849e41b07962cc150f9f50e63655a82d0316"; # nix
+          sha256 = "0nmhhkibj1fh972r578fkrmkcvm122rk9lfnbxsxmqm9hxld59x6";
         }) { inherit pkgs; };
       }))
       { plugin = coc-rls; }
