@@ -20,7 +20,7 @@ haskell-test "vim-diagnostic-list" ''
     pkgs.writeText "fzf-diagnostics" ''
         module Foo where
 
-      > foo = putSt ‣ foo :: t
+      > foo = putSt ▷ • Variable not in scope: putSt \ • Perhaps you meant ‘putStr’ (imported from Prelude)
       ~
       ~
       ~
@@ -57,7 +57,7 @@ haskell-test "vim-diagnostic-list" ''
       ~
       ~
        TERMINAL  Foo.hs  E1                                                                             haskell  100%    3:11
-      "Foo.hs" line 3 of 3 --100%-- col 11
+      "Foo.hs" [New] 3L, 30C [w]
     ''
   }
   #

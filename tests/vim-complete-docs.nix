@@ -21,7 +21,7 @@ haskell-test "vim-complete-docs" ''
     pkgs.writeText "suggestion-docs" ''
       module Foo where
 
-      foo = putStr
+      foo = putStr ‣ foo :: String -> IO ()
       ~     putStr~   f [LS]  :: String -> IO ()
       ~     putStrLn~ f [LS]  ——————————————————————————————————————————————————————————————————————————————
       ~                       Defined in 'Prelude'
