@@ -183,7 +183,7 @@ in {
         destination = "/bin/tssh";
       };
       hackage-release = self.writeShellScriptBin "hackage-release" ''
-        ${pkgs.gitAndTools.hub}/bin/hub release download "refs/tags/$1" |
+        ${pkgs.gitAndTools.hub}/bin/hub release download "$1" |
           cut -d' ' -f2 |
           sort -r |
           while read f; do
