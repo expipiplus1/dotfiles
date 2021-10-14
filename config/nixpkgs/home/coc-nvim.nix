@@ -115,12 +115,11 @@
       }
       {
         plugin = coc-fzf.overrideAttrs (_: {
-          # src = /home/j/src/coc-fzf;
           src = pkgs.fetchFromGitHub {
             owner = "antoinemadec";
             repo = "coc-fzf";
-            rev = "5b133aaa8c15f1c6fa831713892efd87189b0637"; # master
-            sha256 = "18cb39d113z8yxriidc0dmkkkzpp6x5hl414n5fcqwhjk5h514rn";
+            rev = "f9188b2652d7bf7131c74532e52ba25340d63b9f"; # master
+            sha256 = "093chsnh5fx4qwdw5dnn7h48fn2zlq0skwanlwm6ajws397n194k";
           };
         });
         config = ''
