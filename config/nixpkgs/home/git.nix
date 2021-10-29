@@ -25,7 +25,7 @@
   programs.git = {
     enable = true;
     userEmail = "git@monoid.al";
-    userName = "Joe Hermaszewski";
+    userName = "Ellie Hermaszewska";
     aliases = {
       po = ''
         !git push --set-upstream origin "$(git rev-parse --abbrev-ref HEAD)"'';
