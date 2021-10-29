@@ -15,6 +15,23 @@
     opentx
     element-desktop
     pinta
+    gnomeExtensions.freon
+    gnomeExtensions.hide-activities-button
+    gnomeExtensions.remove-rounded-corners
+    gnomeExtensions.unite
+    # gnomeExtensions.taskbar-updated
+    gnomeExtensions.dash-to-panel
+    gnomeExtensions.shell-configurator
+  ];
+
+  dconf.settings."org/gnome/shell".enabled-extensions = [
+    # pkgs.gnomeExtensions.freon.name
+    # pkgs.gnomeExtensions.hide-activities-button.name
+    pkgs.gnomeExtensions.remove-rounded-corners.name
+    pkgs.gnomeExtensions.unite.name
+    # pkgs.gnomeExtensions.taskbar-updated.name
+    pkgs.gnomeExtensions.dash-to-panel.name
+    pkgs.gnomeExtensions.shell-configurator.name
   ];
 
   programs.neovim = {
