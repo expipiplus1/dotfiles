@@ -1,5 +1,4 @@
-{ nixpkgsSrc ? <nixpkgs>, pkgs ? import nixpkgsSrc { }, compiler ? null
-, extraOverrides ? _: _: { }, modifier ? x: x }:
+{ nixpkgsSrc ? <nixpkgs>, pkgs ? import nixpkgsSrc { }, compiler ? null }:
 
 let
   haskellPackages = if compiler == null then
@@ -10,7 +9,5 @@ let
 in haskellPackages.developPackage {
   name = "";
   root = pkgs.nix-gitignore.gitignoreSource [ ] ./.;
-  overrides = with pkgs.haskell.lib;
-    pkgs.lib.composeExtensions (_self: _super: { }) extraOverrides;
-  inherit modifier;
+  overrides = _self: _super: { };
 }
