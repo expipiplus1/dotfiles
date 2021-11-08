@@ -197,6 +197,8 @@
         logFile = "/tmp/hls.log";
         formattingProvider = "brittany";
         formatOnImportOn = true;
+        plugin.ghcide-completions.config.snippetsOn = true;
+        plugin.ghcide-completions.config.autoExtendOn = true;
         # serverExecutablePath = pkgs.writeShellScript "nix-shell-hie" ''
         #   if [[ -f default.nix || -f shell.nix ]]; then
         #     ${pkgs.cached-nix-shell}/bin/cached-nix-shell --keep XDG_DATA_DIRS --arg hoogle true --run "${pkgs.haskell-language-server}/bin/haskell-language-server-wrapper --debug $(printf "''${1+ %q}" "$@")"
