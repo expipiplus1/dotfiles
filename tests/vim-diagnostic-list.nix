@@ -19,8 +19,8 @@ haskell-test "vim-diagnostic-list" ''
   assert_contents ${
     pkgs.writeText "fzf-diagnostics" ''
         module Foo where
-
       > foo = putSt ▷ • Variable not in scope: putSt \ • Perhaps you meant ‘putStr’ (imported from Prelude)
+      ~
       ~
       ~
       ~
@@ -29,15 +29,15 @@ haskell-test "vim-diagnostic-list" ''
       ~     ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────┐
       ~     │ ╭──────────────────────────────────────────────────────────────────────────────────────────────────────╮ │
       ~     │ │    1 module Foo where                                                                                │ │
-      ~     │ │    2                                                                                                 │ │
-      ~     │ │    3 foo = putSt                                                                                     │ │
+      ~     │ │    2   foo = putSt                                                                                   │ │
+      ~     │ │                                                                                                      │ │
       ~     │ │                                                                                                      │ │
       ~     │ │                                                                                                      │ │
       ~     │ │                                                                                                      │ │
       ~     │ │                                                                                                      │ │
       ~     │ │                                                                                                      │ │
       ~     │ ╰──────────────────────────────────────────────────────────────────────────────────────────────────────╯ │
-      ~     │ > Foo.hs:3:7 Error • Variable not in scope: putSt • Perhaps you meant ‘putStr’ (imported from Prelude)   │
+      ~     │ > Foo.hs:2:7 Error • Variable not in scope: putSt • Perhaps you meant ‘putStr’ (imported from Prelude)   │
       ~     │                                                                                                          │
       ~     │                                                                                                          │
       ~     │                                                                                                          │
@@ -56,8 +56,8 @@ haskell-test "vim-diagnostic-list" ''
       ~
       ~
       ~
-       TERMINAL  Foo.hs  E1                                                                             haskell  100%    3:11
-      "Foo.hs" [New] 3L, 30C [w]
+       TERMINAL  Foo.hs +  E1                                                                           haskell  100%    2:11
+      "Foo.hs" [+] line 2 of 2 --100%-- col 11
     ''
   }
   #

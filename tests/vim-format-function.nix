@@ -16,7 +16,6 @@ haskell-test "vim-format-function" ''
   assert_contents ${
     pkgs.writeText "fzf-diagnostics" ''
       module Foo where
-
       foo = foo ‣ foo :: t
       ~
       ~
@@ -53,8 +52,9 @@ haskell-test "vim-format-function" ''
       ~
       ~
       ~
-       NORMAL  Foo.hs +                                                                                 haskell  100%    3:5
-      :call Preserve("normal gqah")
+      ~
+       NORMAL  Foo.hs +                                                                                 haskell  100%    2:7
+      3 lines filtered
     ''
   }
   #

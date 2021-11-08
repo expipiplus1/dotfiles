@@ -20,45 +20,45 @@ haskell-test "vim-complete-docs" ''
   assert_contents ${
     pkgs.writeText "suggestion-docs" ''
       module Foo where
-
-      foo = putStr ‣ foo :: String -> IO ()
-      ~     putStr~   f [LS]  :: String -> IO ()
-      ~     putStrLn~ f [LS]  ——————————————————————————————————————————————————————————————————————————————
-      ~                       Defined in 'Prelude'
-      ~
-      ~                       ---
-      ~
-      ~                       Write a string to the standard output device
-      ~                        (same as  hPutStr   stdout ).* * *
-      ~
-      ~                       ---
-      ~
-      ~                       Documentation* * *
-      ~                       Source
-      ~
-      ~                       Documentation: file:///nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ghc-8.10.4-
-      ~                       doc/share/doc/ghc/html/libraries/base-4.14.1.0/System-IO.html#v:putStr
-      ~                       Source: file:///nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ghc-8.10.4-doc/
-      ~                       share/doc/ghc/html/libraries/base-4.14.1.0/src/System-IO.html#putStr
-      ~
-      ~
-      ~
-      ~
-      ~
-      ~
-      ~
-      ~
-      ~
-      ~
-      ~
-      ~
-      ~
-      ~
-      ~
-      ~
-      ~
-       INSERT  Foo.hs +                                                                                 haskell  100%    3:13
-      match 1 of 2
+        foo = putStr ‣ foo :: String -> IO ()
+      ~       putStr~        f [LS]    :: String -> IO ()
+      ~       putStr~        f [LS]    ──────────────────────────────────────────────────────────────────────────────
+      ~       putStr~        f [LS]    Defined in 'Prelude'
+      ~       putStr~        f [LS]
+      ~       putStr~        f [LS]    ---
+      ~       putStr~        f [LS]
+      ~       putStr~        f [LS]    Write a string to the standard output device
+      ~       putStr~        f [LS]     (same as  hPutStr   stdout ).* * *
+      ~       putStr~        f [LS]
+      ~       putStrLn~      f [LS]    ---
+      ~       putStrLn~      f [LS]
+      ~       putStrLn~      f [LS]    Documentation* * *
+      ~       putStrLn~      f [LS]    Source
+      ~       putStrLn~      f [LS]
+      ~       putStrLn~      f [LS]    Documentation: file:///nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ghc-8.10.7-
+      ~       putStrLn~      f [LS]    doc/share/doc/ghc/html/libraries/base-4.14.3.0/System-IO.html#v:putStr
+      ~       putStrLn~      f [LS]    Source: file:///nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ghc-8.10.7-doc/
+      ~       putStringUtf8~ f [LS]    share/doc/ghc/html/libraries/base-4.14.3.0/src/System-IO.html#putStr
+      ~       putStringUtf8~ f [LS]
+      ~       hPutStr~       f [LS]
+      ~       hPutStr~       f [LS]
+      ~       hPutStr~       f [LS]
+      ~       hPutStr~       f [LS]
+      ~       hPutStr~       f [LS]
+      ~       hPutStr~       f [LS]
+      ~       hPutStr~       f [LS]
+      ~       hPutStr~       f [LS]
+      ~       hPutStr~       f [LS]
+      ~       hPutStr~       f [LS]
+      ~       hPutStrLn~     f [LS]
+      ~       hPutStrLn~     f [LS]
+      ~       hPutStrLn~     f [LS]
+      ~       hPutStrLn~     f [LS]
+      ~       hPutStrLn~     f [LS]
+      ~       hPutStrLn~     f [LS]
+      ~       hPutStrLn~     f [LS]
+       INSERT hPutStrLn~     f [LS]                                                                     haskell  100%    2:15
+      match 1 of 39
     ''
   }
   #

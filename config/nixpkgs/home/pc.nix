@@ -24,15 +24,15 @@
     gnomeExtensions.shell-configurator
   ];
 
-  dconf.settings."org/gnome/shell".enabled-extensions = [
-    # pkgs.gnomeExtensions.freon.name
-    # pkgs.gnomeExtensions.hide-activities-button.name
-    pkgs.gnomeExtensions.remove-rounded-corners.name
-    pkgs.gnomeExtensions.unite.name
-    # pkgs.gnomeExtensions.taskbar-updated.name
-    pkgs.gnomeExtensions.dash-to-panel.name
-    pkgs.gnomeExtensions.shell-configurator.name
-  ];
+  # dconf.settings."org/gnome/shell".enabled-extensions = [
+  #   # pkgs.gnomeExtensions.freon.name
+  #   # pkgs.gnomeExtensions.hide-activities-button.name
+  #   pkgs.gnomeExtensions.remove-rounded-corners.name
+  #   pkgs.gnomeExtensions.unite.name
+  #   # pkgs.gnomeExtensions.taskbar-updated.name
+  #   pkgs.gnomeExtensions.dash-to-panel.name
+  #   pkgs.gnomeExtensions.shell-configurator.name
+  # ];
 
   programs.neovim = {
     plugins = with pkgs.vimPlugins; [
