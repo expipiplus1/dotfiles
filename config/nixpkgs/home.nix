@@ -89,7 +89,7 @@ in {
       Type=Application
       Name=Boot To Windows Next
       Comment=Set this computer to start Windows after rebooting
-      Exec=sh -c 'pkexec efibootmgr --bootnext 0000 && reboot'
+      Exec=sh -c 'pkexec efibootmgr --bootnext 0002 && reboot'
       Terminal=false
       Hidden=false
       Icon=/home/j/Downloads/windows.png
