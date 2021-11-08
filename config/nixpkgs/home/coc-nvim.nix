@@ -111,6 +111,9 @@
                 \ coc#refresh()
 
           inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+          " Use enter to accept completion and insert snippets (usually imports)
+          inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
         '';
       }
       {
