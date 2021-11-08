@@ -288,7 +288,7 @@ in {
         '';
       }
     ];
-    extraConfig = ''
+    initExtra = ''
       source ${
         pkgs.substituteAll {
           src = ./init.vim;
