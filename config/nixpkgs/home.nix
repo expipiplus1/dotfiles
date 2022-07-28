@@ -43,6 +43,8 @@ in {
     path = toString ../../home-manager;
   };
   news.display = "silent";
+  home.stateVersion = "22.11";
+  home.homeDirectory = builtins.getEnv "HOME";
 
   home.sessionVariables = {
     LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
