@@ -183,6 +183,7 @@
         hintSign = ">";
       };
       codeLens.enable = true;
+      codeLens.position = "eol";
       coc.preferences.rootPatterns =
         [ "default.nix" "shell.nix" "cabal.project" "hie.yaml" ];
 
