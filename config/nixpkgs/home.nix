@@ -60,6 +60,8 @@ in {
     curl
     dnsutils
     du-dust
+    duf
+    nix-output-monitor
     efibootmgr
     entr
     fd
@@ -70,7 +72,7 @@ in {
     killall
     lsd
     mosh
-    nix
+    nix_2_4
     nix-prefetch-git
     nix-prefetch-github
     nmap
