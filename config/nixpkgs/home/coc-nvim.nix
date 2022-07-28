@@ -121,8 +121,8 @@
           src = pkgs.fetchFromGitHub {
             owner = "antoinemadec";
             repo = "coc-fzf";
-            rev = "f9188b2652d7bf7131c74532e52ba25340d63b9f"; # master
-            sha256 = "093chsnh5fx4qwdw5dnn7h48fn2zlq0skwanlwm6ajws397n194k";
+            rev = "60828294b9ba846c78893389d4772021043d2fa1"; # master
+            sha256 = "1y7rslksa558fdh3m4m626vpvs424pvxkkk70mr57is47cminm3m";
           };
         });
         config = ''
