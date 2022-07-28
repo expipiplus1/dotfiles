@@ -32,6 +32,7 @@ in {
     ./home/neovim.nix
     ./home/kakoune.nix
     ./home/pc.nix
+    ./home/gdb.nix
   ] ++ lib.optional (builtins.getEnv "BANKID" != "") ./home/scb.nix;
 
   home.username = "j";
@@ -51,6 +52,7 @@ in {
   };
 
   home.packages = with pkgs; [
+    gdb
     bat
     bmon
     cached-nix-shell
