@@ -125,17 +125,17 @@ in {
 
             update-nix-fetchgit = dontCheck super.update-nix-fetchgit;
 
-            brittany = doJailbreak (dontCheck (overrideSrc super.brittany {
-              version = "2021-02-26";
-              src = pkgs.fetchFromGitHub {
-                owner = "lspitzner";
-                repo = "brittany";
-                rev = "4d064db674203626fe5011d10874fcbc335ec9b1"; # master
-                sha256 = "1sanc1n72s4jknnx6snryvynrccp1hvzlqfpfb3fy5gn6aapfwzi";
-              };
-            }));
+            # brittany = doJailbreak (dontCheck (overrideSrc super.brittany {
+            #   version = "2021-02-26";
+            #   src = pkgs.fetchFromGitHub {
+            #     owner = "lspitzner";
+            #     repo = "brittany";
+            #     rev = "4d064db674203626fe5011d10874fcbc335ec9b1"; # master
+            #     sha256 = "1sanc1n72s4jknnx6snryvynrccp1hvzlqfpfb3fy5gn6aapfwzi";
+            #   };
+            # }));
 
-            fourmolu = overrideSrc super.fourmolu {
+            fourmolu-ellie = overrideSrc super.fourmolu {
               version = "2021-06-13";
               src = pkgs.fetchFromGitHub {
                 owner = "expipiplus1";
