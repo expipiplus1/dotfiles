@@ -7,7 +7,6 @@
     ffmpeg-full
     powerline-fonts
     xsel
-    vscode
     signal-desktop
     firefox
     spotify
@@ -53,6 +52,18 @@
           ${pkgs.imagemagick}/bin/display
       }
     '';
+  };
+
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscodium;
+    extensions = with pkgs;
+      with vscode-extensions; [
+        # ms-vscode.cpptools
+        haskell.haskell
+        asvetliakov.vscode-neovim
+        justusadam.language-haskell
+      ];
   };
 
   systemd.user = {
