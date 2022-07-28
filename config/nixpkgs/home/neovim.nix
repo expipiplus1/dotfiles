@@ -39,8 +39,8 @@ in {
           src = pkgs.fetchFromGitHub {
             owner = "nvim-treesitter";
             repo = "nvim-treesitter";
-            rev = "c2b2fef3e404185faca51ffe36c3b8c30b4b7627";
-            sha256 = "0hs3nhwhnrlwbcgar7r1gqmfdq3hg5h4b4b5hr9yqsl7bw8zvhc7";
+            rev = "6289410c7a4715d6e7743c4d81cf5d262e90951e";
+            sha256 = "0lnpsxhr6vwfzs4x61r9mmi8zhwbjrplbx8z6kczyrls0sg0rbky";
           };
           postPatch = let
             grammars =
@@ -74,8 +74,8 @@ in {
           src = pkgs.fetchFromGitHub {
             owner = "nvim-treesitter";
             repo = "playground";
-            rev = "13e2d2d63ce7bc5d875e8bdf89cb070bc8cc7a00";
-            sha256 = "1klkg3n3rymb6b9im7hq9yq26mqf2v79snsqbx72am649c6qc0ns";
+            rev = "ce7e4b757598f1c785ed0fd94fc65959acd7d39c";
+            sha256 = "0r3pjpzwjp1m563n80qp93y7f8gvpqjzlhsrd0hvi67qzm6pj87f";
           };
         });
         config = luaConfig ''
