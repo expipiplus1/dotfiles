@@ -134,8 +134,11 @@
 
         # don't use ansi colors
         # set -as terminal-overrides ",*-256color:setaf@:setab@"
-        set -ga terminal-overrides ',xterm-256color:RGB'
-        set -ga terminal-overrides ",alacritty:RGB"
+        # set -ga terminal-overrides ',xterm-256color:RGB'
+        # set -ga terminal-overrides ",alacritty:RGB"
+
+        # see https://github.com/base16-project/base16-shell/issues/1
+        set -g allow-passthrough on
 
         set -g set-clipboard off
 
