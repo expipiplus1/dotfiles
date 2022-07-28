@@ -70,7 +70,6 @@ in {
     cabal-install
     pkgs.haskell-language-server
     weeder
-    nix-output-monitor
     pkgs.docServer
   ];
 
