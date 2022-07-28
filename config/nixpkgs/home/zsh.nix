@@ -34,6 +34,7 @@ in {
       nb = "IN_NIX_SHELL= nix-build -j8";
       ne = "nix-env -f '<nixpkgs>'";
       ls = "lsd";
+      df = "duf";
     };
     localVariables = {
       HYPHEN_INSENSITIVE = "true";
