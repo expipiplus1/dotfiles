@@ -206,6 +206,8 @@ in {
       });
       wine = (self.winePackagesFor "wine64").minimal;
       inherit ymlfmt;
+      # blas = super.blas.override { blasProvider = self.mkl; };
+      # lapack = super.lapack.override { lapackProvider = self.mkl; };
     })
   ];
 }
