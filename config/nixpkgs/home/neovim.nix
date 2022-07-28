@@ -14,8 +14,8 @@ in {
   programs.neovim = {
     enable = true;
     # package =
-      # appendPatches [ ./nvim-backup-dir.patch ./nvim-backup-perms.patch ]
-      # pkgs.neovim-unwrapped;
+    # appendPatches [ ./nvim-backup-dir.patch ./nvim-backup-perms.patch ]
+    # pkgs.neovim-unwrapped;
     vimAlias = true;
     plugins = with pkgs.vimPlugins; [
       {
