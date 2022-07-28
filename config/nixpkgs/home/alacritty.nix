@@ -10,7 +10,7 @@
         columns = 295;
       };
       font = {
-        size = 8.0;
+        size = 8;
       } // pkgs.lib.mapAttrs (name: value: {
         family = "DejaVu Sans Mono Nerd Font";
         # or family = "DejaVu Sans Mono";

@@ -165,9 +165,9 @@ in {
         Name=setxkb-helper
       '';
     };
-  } // autostart "firefox" // autostart "${spotifyCommand}"
-  // autostart "alacritty --command bash -i -c 'tmux attach'"
-  // autostart "element-desktop";
+  } // autostart "firefox"
+  # // autostart "alacritty --command bash -i -c 'tmux attach'"
+  // autostart "wezterm start -- tmux attach" // autostart "element-desktop";
 
   nixpkgs.config = {
     allowUnfree = true;
