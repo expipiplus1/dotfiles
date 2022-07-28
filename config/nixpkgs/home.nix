@@ -60,6 +60,7 @@ in {
     cached-nix-shell
     coreutils
     curl
+    difftastic
     dnsutils
     du-dust
     duf
