@@ -26,6 +26,7 @@
     enable = true;
     userEmail = "git@monoid.al";
     userName = "Ellie Hermaszewska";
+    difftastic.enable = true;
     aliases = {
       po = ''
         !git push --set-upstream origin "$(git rev-parse --abbrev-ref HEAD)"'';
