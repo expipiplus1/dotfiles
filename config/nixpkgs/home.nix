@@ -72,7 +72,7 @@ in {
     killall
     lsd
     mosh
-    nix_2_4
+    nix
     nix-prefetch-git
     nix-prefetch-github
     nmap
