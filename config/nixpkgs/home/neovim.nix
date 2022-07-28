@@ -184,6 +184,8 @@ in {
           hi! def link CocErrorSign ErrorMsg
           hi! def link CocErrorSign ErrorMsg
           highlight CocHighlightText gui=underline guibg=#282a2e cterm=underline ctermbg=10
+          highlight CocHintHighlight cterm=none gui=none
+          highlight CocInfoHighlight cterm=none gui=none
         '';
       }
       {
