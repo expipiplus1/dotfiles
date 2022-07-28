@@ -33,14 +33,14 @@ in {
       }
       tmux-complete-vim
       (appendPatches [ ./plug-patches/cabal-module-word.patch ] haskell-vim)
-      lessspace-vim
+      # lessspace-vim
       {
         plugin = (nvim-treesitter.overrideAttrs (_old: {
           src = pkgs.fetchFromGitHub {
             owner = "nvim-treesitter";
             repo = "nvim-treesitter";
-            rev = "9e147d23566f58f2da6682242ffb89cb0de426b5";
-            sha256 = "06c8ss5k91gcbcq46k7jlxy74qfv9i32brhnmvlmgzivl5wqxvfb";
+            rev = "c2b2fef3e404185faca51ffe36c3b8c30b4b7627";
+            sha256 = "0hs3nhwhnrlwbcgar7r1gqmfdq3hg5h4b4b5hr9yqsl7bw8zvhc7";
           };
           postPatch = let
             grammars =
@@ -74,8 +74,8 @@ in {
           src = pkgs.fetchFromGitHub {
             owner = "nvim-treesitter";
             repo = "playground";
-            rev = "2715d35f27cbdfe6231e48212d12be383013f442";
-            sha256 = "0z1vlsdmhlw6pbga9nypsihzjybglyr8is3maqbyqswrmz1yg87h";
+            rev = "13e2d2d63ce7bc5d875e8bdf89cb070bc8cc7a00";
+            sha256 = "1klkg3n3rymb6b9im7hq9yq26mqf2v79snsqbx72am649c6qc0ns";
           };
         });
         config = luaConfig ''
