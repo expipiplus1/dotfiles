@@ -154,7 +154,7 @@ in {
         pkgs.haskell.lib.justStaticExecutables self.haskellPackages.upfind;
 
       haskell-language-server = super.haskell-language-server.override {
-        supportedGhcVersions = [ "8107" "902" "923" ];
+        supportedGhcVersions = [ "8107" "902" "924" ];
       };
 
       docServer = self.writeShellScriptBin "doc-server" ''
