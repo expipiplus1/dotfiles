@@ -9,7 +9,7 @@
     xsel
     signal-desktop
     firefox
-    spotify
+    tidal-hifi
     darktable
     opentx
     element-desktop
