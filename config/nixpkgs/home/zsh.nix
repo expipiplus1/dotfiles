@@ -184,6 +184,7 @@ in {
         symbol = "\\[nix-shell\\]";
         format = "[$symbol]($style) ";
       };
+      haskell.disabled = true;
 
       git_branch = { symbol = ""; };
       git_status = { disabled = true; };
