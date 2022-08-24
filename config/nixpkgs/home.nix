@@ -170,7 +170,8 @@ in {
     };
   } // autostart "firefox"
   # // autostart "alacritty --command bash -i -c 'tmux attach'"
-  // autostart "wezterm start -- tmux attach" // autostart "element-desktop";
+  // autostart "tidal-hifi" // autostart "wezterm start -- tmux attach"
+  // autostart "element-desktop";
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -202,7 +203,7 @@ in {
             rm "$f"
           done
       '';
-      spotify = super.spotify.overrideAttrs (old: {
+      spotify = super.spotify.overrideAttrs (_old: {
         postInstall = ''
           sed -i 's/^Exec=spotify/Exec=${spotifyCommand}/' "$out/share/applications/spotify.desktop"
         '';
