@@ -338,7 +338,7 @@ function s:formatMyFiles()
 
   let s=system("timeout 0.2s git author " . @%)
   let timedout=v:shell_error
-  let mine=(!timedout && !empty(matchstr(s,".*ermaszewski.*")) && !inSrc)
+  let mine=(!timedout && !empty(matchstr(s,".*ermaszewsk.*")) && !inSrc)
 
   if isnt_tracked || mine
     call Preserve("call ExecuteLeader('F')")
@@ -362,14 +362,21 @@ autocmd FileType cpp map <nowait> <leader>h <ESC>:set paste<CR><ESC>o<ESC>64a/<E
 autocmd FileType sh map <nowait> <leader>h <ESC>:set paste<CR><ESC>o<ESC>64a#<ESC>o#<ESC>o<ESC>64a#<ESC>:set nopaste<CR>kA<space>
 autocmd FileType nix map <nowait> <leader>h <ESC>:set paste<CR><ESC>o<ESC>64a#<ESC>o#<ESC>o<ESC>64a#<ESC>:set nopaste<CR>kA<space>
 
-let g:formatprg_haskell = "brittany"
-let g:formatprg_args_haskell = "--columns 80 --indent 2"
+let g:formatprg_haskell = "fourmolu"
+let g:formatprg_args_haskell = ""
 
 function! FormatHaskell()
   if !empty(v:char)
     return 1
   else
-    let l:filter = g:formatprg_haskell . " " . g:formatprg_args_haskell
+    let l:filename=expand('%:p')
+    let l:filter
+    if len(l:filename) == 0
+      let l:filter = g:formatprg_haskell . " " . g:formatprg_args_haskell . " --no-cabal"
+    else
+      let l:filter = g:formatprg_haskell . " " . g:formatprg_args_haskell . " --stdin-input-file '" . l:filename . "'"
+      echo l:filter
+    endif
     let l:command = v:lnum.','.(v:lnum+v:count-1).'!'.l:filter
     execute l:command
   endif
@@ -396,15 +403,6 @@ autocmd FileType nix map <nowait> <leader>u :call Preserve("%!update-nix-fetchgi
 map <silent> <nowait> <leader>a :Ag<space>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" pointfree
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" See :help :visual_example
-" This splits before and after the selection to create a new line, deindents
-" the new lines, runs pointfree over the middle and joins it all up again.
-xnoremap <silent> <nowait> <leader>p <Esc>`>a<CR><Esc>:left<CR>`<i<CR><Esc>:left<CR>V:!pointfree --stdin<CR>kgJgJ
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Digraphs
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -414,12 +412,6 @@ digraphs oo 8728
 digraphs [] 9744
 " ☑
 digraphs [x 9745
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Spellcheck
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-autocmd Filetype * nnoremap <nowait> <buffer> <leader>p <ESC>1z=e
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Write faster
@@ -433,3 +425,9 @@ noremap <Leader>q :quit<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set shellredir=>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Open vscode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+noremap <Leader>co :call system("codium --goto " . expand('%:p') . ":" . line(".") . ":" . col("."))<CR>
