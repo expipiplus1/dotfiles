@@ -120,24 +120,24 @@ in {
       };
     };
   in {
-    "nixpkgs/config.nix".source = pkgs.writeTextFile {
-      name = "config.nix";
-      text = ''
-        (import ${config.programs.home-manager.path}/modules {
-          pkgs = import <nixpkgs> {config={}; overlays=[];};
-            configuration = import (${toString ./home.nix});
-          }).config.nixpkgs.config
-      '';
-    };
-    "nixpkgs/overlays.nix".source = pkgs.writeTextFile {
-      name = "overlays.nix";
-      text = ''
-        (import ${config.programs.home-manager.path}/modules {
-          pkgs = import <nixpkgs> {config={}; overlays=[];};
-            configuration = import (${toString ./home.nix});
-          }).config.nixpkgs.overlays
-      '';
-    };
+    # "nixpkgs/config.nix".source = pkgs.writeTextFile {
+    #   name = "config.nix";
+    #   text = ''
+    #     (import ${config.programs.home-manager.path}/modules {
+    #       pkgs = import <nixpkgs> {config={}; overlays=[];};
+    #         configuration = import (${toString ./home.nix});
+    #       }).config.nixpkgs.config
+    #   '';
+    # };
+    # "nixpkgs/overlays.nix".source = pkgs.writeTextFile {
+    #   name = "overlays.nix";
+    #   text = ''
+    #     (import ${config.programs.home-manager.path}/modules {
+    #       pkgs = import <nixpkgs> {config={}; overlays=[];};
+    #         configuration = import (${toString ./home.nix});
+    #       }).config.nixpkgs.overlays
+    #   '';
+    # };
     "yamllint/config".source = pkgs.writeTextFile {
       name = "yamllint-config";
       text = builtins.toJSON {
