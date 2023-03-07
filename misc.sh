@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Who thought notifications stealing focus was a good idea....
+gsettings set org.gnome.desktop.wm.preferences focus-new-windows 'strict'
+
 # Not sure which one of these works
 gsettings set org.gnome.shell.overrides edge-tiling true
 gsettings set org.gnome.mutter edge-tiling true
