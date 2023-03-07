@@ -24,8 +24,8 @@ in {
     enableAutosuggestions = true;
     history = {
       share = false;
-      size = 1000000;
-      save = 1000000;
+      size = 2000000000;
+      save = 2000000000;
       ignoreDups = true;
       extended = true;
     };
