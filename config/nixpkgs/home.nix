@@ -88,6 +88,7 @@ in {
     tssh
     hackage-release
     yq
+    rust-analyzer
   ];
 
   xdg.dataFile."applications/windows.desktop".source = pkgs.writeTextFile {
