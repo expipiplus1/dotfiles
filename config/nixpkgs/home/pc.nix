@@ -60,7 +60,7 @@
     package = pkgs.vscodium;
     extensions = with pkgs;
       with vscode-extensions; [
-        # ms-vscode.cpptools
+        ms-vscode.cpptools
         haskell.haskell
         asvetliakov.vscode-neovim
         justusadam.language-haskell
