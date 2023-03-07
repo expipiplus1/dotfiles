@@ -46,9 +46,10 @@
     };
     signing = {
       signByDefault = true;
-      key = null;
+      key = builtins.readFile /home/e/.ssh/id_ed25519.pub;
     };
     extraConfig = rec {
+      gpg.format = "ssh";
       init.defaultBranch = "main";
       oh-my-zsh = { only-branch = 1; };
       pull = { rebase = true; };
