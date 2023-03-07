@@ -2,66 +2,70 @@
 
 let
   hindentOps = [
-    "-XBangPatterns"
-    "-XBinaryLiterals"
-    "-XBlockArguments"
-    "-XDataKinds"
-    "-XDeriveDataTypeable"
-    "-XDeriveFoldable"
-    "-XDeriveFunctor"
-    "-XDeriveGeneric"
-    "-XDeriveTraversable"
-    "-XDerivingStrategies"
-    "-XDisambiguateRecordFields"
-    "-XEmptyCase"
-    "-XExplicitForAll"
-    "-XExplicitNamespaces"
-    "-XFlexibleContexts"
-    "-XFlexibleInstances"
-    "-XFunctionalDependencies"
-    "-XGADTs"
-    "-XImplicitParams"
-    "-XInstanceSigs"
-    "-XKindSignatures"
-    "-XLambdaCase"
-    "-XMagicHash"
-    "-XMultiParamTypeClasses"
-    "-XMultiWayIf"
-    "-XOverloadedStrings"
-    "-XParallelListComp"
-    "-XPartialTypeSignatures"
-    "-XPatternGuards"
-    "-XPatternSynonyms"
-    "-XPolyKinds"
-    "-XQuasiQuotes"
-    "-XRankNTypes"
-    "-XRecordWildCards"
-    "-XRoleAnnotations"
-    "-XScopedTypeVariables"
-    "-XStandaloneDeriving"
-    "-XTemplateHaskell"
-    "-XTupleSections"
-    "-XTypeApplications"
-    "-XTypeFamilies"
-    "-XTypeFamilyDependencies"
-    "-XTypeOperators"
-    "-XViewPatterns"
+    # "-XBangPatterns"
+    # "-XBinaryLiterals"
+    # "-XBlockArguments"
+    # "-XDataKinds"
+    # "-XDeriveDataTypeable"
+    # "-XDeriveFoldable"
+    # "-XDeriveFunctor"
+    # "-XDeriveGeneric"
+    # "-XDeriveTraversable"
+    # "-XDerivingStrategies"
+    # "-XDisambiguateRecordFields"
+    # "-XEmptyCase"
+    # "-XExplicitForAll"
+    # "-XExplicitNamespaces"
+    # "-XFlexibleContexts"
+    # "-XFlexibleInstances"
+    # "-XFunctionalDependencies"
+    # "-XGADTs"
+    # "-XImplicitParams"
+    # "-XImportQualifiedPost"
+    # "-XInstanceSigs"
+    # "-XKindSignatures"
+    # "-XLambdaCase"
+    # "-XMagicHash"
+    # "-XMultiParamTypeClasses"
+    # "-XMultiWayIf"
+    # "-XOverloadedStrings"
+    # "-XParallelListComp"
+    # "-XPartialTypeSignatures"
+    # "-XPatternGuards"
+    # "-XPatternSynonyms"
+    # "-XPolyKinds"
+    # "-XQuasiQuotes"
+    # "-XRankNTypes"
+    # "-XRecordWildCards"
+    # "-XRecursiveDo"
+    # "-XRoleAnnotations"
+    # "-XScopedTypeVariables"
+    # "-XStandaloneDeriving"
+    # "-XTemplateHaskell"
+    # "-XTupleSections"
+    # "-XTypeApplications"
+    # "-XTypeFamilies"
+    # "-XTypeFamilyDependencies"
+    # "-XTypeOperators"
+    # "-XViewPatterns"
   ];
-  notHindentOpts = [ "-XDuplicateRecordFields" "-XNumDecimals" ];
+  notHindentOpts = [
+    # "-XDuplicateRecordFields" "-XNumDecimals"
+  ];
   ghcOpts = hindentOps ++ notHindentOpts;
 in {
   home.packages = with pkgs.haskellPackages; [
     pkgs.upfind
     pkgs.update-nix-fetchgit
-    # pkgs.cachix
+    pkgs.cachix
     pkgs.nixfmt
+    cabal-fmt
     ghcid
     pkgs.hlint
     pretty-show
     cabal2nix
-    brittany
     (pkgs.writeShellScriptBin "fourmolu" ''
-      exec ${fourmolu}/bin/fourmolu ${
+      exec ${pkgs.haskell.packages.ghc924.fourmolu}/bin/fourmolu ${
         pkgs.lib.concatMapStringsSep " " (s: "--ghc-opt ${s}") ghcOpts
       } "$@"
     '')
@@ -83,26 +87,24 @@ in {
   xdg.configFile."fourmolu.yaml".source = pkgs.writeText "fourmolu.yaml"
     (builtins.toJSON {
       indentation = 2;
-      comma-style = "leading"; # for lists, tuples etc. - can also be 'trailing'
-      record-brace-space = false; # rec {x = 1} vs. rec{x = 1}
+      function-arrows = "leading";
+      comma-style = "leading";
+      import-export-style = "leading";
       indent-wheres =
         false; # 'false' means save space by only half-indenting the 'where' keyword
-      diff-friendly-import-export = false; # 'false' uses Ormolu-style lists
-      respectful = true; # don't be too opinionated about newlines etc.
+      record-brace-space = false; # rec {x = 1} vs. rec{x = 1}
       haddock-style = "single-line"; # '--' vs. '{-'
-      record-haddock-location = "leading";
-      newlines-between-decls =
-        1; # number of newlines between top-level declarations
-      align = true;
+      respectful = true; # don't be too opinionated about newlines etc.
+      in-style = "right-align";
+      let-style = "auto";
     });
 
   home.file.".ghci".source = pkgs.writeText "ghci" ''
     :set prompt "\SOH\ESC[34m\STXλ>\SOH\ESC[m\STX "
     :set prompt-cont "|> "
     ${pkgs.lib.concatMapStringsSep "\n" (s: ":set ${s}") ghcOpts}
-    import qualified Prelude as P
-    :def hoogle \s -> P.pure P.$ ":! hoogle search -cl --count=15 \"" P.++ s P.++ "\""
-    :def doc \s -> P.pure P.$ ":! hoogle search -cl --info \"" P.++ s P.++ "\""
+    :def hoogle \s -> Prelude.pure Prelude.$ ":! hoogle search -cl --count=15 \"" Prelude.++ s Prelude.++ "\""
+    :def doc \s -> Prelude.pure Prelude.$ ":! hoogle search -cl --info \"" Prelude.++ s Prelude.++ "\""
   '';
 
   home.file.".haskeline".source = pkgs.writeText "haskeline" ''
@@ -122,8 +124,6 @@ in {
               rev = "cb451254f5b112f839aa36e5b6fd83b60cf9b9ae";
               sha256 = "15g5nvs6azgb2fkdna1dxbyiabx9n63if0wcbdvs91hjafhzjaqa";
             }) { };
-
-            update-nix-fetchgit = dontCheck super.update-nix-fetchgit;
 
             # brittany = doJailbreak (dontCheck (overrideSrc super.brittany {
             #   version = "2021-02-26";
@@ -154,7 +154,7 @@ in {
         pkgs.haskell.lib.justStaticExecutables self.haskellPackages.upfind;
 
       haskell-language-server = super.haskell-language-server.override {
-        supportedGhcVersions = [ "8107" "902" "924" ];
+        supportedGhcVersions = [ "810" "90" "92" "94" ];
       };
 
       docServer = self.writeShellScriptBin "doc-server" ''
