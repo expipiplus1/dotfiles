@@ -31,6 +31,7 @@ in {
     ./home/tmux.nix
     ./home/neovim.nix
     ./home/kakoune.nix
+    ./home/helix.nix
     ./home/pc.nix
     ./home/gdb.nix
   ] ++ lib.optional (builtins.getEnv "BANKID" != "") ./home/scb.nix;
