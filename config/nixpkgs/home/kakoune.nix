@@ -3,10 +3,15 @@
 {
   programs.kakoune = {
     enable = true;
-    plugins = with pkgs.kakounePlugins; [ kak-lsp ];
+    plugins = with pkgs.kakounePlugins; [ kak-lsp prelude-kak connect-kak
+
+    ];
     extraConfig = ''
       # Init kak-lsp
-      eval %sh{kak-lsp --kakoune -s $kak_session}
+      eval %sh{kak-lsp --kakoune -s $kak_session}  # Not needed if you load it with plug.kak.
+      lsp-enable
+
+      set-option global ui_options terminal_assistant=cat
 
       # Navigate completion menu with tab
       hook global InsertCompletionShow .* %{
@@ -27,9 +32,40 @@
           tmux-terminal-popup <program> [<arguments>]: create a new terminal as a tmux popup
           The program passed as argument will be executed in the new popup' \
           %{
-              tmux-terminal-impl 'display-popup -E -h 75% -d #{pane_current_path}' %arg{@}
+              tmux-terminal-impl 'display-popup -E -h 70% -w 90% -d #{pane_current_path}' %arg{@}
           }
       }
+
+      ####
+      # Modules
+      require-module connect-fzf
+
+      hook global ModuleLoaded tmux %{
+            alias global popup tmux-terminal-popup
+      }
+ 
+      # Explore files and buffers with fzf
+      alias global explore-files fzf-files
+      alias global explore-buffers fzf-buffers
+
+      # mappings
+      map global user f :explore-files<ret>
+
+      map global user l %{:enter-user-mode lsp<ret>} -docstring "LSP mode"
+
+      face global InfoDefault               Information
+      face global InfoBlock                 Information
+      face global InfoBlockQuote            Information
+      face global InfoBullet                Information
+      face global InfoHeader                Information
+      face global InfoLink                  Information
+      face global InfoLinkMono              Information
+      face global InfoMono                  Information
+      face global InfoRule                  Information
+      face global InfoDiagnosticError       Information
+      face global InfoDiagnosticHint        Information
+      face global InfoDiagnosticInformation Information
+      face global InfoDiagnosticWarning     Information
     '';
   };
   xdg.configFile."kak-lsp/kak-lsp.toml".source =
