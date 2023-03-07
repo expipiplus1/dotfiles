@@ -16,17 +16,18 @@
     programs.zsh.oh-my-zsh.plugins = [ "tmux" ];
 
     nixpkgs.overlays = [
-      (self: super: {
-        # terminal Hyperlink support
-        # tmux = super.tmux.overrideDerivation (attrs: {
-        #   src = pkgs.fetchFromGitHub {
-        #     owner = "tmux";
-        #     repo = "tmux";
-        #     rev = "7a0563c1a34e9093778e84722e80dfbd86cfb3b2";
-        #     sha256 = "1adacdw4jx88v920q5yfcfi098b30mnf6fzr7jlsjw4l5rcjgjfl";
-        #   };
-        # });
-      })
+      (self: super:
+        {
+          # terminal Hyperlink support
+          # tmux = super.tmux.overrideDerivation (attrs: {
+          #   src = pkgs.fetchFromGitHub {
+          #     owner = "tmux";
+          #     repo = "tmux";
+          #     rev = "7a0563c1a34e9093778e84722e80dfbd86cfb3b2";
+          #     sha256 = "1adacdw4jx88v920q5yfcfi098b30mnf6fzr7jlsjw4l5rcjgjfl";
+          #   };
+          # });
+        })
     ];
 
     programs.tmux = {
