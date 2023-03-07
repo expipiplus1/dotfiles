@@ -41,12 +41,12 @@
           " browser
           function! s:open_documentation_link(target)
             call s:show_documentation()
-            let float_window = coc#float#get_float_win()
-            if !float_window
+            let float_windows = coc#float#get_float_win_list()
+            if empty(float_windows)
               echo "No documentation available"
               return
             endif
-            if !win_gotoid(float_window)
+            if !win_gotoid(float_windows[0])
               echo "Unable to go to documentation window"
               return
             endif
@@ -74,6 +74,7 @@
 
           nmap <silent> <leader>[ <Plug>(coc-diagnostic-prev)
           nmap <silent> <leader>] <Plug>(coc-diagnostic-next)
+          nmap <silent> <leader>j <Plug>(coc-diagnostic-info)
 
           "
           " Coc visuals
@@ -105,15 +106,24 @@
             return !col || getline('.')[col - 1]  =~ '\s'
           endfunction
 
-          inoremap <silent><expr> <Tab>
-                \ pumvisible() ? "\<C-n>" :
-                \ <SID>check_back_space() ? "\<Tab>" :
-                \ coc#refresh()
+          inoremap <silent><expr> <TAB>
+            \ coc#pum#visible() ? coc#pum#next(1):
+            \ <SID>check_back_space() ? "\<Tab>" :
+            \ coc#refresh()
 
-          inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+          inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+          inoremap <expr><C-j> coc#pum#visible() ? coc#pum#next(1) : "\<C-j>"
+          inoremap <expr><C-k> coc#pum#visible() ? coc#pum#prev(1) : "\<C-k>"
 
           " Use enter to accept completion and insert snippets (usually imports)
-          inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+          inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+          " hi CocSearch ctermfg=12 guifg=#18A3FF
+          " hi CocMenuSel ctermbg=109 guibg=#13354A
+          hi! def link CocSearch SpecialChar
+          hi! def link CocMenuSel Visual
         '';
       }
       {
@@ -129,7 +139,8 @@
           nnoremap <silent> <leader>ca :CocFzfList actions<CR>
           vnoremap <silent> <leader>ca :CocFzfList actions<CR>
           nnoremap <silent> <leader>i  :CocFzfList<CR>
-          nnoremap <silent> <leader>d  :CocFzfList diagnostics<CR>
+          nnoremap <silent> <leader>d  :CocFzfList diagnostics --current-buf<CR>
+          nnoremap <silent> <leader>D  :CocFzfList diagnostics<CR>
           nnoremap <silent> <leader>o  :CocFzfList outline<CR>
         '';
       }
@@ -147,24 +158,8 @@
           let g:coc_snippet_prev = '<c-k>'
         '';
       }
-      (pkgs.vimUtils.buildVimPluginFrom2Nix {
-        name = "vscode-haskell";
-        src = import (pkgs.fetchFromGitHub {
-          owner = "expipiplus1";
-          repo = "vscode-hie-server";
-          rev = "b7ed3d80262bed55b37fafc7d3d8de8bbcf76564"; # coc.nvim
-          sha256 = "0lbjc5dr33n6fcbmr70ppkijj2wbnkdriww219sczjyx84pvajgs";
-        }) { inherit pkgs; };
-      })
-      (coc-diagnostic.overrideAttrs (_old: {
-        src = import (pkgs.fetchFromGitHub {
-          owner = "expipiplus1";
-          repo = "coc-diagnostic";
-          rev = "30db849e41b07962cc150f9f50e63655a82d0316"; # nix
-          sha256 = "0nmhhkibj1fh972r578fkrmkcvm122rk9lfnbxsxmqm9hxld59x6";
-        }) { inherit pkgs; };
-      }))
-      { plugin = coc-rls; }
+      coc-diagnostic
+      { plugin = coc-rust-analyzer; }
     ];
     withNodeJs = true;
   };
@@ -173,61 +168,66 @@
     name = "coc-settings.json";
     text = builtins.toJSON {
       diagnostic = {
+        enableMessage = "jump";
         virtualText = true;
         checkCurrentLine = true;
-        virtualTextCurrentLineOnly = false;
+        virtualTextCurrentLineOnly = true;
         virtualTextPrefix = "▷ ";
         errorSign = ">";
         warningSign = ">";
         infoSign = ">";
         hintSign = ">";
       };
+      hover.autoHide = true;
       codeLens.enable = true;
       codeLens.position = "eol";
       coc.preferences.rootPatterns =
         [ "default.nix" "shell.nix" "cabal.project" "hie.yaml" ];
+      suggest.noselect = true;
 
-      # languageserver.haskell = {
-      #   command = "haskell-language-server-wrapper";
-      #   args = [ "--lsp" ];
-      #   filetypes = [ "hs" "lhs" "haskell" ];
-      #   rootPatterns =
-      #     [ ".stack.yaml" ".hie-bios" "cabal.config" "package.yaml" ];
-      # };
-      haskell = {
-        logFile = "/tmp/hls.log";
-        formattingProvider = "brittany";
-        formatOnImportOn = true;
-        plugin.ghcide-completions.config.snippetsOn = true;
-        plugin.ghcide-completions.config.autoExtendOn = true;
-        # serverExecutablePath = pkgs.writeShellScript "nix-shell-hie" ''
-        #   if [[ -f default.nix || -f shell.nix ]]; then
-        #     ${pkgs.cached-nix-shell}/bin/cached-nix-shell --keep XDG_DATA_DIRS --arg hoogle true --run "${pkgs.haskell-language-server}/bin/haskell-language-server-wrapper --debug $(printf "''${1+ %q}" "$@")"
-        #   else
-        #     exec ${pkgs.haskell-language-server}/bin/haskell-language-server-wrapper "$@"
-        #   fi
-        # '';
+      languageserver.haskell = {
+        "trace.server" = "verbose";
+        command = "haskell-language-server-wrapper";
+        args = [ "--lsp" ];
+        filetypes = [ "hs" "lhs" "haskell" ];
+        rootPatterns = [
+          ".stack.yaml"
+          ".hie-bios"
+          "cabal.config"
+          "package.yaml"
+          "cabal.project"
+          "hie.yaml"
+        ];
+        settings.haskell = {
+          formattingProvider = "fourmolu";
+          formatOnImportOn = false;
+          plugin.ghcide-completions.config.snippetsOn = true;
+          plugin.ghcide-completions.config.autoExtendOn = true;
+        };
       };
 
+      rust-analyzer.server.path = "rust-analyzer";
+
       diagnostic-languageserver = {
+        mergeConfig = true;
         linters = {
-          shellcheck.command = "${pkgs.shellcheck}/bin/shellcheck";
-          nix-linter = {
-            command = pkgs.writeShellScript "nix-linter-json-list" ''
-              echo '['
-              cat | ${pkgs.nix-linter}/bin/nix-linter --json-stream - | sed '$!s/$/,/'
-              echo ']'
-            '';
-            sourceName = "nix-linter";
-            debounce = 100;
-            parseJson = {
-              line = "pos.spanBegin.sourceLine";
-              column = "pos.spanBegin.sourceColumn";
-              endLine = "pos.spanEnd.sourceLine";
-              endColumn = "pos.spanEnd.sourceColumn";
-              message = "\${description}";
-            };
-          };
+          shellcheck = { command = "${pkgs.shellcheck}/bin/shellcheck"; };
+          # nix-linter = {
+          #   command = pkgs.writeShellScript "nix-linter-json-list" ''
+          #     echo '['
+          #     cat | ${pkgs.nix-linter}/bin/nix-linter --json-stream - | sed '$!s/$/,/'
+          #     echo ']'
+          #   '';
+          #   sourceName = "nix-linter";
+          #   debounce = 100;
+          #   parseJson = {
+          #     line = "pos.spanBegin.sourceLine";
+          #     column = "pos.spanBegin.sourceColumn";
+          #     endLine = "pos.spanEnd.sourceLine";
+          #     endColumn = "pos.spanEnd.sourceColumn";
+          #     message = "\${description}";
+          #   };
+          # };
           yamllint = {
             command = "${pkgs.yamllint}/bin/yamllint";
             args = [ "-f" "parsable" "-" ];
@@ -273,7 +273,7 @@
       };
       languageserver.clangd = {
         command = "${pkgs.clang-tools}/bin/clangd";
-        args = [ "--background-index" "--compile-commands-dir=build" ];
+        args = [ "--background-index" ];
         rootPatterns = [
           "compile_flags.txt"
           "compile_commands.json"
