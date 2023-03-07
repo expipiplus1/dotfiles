@@ -48,7 +48,7 @@
         "XAUTHORITY"
         "DBUS_SESSION_BUS_ADDRESS"
       ];
-      terminal = "tmux-256color";
+      terminal = "screen-256color";
       secureSocket = false;
       extraConfig = ''
         # Something sensible
@@ -123,8 +123,8 @@
 
         # Hilight current window
         # Works well with base16 colors
-        set-window-option -g window-active-style 'bg=black'
-        set-window-option -g window-style 'bg=colour18'
+        set-window-option -g window-active-style bg=terminal
+        set-window-option -g window-style 'bg=black'
         set-window-option -g pane-active-border-style ''''''
 
         # Renumber windows
@@ -135,8 +135,11 @@
 
         # don't use ansi colors
         # set -as terminal-overrides ",*-256color:setaf@:setab@"
-        # set -ga terminal-overrides ',xterm-256color:RGB'
-        # set -ga terminal-overrides ",alacritty:RGB"
+        set -ga terminal-overrides ',xterm-256color:RGB'
+        set -ga terminal-overrides ",alacritty:RGB"
+
+        set -g default-terminal "screen-256color"
+        set -ga terminal-overrides ",*256col*:Tc"
 
         # see https://github.com/base16-project/base16-shell/issues/1
         set -g allow-passthrough on
