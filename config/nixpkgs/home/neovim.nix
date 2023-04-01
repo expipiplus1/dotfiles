@@ -164,7 +164,6 @@ in {
       }
       sleuth
       vim-surround
-      vim-textobj-function
       (appendPatches [
         ./plug-patches/vim-textobj-haskell-typesig.patch
         ./plug-patches/vim-textobj-haskell-end.patch
