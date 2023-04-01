@@ -159,7 +159,13 @@
         '';
       }
       coc-diagnostic
-      { plugin = coc-rust-analyzer; }
+      coc-rust-analyzer
+      {
+        plugin = coc-clangd;
+        config = ''
+          nmap <silent> gh :CocCommand clangd.switchSourceHeader<CR>
+        '';
+      }
     ];
     withNodeJs = true;
   };
@@ -207,6 +213,16 @@
       };
 
       rust-analyzer.server.path = "rust-analyzer";
+
+      clangd = {
+        path = "${pkgs.clang-tools}/bin/clangd";
+        arguments = [
+          "--background-index"
+          "--all-scopes-completion"
+          "--clang-tidy"
+          "--suggest-missing-includes"
+        ];
+      };
 
       diagnostic-languageserver = {
         mergeConfig = true;
@@ -270,17 +286,6 @@
           yaml = "yamllint";
           sh = "shellcheck";
         };
-      };
-      languageserver.clangd = {
-        command = "${pkgs.clang-tools}/bin/clangd";
-        args = [ "--background-index" ];
-        rootPatterns = [
-          "compile_flags.txt"
-          "compile_commands.json"
-          ".git"
-          "CMakeLists.txt"
-        ];
-        filetypes = [ "c" "cpp" "objc" "objcpp" ];
       };
     };
   };
