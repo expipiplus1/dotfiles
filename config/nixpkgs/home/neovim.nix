@@ -424,6 +424,12 @@ in {
       # }
       # nvim-gdb
       # nvim-dap-ui
+      {
+        plugin = suda-vim;
+        config = ''
+          cmap w!! SudaWrite
+        '';
+      }
     ];
     initExtra = pkgs.substituteAll {
       src = ./init.vim;
