@@ -4,7 +4,7 @@
   programs.fzf = {
     enable = true;
     defaultCommand = "${pkgs.fd}/bin/fd";
-    defaultOptions = ["--bind ctrl-j:down,ctrl-k:up"];
+    defaultOptions = [ "--bind ctrl-j:down,ctrl-k:up" ];
   };
 
   xdg.configFile = {

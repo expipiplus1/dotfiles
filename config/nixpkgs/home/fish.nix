@@ -93,7 +93,7 @@ in {
         set fg_color_map[magenta] 35
         set fg_color_map[cyan] 36
 
-        set fg_c (echo -e "\e[1;''$fg_color_map[$argv[1]]m")
+        set fg_c (echo -e "\e[1;$fg_color_map[$argv[1]]m")
         set c_rs "\e[0m"
         sed -u s"/$argv[2]/$fg_c\0$c_rs/gI"
       end
@@ -139,7 +139,7 @@ in {
   programs.starship = {
     enable = true;
     enableFishIntegration = true;
-    settings= {
+    settings = {
       character.symbol = "$";
       package.disabled = true;
 
@@ -157,12 +157,8 @@ in {
         style = "bold green";
       };
 
-      git_branch = {
-        symbol = "";
-      };
-      git_status = {
-        disabled = true;
-      };
+      git_branch = { symbol = ""; };
+      git_status = { disabled = true; };
     };
   };
 }
