@@ -129,7 +129,7 @@ in {
       }
 
       function color-results () {
-        highlight red 'Failure\|Error' | highlight green 'Success' | highlight yellow 'Warning'
+        highlight red 'Failure\|Error\|error' | highlight green 'Success' | highlight yellow 'Warning\|warn'
       }
 
     '';
@@ -175,7 +175,8 @@ in {
   programs.starship = {
     enable = true;
     settings = {
-      character.symbol = "$";
+      character.success_symbol = "[\\$](bold green)";
+      character.error_symbol = "[\\$](bold red)";
       package.disabled = true;
       aws.disabled = true;
       cmake.disabled = true;
@@ -184,6 +185,8 @@ in {
         truncate_to_repo = false;
         truncation_length = 0;
       };
+
+      lua.disabled = true;
 
       nix_shell = {
         disabled = false;
