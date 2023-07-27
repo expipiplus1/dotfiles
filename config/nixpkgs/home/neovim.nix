@@ -206,7 +206,6 @@ in {
       vim-easy-align
       vim-fugitive
       vim-gist
-      vim-markdown
       vim-rhubarb
       {
         plugin = vim-nix;
