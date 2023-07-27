@@ -149,39 +149,39 @@ in {
           })
         '';
       }
-      # {
-      #   plugin = (pkgs.vimUtils.buildVimPlugin {
-      #     name = "tree-sitter-playground";
-      #     src = pkgs.fetchFromGitHub {
-      #       owner = "nvim-treesitter";
-      #       repo = "playground";
-      #       rev = "e6a0bfaf9b5e36e3a327a1ae9a44a989eae472cf";
-      #       sha256 = "01smml755a1v09pfzg3zznr4hbxil0j8vqp8wxxb89ak1dipmjy2";
-      #     };
-      #   });
-      #   config = luaConfig ''
-      #     require "nvim-treesitter.configs".setup {
-      #       playground = {
-      #         enable = true,
-      #         disable = {},
-      #         updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-      #         persist_queries = false, -- Whether the query persists across vim sessions
-      #         keybindings = {
-      #           toggle_query_editor = 'o',
-      #           toggle_hl_groups = 'i',
-      #           toggle_injected_languages = 't',
-      #           toggle_anonymous_nodes = 'a',
-      #           toggle_language_display = 'I',
-      #           focus_language = 'f',
-      #           unfocus_language = 'F',
-      #           update = 'R',
-      #           goto_node = '<cr>',
-      #           show_help = '?',
-      #         },
-      #       }
-      #     }
-      #   '';
-      # }
+      {
+        plugin = (pkgs.vimUtils.buildVimPlugin {
+          name = "tree-sitter-playground";
+          src = pkgs.fetchFromGitHub {
+            owner = "nvim-treesitter";
+            repo = "playground";
+            rev = "4044b53c4d4fcd7a78eae20b8627f78ce7dc6f56";
+            sha256 = "11h0fi469fdjck318sa4fr4d4l1r57z3phhna6kclryz4mbjmk3v";
+          };
+        });
+        config = luaConfig ''
+          require "nvim-treesitter.configs".setup {
+            playground = {
+              enable = true,
+              disable = {},
+              updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+              persist_queries = false, -- Whether the query persists across vim sessions
+              keybindings = {
+                toggle_query_editor = 'o',
+                toggle_hl_groups = 'i',
+                toggle_injected_languages = 't',
+                toggle_anonymous_nodes = 'a',
+                toggle_language_display = 'I',
+                focus_language = 'f',
+                unfocus_language = 'F',
+                update = 'R',
+                goto_node = '<cr>',
+                show_help = '?',
+              },
+            }
+          }
+        '';
+      }
       {
         plugin = (pkgs.vimUtils.buildVimPlugin {
           name = "iswap";
