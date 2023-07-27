@@ -11,6 +11,7 @@ let
   '';
 
 in {
+  home.packages = [ pkgs.bc ];
   programs.neovim = {
     enable = true;
     # package =
