@@ -48,7 +48,7 @@
         "XAUTHORITY"
         "DBUS_SESSION_BUS_ADDRESS"
       ];
-      terminal = "screen-256color";
+      terminal = "tmux-256color";
       secureSocket = false;
       extraConfig = ''
         # Something sensible
@@ -138,7 +138,7 @@
         set -ga terminal-overrides ',xterm-256color:RGB'
         set -ga terminal-overrides ",alacritty:RGB"
 
-        set -g default-terminal "screen-256color"
+        set -g default-terminal "tmux-256color"
         set -ga terminal-overrides ",*256col*:Tc"
 
         # see https://github.com/base16-project/base16-shell/issues/1
