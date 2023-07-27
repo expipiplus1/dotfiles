@@ -38,17 +38,50 @@
       latest = "!git log --all --oneline | head -n1 | cut -f1 -d' '";
       cpl = "!git cherry-pick $(git latest)";
       pf = "push --force-with-lease";
-      authors =
-        "!f(){ set -o pipefail; git blame $1 --line-porcelain | grep 'author ' | grep -v 'Not Committed Yet' | sed 's/author //' | sort | uniq -c | sort -n ; }; f";
+      authors = ''
+        !f(){
+          set -o pipefail;
+          git blame $1 --line-porcelain |
+            grep 'author ' |
+            grep -v 'Not Committed Yet' |
+            sed 's/author //' |
+            sort |
+            uniq -c |
+            sort -n
+        };
+        f
+      '';
       author =
         "!f(){ set -o pipefail; git blame $1 --line-porcelain | grep 'author ' | grep -v 'Not Committed Yet' | sed 's/author //' | sort | uniq -c | sort -nr | head -n1 | sed 's/ *[0-9]* *//' ; }; f";
       cane = "commit --amend --no-edit";
+      delete-squashed = ''
+        !f() {
+          set -e
+          local targetBranch=''${1:-master}
+          git checkout -q $targetBranch
+          git branch --merged | grep -v "\+" | grep -v "\*" | while read branch; do
+            git branch -d "$branch" || echo "Didn't delete regular merged branch: $branch"
+          done
+
+          git for-each-ref refs/heads/ "--format=%(refname:short)" | while read branch; do
+            mergeBase=$(git merge-base $targetBranch $branch)
+            [[ $(git cherry $targetBranch $(git commit-tree $(git rev-parse $branch^{tree}) -p $mergeBase -m _)) == "-"* ]] &&
+              (git branch -D $branch || echo "Didn't delete squash merged branch: $branch")
+          done;
+        };
+        f
+      '';
     };
     signing = {
       signByDefault = true;
       key = builtins.readFile /home/e/.ssh/id_ed25519.pub;
     };
+    includes = [{
+      contents = { user.email = "ellieh@nvidia.com"; };
+      condition = "gitdir:~/work";
+    }];
     extraConfig = rec {
+      hub.protocol = "ssh";
       gpg.format = "ssh";
       init.defaultBranch = "main";
       oh-my-zsh = { only-branch = 1; };
