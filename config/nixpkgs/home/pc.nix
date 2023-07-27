@@ -76,8 +76,12 @@
             Documents projects src/nixpkgs* \
             src/prints dotfiles Pictures work \
             .gnupg .ssh \
+            .zsh_history \
             --exclude .stack-work \
-            --exclude dist-newstyle
+            --exclude dist-newstyle \
+            --exclude bin \
+            --exclude intermediate \
+            --exclude build
         '');
       };
     };
