@@ -65,7 +65,7 @@ in {
     pretty-show
     cabal2nix
     (pkgs.writeShellScriptBin "fourmolu" ''
-      exec ${pkgs.haskell.packages.ghc924.fourmolu}/bin/fourmolu ${
+      exec ${pkgs.haskell.packages.ghc94.fourmolu_0_13_0_0}/bin/fourmolu ${
         pkgs.lib.concatMapStringsSep " " (s: "--ghc-opt ${s}") ghcOpts
       } "$@"
     '')
@@ -154,7 +154,7 @@ in {
         pkgs.haskell.lib.justStaticExecutables self.haskellPackages.upfind;
 
       haskell-language-server = super.haskell-language-server.override {
-        supportedGhcVersions = [ "810" "90" "92" "94" ];
+        supportedGhcVersions = [ "92" "94" ];
       };
 
       docServer = self.writeShellScriptBin "doc-server" ''
