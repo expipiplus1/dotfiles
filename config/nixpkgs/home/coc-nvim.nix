@@ -220,7 +220,7 @@
       rust-analyzer.server.path = "rust-analyzer";
 
       clangd = {
-        path = "${pkgs.clang-tools}/bin/clangd";
+        path = "${pkgs.clang-tools_16}/bin/clangd";
         arguments = [
           "--background-index"
           "--all-scopes-completion"
