@@ -142,6 +142,7 @@
           nnoremap <silent> <leader>d  :CocFzfList diagnostics --current-buf<CR>
           nnoremap <silent> <leader>D  :CocFzfList diagnostics<CR>
           nnoremap <silent> <leader>o  :CocFzfList outline<CR>
+          nnoremap <silent> <leader>m  :CocFzfList symbols<CR>
         '';
       }
       {

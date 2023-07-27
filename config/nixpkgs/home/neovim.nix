@@ -356,7 +356,6 @@ in {
         plugin = vim-table-mode;
         config = ''
           let g:table_mode_corner="|"
-          autocmd Filetype * nnoremap <nowait> <buffer> <leader>m :TableModeToggle<CR>
         '';
       }
       {
