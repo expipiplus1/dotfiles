@@ -36,7 +36,7 @@ in {
     ./home/gdb.nix
   ] ++ lib.optional (builtins.getEnv "BANKID" != "") ./home/scb.nix;
 
-  home.username = "j";
+  home.username = "e";
 
   # Let Home Manager install and manage itself.
   programs.home-manager = {
