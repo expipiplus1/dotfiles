@@ -211,6 +211,7 @@ in {
       });
       wine = (self.winePackagesFor "wine64").minimal;
       inherit ymlfmt;
+      fzf = super.fzf.overrideAttrs (old: { src = /home/e/src/fzf; });
       # blas = super.blas.override { blasProvider = self.mkl; };
       # lapack = super.lapack.override { lapackProvider = self.mkl; };
     })
