@@ -259,13 +259,13 @@ let mapleader=" "
 nnoremap ' `
 nnoremap ` '
 
-command Wq wq
-command WQ wq
-command Qw wq
-command QW wq
-command W w
-command Q q
-command E e
+command! Wq wq
+command! WQ wq
+command! Qw wq
+command! QW wq
+command! W w
+command! Q q
+command! E e
 
 " sort
 vnoremap <nowait> <leader>r :sort<CR>
