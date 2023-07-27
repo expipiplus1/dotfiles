@@ -195,6 +195,7 @@
       coc.preferences.rootPatterns =
         [ "flake.nix" "default.nix" "shell.nix" "cabal.project" "hie.yaml" ];
       suggest.noselect = true;
+      "[c][cpp]".inlayHint.enable = false;
 
       languageserver.haskell = {
         "trace.server" = "verbose";
