@@ -183,7 +183,6 @@
         enableMessage = "jump";
         virtualText = true;
         checkCurrentLine = true;
-        virtualTextCurrentLineOnly = true;
         virtualTextPrefix = "▷ ";
         errorSign = ">";
         warningSign = ">";
