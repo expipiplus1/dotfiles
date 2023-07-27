@@ -55,7 +55,7 @@ set secure
 syntax on
 filetype on
 filetype plugin on
-filetype indent on
+filetype indent off
 
 set ignorecase
 set smartcase
