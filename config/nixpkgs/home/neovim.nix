@@ -35,6 +35,34 @@ in {
       # tmux-complete-vim
       (appendPatches [ ./plug-patches/cabal-module-word.patch ] haskell-vim)
       vim-strip-trailing-whitespace
+      {
+        plugin = mini-nvim;
+        type = "lua";
+        config = ''
+          require('mini.comment').setup()
+        '';
+      }
+      {
+        plugin = nvim-ts-context-commentstring;
+        type = "lua";
+        config = ''
+          require'nvim-treesitter.configs'.setup {
+            context_commentstring = {
+              enable = true,
+              config = {
+                css = '// %s',
+                c = '// %s',
+                cpp = '// %s',
+                vhdl = '-- %s',
+                haskell = '-- %s',
+                json = '// %s',
+                hlsl = '// %s',
+                slang = '// %s',
+              },
+            }
+          }
+        '';
+      }
       nvim-treesitter-textobjects
       {
         plugin = nvim-treesitter.withAllGrammars;
@@ -374,17 +402,6 @@ in {
         plugin = vim-diminactive;
         config = ''
           let g:diminactive_enable_focus = 1
-        '';
-      }
-      {
-        plugin = vim-commentary;
-        config = ''
-          autocmd FileType vhdl setlocal commentstring=--\ %s
-          autocmd FileType vhdl setlocal comments=:--
-          autocmd FileType cpp setlocal commentstring=//\ %s
-          autocmd FileType cpp setlocal comments=://
-          autocmd FileType c setlocal commentstring=//\ %s
-          autocmd FileType c setlocal comments=://
         '';
       }
       # {
