@@ -287,6 +287,30 @@ in {
           "     highlight CocHighlightText gui=underline guibg=#282a2e cterm=underline ctermbg=10
           "     highlight CocHintHighlight cterm=none gui=none
           "     highlight CocInfoHighlight cterm=none gui=none
+
+          ""
+          " Less bold/italic
+          " To discover these, use: TSPlaygroundToggle and in that buffer press
+          " 'i' to show the highlight groups
+          "
+          " Big list here:
+          " https://github.com/shaunsingh/nord.nvim/blob/fab04b2dd4b64f4b1763b9250a8824d0b5194b8f/lua/nord/theme.lua#L315-L369
+          ""
+          hi @conditional gui=NONE
+          hi @repeat gui=NONE
+          hi @keyword gui=NONE
+          hi @keyword.operator gui=NONE
+          hi @keyword.return gui=NONE
+          hi @keyword.function gui=NONE
+          hi @function.builtin gui=NONE
+          hi @boolean gui=NONE
+
+          hi @function gui=NONE
+          hi @variable gui=NONE
+          hi @method gui=NONE
+          hi @field gui=NONE
+          hi @property gui=NONE
+          hi @namespace gui=NONE
         '';
       }
       # {
