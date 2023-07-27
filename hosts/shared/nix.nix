@@ -13,8 +13,7 @@
   };
 
   system.autoUpgrade = {
-    enable = true;
-    channel = "https://nixos.org/channels/nixos-23.05";
+    enable = false;
     randomizedDelaySec = "45min";
   };
 
