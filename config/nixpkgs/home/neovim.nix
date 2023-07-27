@@ -76,13 +76,32 @@ in {
       }
       nvim-treesitter-textobjects
       {
-        plugin = nvim-treesitter.withAllGrammars;
-        config = luaConfig ''
+        plugin = (nvim-treesitter.overrideAttrs (old: {
+          src = fetchFromGitHub {
+            owner = "nvim-treesitter";
+            repo = "nvim-treesitter";
+            rev = "10173f638594eddf658a0cb93e29506cc7f6ac01"; # pin
+            sha256 = "0f865zip5valgpjd7sc60wlli2h176b7l7d7wa81k332isq2lkk5";
+          };
+        })).withAllGrammars;
+        type = "lua";
+        config = ''
           require'nvim-treesitter.configs'.setup {
             highlight = {
-              enable = true,
+              enable = vim.g.vscode == nil,
+              number = {
+                color = 94,
+                bold = true,
+              },
             },
           }
+          local vim = vim
+          local opt = vim.opt
+
+          opt.foldmethod = "expr"
+          opt.foldexpr = "nvim_treesitter#foldexpr()"
+          -- Disable folding at startup.
+          opt.foldenable = false
         '';
       }
       {
