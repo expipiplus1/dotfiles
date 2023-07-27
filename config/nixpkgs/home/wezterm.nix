@@ -9,7 +9,7 @@
       font = wezterm.font_with_fallback{
         { family = "Iosevka Term"
         , weight = "Regular"
-        , harfbuzz_features = {"calt=0", "dlig=0", "cv57=2"} -- curley lambda <3
+        , harfbuzz_features = {"calt=0", "dlig=0", "cv58=2", "cv36=1"} -- curly lambda λ <3
         }
         , "DejaVu Sans Mono Nerd Font Mono"
         , "DejaVu Sans Mono"
