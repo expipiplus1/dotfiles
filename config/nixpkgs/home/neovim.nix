@@ -43,6 +43,17 @@ in {
         '';
       }
       {
+        plugin = treesj;
+        type = "lua";
+        config = ''
+          require('treesj').setup({
+            use_default_keymaps = false,
+          })
+          -- p for parameter
+          vim.keymap.set('n', '<leader>p', require('treesj').toggle)
+        '';
+      }
+      {
         plugin = nvim-ts-context-commentstring;
         type = "lua";
         config = ''
