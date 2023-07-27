@@ -246,12 +246,6 @@ tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<c-\><c-n>"
 " Set all the mouse options
 set mouse=a
 
-" Split navigation
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
 nnoremap <C-@shortcut@> <C-w>
 nnoremap <C-w> <nop>
 

@@ -170,8 +170,19 @@ in {
         ./plug-patches/vim-textobj-haskell-python3.patch
       ] vim-textobj-haskell)
       vim-textobj-user
-      vim-tmux-focus-events
-      vim-tmux-navigator
+      {
+        plugin = vim-tmux-navigator;
+        config = ''
+          if exists('g:vscode')
+            let g:tmux_navigator_no_mappings = 1
+            nmap <silent> <c-h> <C-W>h
+            nmap <silent> <c-j> <C-W>j
+            nmap <silent> <c-k> <C-W>k
+            nmap <silent> <c-l> <C-W>l
+            nmap <silent> <c-\> <C-W>\
+          endif
+        '';
+      }
       vim-unimpaired
       vim-visual-increment
       {
