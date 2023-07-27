@@ -507,6 +507,14 @@ in {
       # nvim-gdb
       # nvim-dap-ui
       {
+        plugin = which-key-nvim;
+        type = "lua";
+        config = ''
+          require("which-key").setup {
+          }
+        '';
+      }
+      {
         plugin = suda-vim;
         config = ''
           cmap w!! SudaWrite
