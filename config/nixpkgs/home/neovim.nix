@@ -32,7 +32,7 @@ in {
           nnoremap ; :FZF --preview bat\ --color=always\ {}<CR>
         '';
       }
-      tmux-complete-vim
+      # tmux-complete-vim
       (appendPatches [ ./plug-patches/cabal-module-word.patch ] haskell-vim)
       vim-strip-trailing-whitespace
       nvim-treesitter-textobjects
