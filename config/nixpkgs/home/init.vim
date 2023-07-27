@@ -410,6 +410,12 @@ digraphs oo 8728
 digraphs [] 9744
 " ☑
 digraphs [x 9745
+" ⊥
+digraphs BB 8869
+" ⊤
+digraphs TT 8868
+" â â β̂
+digraphs ^^ 770
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Write faster
