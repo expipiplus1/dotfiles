@@ -55,8 +55,8 @@ in {
   };
 
   home.packages = with pkgs; [
-    gdb
     bat
+    bear
     bmon
     cached-nix-shell
     coreutils
@@ -65,30 +65,31 @@ in {
     dnsutils
     du-dust
     duf
-    nix-output-monitor
     efibootmgr
     entr
     fd
     file
+    gdb
     gist
+    hackage-release
     htop
     jq
     killall
     lsd
     mosh
     nix
+    nix-output-monitor
     nix-prefetch-git
     nix-prefetch-github
     nmap
     openssl
     perl
+    rust-analyzer
     silver-searcher
     tio
     tree
     tssh
-    hackage-release
     yq
-    rust-analyzer
   ];
 
   xdg.dataFile."applications/windows.desktop".source = pkgs.writeTextFile {
@@ -170,10 +171,8 @@ in {
         Name=setxkb-helper
       '';
     };
-  } // autostart "firefox"
-  # // autostart "alacritty --command bash -i -c 'tmux attach'"
-  // autostart "tidal-hifi" // autostart "wezterm start -- tmux attach"
-  // autostart "element-desktop";
+  } // autostart "firefox" // autostart "tidal-hifi"
+  // autostart "wezterm start -- tmux attach" // autostart "element-desktop";
 
   nixpkgs.config = {
     allowUnfree = true;
