@@ -435,3 +435,11 @@ set shellredir=>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 noremap <Leader>co :call system("codium --goto " . expand('%:p') . ":" . line(".") . ":" . col("."))<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Copy paste
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" copy contents of unnamed register to system CTRL-C clipboard
+nnoremap <silent> <leader>y :let @+=@0<CR>
+            \ :echo 'copied to CTRL-C clipboard'<CR>
