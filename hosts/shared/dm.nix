@@ -1,9 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ./dm/fonts.nix
-  ];
+  imports = [ ./dm/fonts.nix ];
 
   # Uncomment to use vulkan beta
   hardware.nvidia.package =
@@ -45,5 +43,8 @@
 
   # Spotify nonsense
   # hardware.pulseaudio.daemon.config = { "enable-deferred-volume" = "no"; };
+
+  # Firefox nonsense
+  environment.sessionVariables.TZ = "${config.time.timeZone}";
 }
 
