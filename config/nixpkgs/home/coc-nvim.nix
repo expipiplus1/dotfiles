@@ -174,10 +174,6 @@
   xdg.configFile."nvim/coc-settings.json".source = pkgs.writeTextFile {
     name = "coc-settings.json";
     text = builtins.toJSON {
-      semanticTokens = {
-        enable = true;
-        filetypes = [ "haskell" ];
-      };
 
       diagnostic = {
         enableMessage = "jump";
