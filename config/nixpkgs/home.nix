@@ -34,7 +34,8 @@ in {
     ./home/helix.nix
     ./home/pc.nix
     ./home/gdb.nix
-  ] ++ lib.optional (builtins.getEnv "BANKID" != "") ./home/scb.nix;
+    ./home/atuin.nix
+  ];
 
   home.username = "e";
 
