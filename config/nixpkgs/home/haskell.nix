@@ -158,8 +158,13 @@ in {
       };
 
       docServer = self.writeShellScriptBin "doc-server" ''
+        shopt -s nullglob
         dir=''${1:-.}
-        if [ -f package.yaml ]; then
+        if [ -f flake.nix ]; then
+          printf '%s\n' flake.nix *.cabal *.package.yaml |
+            ${pkgs.entr}/bin/entr -r -- \
+              sh -c "direnv reload && direnv exec . hoogle server --local"
+        elif [ -f package.yaml ]; then
           echo package.yaml |
             ${pkgs.entr}/bin/entr -r -- \
               sh -c "hpack && cached-nix-shell $dir --keep XDG_DATA_DIRS --run 'hoogle server --local'"
