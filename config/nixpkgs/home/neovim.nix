@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   appendPatches = patches: drv:
@@ -10,15 +10,28 @@ let
     EOF
   '';
 
+  mergeBefore = x: xs: lib.mkMerge [ (lib.mkBefore [ x ]) xs ];
+
 in {
   home.packages = [ pkgs.bc ];
-  programs.neovim = {
+  programs.neovim = with pkgs.vimPlugins; {
     enable = true;
     # package =
     # appendPatches [ ./nvim-backup-dir.patch ./nvim-backup-perms.patch ]
     # pkgs.neovim-unwrapped;
     vimAlias = true;
-    plugins = with pkgs.vimPlugins; [
+    plugins = mergeBefore {
+      plugin = pkgs.hello; # dummy package
+      config = ''
+        " initExtra
+        source ${
+          pkgs.substituteAll {
+            src = ./init.vim;
+            shortcut = config.programs.tmux.shortcut;
+          }
+        }
+      '';
+    } [
       {
         plugin = fzf-vim;
         config = ''
@@ -562,9 +575,5 @@ in {
         '';
       }
     ];
-    initExtra = pkgs.substituteAll {
-      src = ./init.vim;
-      shortcut = config.programs.tmux.shortcut;
-    };
   };
 }
