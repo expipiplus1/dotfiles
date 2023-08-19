@@ -98,6 +98,33 @@ in {
         highlight red 'Failure\|Error\|error' | highlight green 'Success' | highlight yellow 'Warning\|warn'
       }
 
+      function mean-and-sample-std-dev () {
+        col=''${1:-0}
+        awk -f <(cat <<EOF
+        {
+          sum+=\$$col
+          a[NR]=\$$col
+        }
+        END{
+          split("₀₁₂₃₄₅₆₇₈₉", smalls, "")
+          for(i in a){
+            y+=(a[i]-(sum/NR))^2
+
+            s="x"
+            split(i, digits, "")
+            for (d in digits){
+              s=s smalls[digits[d]+1]
+            }
+            print s "=" a[i]
+          }
+          print ""
+          print "s="sqrt(y/(NR-1))
+          print "x̄="sum/NR
+        }
+      EOF
+      )
+      }
+
     '';
     initExtra = ''
       # if [ -f ~/.config/light ]; then
