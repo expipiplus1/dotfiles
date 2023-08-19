@@ -41,6 +41,13 @@ in {
         config = ''
           require('treesj').setup({
             use_default_keymaps = false,
+
+            -- Node with syntax error will not be formatted
+            check_syntax_error = false,
+
+            -- If line after join will be longer than max value,
+            -- node will not be formatted
+            max_join_length = 999,
           })
           -- p for parameter
           vim.keymap.set('n', '<leader>p', require('treesj').toggle)
