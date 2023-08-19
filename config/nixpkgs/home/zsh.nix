@@ -41,40 +41,6 @@ in {
       DISABLE_AUTO_UPDATE = "true";
     };
     initExtraBeforeCompInit = ''
-      # function light()
-      # {
-      #   touch ~/.config/light
-      #   . ${base16}/scripts/base16-solarized-light.sh
-      #   if command -v gsettings 2>&1 >/dev/null; then
-      #     # profile=''${"$(gsettings get org.gnome.Terminal.ProfilesList default)":1:-1}
-      #     # gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" background-color "#EEE8D5"
-      #     # gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" foreground-color "#586E75"
-      #     # gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" bold-color       "#586E75"
-      #   fi
-      #   # ${config.programs.tmux.package}/bin/tmux set-window-option -g window-active-style "bg=colour0"
-      #   # ${config.programs.tmux.package}/bin/tmux set-window-option -g window-style "bg=colour18"
-      #   ${config.programs.tmux.package}/bin/tmux set-window-option -g window-active-style "bg=#fdf6e3"
-      #   ${config.programs.tmux.package}/bin/tmux set-window-option -g window-style "bg=#eee8d5"
-      # }
-
-      # function dark()
-      # {
-      #   if [ -f ~/.config/light ]; then
-      #     rm ~/.config/light
-      #   fi
-      #   . ${base16}/scripts/base16-tomorrow-night.sh
-      #   if command -v gsettings 2>&1 >/dev/null; then
-      #     # profile=''${"$(gsettings get org.gnome.Terminal.ProfilesList default)":1:-1}
-      #     # gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" background-color "#282A2E"
-      #     # gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" foreground-color "#C5C8C6"
-      #     # gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" bold-color       "#C5C8C6"
-      #   fi
-      #   # ${config.programs.tmux.package}/bin/tmux set-window-option -g window-active-style bg=colour0
-      #   # ${config.programs.tmux.package}/bin/tmux set-window-option -g window-style bg=colour18
-      #   ${config.programs.tmux.package}/bin/tmux set-window-option -g window-active-style bg=#1d1f21
-      #   ${config.programs.tmux.package}/bin/tmux set-window-option -g window-style bg=#282a2e
-      # }
-
       if command -v xdg-open 2>&1 >/dev/null; then
         open(){
           xdg-open "$@" 2> /dev/null
