@@ -109,6 +109,7 @@ in {
                 json = '// %s',
                 hlsl = '// %s',
                 slang = '// %s',
+                bash = '# %s',
               },
             }
           }
