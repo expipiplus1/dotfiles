@@ -34,6 +34,7 @@ in {
     ./home/helix.nix
     ./home/pc.nix
     ./home/gdb.nix
+    ./home/direnv.nix
     ./home/atuin.nix
   ];
 
