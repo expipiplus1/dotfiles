@@ -13,6 +13,7 @@
       gdc = "git diff --cached";
       g = "git";
       glog = "git log --oneline --graph";
+      grs = "git restore --staged";
     };
   };
 
@@ -80,6 +81,7 @@
       contents = { user.email = "ellieh@nvidia.com"; };
       condition = "gitdir:~/work";
     }];
+    ignores = [ ".envrc" ".direnv" ".cache" ];
     extraConfig = rec {
       hub.protocol = "ssh";
       gpg.format = "ssh";
