@@ -101,4 +101,9 @@
       color = { ui = "auto"; };
     };
   };
+
+  programs.gitui = {
+    enable = true;
+    keyConfig = builtins.readFile (config.programs.gitui.package.src + "/vim_style_key_config.ron");
+  };
 }
