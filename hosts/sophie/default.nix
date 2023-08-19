@@ -14,6 +14,8 @@
     # ./sophie/tailscale.nix
   ];
 
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   time.timeZone = "Asia/Singapore";
 
   #
