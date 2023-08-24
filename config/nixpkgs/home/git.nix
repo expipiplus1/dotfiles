@@ -73,10 +73,6 @@
         f
       '';
     };
-    signing = {
-      signByDefault = true;
-      key = builtins.readFile /home/e/.ssh/id_ed25519.pub;
-    };
     includes = [{
       contents = { user.email = "ellieh@nvidia.com"; };
       condition = "gitdir:~/work";
@@ -84,7 +80,9 @@
     ignores = [ ".envrc" ".direnv" ".cache" ];
     extraConfig = rec {
       hub.protocol = "ssh";
+      commit.gpgsign = true;
       gpg.format = "ssh";
+      user.signingkey = "~/.ssh/id_ed25519.pub";
       init.defaultBranch = "main";
       oh-my-zsh = { only-branch = 1; };
       pull = { rebase = true; };

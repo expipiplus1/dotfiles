@@ -123,7 +123,7 @@ in {
               repo = "upfind";
               rev = "cb451254f5b112f839aa36e5b6fd83b60cf9b9ae";
               sha256 = "15g5nvs6azgb2fkdna1dxbyiabx9n63if0wcbdvs91hjafhzjaqa";
-            }) { };
+            }) { inherit pkgs; };
 
             # brittany = doJailbreak (dontCheck (overrideSrc super.brittany {
             #   version = "2021-02-26";

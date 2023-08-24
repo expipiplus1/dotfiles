@@ -41,13 +41,10 @@ in {
   home.username = "e";
 
   # Let Home Manager install and manage itself.
-  programs.home-manager = {
-    enable = true;
-    path = toString ../../home-manager;
-  };
+  programs.home-manager.enable = true;
   news.display = "silent";
   home.stateVersion = "22.11";
-  home.homeDirectory = builtins.getEnv "HOME";
+  home.homeDirectory = "/home/e";
 
   home.sessionVariables = {
     LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
