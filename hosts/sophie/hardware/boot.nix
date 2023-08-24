@@ -3,8 +3,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.crashDump.enable = true;
-
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.supportedFilesystems = [ "btrfs" ];
   boot.kernel.sysctl."kernel.sysrq" = 1;
