@@ -1,8 +1,6 @@
 { config, pkgs, lib, ... }:
 
 let
-  spotifyCommand = "spotify --force-device-scale-factor=2";
-
   ymlfmt = pkgs.stdenv.mkDerivation {
     name = "ymlfmt";
     buildInputs = [
@@ -120,24 +118,6 @@ in {
       };
     };
   in {
-    # "nixpkgs/config.nix".source = pkgs.writeTextFile {
-    #   name = "config.nix";
-    #   text = ''
-    #     (import ${config.programs.home-manager.path}/modules {
-    #       pkgs = import <nixpkgs> {config={}; overlays=[];};
-    #         configuration = import (${toString ./home.nix});
-    #       }).config.nixpkgs.config
-    #   '';
-    # };
-    # "nixpkgs/overlays.nix".source = pkgs.writeTextFile {
-    #   name = "overlays.nix";
-    #   text = ''
-    #     (import ${config.programs.home-manager.path}/modules {
-    #       pkgs = import <nixpkgs> {config={}; overlays=[];};
-    #         configuration = import (${toString ./home.nix});
-    #       }).config.nixpkgs.overlays
-    #   '';
-    # };
     "yamllint/config".source = pkgs.writeTextFile {
       name = "yamllint-config";
       text = builtins.toJSON {
@@ -171,7 +151,8 @@ in {
       '';
     };
   } // autostart "firefox" // autostart "tidal-hifi"
-  // autostart "wezterm start -- tmux attach" // autostart "element-desktop";
+  // autostart "wezterm start -- zsh -c tmux attach"
+  // autostart "element-desktop";
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -203,16 +184,9 @@ in {
             rm "$f"
           done
       '';
-      spotify = super.spotify.overrideAttrs (_old: {
-        postInstall = ''
-          sed -i 's/^Exec=spotify/Exec=${spotifyCommand}/' "$out/share/applications/spotify.desktop"
-        '';
-      });
       wine = (self.winePackagesFor "wine64").minimal;
       inherit ymlfmt;
       fzf = super.fzf.overrideAttrs (old: { src = /home/e/src/fzf; });
-      # blas = super.blas.override { blasProvider = self.mkl; };
-      # lapack = super.lapack.override { lapackProvider = self.mkl; };
     })
   ];
 }
