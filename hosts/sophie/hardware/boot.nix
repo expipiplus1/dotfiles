@@ -11,5 +11,6 @@
   boot.blacklistedKernelModules = [ "k10temp" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ zenpower ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules =
+    [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
 }
