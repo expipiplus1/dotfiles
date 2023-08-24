@@ -24,18 +24,18 @@ let
 
 in {
   imports = [
-    ./home/zsh.nix
-    # ./home/fish.nix
-    ./home/fzf.nix
-    ./home/git.nix
-    ./home/tmux.nix
-    ./home/neovim.nix
-    ./home/kakoune.nix
-    ./home/helix.nix
-    ./home/pc.nix
-    ./home/gdb.nix
-    ./home/direnv.nix
-    ./home/atuin.nix
+    ./zsh.nix
+    # ./fish.nix
+    ./fzf.nix
+    ./git.nix
+    ./tmux.nix
+    ./neovim.nix
+    ./kakoune.nix
+    ./helix.nix
+    ./pc.nix
+    ./gdb.nix
+    ./direnv.nix
+    ./atuin.nix
   ];
 
   home.username = "e";

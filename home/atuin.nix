@@ -11,7 +11,7 @@
   nixpkgs.overlays = [
     (self: super: {
       atuin = super.atuin.overrideAttrs (old: {
-        patches = old.patches or [ ] ++ [ ../../../patches/atuin-popup.patch ];
+        patches = old.patches or [ ] ++ [ ../patches/atuin-popup.patch ];
       });
     })
   ];

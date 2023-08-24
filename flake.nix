@@ -22,8 +22,7 @@
             builtins.elem (nixpkgs.lib.getName pkg)
             [ "vscode-extension-ms-vscode-cpptools" ];
         };
-        extraSpecialArgs = { inherit inputs; };
-        modules = [ ./config/nixpkgs/home.nix ];
+        modules = [ ./home/home.nix ];
       };
     };
   };
