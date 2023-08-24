@@ -1,6 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
     fu.url = "github:numtide/flake-utils";
     hm = {
       url = "github:nix-community/home-manager";
@@ -8,9 +9,9 @@
     };
   };
 
-  outputs = { self, nixpkgs, fu, hm }@inputs: {
-    nixosConfigurations.sophie = nixpkgs.lib.nixosSystem {
-      specialArgs = inputs;
+  outputs = { self, nixpkgs, nixpkgs-stable, fu, hm }@inputs: {
+    nixosConfigurations.sophie = nixpkgs-stable.lib.nixosSystem {
+      system = "x86_64-linux";
       modules = [ (import ./hosts/sophie) ];
     };
 
