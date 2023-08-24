@@ -19,9 +19,7 @@
       "e@sophie" = hm.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           system = "x86_64-linux";
-          config.allowUnfreePredicate = pkg:
-            builtins.elem (nixpkgs.lib.getName pkg)
-            [ "vscode-extension-ms-vscode-cpptools" ];
+          config.allowUnfree = true;
         };
         modules = [ ./home/home.nix ];
       };
