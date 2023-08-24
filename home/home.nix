@@ -186,7 +186,14 @@ in {
       '';
       wine = (self.winePackagesFor "wine64").minimal;
       inherit ymlfmt;
-      fzf = super.fzf.overrideAttrs (old: { src = /home/e/src/fzf; });
+      fzf = super.fzf.overrideAttrs (old: {
+        src = pkgs.fetchFromGitHub {
+          owner = "expipiplus1";
+          repo = "fzf";
+          rev = "ad12372681ec1a49c6d788e6c9a64c247293ed04"; # tmux-popup
+          sha256 = "1c32bgi9y3j2v6734dksyxpxzprdqklycz34hsh8scja5sd293h0";
+        };
+      });
     })
   ];
 }
