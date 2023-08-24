@@ -181,8 +181,11 @@ in {
 
       lua.disabled = true;
 
+      c.disabled = true;
+
       nix_shell = {
         disabled = false;
+        style = "fg:yellow dimmed";
         symbol = "\\[nix-shell\\]";
         format = "[$symbol]($style) ";
       };
@@ -192,6 +195,13 @@ in {
       git_status = { disabled = true; };
       username.format = "[$user]($style)@";
       hostname.format = "[$hostname]($style) in ";
+
+      custom.direnv = {
+        disabled = false;
+        format = "[\\[direnv\\]]($style) ";
+        style = "fg:yellow dimmed";
+        when = "env | grep -E '^DIRENV_FILE='";
+      };
     };
   };
 }
