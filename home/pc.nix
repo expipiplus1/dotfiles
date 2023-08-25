@@ -4,7 +4,6 @@
   imports = [
     ./tex.nix
     ./haskell.nix
-    ./coc-nvim.nix
     ./alacritty.nix
     ./wezterm.nix
     ./kitty.nix

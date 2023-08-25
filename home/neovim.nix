@@ -14,7 +14,7 @@ let
 
 in {
   home.packages = [ pkgs.bc ];
-  imports = [ ./neovim/treesitter.nix ];
+  imports = [ ./neovim/treesitter.nix ./neovim/coc-nvim.nix ];
   programs.neovim = with pkgs.vimPlugins; {
     enable = true;
     # package = appendPatches [ ./nvim-backup-dir.patch ./nvim-backup-perms.patch ] pkgs.neovim-unwrapped;
