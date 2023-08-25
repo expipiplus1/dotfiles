@@ -1,13 +1,8 @@
 { pkgs, ... }:
 
 {
-  imports = [
-    ./tex.nix
-    ./haskell.nix
-    ./alacritty.nix
-    ./wezterm.nix
-    ./kitty.nix
-  ];
+  imports =
+    [ ./tex.nix ./haskell.nix ./alacritty.nix ./wezterm.nix ./kitty.nix ];
 
   home.packages = with pkgs; [
     ffmpeg-full
