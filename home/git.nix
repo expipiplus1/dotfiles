@@ -75,7 +75,7 @@
     };
     includes = [{
       contents = { user.email = "ellieh@nvidia.com"; };
-      condition = "gitdir:~/work";
+      condition = "gitdir:~/work/";
     }];
     ignores = [ ".envrc" ".direnv" ".cache" ];
     extraConfig = rec {
