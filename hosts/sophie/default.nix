@@ -26,5 +26,7 @@
   environment.systemPackages = with pkgs; [ git vim lm_sensors ntfs3g ];
 
   programs.steam.enable = true;
+
+  environment.wordlist.enable = true;
 }
 
