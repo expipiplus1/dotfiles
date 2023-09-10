@@ -194,7 +194,6 @@
       "[c][cpp]".inlayHint.enable = false;
 
       languageserver.haskell = {
-        "trace.server" = "verbose";
         command = "haskell-language-server-wrapper";
         args = [ "--lsp" ];
         filetypes = [ "hs" "lhs" "haskell" ];

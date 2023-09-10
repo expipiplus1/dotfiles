@@ -40,7 +40,6 @@ in {
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-  news.display = "silent";
   home.stateVersion = "22.11";
   home.homeDirectory = "/home/e";
 
