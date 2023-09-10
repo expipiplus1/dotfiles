@@ -4,7 +4,7 @@
     flags = [ "--disable-up-arrow" ];
     settings = {
       update_check = false;
-      search_mode = "skim";
+      search_mode = "fuzzy";
     };
   };
 
