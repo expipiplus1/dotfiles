@@ -102,7 +102,10 @@
 
   programs.gitui = {
     enable = true;
-    keyConfig = builtins.readFile
-      (config.programs.gitui.package.src + "/vim_style_key_config.ron");
+    keyConfig = pkgs.fetchurl {
+      url =
+        "https://raw.githubusercontent.com/expipiplus1/gitui/b9af5b7d65fc3b45ea642c381288f41e492f3206/vim_style_key_config.ron";
+      sha256 = "074i5b3n0mp2rxbfvashimg7rphq1fa3n2cck2g1j4iwyj89v8jm";
+    };
   };
 }
