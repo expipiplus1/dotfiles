@@ -12,7 +12,6 @@
     ./hardware
     ./networking.nix
     # ./sophie/tailscale.nix
-    ./nixseparatedebuginfod.nix
   ];
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
@@ -20,7 +19,7 @@
   time.timeZone = "Asia/Singapore";
 
   #
-  # Misc things
+  # Misc things, too small for their own module
   #
   services.earlyoom = { enable = true; };
 
@@ -29,5 +28,6 @@
   programs.steam.enable = true;
 
   environment.wordlist.enable = true;
-}
 
+  services.nixseparatedebuginfod.enable = true;
+}
