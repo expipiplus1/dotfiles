@@ -125,27 +125,6 @@ in {
               sha256 = "15g5nvs6azgb2fkdna1dxbyiabx9n63if0wcbdvs91hjafhzjaqa";
             }) { inherit pkgs; };
 
-            # brittany = doJailbreak (dontCheck (overrideSrc super.brittany {
-            #   version = "2021-02-26";
-            #   src = pkgs.fetchFromGitHub {
-            #     owner = "lspitzner";
-            #     repo = "brittany";
-            #     rev = "4d064db674203626fe5011d10874fcbc335ec9b1"; # master
-            #     sha256 = "1sanc1n72s4jknnx6snryvynrccp1hvzlqfpfb3fy5gn6aapfwzi";
-            #   };
-            # }));
-
-            fourmolu-ellie = overrideSrc super.fourmolu {
-              version = "2021-06-13";
-              src = pkgs.fetchFromGitHub {
-                owner = "expipiplus1";
-                repo = "fourmolu";
-                rev =
-                  "35dbface79d722952163e0c862951cbd6ca175fc"; # joe-align-leading
-                sha256 = "1p9bmzvy7g14g348s1f3ymfy0c5k4dxr9jqw180jix0ichrg9r7h";
-              };
-            };
-
             nix-diff = doJailbreak super.nix-diff;
           }));
       };
