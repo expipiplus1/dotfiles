@@ -12,6 +12,7 @@
     ./hardware
     ./networking.nix
     # ./sophie/tailscale.nix
+    ./nixseparatedebuginfod.nix
   ];
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];

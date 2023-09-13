@@ -65,7 +65,6 @@ in {
     entr
     fd
     file
-    gdb
     gist
     hackage-release
     htop
