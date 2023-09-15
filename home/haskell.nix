@@ -97,6 +97,7 @@ in {
       respectful = true; # don't be too opinionated about newlines etc.
       in-style = "right-align";
       let-style = "auto";
+      single-constraint-parens = "auto";
     });
 
   home.file.".ghci".source = pkgs.writeText "ghci" ''

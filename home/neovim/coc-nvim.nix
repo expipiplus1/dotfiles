@@ -211,6 +211,7 @@
           plugin.ghcide-completions.config.snippetsOn = true;
           plugin.ghcide-completions.config.autoExtendOn = true;
           plugin.rename.config.crossModule = true;
+          plugin.fourmolu.config.external = true;
         };
       };
 
