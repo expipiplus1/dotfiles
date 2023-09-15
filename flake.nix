@@ -14,9 +14,16 @@
 
   outputs =
     { self, nixpkgs, nixpkgs-stable, hm, nixseparatedebuginfod }@inputs: {
-      nixosConfigurations.sophie = nixpkgs-stable.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [ ./hosts/sophie nixseparatedebuginfod.nixosModules.default ];
+      nixosConfigurations = with nixpkgs-stable.lib; {
+        sophie = nixosSystem {
+          system = "x86_64-linux";
+          modules =
+            [ ./hosts/sophie nixseparatedebuginfod.nixosModules.default ];
+        };
+        historian-bow = nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./hosts/historian-bow ];
+        };
       };
 
       homeConfigurations = {
