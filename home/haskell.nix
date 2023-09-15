@@ -65,7 +65,7 @@ in {
     pretty-show
     cabal2nix
     (pkgs.writeShellScriptBin "fourmolu" ''
-      exec ${pkgs.haskell.packages.ghc94.fourmolu_0_13_1_0}/bin/fourmolu ${
+      exec ${pkgs.haskell.packages.ghc96.fourmolu_0_13_1_0}/bin/fourmolu ${
         pkgs.lib.concatMapStringsSep " " (s: "--ghc-opt ${s}") ghcOpts
       } "$@"
     '')
