@@ -182,7 +182,6 @@ in {
             rm "$f"
           done
       '';
-      wine = (self.winePackagesFor "wine64").minimal;
       inherit ymlfmt;
       fzf = super.fzf.overrideAttrs (old: {
         src = pkgs.fetchFromGitHub {
