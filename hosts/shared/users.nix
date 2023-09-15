@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  environment.shells = with pkgs; [ zsh fish ];
+  environment.shells = with pkgs; [ zsh ];
   programs.zsh.enable = true;
 
   # Keep programs alive after logout (for example, tmux)

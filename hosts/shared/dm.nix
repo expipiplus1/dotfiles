@@ -4,8 +4,8 @@
   imports = [ ./dm/fonts.nix ];
 
   # Uncomment to use vulkan beta
-  hardware.nvidia.package =
-    config.boot.kernelPackages.nvidiaPackages.production;
+  # hardware.nvidia.package =
+  #   config.boot.kernelPackages.nvidiaPackages.vulkan_beta;
 
   services.xserver = {
     enable = true;
@@ -24,10 +24,7 @@
     #   sh -c 'sleep 5 && setxkbmap -verbose 10 fc660c -types fc660c' &
     # '';
 
-    displayManager.gdm = {
-      enable = true;
-      wayland = false;
-    };
+    displayManager.gdm = { enable = true; };
     desktopManager.gnome.enable = true;
   };
 
