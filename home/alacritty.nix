@@ -19,6 +19,7 @@ in {
     enable = true;
     settings = {
       draw_bold_text_with_bright_colors = false;
+      window.decorations = "none";
       window.dimensions = {
         lines = 84;
         columns = 295;
@@ -37,8 +38,8 @@ in {
       };
     } // (readYaml (builtins.fetchurl {
       url =
-        "https://raw.githubusercontent.com/nordtheme/alacritty/main/src/nord.yaml";
-      sha256 = "1sgq1d7w97wj1pw89mlbf3gz2idxvfs2xyg7rhwb1jgl50yr29ks";
+        "https://raw.githubusercontent.com/nordtheme/alacritty/5b0a462df0f35192b315a1b2e5605e0a29c410ea/src/nord.yml";
+      sha256 = "0vxryacz2zvp7kz3jy5fp7v0ild9wg64j619a5pvlbipb0vhb3xk";
     }));
   };
 }
