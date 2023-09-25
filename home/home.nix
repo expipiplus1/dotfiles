@@ -48,6 +48,16 @@ in {
     NIX_PATH =
       "nixpkgs=$HOME/src/nixpkgs:home-manager=${toString ../../home-manager}";
     EDITOR = "vim";
+    NIXOS_OZONE_WL = 1;
+  };
+
+  # IF u
+  gtk = {
+    enable = true;
+    theme = {
+      package = pkgs.gnome.gnome-themes-extra;
+      name = "Adwaita-dark";
+    };
   };
 
   home.packages = with pkgs; [

@@ -32,6 +32,12 @@
             system = "x86_64-linux";
             config.allowUnfree = true;
           };
+          extraSpecialArgs = {
+            pkgs-stable = import nixpkgs-stable {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
+          };
           modules = [ ./home/home.nix ];
         };
       };
