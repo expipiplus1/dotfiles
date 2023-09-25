@@ -1,11 +1,29 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ./dm/fonts.nix ];
+  imports = [ ./dm/fonts.nix ./kde.nix ];
 
-  # Uncomment to use vulkan beta
-  # hardware.nvidia.package =
-  #   config.boot.kernelPackages.nvidiaPackages.vulkan_beta;
+  # Some of these might be useful in getting wayland working
+  # hardware.nvidia.powerManagement.enable = false;
+  # hardware.opengl.enable = true;
+  # hardware.opengl.driSupport32Bit = true;
+  security.polkit.enable = true;
+  # services.xserver.displayManager.gdm.wayland = true;
+
+  hardware.nvidia = {
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    # Open drivers (NVreg_OpenRmEnableUnsupportedGpus=1)
+    open = true;
+    # nvidia-drm.modeset=1
+    modesetting.enable = true;
+    # NVreg_PreserveVideoMemoryAllocations=1
+    # (does this solve the 'corruption after suspend' on wayland)?
+    # https://github.com/NixOS/nixpkgs/issues/254614
+    # powerManagement.enable = true;
+  };
+  # boot.extraModprobeConfig = ''
+  #   options nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
+  # '';
 
   services.xserver = {
     enable = true;
@@ -23,9 +41,6 @@
     # displayManager.sessionCommands = ''
     #   sh -c 'sleep 5 && setxkbmap -verbose 10 fc660c -types fc660c' &
     # '';
-
-    displayManager.gdm = { enable = true; };
-    desktopManager.gnome.enable = true;
   };
 
   console.useXkbConfig = true;
