@@ -159,7 +159,7 @@ in {
       '';
     };
   } // autostart "firefox" // autostart "tidal-hifi"
-  // autostart "wezterm start -- zsh -i -c tmux attach"
+  // autostart "foot -- zsh -i -c tmux attach"
   // autostart "element-desktop";
 
   nixpkgs.config = {
