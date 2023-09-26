@@ -11,7 +11,7 @@ in {
         font-italic = "Iosevka Term:style=Italic";
         font-bold-italic = "Iosevka Term:style=Semibold Italic";
         box-drawings-uses-font-glyphs = "yes";
-        initial-window-mode = "fullscreen";
+        initial-window-mode = "maximized";
       };
       cursor = {
         color = "2e3440 d8dee9";
@@ -51,7 +51,10 @@ in {
         dim6 = "6d96a5";
         dim7 = "aeb3bb";
       };
-      csd = { preferred = "client"; };
+      csd = {
+        preferred = "client";
+        hide-when-maximized = "yes";
+      };
       key-bindings = { fullscreen = "Control+Shift+F"; };
     };
   };
