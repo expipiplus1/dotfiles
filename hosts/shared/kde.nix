@@ -8,6 +8,8 @@
     displayManager.defaultSession = "plasmawayland";
   };
 
+  programs.kdeconnect.enable = true;
+
   environment.plasma5.excludePackages = with pkgs.libsForQt5; [
     elisa
     gwenview
