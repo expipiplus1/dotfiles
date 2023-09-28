@@ -28,19 +28,6 @@
   services.xserver = {
     enable = true;
     videoDrivers = [ "nvidia" ];
-
-    extraLayouts.fc660c = with pkgs; {
-      description = "My layout for the Leopold FC660C keyboard";
-      languages = [ "eng" ];
-      typesFile = ./dm/xkb-nixos/types/local;
-      symbolsFile = ./dm/xkb-nixos/symbols/local;
-    };
-    layout = "fc660c";
-
-    # To set types
-    # displayManager.sessionCommands = ''
-    #   sh -c 'sleep 5 && setxkbmap -verbose 10 fc660c -types fc660c' &
-    # '';
   };
 
   console.useXkbConfig = true;
