@@ -38,16 +38,6 @@
       clock24 = true;
       historyLimit = 40000;
       keyMode = "vi";
-      update-environment = [
-        "DISPLAY"
-        "SSH_ASKPASS"
-        "SSH_AUTH_SOCK"
-        "SSH_AGENT_PID"
-        "SSH_CONNECTION"
-        "WINDOWID"
-        "XAUTHORITY"
-        "DBUS_SESSION_BUS_ADDRESS"
-      ];
       terminal = "tmux-256color";
       secureSocket = false;
       extraConfig = ''
