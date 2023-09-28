@@ -51,15 +51,6 @@ in {
     SSH_ASKPASS_REQUIRE = "prefer";
   };
 
-  # IF u
-  gtk = {
-    enable = true;
-    theme = {
-      package = pkgs.gnome.gnome-themes-extra;
-      name = "Adwaita-dark";
-    };
-  };
-
   home.packages = with pkgs; [
     bat
     bear
