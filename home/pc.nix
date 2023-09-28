@@ -27,6 +27,7 @@
     gnomeExtensions.unite
     gnomeExtensions.dash-to-panel
     gnomeExtensions.shell-configurator
+    wl-clipboard
   ];
 
   programs.neovim = {

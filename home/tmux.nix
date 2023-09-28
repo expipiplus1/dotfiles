@@ -78,13 +78,24 @@
         set -sg escape-time 0
 
         # vi vi vi
+
+        # X11
+        # set -g mode-keys vi
+        # bind-key -Tcopy-mode-vi 'v' send -X begin-selection
+        # bind-key -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel '${pkgs.xsel}/bin/xsel -i --clipboard'
+        # # move x clipboard into tmux paste buffer and paste
+        # bind C-p run "${config.programs.tmux.package}/bin/tmux set-buffer \"$(${pkgs.xsel}/bin/xsel -o --clipboard)\"; ${config.programs.tmux.package}/bin/tmux paste-buffer -p"
+        # # move tmux copy buffer into x clipboard
+        # bind C-y run "${config.programs.tmux.package}/bin/tmux show-buffer | ${pkgs.xsel}/bin/xsel -i --clipboard"
+
+        # Wayland
         set -g mode-keys vi
         bind-key -Tcopy-mode-vi 'v' send -X begin-selection
-        bind-key -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel '${pkgs.xsel}/bin/xsel -i --clipboard'
+        bind-key -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel '${pkgs.wl-clipboard}/bin/wl-copy'
         # move x clipboard into tmux paste buffer and paste
-        bind C-p run "${config.programs.tmux.package}/bin/tmux set-buffer \"$(${pkgs.xsel}/bin/xsel -o --clipboard)\"; ${config.programs.tmux.package}/bin/tmux paste-buffer -p"
+        bind C-p run "${config.programs.tmux.package}/bin/tmux set-buffer \"$(${pkgs.wl-clipboard}/bin/wl-paste)\"; ${config.programs.tmux.package}/bin/tmux paste-buffer -p"
         # move tmux copy buffer into x clipboard
-        bind C-y run "${config.programs.tmux.package}/bin/tmux show-buffer | ${pkgs.xsel}/bin/xsel -i --clipboard"
+        bind C-y run "${config.programs.tmux.package}/bin/tmux show-buffer | ${pkgs.wl-clipboard}/bin/wl-copy"
 
         bind ] paste-buffer -p
 
@@ -148,7 +159,9 @@
         set -g set-clipboard off
 
         # C-c: save into system clipboard (+). With preselection.
-        bind C-c choose-buffer "run \"${config.programs.tmux.package}/bin/tmux save-buffer -b %% - | ${pkgs.xsel}/bin/xsel -i --clipboard\" \; run \" ${config.programs.tmux.package}/bin/tmux display \\\"Clipboard \(+\) filled with: $(${config.programs.tmux.package}/bin/tmux save-buffer -b %1 - | dd ibs=1 obs=1 status=noxfer count=80 2> /dev/null)... \\\" \" "
+        # X11 version
+        # bind C-c choose-buffer "run \"${config.programs.tmux.package}/bin/tmux save-buffer -b %% - | ${pkgs.xsel}/bin/xsel -i --clipboard\" \; run \" ${config.programs.tmux.package}/bin/tmux display \\\"Clipboard \(+\) filled with: $(${config.programs.tmux.package}/bin/tmux save-buffer -b %1 - | dd ibs=1 obs=1 status=noxfer count=80 2> /dev/null)... \\\" \" "
+        bind C-c choose-buffer "run \"${config.programs.tmux.package}/bin/tmux save-buffer -b %% - | ${pkgs.wl-clipboard}/bin/wl-copy\" \; run \" ${config.programs.tmux.package}/bin/tmux display \\\"Clipboard \(+\) filled with: $(${config.programs.tmux.package}/bin/tmux save-buffer -b %1 - | dd ibs=1 obs=1 status=noxfer count=80 2> /dev/null)... \\\" \" "
 
         # from https://gist.github.com/towo/b5643ba96f987df54acc54470e6be460
         ${lib.optionalString
