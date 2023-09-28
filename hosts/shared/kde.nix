@@ -22,5 +22,7 @@
   ];
 
   environment.systemPackages = with pkgs; [ kdeplasma-addons ];
+
+  programs.dconf.enable = true;
 }
 
