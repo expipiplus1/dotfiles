@@ -5,6 +5,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     ./disks.nix
     ./boot.nix
+    ./bluetooth.nix
   ];
 
   # in an ideal world
