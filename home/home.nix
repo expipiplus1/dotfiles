@@ -48,6 +48,7 @@ in {
     NIX_PATH = "nixpkgs=$HOME/src/nixpkgs";
     EDITOR = "vim";
     NIXOS_OZONE_WL = 1;
+    SSH_ASKPASS_REQUIRE = "prefer";
   };
 
   # IF u
