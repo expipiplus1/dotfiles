@@ -45,8 +45,7 @@ in {
 
   home.sessionVariables = {
     LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
-    NIX_PATH =
-      "nixpkgs=$HOME/src/nixpkgs:home-manager=${toString ../../home-manager}";
+    NIX_PATH = "nixpkgs=$HOME/src/nixpkgs";
     EDITOR = "vim";
     NIXOS_OZONE_WL = 1;
   };
