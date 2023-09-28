@@ -34,14 +34,16 @@
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio = {
-    enable = true;
-    # extraModules = [ pkgs.pulseaudio-modules-bt ];
-    package = pkgs.pulseaudioFull;
-  };
 
-  # Spotify nonsense
-  # hardware.pulseaudio.daemon.config = { "enable-deferred-volume" = "no"; };
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
 
   # Firefox nonsense
   environment.sessionVariables.TZ = "${config.time.timeZone}";
