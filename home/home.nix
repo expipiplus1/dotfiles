@@ -150,8 +150,7 @@ in {
       '';
     };
   } // autostart "firefox" // autostart "tidal-hifi"
-  // autostart "foot -- zsh -i -c tmux attach"
-  // autostart "element-desktop";
+  // autostart "foot -- zsh -i -c tmux attach" // autostart "element-desktop";
 
   nixpkgs.config = {
     allowUnfree = true;
