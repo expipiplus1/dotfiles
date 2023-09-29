@@ -10,15 +10,24 @@
       url = "github:symphorien/nixseparatedebuginfod";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    impermanence = { url = "github:nix-community/impermanence"; };
   };
 
-  outputs =
-    { self, nixpkgs, nixpkgs-stable, hm, nixseparatedebuginfod }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-stable, hm, nixseparatedebuginfod
+    , impermanence }@inputs: {
       nixosConfigurations = with nixpkgs-stable.lib; {
         sophie = nixosSystem {
           system = "x86_64-linux";
           modules =
             [ ./hosts/sophie nixseparatedebuginfod.nixosModules.default ];
+        };
+        light-hope = nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/light-hope
+            nixseparatedebuginfod.nixosModules.default
+            impermanence.nixosModule
+          ];
         };
         historian-bow = nixosSystem {
           system = "x86_64-linux";
