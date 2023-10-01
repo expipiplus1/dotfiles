@@ -6,13 +6,20 @@
     ./disks.nix
     ./boot.nix
     ./bluetooth.nix
+    ./rgb.nix
   ];
+
+  services.hardware.lian-li-pump-control.enable = true;
+
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  hardware.cpu.amd.updateMicrocode =
+    lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   # in an ideal world
   # nixpkgs.localSystem = {
-  #   gcc.arch = "znver3";
-  #   gcc.tune = "znver3";
+  #   gcc.arch = "znver4";
+  #   gcc.tune = "znver4";
   #   system = "x86_64-linux";
   # };
-
 }

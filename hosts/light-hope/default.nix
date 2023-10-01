@@ -7,6 +7,7 @@
     ../shared/udev.nix
     ../shared/users.nix
     ../shared/dm.nix
+    ../shared/misc.nix
     ./impermanence.nix
     ./hardware
     ./networking.nix
@@ -15,15 +16,12 @@
   #
   # Misc things, too small for their own module
   #
-  time.timeZone = "Asia/Singapore";
-
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-
-  environment.systemPackages = with pkgs; [ git vim ];
 
   programs.steam.enable = true;
 
-  environment.wordlist.enable = true;
-
   services.nixseparatedebuginfod.enable = true;
+
+  nix.settings.system-features = [ "gccarch-znver4" ];
+
+  system.stateVersion = "23.11"; # Did you read the comment?
 }

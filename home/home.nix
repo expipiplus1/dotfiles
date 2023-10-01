@@ -71,6 +71,7 @@ in {
     htop
     jq
     killall
+    lm_sensors
     lsd
     mosh
     nix
