@@ -1,6 +1,13 @@
 { config, lib, pkgs, modulesPath, ... }:
 
-{
+let
+  opts = subvol: [
+    "subvol=${subvol}"
+    "compress=zstd"
+    "noatime"
+    "discard=async"
+  ];
+in {
   services.btrfs.autoScrub = {
     enable = true;
     fileSystems = [ "/" ];
@@ -9,31 +16,32 @@
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/538331b2-129c-4fc3-adc4-7f7055373b04";
     fsType = "btrfs";
-    options = [ "subvol=root" "compress=zstd" "noatime" ];
+    options = opts "root";
   };
 
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/538331b2-129c-4fc3-adc4-7f7055373b04";
     fsType = "btrfs";
-    options = [ "subvol=home" "compress=zstd" "noatime" ];
+    options = opts "home";
   };
 
   fileSystems."/nix" = {
     device = "/dev/disk/by-uuid/538331b2-129c-4fc3-adc4-7f7055373b04";
     fsType = "btrfs";
-    options = [ "subvol=nix" "compress=zstd" "noatime" ];
+    options = opts "nix";
   };
 
   fileSystems."/persist" = {
     device = "/dev/disk/by-uuid/538331b2-129c-4fc3-adc4-7f7055373b04";
     fsType = "btrfs";
-    options = [ "subvol=persist" "compress=zstd" "noatime" ];
+    options = opts "persist";
+    neededForBoot = true;
   };
 
   fileSystems."/var/log" = {
     device = "/dev/disk/by-uuid/538331b2-129c-4fc3-adc4-7f7055373b04";
     fsType = "btrfs";
-    options = [ "subvol=log" "compress=zstd" "noatime" ];
+    options = opts "log";
     neededForBoot = true;
   };
 

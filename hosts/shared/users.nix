@@ -18,6 +18,7 @@
       "dialout"
       "networkmanager"
       "wireshark"
+      "video"
     ];
     subUidRanges = [{
       startUid = 100000;

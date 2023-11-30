@@ -8,9 +8,11 @@
     ./alacritty.nix
     ./wezterm.nix
     ./kitty.nix
+    ./plasma.nix
   ];
 
   home.packages = with pkgs; [
+    anki
     ffmpeg-full
     powerline-fonts
     xsel
@@ -28,6 +30,7 @@
     gnomeExtensions.dash-to-panel
     gnomeExtensions.shell-configurator
     wl-clipboard
+    thunderbird
   ];
 
   programs.neovim = {
@@ -54,7 +57,8 @@
   programs.vscode = {
     enable = true;
     # vscodium 1.80 doesn't seem to work on wayland
-    package = pkgs-stable.vscodium;
+    # package = pkgs-stable.vscodium;
+    package = pkgs.vscodium;
     enableExtensionUpdateCheck = false;
     enableUpdateCheck = false;
     extensions = with pkgs;
@@ -63,6 +67,7 @@
         asvetliakov.vscode-neovim
         justusadam.language-haskell
         arcticicestudio.nord-visual-studio-code
+        haskell.haskell
       ];
     userSettings = {
       keyboard.dispatch = "keyCode";
@@ -73,16 +78,16 @@
       haskell.openDocumentationInHackage = false;
       haskell.openSourceInHackage = false;
       window.zoomLevel = -2;
-      workbench.colorTheme = "Nord";
-      workbench.colorCustomizations."[Nord]" = {
-        editor.focusedStackFrameHighlightBackground = "#a3be8c33";
-        editor.stackFrameHighlightBackground = "#ebcb8b33";
-        editorGroupHeader.noTabsBackground = "#3b4252";
-        editorGroupHeader.tabsBackground = "#3b4252";
-        tab.activeBackground = "#2e3440";
-        tab.inactiveBackground = "#3b4252";
-        tab.hoverBackground = "#2e3440";
-        tab.unfocusedHoverBackground = "#434c5eb3";
+      "workbench.colorTheme" = "Nord";
+      "workbench.colorCustomizations"."[Nord]" = {
+        "editor.focusedStackFrameHighlightBackground" = "#a3be8c33";
+        "editor.stackFrameHighlightBackground" = "#ebcb8b33";
+        "editorGroupHeader.noTabsBackground" = "#3b4252";
+        "editorGroupHeader.tabsBackground" = "#3b4252";
+        "tab.activeBackground" = "#2e3440";
+        "tab.inactiveBackground" = "#3b4252";
+        "tab.hoverBackground" = "#2e3440";
+        "tab.unfocusedHoverBackground" = "#434c5eb3";
       };
       editor.fontFamily = "Iosevka Term";
       editor.fontLigatures = "'calt' off, 'dlig' off, 'cv57' 2, 'cv36' 1";
@@ -105,7 +110,8 @@
             backup \
             --one-file-system \
             Documents projects src/nixpkgs* \
-            src/prints dotfiles Pictures work \
+            src/prints dotfiles work \
+            .local/share/Anki2 \
             .gnupg .ssh \
             .zsh_history \
             --exclude .stack-work \

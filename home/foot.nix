@@ -6,13 +6,15 @@ in {
     enable = true;
     settings = {
       main = {
-        font = "Iosevka Term:style=Regular";
-        font-bold = "Iosevka Term:style=Semibold";
-        font-italic = "Iosevka Term:style=Italic";
-        font-bold-italic = "Iosevka Term:style=Semibold Italic";
-        box-drawings-uses-font-glyphs = "yes";
+        font = "Iosevka Term:size=10:style=Regular";
+        font-bold = "Iosevka Term:size=10:style=Semibold";
+        font-italic = "Iosevka Term:size=10:style=Italic";
+        font-bold-italic = "Iosevka Term:size=10:style=Semibold Italic";
+        # box-drawings-uses-font-glyphs = "yes";
         initial-window-mode = "maximized";
+        dpi-aware = "yes";
       };
+      tweak = { damage-whole-window = "yes"; };
       cursor = {
         color = "2e3440 d8dee9";
         beam-thickness = 0.8;

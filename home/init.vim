@@ -354,11 +354,13 @@ autocmd FileType haskell map <nowait> <leader>f :call Preserve("normal gqah")<CR
 
 " Insert header
 " TODO remove duplication here lol
-autocmd FileType haskell map <nowait> <leader>h <ESC>:set paste<CR><ESC>o<ESC>64a-<ESC>o--<ESC>o<ESC>64a-<ESC>:set nopaste<CR>kA<space>
-autocmd FileType vim map <nowait> <leader>h <ESC>:set paste<CR><ESC>o<ESC>64a"<ESC>o"<ESC>o<ESC>64a"<ESC>:set nopaste<CR>kA<space>
-autocmd FileType cpp map <nowait> <leader>h <ESC>:set paste<CR><ESC>o<ESC>64a/<ESC>o//<ESC>o<ESC>64a//<ESC>:set nopaste<CR>kA<space>
-autocmd FileType sh map <nowait> <leader>h <ESC>:set paste<CR><ESC>o<ESC>64a#<ESC>o#<ESC>o<ESC>64a#<ESC>:set nopaste<CR>kA<space>
-autocmd FileType nix map <nowait> <leader>h <ESC>:set paste<CR><ESC>o<ESC>64a#<ESC>o#<ESC>o<ESC>64a#<ESC>:set nopaste<CR>kA<space>
+autocmd FileType haskell map <nowait> <leader>hh <ESC>:set paste<CR><ESC>o<ESC>64a-<ESC>o--<ESC>o<ESC>64a-<ESC>:set nopaste<CR>kA<space>
+autocmd FileType vim map <nowait> <leader>hh <ESC>:set paste<CR><ESC>o<ESC>64a"<ESC>o"<ESC>o<ESC>64a"<ESC>:set nopaste<CR>kA<space>
+autocmd FileType cpp map <nowait> <leader>hh <ESC>:set paste<CR><ESC>o<ESC>64a/<ESC>o//<ESC>o<ESC>64a//<ESC>:set nopaste<CR>kA<space>
+autocmd FileType sh map <nowait> <leader>hh <ESC>:set paste<CR><ESC>o<ESC>64a#<ESC>o#<ESC>o<ESC>64a#<ESC>:set nopaste<CR>kA<space>
+autocmd FileType nix map <nowait> <leader>hh <ESC>:set paste<CR><ESC>o<ESC>64a#<ESC>o#<ESC>o<ESC>64a#<ESC>:set nopaste<CR>kA<space>
+autocmd FileType meson map <nowait> <leader>hh <ESC>:set paste<CR><ESC>o<ESC>64a#<ESC>o#<ESC>o<ESC>64a#<ESC>:set nopaste<CR>kA<space>
+autocmd FileType cmake map <nowait> <leader>hh <ESC>:set paste<CR><ESC>o<ESC>64a#<ESC>o#<ESC>o<ESC>64a#<ESC>:set nopaste<CR>kA<space>
 
 let g:formatprg_haskell = "fourmolu"
 let g:formatprg_args_haskell = ""

@@ -14,6 +14,7 @@
       g = "git";
       glog = "git log --oneline --graph";
       grs = "git restore --staged";
+      gcm = "git commit --message";
     };
   };
 
@@ -39,6 +40,7 @@
       latest = "!git log --all --oneline | head -n1 | cut -f1 -d' '";
       cpl = "!git cherry-pick $(git latest)";
       pf = "push --force-with-lease";
+      debase = "rebase";
       authors = ''
         !f(){
           set -o pipefail;
@@ -97,6 +99,12 @@
       core = { editor = "vim"; };
       push = { default = "simple"; };
       color = { ui = "auto"; };
+      sendemail = {
+        # smtpuser = "ellie@monoid.al";
+        smtpserver = "smtp.migadu.com";
+        smtpencryption = "ssl"; # Not sure why tls doesn't work here..
+        smtpserverport = 465;
+      };
     };
   };
 

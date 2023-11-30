@@ -65,7 +65,7 @@ in {
     pretty-show
     cabal2nix
     (pkgs.writeShellScriptBin "fourmolu" ''
-      exec ${pkgs.haskell.packages.ghc96.fourmolu_0_13_1_0}/bin/fourmolu ${
+      exec ${pkgs.haskell.packages.ghc96.fourmolu_0_14_0_0}/bin/fourmolu ${
         pkgs.lib.concatMapStringsSep " " (s: "--ghc-opt ${s}") ghcOpts
       } "$@"
     '')
@@ -119,6 +119,9 @@ in {
       haskell = super.haskell // {
         packageOverrides = (with self.haskell.lib;
           (self: super: rec {
+
+            fourmolu_0_14_0_0 = dontCheck super.fourmolu_0_14_0_0;
+
             upfind = import (pkgs.fetchFromGitHub {
               owner = "expipiplus1";
               repo = "upfind";

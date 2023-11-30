@@ -1,14 +1,14 @@
 diff --git a/atuin/src/shell/atuin.zsh b/atuin/src/shell/atuin.zsh
-index eadd9203..986a0b3c 100644
+index afff2d33..adbf7ef3 100644
 --- a/atuin/src/shell/atuin.zsh
 +++ b/atuin/src/shell/atuin.zsh
-@@ -35,7 +35,19 @@ _atuin_search() {
+@@ -33,7 +33,20 @@ _atuin_search() {
      # swap stderr and stdout, so that the tui stuff works
      # TODO: not this
      # shellcheck disable=SC2048
--    output=$(RUST_LOG=error atuin search $* -i -- $BUFFER 3>&1 1>&2 2>&3)
+-    output=$(ATUIN_SHELL_ZSH=t ATUIN_LOG=error atuin search $* -i -- $BUFFER 3>&1 1>&2 2>&3)
 +    if [ -z "${TMUX}" ]; then
-+        output=$(RUST_LOG=error atuin search $* -i -- $BUFFER 3>&1 1>&2 2>&3)
++        output=$(ATUIN_SHELL_ZSH=t ATUIN_LOG=error atuin search $* -i -- $BUFFER 3>&1 1>&2 2>&3)
 +    else
 +        tmpdir=$(mktemp -d)
 +        mkfifo "$tmpdir/pipe"
@@ -16,10 +16,11 @@ index eadd9203..986a0b3c 100644
 +        output=$(
 +            cat "$tmpdir/pipe" &;
 +            tmux display-popup -d $(pwd) -B -E -E -h 80% -w 80% -- \
-+                "$(printf "%q " RUST_LOG=error atuin search $* -i -- $BUFFER) 1>&2 2>$tmpdir/pipe"
++                "$(printf "%q " ATUIN_SHELL_ZSH=t ATUIN_LOG=error atuin search $* -i -- $BUFFER) 1>&2 2>$tmpdir/pipe"
 +        )
 +        rm -rf "$tmpdir"
 +    fi
-     echoti smkx
++
  
-     if [[ -n $output ]]; then
+     zle reset-prompt
+ 

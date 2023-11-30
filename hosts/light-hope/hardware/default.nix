@@ -7,6 +7,8 @@
     ./boot.nix
     ./bluetooth.nix
     ./rgb.nix
+    ../../shared/nvidia.nix
+    ../../shared/vr.nix
   ];
 
   services.hardware.lian-li-pump-control.enable = true;

@@ -12,7 +12,62 @@ let
 
   mergeBefore = x: xs: lib.mkMerge [ (lib.mkBefore [ x ]) xs ];
 
+  codelldb = pkgs.vscode-extensions.vadimcn.vscode-lldb.overrideAttrs
+    (finalAttrs: previousAttrs: { lldb = pkgs.lldb_16; });
+  codelldb_path =
+    "${codelldb}/share/vscode/extensions/${codelldb.vscodeExtPublisher}.${codelldb.vscodeExtName}";
+
+  vscode_cpptools = pkgs.vscode-extensions.ms-vscode.cpptools;
+  vscode_cpptools_path =
+    "${vscode_cpptools}/share/vscode/extensions/${vscode_cpptools.vscodeExtPublisher}.${vscode_cpptools.vscodeExtName}";
+
+  vimspector_configuration = {
+    adapters = {
+      CodeLLDB = {
+        command = [
+          "${codelldb_path}/adapter/codelldb"
+          "--port"
+          "\${unusedLocalPort}"
+        ];
+        configuration = {
+          args = [ ];
+          cargo = { };
+          cwd = "\${workspaceRoot}";
+          env = { };
+          name = "lldb";
+          terminal = "integrated";
+          type = "lldb";
+        };
+        name = "CodeLLDB";
+        port = "\${unusedLocalPort}";
+        type = "CodeLLDB";
+      };
+      multi-session = {
+        host = "\${host}";
+        port = "\${port}";
+      };
+      vscode-cpptools = {
+        attach = {
+          pidProperty = "processId";
+          pidSelect = "ask";
+        };
+        command = [ "${vscode_cpptools_path}/debugAdapters/bin/OpenDebugAD7" ];
+        configuration = {
+          args = [ ];
+          cwd = "\${workspaceRoot}";
+          environment = [ ];
+          type = "cppdbg";
+        };
+        name = "cppdbg";
+      };
+    };
+  };
+
 in {
+  home.file = {
+    ".config/vimspector/gadgets/linux/.gadgets.json".source =
+      pkgs.writeText ".gadgets.json" (builtins.toJSON vimspector_configuration);
+  };
   home.packages = [ pkgs.bc ];
   imports = [ ./neovim/treesitter.nix ./neovim/coc-nvim.nix ];
   programs.neovim = with pkgs.vimPlugins; {
@@ -31,6 +86,14 @@ in {
         }
       '';
     } [
+      {
+        plugin = vimspector;
+        config = ''
+          let g:vimspector_enable_mappings = 'HUMAN'
+          let g:vimspector_base_dir=expand( '$HOME/.config/vimspector' )
+        '';
+      }
+
       {
         plugin = fzf-vim;
         config = ''
@@ -76,6 +139,31 @@ in {
       }
       {
         plugin = (pkgs.vimUtils.buildVimPlugin {
+          name = "fcitx5-nvim";
+          src = pkgs.fetchFromGitHub {
+            owner = "pysan3";
+            repo = "fcitx5.nvim";
+            rev = "e2154f63e01baa2e7e3d1ce3810bf82b17986720";
+            sha256 = "0n0l2wb60scg310djg1i70grpz3kv557j79n54wd5g56bf8dliq1";
+          };
+        });
+        config = luaConfig ''
+          local en = "keyboard-us"
+          local ja = "mozc"
+
+          require("fcitx5").setup({
+            imname = {
+              norm = en,
+              ins = ja,
+              cmd = en,
+            },
+            remember_prior = true,
+            define_autocmd = true,
+          })
+        '';
+      }
+      {
+        plugin = (pkgs.vimUtils.buildVimPlugin {
           name = "neoscroll";
           src = pkgs.fetchFromGitHub {
             owner = "karb94";
@@ -103,18 +191,18 @@ in {
       vim-abolish
       vim-easy-align
       vim-fugitive
-      {
-        plugin = vim-gitgutter;
-        config = ''
-          let g:gitgutter_sign_added                   = '▎'
-          let g:gitgutter_sign_modified                = '▎'
-          let g:gitgutter_sign_removed                 = '▁'
-          let g:gitgutter_sign_removed_first_line      = '▔'
-          let g:gitgutter_sign_removed_above_and_below = '🮀'
-          let g:gitgutter_sign_modified_removed        = '▎'
-          nmap <silent> yog :GitGutterToggle<CR>
-        '';
-      }
+      # {
+      #   plugin = vim-gitgutter;
+      #   config = ''
+      #     let g:gitgutter_sign_added                   = '▎'
+      #     let g:gitgutter_sign_modified                = '▎'
+      #     let g:gitgutter_sign_removed                 = '▁'
+      #     let g:gitgutter_sign_removed_first_line      = '▔'
+      #     let g:gitgutter_sign_removed_above_and_below = '🮀'
+      #     let g:gitgutter_sign_modified_removed        = '▎'
+      #     nmap <silent> yog :GitGutterToggle<CR>
+      #   '';
+      # }
       vim-gist
       vim-rhubarb
       {
@@ -427,9 +515,10 @@ in {
       {
         plugin = suda-vim;
         config = ''
-          cmap w!! SudaWrite
+          command! WW SudaWrite
         '';
       }
+      vim-spirv
     ];
   };
 }

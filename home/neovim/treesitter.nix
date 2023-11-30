@@ -41,6 +41,7 @@ in with pkgs.vimPlugins; {
       config = luaConfig ''
         require'treesitter-context'.setup{
           enable = true,
+          max_lines = 4,
         }
       '' + ''
         hi! def link TreesitterContext StatusLine
@@ -53,7 +54,8 @@ in with pkgs.vimPlugins; {
         require'nvim-treesitter.configs'.setup {
           context_commentstring = {
             enable = true,
-            config = {
+            enable_autocmd = false,
+            languages = {
               css = '// %s',
               c = '// %s',
               cpp = '// %s',
@@ -63,7 +65,7 @@ in with pkgs.vimPlugins; {
               hlsl = '// %s',
               slang = '// %s',
               bash = '# %s',
-            },
+            }
           }
         }
       '';

@@ -31,5 +31,7 @@
 
   # Firefox nonsense
   environment.sessionVariables.TZ = "${config.time.timeZone}";
+
+  services.ddccontrol.enable = true;
 }
 

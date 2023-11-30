@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, nil, pkgs-anki, ... }:
 
 let
   ymlfmt = pkgs.stdenv.mkDerivation {
@@ -20,6 +20,16 @@ let
     '';
   };
 
+  json2nix = pkgs.writeScriptBin "json2nix" ''
+    ${pkgs.python3}/bin/python ${
+      pkgs.fetchurl {
+        url =
+          "https://gist.githubusercontent.com/Scoder12/0538252ed4b82d65e59115075369d34d/raw/e86d1d64d1373a497118beb1259dab149cea951d/json2nix.py";
+        hash = "sha256-ROUIrOrY9Mp1F3m+bVaT+m8ASh2Bgz8VrPyyrQf9UNQ=";
+      }
+    } $@
+  '';
+
 in {
   imports = [
     ./zsh.nix
@@ -34,6 +44,7 @@ in {
     ./gdb.nix
     ./direnv.nix
     ./atuin.nix
+    ./sensors.nix
   ];
 
   home.username = "e";
@@ -55,6 +66,7 @@ in {
     bat
     bear
     bmon
+    unzip
     cached-nix-shell
     coreutils
     curl
@@ -69,7 +81,9 @@ in {
     gist
     hackage-release
     htop
+    btop
     jq
+    json2nix
     killall
     lm_sensors
     lsd
@@ -94,12 +108,12 @@ in {
     text = ''
       [Desktop Entry]
       Type=Application
-      Name=Boot To Windows Next
-      Comment=Set this computer to start Windows after rebooting
-      Exec=sh -c 'pkexec efibootmgr --bootnext 0002 && reboot'
+      Name=Boot To Windows
+      Comment=Reboot into windows
+      Exec=systemctl reboot --boot-loader-entry=auto-windows
       Terminal=false
       Hidden=false
-      Icon=/home/j/Downloads/windows.png
+      Icon=${../windows.png}
     '';
   };
 
@@ -160,6 +174,7 @@ in {
   };
 
   nixpkgs.overlays = [
+    nil.overlays.default
     (self: super: {
       tssh = self.writeTextFile {
         name = "tssh";
@@ -184,13 +199,16 @@ in {
           done
       '';
       inherit ymlfmt;
-      fzf = super.fzf.overrideAttrs (old: {
-        src = pkgs.fetchFromGitHub {
-          owner = "expipiplus1";
-          repo = "fzf";
-          rev = "ad12372681ec1a49c6d788e6c9a64c247293ed04"; # tmux-popup
-          sha256 = "1c32bgi9y3j2v6734dksyxpxzprdqklycz34hsh8scja5sd293h0";
-        };
+      inherit json2nix;
+      anki-23 = pkgs-anki.anki;
+      anki = self.anki-23.overrideAttrs (old: {
+        buildInputs = old.buildInputs ++ [ pkgs.makeWrapper ];
+        postInstall = old.postInstall or "" + ''
+          # Fix jagged text rendering, as per
+          # https://github.com/ankitects/anki/issues/1767
+          # https://bugreports.qt.io/browse/QTBUG-113574
+          wrapProgram "$out/bin/anki" --set QT_SCALE_FACTOR_ROUNDING_POLICY RoundPreferFloor
+        '';
       });
     })
   ];

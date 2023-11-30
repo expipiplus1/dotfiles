@@ -23,5 +23,11 @@
   environment.systemPackages = with pkgs; [ kdeplasma-addons ];
 
   programs.dconf.enable = true;
+
+  environment = {
+    etc."xdg/baloofilerc".source = (pkgs.formats.ini { }).generate "baloorc" {
+      "Basic Settings" = { "Indexing-Enabled" = false; };
+    };
+  };
 }
 

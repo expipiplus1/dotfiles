@@ -57,7 +57,7 @@ let
       } // plan;
     });
 in {
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     (myIosevka "Term" {
       spacing = "term";
       serifs = "sans";

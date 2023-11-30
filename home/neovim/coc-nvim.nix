@@ -167,9 +167,62 @@
           nmap <silent> gh :CocCommand clangd.switchSourceHeader<CR>
         '';
       }
+      # coc-nil
     ];
     withNodeJs = true;
   };
+
+  nixpkgs.overlays = [
+    (self: super: {
+      cmake-language-server = super.cmake-language-server.overrideAttrs
+        (old: { src = /home/e/src/cmake-language-server; });
+
+      gersemi = self.python3Packages.buildPythonApplication rec {
+        pname = "gersemi";
+        version = "0.9.3";
+        src = self.fetchPypi {
+          inherit pname version;
+          sha256 = "sha256-fNhmq9KKOwlc50iDEd9pqHCM0br9Yt+nKtrsoS1d5ng=";
+        };
+        doCheck = false;
+        propagatedBuildInputs = [
+          self.python3Packages.appdirs
+          self.python3Packages.lark
+          self.python3Packages.pyyaml
+        ];
+      };
+
+      # cmake-format = super.cmake-format.overrideAttrs (old: {
+      #   nativeBuildInputs = old.nativeBuildInputs or [ ]
+      #     ++ [ self.makeWrapper ];
+      #   postInstall = let
+      #     auto-parsers = self.writeShellScript "cmake-format-auto-parsers" ''
+      #       shopt -s nullglob
+      #       cd $(${self.upfind}/bin/upfind -F cmake)
+      #       files=(*.cmake)
+      #       if [ "''${#files[@]}" -ge 1 ]; then
+      #         ${super.cmake-format}/bin/cmake-genparsers --output-format json ''${files[@]} |
+      #           grep -v ^cmake/ |
+      #           ${pkgs.jq}/bin/jq '{ "parse": { "additional_commands": . } }'
+      #       else
+      #         echo {}
+      #       fi
+      #     '';
+      #   in old.postInstall or "" + ''
+      #     # The redundant input-encoding arg is to work around
+      #     # https://github.com/cheshirekow/cmake_format/issues/274 We set it to
+      #     # mark the end of the config file list, the user can specify it again
+      #     # if necessary
+      #     wrapProgram $out/bin/cmake-format \
+      #       --add-flags "--config-file <(${auto-parsers}) --input-encoding utf8"
+      #   '';
+      # });
+      # cmake-language-server = super.cmake-language-server.overrideAttrs
+      #   (old: { pytestCheckPhase = ":"; });
+    })
+  ];
+
+  home.packages = with pkgs; [ cmake-format ];
 
   xdg.configFile."nvim/coc-settings.json".source = pkgs.writeTextFile {
     name = "coc-settings.json";
@@ -193,25 +246,48 @@
       suggest.noselect = true;
       "[c][cpp]".inlayHint.enable = false;
 
-      languageserver.haskell = {
-        command = "haskell-language-server-wrapper";
-        args = [ "--lsp" ];
-        filetypes = [ "hs" "lhs" "haskell" ];
-        rootPatterns = [
-          ".stack.yaml"
-          ".hie-bios"
-          "cabal.config"
-          "package.yaml"
-          "cabal.project"
-          "hie.yaml"
-        ];
-        settings.haskell = {
-          formattingProvider = "fourmolu";
-          formatOnImportOn = false;
-          plugin.ghcide-completions.config.snippetsOn = true;
-          plugin.ghcide-completions.config.autoExtendOn = true;
-          plugin.rename.config.crossModule = true;
-          plugin.fourmolu.config.external = true;
+      languageserver = {
+        haskell = {
+          command = "haskell-language-server-wrapper";
+          args = [ "--lsp" ];
+          filetypes = [ "hs" "lhs" "haskell" ];
+          rootPatterns = [
+            ".stack.yaml"
+            ".hie-bios"
+            "cabal.config"
+            "package.yaml"
+            "cabal.project"
+            "hie.yaml"
+          ];
+          settings.haskell = {
+            formattingProvider = "fourmolu";
+            formatOnImportOn = false;
+            plugin.ghcide-completions.config.snippetsOn = true;
+            plugin.ghcide-completions.config.autoExtendOn = true;
+            plugin.rename.config.crossModule = true;
+            plugin.fourmolu.config.external = true;
+          };
+        };
+
+        cmake = {
+          command = "${pkgs.cmake-language-server}/bin/cmake-language-server";
+          filetypes = [ "cmake" ];
+          rootPatterns = [ "build/" ];
+          initializationOptions = {
+            buildDirectory = "build-cmake";
+            formatProgram = "${pkgs.gersemi}/bin/gersemi";
+            formatArgs = [ "--definitions" "cmake" "--" "-" ];
+          };
+        };
+
+        nix = {
+          command = "${pkgs.nil}/bin/nil";
+          filetypes = [ "nix" ];
+          rootPatterns = [ "flake.nix" ];
+          # Uncomment these to tweak settings.
+          settings.nil = {
+            formatting.command = [ "${pkgs.nixfmt}/bin/nixfmt" ];
+          };
         };
       };
 
@@ -272,7 +348,6 @@
           };
         };
         formatters = {
-          nixfmt.command = "${pkgs.nixfmt}/bin/nixfmt";
           shfmt = {
             command = "${pkgs.shfmt}/bin/shfmt";
             args = [ "-i" "2" ];
@@ -280,12 +355,10 @@
           ymlfmt.command = "${pkgs.ymlfmt}/bin/ymlfmt";
         };
         formatFiletypes = {
-          nix = "nixfmt";
           sh = "shfmt";
           yaml = "ymlfmt";
         };
         filetypes = {
-          nix = "nix-linter";
           yaml = "yamllint";
           sh = "shellcheck";
         };
