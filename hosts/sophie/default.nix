@@ -22,6 +22,10 @@
   #
   services.earlyoom = { enable = true; };
 
+  services.openssh.enable = true;
+
+  programs.ssh.startAgent = true;
+
   environment.systemPackages = with pkgs; [ lm_sensors ntfs3g ];
 
   programs.steam.enable = true;
