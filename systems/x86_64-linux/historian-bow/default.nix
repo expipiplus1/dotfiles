@@ -321,8 +321,6 @@
 
   nix.settings.trusted-users = [ "root" "@wheel" "nix" ];
 
-  nixpkgs.config.allowUnfree = true;
-
   nix.settings.substituters = [
     # "http://nixos-arm.dezgeg.me/channel"
     "https://cache.nixos.org/"

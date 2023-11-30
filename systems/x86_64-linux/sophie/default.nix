@@ -2,18 +2,16 @@
 
 {
   imports = [
-    ../shared/docker.nix
-    ../shared/nix.nix
-    ../shared/ssh.nix
-    ../shared/udev.nix
-    ../shared/users.nix
-    ../shared/nvidia.nix
     ./darlings.nix
     ./dm.nix
     ./hardware
     ./networking.nix
     # ./sophie/tailscale.nix
   ];
+  ellie.docker.enable = true;
+  ellie.udev.enable = true;
+  ellie.users.enable = true;
+  ellie.nvidia.enable = true;
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 

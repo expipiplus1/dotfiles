@@ -47,6 +47,7 @@ in with pkgs.vimPlugins; {
       plugin = nvim-ts-context-commentstring;
       type = "lua";
       config = ''
+        require('ts_context_commentstring').setup {} # and set vim.g.skip_ts_context_commentstring_module = true
         require'nvim-treesitter.configs'.setup {
           context_commentstring = {
             enable = true,
