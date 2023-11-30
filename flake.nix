@@ -43,7 +43,7 @@
         lian-li-control.nixosModules.fan
         lian-li-control.nixosModules.pump
       ];
-      homes.users."e@light-hope".modules = with inputs;
+      homes.modules = with inputs;
         [ plasma-manager.homeManagerModules.plasma-manager ];
     };
 }
