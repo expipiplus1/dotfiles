@@ -1,5 +1,5 @@
 { lib, config, pkgs, ... }@inputs:
-lib.internal.simpleModule inputs "dual-boot" {
+lib.internal.simpleModule inputs "basic" {
   home.username = "e";
 
   # Let Home Manager install and manage itself.

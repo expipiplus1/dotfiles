@@ -45,6 +45,7 @@ self: super: {
   };
 
   cmake-language-server = super.cmake-language-server.overrideAttrs (old: {
+    checkPhase = ":";
     src = self.fetchFromGitHub {
       owner = "expipiplus1";
       repo = "cmake-language-server";

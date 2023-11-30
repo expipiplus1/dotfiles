@@ -1,5 +1,5 @@
 { lib, config, pkgs, ... }@inputs:
-lib.internal.simpleModule inputs "dual-boot" {
+lib.internal.simpleModule inputs "autostart" {
   xdg.configFile = let
     autostart = c: {
       "autostart/${c}.desktop".source = pkgs.writeTextFile {
