@@ -11,4 +11,17 @@
 
       config = mkIf inputs.config.${prefix}.${name}.enable config;
     };
+
+  appendPatches = patches: drv:
+    drv.overrideAttrs (old: { patches = old.patches or [ ] ++ patches; });
+
+  mergeBefore = x: xs: lib.mkMerge [ (lib.mkBefore [ x ]) xs ];
+
+  nvim = {
+    luaConfig = lua: ''
+      lua <<EOF
+      ${lua}
+      EOF
+    '';
+  };
 }
