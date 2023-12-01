@@ -24,7 +24,14 @@
       "suspend-then-hibernate.target"
     ];
     wants = [ "lian-li-fan-control.service" "lian-li-pump-control.service" ];
-    after = [ "lian-li-fan-control.service" "lian-li-pump-control.service" ];
+    after = [
+      "lian-li-fan-control.service"
+      "lian-li-pump-control.service"
+      "suspend.target"
+      "hibernate.target"
+      "hybrid-sleep.target"
+      "suspend-then-hibernate.target"
+    ];
     serviceConfig = {
       StateDirectory = "OpenRGB";
       WorkingDirectory = "/var/lib/OpenRGB";
