@@ -29,6 +29,10 @@
       url = "github:snowfallorg/lib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs:
@@ -42,8 +46,15 @@
         impermanence.nixosModule
         lian-li-control.nixosModules.fan
         lian-li-control.nixosModules.pump
+        nixos-wsl.nixosModules.default
       ];
+      # This seems to pull them in for nixos builds too?
+      # homes.modules = with inputs;
+      #   [ plasma-manager.homeManagerModules.plasma-manager ];
+
       homes.users."e@light-hope".modules = with inputs;
+        [ plasma-manager.homeManagerModules.plasma-manager ];
+      homes.users."e@howl".modules = with inputs;
         [ plasma-manager.homeManagerModules.plasma-manager ];
     };
 }

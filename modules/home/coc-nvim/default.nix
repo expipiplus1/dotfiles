@@ -159,6 +159,7 @@ lib.internal.simpleModule inputs "coc-nvim" {
         '';
       }
       coc-diagnostic
+      coc-json
       coc-rust-analyzer
       {
         plugin = coc-clangd;
@@ -301,11 +302,14 @@ lib.internal.simpleModule inputs "coc-nvim" {
             command = "${pkgs.shfmt}/bin/shfmt";
             args = [ "-i" "2" ];
           };
-          ymlfmt.command = "${pkgs.ymlfmt}/bin/ymlfmt";
+          yamlfmt = {
+            command = "${pkgs.yamlfmt}/bin/yamlfmt";
+            args = [ "-formatter" "retain_line_breaks=true" "-" ];
+          };
         };
         formatFiletypes = {
           sh = "shfmt";
-          yaml = "ymlfmt";
+          yaml = "yamlfmt";
         };
         filetypes = {
           yaml = "yamllint";
