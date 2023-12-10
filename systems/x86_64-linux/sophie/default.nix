@@ -1,42 +1,29 @@
-{ config, pkgs, ... }:
+{ lib, pkgs, inputs, system
+, # The system architecture for this host (eg. `x86_64-linux`).
+target, # The Snowfall Lib target for this system (eg. `x86_64-iso`).
+format, # A normalized name for the system target (eg. `iso`).
+virtual
+, # A boolean to determine whether this system is a virtual target using nixos-generators.
+systems, # An attribute map of your defined hosts.
+config, ... }:
 
 {
   imports = [
     ./darlings.nix
-    ./dm.nix
     ./hardware
     ./networking.nix
-    # ./sophie/tailscale.nix
   ];
+  ellie.desktop.enable = true;
   ellie.docker.enable = true;
-  ellie.udev.enable = true;
-  ellie.users.enable = true;
-  ellie.nvidia.enable = true;
+  ellie.vm.enable = true;
 
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-
-  #
-  # Misc things, too small for their own module
-  #
-  services.earlyoom = { enable = true; };
-
-  services.openssh.enable = true;
-
-  programs.ssh.startAgent = true;
+  # boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   environment.systemPackages = with pkgs; [ lm_sensors ntfs3g ];
 
-  programs.steam.enable = true;
-
-  environment.wordlist.enable = true;
-
   nix.settings.system-features = [ "gccarch-znver3" ];
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  services.earlyoom = { enable = true; };
+
   system.stateVersion = "21.11"; # Did you read the comment?
 }

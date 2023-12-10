@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ lib, pkgs, ... }@inputs:
+lib.internal.simpleModule inputs "bluetooth" {
   hardware.xpadneo.enable = true;
   hardware.bluetooth = {
     enable = true;
@@ -45,5 +46,4 @@
   #     }
   #   ];
   # };
-
 }

@@ -54,6 +54,8 @@
 
       homes.users."e@light-hope".modules = with inputs;
         [ plasma-manager.homeManagerModules.plasma-manager ];
+      homes.users."e@sophie".modules = with inputs;
+        [ plasma-manager.homeManagerModules.plasma-manager ];
       homes.users."e@howl".modules = with inputs;
         [ plasma-manager.homeManagerModules.plasma-manager ];
     };

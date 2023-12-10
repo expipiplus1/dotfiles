@@ -5,11 +5,11 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     ./disks.nix
     ./boot.nix
-    ./bluetooth.nix
     ./rgb.nix
   ];
   ellie.nvidia.enable = true;
   ellie.vr.enable = true;
+  ellie.bluetooth.enable = true;
 
   services.hardware.lian-li-pump-control.enable = true;
 

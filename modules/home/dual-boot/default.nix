@@ -10,7 +10,6 @@ lib.internal.simpleModule inputs "dual-boot" {
       Exec=systemctl reboot --boot-loader-entry=auto-windows
       Terminal=false
       Hidden=false
-      Icon=${../../../windows.png}
     '';
   };
 }
