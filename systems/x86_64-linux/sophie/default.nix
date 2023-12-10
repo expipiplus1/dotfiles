@@ -8,14 +8,16 @@ systems, # An attribute map of your defined hosts.
 config, ... }:
 
 {
-  imports = [
-    ./darlings.nix
-    ./hardware
-    ./networking.nix
-  ];
+  imports = [ ./darlings.nix ./hardware ./networking.nix ];
   ellie.desktop.enable = true;
   ellie.docker.enable = true;
   ellie.vm.enable = true;
+  personal.dslr-webcam = {
+    enable = true;
+    virtual-device-name = "a7iii";
+    camera-udev-product = "54c/c34/200";
+    ffmpeg-hwaccel = false;
+  };
 
   # boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 

@@ -10,7 +10,6 @@ config, ... }:
 {
   imports = [ ./impermanence.nix ./hardware ./networking.nix ];
   ellie.desktop.enable = true;
-
   ellie.docker.enable = true;
   ellie.vm.enable = true;
   personal.dslr-webcam = {
