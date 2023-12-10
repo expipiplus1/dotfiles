@@ -18,6 +18,13 @@ config, ... }:
   ellie.vm.enable = true;
   ellie.fcitx5.enable = true;
 
+  personal.dslr-webcam = {
+    enable = true;
+    virtual-device-name = "a7iii";
+    camera-udev-product = "54c/c34/200";
+    ffmpeg-hwaccel = false;
+  };
+
   #
   # Misc things, too small for their own module
   #
