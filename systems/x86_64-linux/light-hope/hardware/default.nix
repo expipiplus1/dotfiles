@@ -9,11 +9,9 @@
   ];
   ellie.nvidia.enable = true;
   ellie.vr.enable = true;
-  ellie.bluetooth.enable = true;
 
   services.hardware.lian-li-pump-control.enable = true;
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.amd.updateMicrocode =
     lib.mkDefault config.hardware.enableRedistributableFirmware;

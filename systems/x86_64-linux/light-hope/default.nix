@@ -8,20 +8,9 @@ systems, # An attribute map of your defined hosts.
 config, ... }:
 
 {
-  imports = [ ./impermanence.nix ./hardware ./networking.nix ];
+  networking.hostName = "light-hope"; # Define your hostname.
+  imports = [ ./impermanence.nix ./hardware ];
   ellie.desktop.enable = true;
-  ellie.docker.enable = true;
-  ellie.vm.enable = true;
-  personal.dslr-webcam = {
-    enable = true;
-    virtual-device-name = "a7iii";
-    camera-udev-product = "54c/c34/200";
-    ffmpeg-hwaccel = false;
-  };
-
-  # boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-
   nix.settings.system-features = [ "gccarch-znver4" ];
-
   system.stateVersion = "23.11"; # Did you read the comment?
 }

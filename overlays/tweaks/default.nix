@@ -2,6 +2,7 @@
 
 self: super: {
   anki-23 = self.anki-23.overrideAttrs (old: {
+
     buildInputs = old.buildInputs ++ [ self.makeWrapper ];
     postInstall = old.postInstall or "" + ''
       # Fix jagged text rendering, as per

@@ -8,24 +8,11 @@ systems, # An attribute map of your defined hosts.
 config, ... }:
 
 {
-  imports = [ ./darlings.nix ./hardware ./networking.nix ];
+  networking.hostName = "sophie"; # Define your hostname.
+  imports = [ ./darlings.nix ./hardware ];
   ellie.desktop.enable = true;
-  ellie.docker.enable = true;
-  ellie.vm.enable = true;
-  personal.dslr-webcam = {
-    enable = true;
-    virtual-device-name = "a7iii";
-    camera-udev-product = "54c/c34/200";
-    ffmpeg-hwaccel = false;
-  };
-
-  # boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-
-  environment.systemPackages = with pkgs; [ lm_sensors ntfs3g ];
-
   nix.settings.system-features = [ "gccarch-znver3" ];
-
+  networking.interfaces.enp4s0.wakeOnLan.enable = true;
   services.earlyoom = { enable = true; };
-
   system.stateVersion = "21.11"; # Did you read the comment?
 }
