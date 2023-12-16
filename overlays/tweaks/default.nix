@@ -1,8 +1,7 @@
 { channels, ... }:
 
 self: super: {
-  anki-23 = self.anki-23.overrideAttrs (old: {
-
+  anki-23 = channels.nixpkgs-master.anki.overrideAttrs (old: {
     buildInputs = old.buildInputs ++ [ self.makeWrapper ];
     postInstall = old.postInstall or "" + ''
       # Fix jagged text rendering, as per

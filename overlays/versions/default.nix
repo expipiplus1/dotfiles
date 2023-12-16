@@ -1,7 +1,6 @@
 { channels, ... }:
 
 self: super: {
-  anki-23 = channels.nixpkgs-master.anki;
   anki = self.anki-23;
 
   fourmolu = self.haskell.packages.ghc96.fourmolu;
