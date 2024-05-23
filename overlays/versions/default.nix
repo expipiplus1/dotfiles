@@ -11,7 +11,7 @@ self: super: {
   # direnv = super.direnv.overrideAttrs (old: {
   #   patches = old.patches or [ ] ++ [ ../patches/quiet-direnv.patch ];
   # });
-  atuin = super.atuin.overrideAttrs (old: {
+  atuin = super.atuin.overrideAttrs (old: rec {
     patches = old.patches or [ ] ++ [ ../patches/atuin-popup.patch ];
   });
   memtest86plus = self.callPackage ({ stdenv, fetchurl, lib }:

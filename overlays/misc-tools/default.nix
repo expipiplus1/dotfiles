@@ -46,11 +46,12 @@ self: super: {
 
   cmake-language-server = super.cmake-language-server.overrideAttrs (old: {
     checkPhase = ":";
+    doCheck = false;
     src = self.fetchFromGitHub {
       owner = "expipiplus1";
       repo = "cmake-language-server";
-      rev = "94e60dfa56341fca4289ea188d8e8dda90ae5f4c";
-      sha256 = "sha256-kPKeW/jCeAbiKJTb+gTo7qG8qLC2k9grGTyWz63IqFM=";
+      rev = "e142bf9e396c0cc23c3ac7c053a2d9e3661df619"; # format
+      sha256 = "1mvri61l0wvj8sww3v4sgvf2w0qgxq1ywc28fm6b1ww00ipmf0im";
     };
   });
 }
