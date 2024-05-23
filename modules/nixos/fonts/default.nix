@@ -4,9 +4,9 @@ lib.internal.simpleModule inputs "fonts" (let
     drv.overrideAttrs (old: { enableParallelBuilding = false; });
 
   defaultIosevkaPlan = {
-    no-cv-ss = true;
-    export-glyph-names = false;
-    no-ligation = true;
+    noCvSs = true;
+    exportGlyphNames = false;
+    noLigation = true;
     variants = {
       design = { lower-lambda = "straight-turn"; };
       italic = { k = "straight-serifless"; };

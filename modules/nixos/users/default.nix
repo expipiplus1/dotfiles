@@ -38,6 +38,7 @@ lib.internal.simpleModule inputs "users" {
       "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBI9bd3ChEQDikNy0g9myDQlkzZxl8zcFfb5qhjn9NomNX3PV7G3dWVy8X5/rppkeRTYg7InkYTOU9tPjdhQ3mTk= ellie@ipad"
       "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKz02gCLJO1cX7xLRtxdAajMGHSG4uaCPEZNr68/aNlWdUqIoJrwye0ngZFH1XakGrcwnHKowVtGItC4gpBOrrE= ellie@ipad"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII8wDcEeHIfK63eMWC3pXRmX1DpItY3+cpS0C2fmYc31 e@light-hope"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIADX8HRqBgJD78QAlf8pfYpZ89pWUKEO8HXSX5zPY3KP ellieh"
     ];
   };
 }

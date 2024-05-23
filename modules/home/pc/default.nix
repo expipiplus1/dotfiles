@@ -14,6 +14,7 @@ lib.internal.simpleModule inputs "pc" {
     powerline-fonts
     xsel
     signal-desktop
+    telegram-desktop
     firefox
     tidal-hifi
     darktable
@@ -27,6 +28,7 @@ lib.internal.simpleModule inputs "pc" {
     gnomeExtensions.dash-to-panel
     wl-clipboard
     thunderbird
+    vlc
   ];
 
   programs.neovim = {

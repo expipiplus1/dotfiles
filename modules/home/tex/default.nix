@@ -4,7 +4,12 @@ lib.internal.simpleModule inputs "tex" {
 
   programs.texlive = {
     enable = true;
-    extraPackages = tpkgs: { inherit (tpkgs) scheme-small; };
+    extraPackages = tpkgs: {
+      inherit (tpkgs)
+        scheme-small scheme-medium  fontspec geometry ragged2e
+        enumitem xunicode xltxtra hyperref polyglossia footmisc datetime2
+        mdframed etoolbox collection-fontsrecommended zref needspace wallpaper;
+    };
     # extraPackages = tpkgs:
     #   {
     #     inherit (tpkgs)
