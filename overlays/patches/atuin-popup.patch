@@ -1,14 +1,14 @@
-diff --git a/atuin/src/shell/atuin.zsh b/atuin/src/shell/atuin.zsh
-index afff2d33..adbf7ef3 100644
---- a/atuin/src/shell/atuin.zsh
-+++ b/atuin/src/shell/atuin.zsh
-@@ -33,7 +33,20 @@ _atuin_search() {
-     # swap stderr and stdout, so that the tui stuff works
+diff --git a/crates/atuin/src/shell/atuin.zsh b/crates/atuin/src/shell/atuin.zsh
+index d580f704..b4de7b2c 100644
+--- a/crates/atuin/src/shell/atuin.zsh
++++ b/crates/atuin/src/shell/atuin.zsh
+@@ -56,7 +56,20 @@ _atuin_search() {
      # TODO: not this
+     local output
      # shellcheck disable=SC2048
--    output=$(ATUIN_SHELL_ZSH=t ATUIN_LOG=error atuin search $* -i -- $BUFFER 3>&1 1>&2 2>&3)
+-    output=$(ATUIN_SHELL_ZSH=t ATUIN_LOG=error ATUIN_QUERY=$BUFFER atuin search $* -i 3>&1 1>&2 2>&3)
 +    if [ -z "${TMUX}" ]; then
-+        output=$(ATUIN_SHELL_ZSH=t ATUIN_LOG=error atuin search $* -i -- $BUFFER 3>&1 1>&2 2>&3)
++        output=$(ATUIN_SHELL_ZSH=t ATUIN_LOG=error ATUIN_QUERY=$BUFFER atuin search $* -i -- 3>&1 1>&2 2>&3)
 +    else
 +        tmpdir=$(mktemp -d)
 +        mkfifo "$tmpdir/pipe"
@@ -16,7 +16,7 @@ index afff2d33..adbf7ef3 100644
 +        output=$(
 +            cat "$tmpdir/pipe" &;
 +            tmux display-popup -d $(pwd) -B -E -E -h 80% -w 80% -- \
-+                "$(printf "%q " ATUIN_SHELL_ZSH=t ATUIN_LOG=error atuin search $* -i -- $BUFFER) 1>&2 2>$tmpdir/pipe"
++                "$(printf "%q " ATUIN_SHELL_ZSH=t ATUIN_LOG=error ATUIN_QUERY=$BUFFER atuin search $* -i --) 1>&2 2>$tmpdir/pipe"
 +        )
 +        rm -rf "$tmpdir"
 +    fi
