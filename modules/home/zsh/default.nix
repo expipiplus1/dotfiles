@@ -12,7 +12,7 @@ lib.internal.simpleModule inputs "zsh" {
         src = "${pkgs."zsh-${name}"}/share/zsh/site-functions";
       };
     in builtins.map p [ "fast-syntax-highlighting" ];
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     history = {
       share = false;
       size = 2000000000;

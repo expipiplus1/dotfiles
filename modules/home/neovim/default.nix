@@ -192,7 +192,7 @@ in {
         {
           plugin = vim-nix;
           config = ''
-            autocmd FileType nix setlocal formatprg=${pkgs.nixfmt}/bin/nixfmt
+            autocmd FileType nix setlocal formatprg=${pkgs.nixfmt-classic}/bin/nixfmt
           '';
         }
         vim-repeat
@@ -497,7 +497,7 @@ in {
           '';
         }
         {
-          plugin = suda-vim;
+          plugin = vim-suda;
           config = ''
             command! WW SudaWrite
           '';

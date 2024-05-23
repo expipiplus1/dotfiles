@@ -236,7 +236,7 @@ lib.internal.simpleModule inputs "coc-nvim" {
           rootPatterns = [ "flake.nix" ];
           # Uncomment these to tweak settings.
           settings.nil = {
-            formatting.command = [ "${pkgs.nixfmt}/bin/nixfmt" ];
+            formatting.command = [ "${pkgs.nixfmt-classic}/bin/nixfmt" ];
           };
         };
       };

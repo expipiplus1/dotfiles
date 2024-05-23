@@ -5,14 +5,14 @@ self: super: {
 
   fourmolu = self.haskell.packages.ghc96.fourmolu;
 
-  fzf = super.fzf.overrideAttrs (old: {
-    patches = old.patches or [ ] ++ [ ../../patches/fzf-tmux.patch ];
-  });
-  direnv = super.direnv.overrideAttrs (old: {
-    patches = old.patches or [ ] ++ [ ../../patches/quiet-direnv.patch ];
-  });
+  # fzf = super.fzf.overrideAttrs (old: {
+  #   patches = old.patches or [ ] ++ [ ../patches/fzf-tmux.patch ];
+  # });
+  # direnv = super.direnv.overrideAttrs (old: {
+  #   patches = old.patches or [ ] ++ [ ../patches/quiet-direnv.patch ];
+  # });
   atuin = super.atuin.overrideAttrs (old: {
-    patches = old.patches or [ ] ++ [ ../../patches/atuin-popup.patch ];
+    patches = old.patches or [ ] ++ [ ../patches/atuin-popup.patch ];
   });
   memtest86plus = self.callPackage ({ stdenv, fetchurl, lib }:
     stdenv.mkDerivation rec {

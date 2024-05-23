@@ -57,7 +57,7 @@ in {
     pkgs.upfind
     pkgs.update-nix-fetchgit
     pkgs.cachix
-    pkgs.nixfmt
+    pkgs.nixfmt-classic
     cabal-fmt
     ghcid
     pkgs.hlint

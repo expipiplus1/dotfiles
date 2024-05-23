@@ -1,8 +1,8 @@
 { lib, pkgs, ... }@inputs:
 lib.internal.simpleModule inputs "kde" {
-  services.xserver = {
+  services = {
     displayManager.sddm.enable = true;
-    desktopManager.plasma5.enable = true;
+    xserver.desktopManager.plasma5.enable = true;
     displayManager.defaultSession = "plasmawayland";
   };
 
