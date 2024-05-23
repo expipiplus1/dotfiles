@@ -22,10 +22,16 @@ in {
       description = "If enabled, nvdec hwaccel will be used";
       default = false;
     };
+    with-obs = lib.mkOption {
+      type = lib.types.bool;
+      description = "If enabled, obs will be installed";
+      default = true;
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [ gphoto2 ffmpeg-full v4l-utils ];
+    environment.systemPackages = with pkgs;
+      [ gphoto2 ffmpeg-full v4l-utils ] ++ lib.optional cfg.with-obs obs-studio;
 
     boot.extraModulePackages = with config.boot.kernelPackages;
       [ v4l2loopback.out ];

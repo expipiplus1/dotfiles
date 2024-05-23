@@ -47,11 +47,7 @@ in {
     [ "nvme" "thunderbolt" "xhci_pci" "ahci" "usbhid" "aesni_intel" "cryptd" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" "nct6775" ];
-  boot.extraModulePackages = [
-    (asus-ec-sensors-kernel-module.overrideAttrs
-      # (_: { patches = [ ../../../sense.patch ../../../nct.patch ]; }))
-      (_: { patches = [ ../../../../sense.patch  ]; }))
-  ];
+  boot.extraModulePackages = [ asus-ec-sensors-kernel-module ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.supportedFilesystems = [ "btrfs" ];

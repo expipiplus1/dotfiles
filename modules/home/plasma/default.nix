@@ -1,5 +1,5 @@
-{ lib, config, pkgs, ... }@inputs: lib.internal.simpleModule inputs "plasma"
-{
+{ lib, config, pkgs, ... }@inputs:
+lib.internal.simpleModule inputs "plasma" {
   programs.plasma = {
     enable = true;
     configFile = {
