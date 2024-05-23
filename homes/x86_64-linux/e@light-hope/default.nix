@@ -5,8 +5,8 @@
   ellie.git.enable = true;
   ellie.tmux.enable = true;
   ellie.neovim.enable = true;
-  ellie.kakoune.enable = true;
-  ellie.helix.enable = true;
+  ellie.kakoune.enable = false;
+  ellie.helix.enable = false;
   ellie.pc.enable = true;
   ellie.gdb.enable = true;
   ellie.direnv.enable = true;
