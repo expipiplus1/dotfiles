@@ -1,5 +1,15 @@
 {
   inputs = {
+    lix = {
+      url =
+        "git+https://git@git.lix.systems/lix-project/lix?ref=refs/tags/2.90-beta.1";
+      flake = false;
+    };
+    lix-module = {
+      url = "git+https://git.lix.systems/lix-project/nixos-module";
+      inputs.lix.follows = "lix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
     nixpkgs-master.url = "github:NixOS/nixpkgs/master";
@@ -28,6 +38,7 @@
     snowfall-lib = {
       url = "github:snowfallorg/lib";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils-plus.url = "github:fl42v/flake-utils-plus";
     };
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
@@ -42,11 +53,12 @@
       channels-config = { allowUnfree = true; };
       overlays = with inputs; [ nil.overlays.default ];
       systems.modules.nixos = with inputs; [
-        nixseparatedebuginfod.nixosModules.default
+        # nixseparatedebuginfod.nixosModules.default
         impermanence.nixosModule
         lian-li-control.nixosModules.fan
         lian-li-control.nixosModules.pump
         nixos-wsl.nixosModules.default
+        lix-module.nixosModules.default
       ];
       # This seems to pull them in for nixos builds too?
       # homes.modules = with inputs;
