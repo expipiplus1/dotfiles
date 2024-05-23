@@ -27,6 +27,6 @@ lib.internal.simpleModule inputs "nvidia" {
     options nvidia NVreg_TemporaryFilePath=/var/nvidia-suspend
   '';
 
-  services.xserver = { videoDrivers = [ "nvidia" ]; };
+  services.xserver.videoDrivers = [ "nvidia" ];
 }
 
