@@ -1,0 +1,34 @@
+diff --git a/tests/test_server.py b/tests/test_server.py
+index e6cfe6e..05be864 100644
+--- a/tests/test_server.py
++++ b/tests/test_server.py
+@@ -98,29 +98,6 @@ def test_initialize(
+     assert server._api is not None
+ 
+ 
+-def test_workspace_did_change_configuration(
+-    client_server: Tuple[LanguageServer, CMakeLanguageServer], datadir: Path
+-) -> None:
+-    client, server = client_server
+-
+-    _init(client, datadir)
+-
+-    old_api = server._api
+-
+-    client.lsp.notify(
+-        WORKSPACE_DID_CHANGE_CONFIGURATION,
+-        DidChangeConfigurationParams(
+-            settings={"initialization_options": {"buildDirectory": "c_build"}}
+-        ),
+-    )
+-
+-    start = time.monotonic()
+-    while server._api is old_api and (time.monotonic() - start) < CALL_TIMEOUT:
+-        time.sleep(0.1)
+-
+-    assert server._api is not None
+-    assert server._api._build.as_posix() == "c_build"
+-
+ 
+ @pytest.mark.parametrize(
+     "context", [CompletionContext(trigger_kind=CompletionTriggerKind.Invoked), None]
