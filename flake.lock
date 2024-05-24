@@ -180,11 +180,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1715930644,
-        "narHash": "sha256-W9pyM3/vePxrffHtzlJI6lDS3seANQ+Nqp+i58O46LI=",
+        "lastModified": 1716457508,
+        "narHash": "sha256-ZxzffLuWRyuMrkVVq7wastNUqeO0HJL9xqfY1QsYaqo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "e3ad5108f54177e6520535768ddbf1e6af54b59d",
+        "rev": "850cb322046ef1a268449cf1ceda5fd24d930b05",
         "type": "github"
       },
       "original": {
@@ -258,11 +258,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1715885250,
-        "narHash": "sha256-IUFYAl3158Ig5vySnRBHoPReb2/S97bjodCo6FhzJv4=",
+        "lastModified": 1716506851,
+        "narHash": "sha256-fzY708SyfHwLOFrg5ZU0fXW9mNdvRvqz64jg97vvpJM=",
         "ref": "refs/heads/main",
-        "rev": "53d713eb486f21d653af3ef3528e9a19ecfc45e5",
-        "revCount": 81,
+        "rev": "18fa4a89e208cb8e881f5f71c75bbd4c1c2fd37d",
+        "revCount": 83,
         "type": "git",
         "url": "https://git.lix.systems/lix-project/nixos-module"
       },
@@ -333,11 +333,11 @@
     },
     "nixpkgs-master": {
       "locked": {
-        "lastModified": 1716441299,
-        "narHash": "sha256-/9uFoVYMlWJOmUU1pVZxXoJghFFn8JMRFS0uH3l44i4=",
+        "lastModified": 1716527232,
+        "narHash": "sha256-foW5LJmB8RBHR6LjR+WPuFI/FjOiT/5Mbinf81ldYmo=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "b9891302b4896ee581531a456c318a70c388969d",
+        "rev": "5bf18baa21f65ac3d457527004e314a5698fb4b7",
         "type": "github"
       },
       "original": {
@@ -394,11 +394,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1716145823,
-        "narHash": "sha256-S2cfXdWCRf6Z+Gas6GN1kMSYqG01583uuJKITDVQp0o=",
+        "lastModified": 1716497069,
+        "narHash": "sha256-R8tGjY7wUKWY5O3iZiy1gyg0+8pdXcOeP3RppdKgLLM=",
         "owner": "pjones",
         "repo": "plasma-manager",
-        "rev": "5db76cbb4d66231769cd8939472ae00c55c24a44",
+        "rev": "6d697a8dd6d0699bce69424dbed55184212ff21a",
         "type": "github"
       },
       "original": {
@@ -458,11 +458,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1716433572,
-        "narHash": "sha256-JzUSwdANQyTVZiKkTpGVB9rTCu2y8kn3vbrp8kUsozE=",
+        "lastModified": 1716511874,
+        "narHash": "sha256-h1cj+qotlb+UJRaOGemtBFst8V0OFwjml4jDp2f7V2g=",
         "owner": "snowfallorg",
         "repo": "lib",
-        "rev": "c58023878d6720c525446cb67d8fcbe7c3a5d84c",
+        "rev": "439d463a8af79082bf51f8ba76b3db3da1aa2193",
         "type": "github"
       },
       "original": {
