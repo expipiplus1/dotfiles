@@ -15,8 +15,6 @@ lib.internal.simpleModule inputs "plasma" {
       kdeglobals.KDE.SingleClick = false;
 
       kwinrc = {
-        Compositing.LatencyPolicy = "Medium";
-
         NightColor = {
           Active = true;
           LatitudeFixed = 1.3;
@@ -27,7 +25,7 @@ lib.internal.simpleModule inputs "plasma" {
         Plugins = { screenedgeEnabled = false; };
 
         TabBox.HighlightWindows = false;
-        TabBox.LayoutName = "thumbnail_switcher";
+        TabBox.LayoutName = "thumbnail_grid";
 
         Xwayland.Scale = 1.5;
       };
