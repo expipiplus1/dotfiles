@@ -51,7 +51,10 @@
       inherit inputs;
       src = ./.;
       channels-config = { allowUnfree = true; };
-      overlays = with inputs; [ nil.overlays.default ];
+      overlays = with inputs; [
+        lix-module.overlays.default
+        nil.overlays.default
+      ];
       systems.modules.nixos = with inputs; [
         # nixseparatedebuginfod.nixosModules.default
         impermanence.nixosModule

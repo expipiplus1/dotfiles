@@ -2,8 +2,13 @@
 lib.internal.simpleModule inputs "kde" {
   services = {
     displayManager.sddm.enable = true;
-    xserver.desktopManager.plasma5.enable = true;
-    displayManager.defaultSession = "plasmawayland";
+    displayManager.sddm.wayland.enable = true;
+    # xserver.displayManager.gdm.enable = true;
+
+    # xserver.desktopManager.plasma5.enable = true;
+    # displayManager.defaultSession = "plasmawayland";
+    desktopManager.plasma6.enable = true;
+    displayManager.defaultSession = "plasma";
   };
 
   programs.kdeconnect.enable = true;

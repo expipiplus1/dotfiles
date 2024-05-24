@@ -20,4 +20,6 @@ self: super: {
       wrapProgram "$out/bin/signal-desktop" --add-flags --ozone-platform-hint=auto
     '';
   });
+
+  nixos-option = self.nixos-rebuild;
 }
