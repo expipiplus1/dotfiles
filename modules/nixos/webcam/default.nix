@@ -39,7 +39,7 @@ in {
     boot.kernelModules = [ "v4l2loopback" ];
 
     boot.extraModprobeConfig = ''
-      options v4l2loopback devices=3 exclusive_caps=1 max_buffers=3 card_label=obs,${cfg.virtual-device-name}
+      options v4l2loopback devices=2 exclusive_caps=1 max_buffers=2 card_label=obs,${cfg.virtual-device-name}
     '';
 
     services.udev.extraRules = ''
