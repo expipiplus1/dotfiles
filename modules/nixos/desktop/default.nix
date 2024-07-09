@@ -25,7 +25,7 @@ lib.internal.simpleModule inputs "desktop" {
 
   time.timeZone = "Asia/Singapore";
 
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  # boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   services.openssh = {
     enable = true;
