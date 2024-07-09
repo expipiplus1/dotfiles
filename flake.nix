@@ -1,20 +1,14 @@
 {
   inputs = {
-    lix = {
-      url =
-        "git+https://git@git.lix.systems/lix-project/lix?ref=refs/tags/2.90-beta.1";
-      flake = false;
-    };
     lix-module = {
       url = "git+https://git.lix.systems/lix-project/nixos-module";
-      inputs.lix.follows = "lix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
     nixpkgs-master.url = "github:NixOS/nixpkgs/master";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixseparatedebuginfod = {
@@ -51,10 +45,7 @@
       inherit inputs;
       src = ./.;
       channels-config = { allowUnfree = true; };
-      overlays = with inputs; [
-        lix-module.overlays.default
-        nil.overlays.default
-      ];
+      overlays = with inputs; [ nil.overlays.default ];
       systems.modules.nixos = with inputs; [
         # nixseparatedebuginfod.nixosModules.default
         impermanence.nixosModule
