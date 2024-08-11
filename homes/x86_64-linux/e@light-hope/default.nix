@@ -14,4 +14,5 @@
   ellie.sensors.enable = true;
   ellie.dual-boot.enable = true;
   ellie.autostart.enable = true;
+  ellie.jujutsu.enable = true;
 }
