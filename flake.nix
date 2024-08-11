@@ -45,14 +45,16 @@
       inherit inputs;
       src = ./.;
       channels-config = { allowUnfree = true; };
-      overlays = with inputs; [ nil.overlays.default ];
+      overlays = with inputs; [
+        nil.overlays.default
+        lix-module.overlays.default
+      ];
       systems.modules.nixos = with inputs; [
         # nixseparatedebuginfod.nixosModules.default
         impermanence.nixosModule
         lian-li-control.nixosModules.fan
         lian-li-control.nixosModules.pump
         nixos-wsl.nixosModules.default
-        lix-module.nixosModules.default
       ];
       # This seems to pull them in for nixos builds too?
       # homes.modules = with inputs;
