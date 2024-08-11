@@ -19,7 +19,7 @@ lib.internal.simpleModule inputs "basic" {
     bat
     bear
     bmon
-    unzip
+    btop
     cached-nix-shell
     coreutils
     curl
@@ -31,10 +31,11 @@ lib.internal.simpleModule inputs "basic" {
     entr
     fd
     file
+    gh
     gist
     hackage-release
     htop
-    btop
+    ripgrep
     jq
     json2nix
     killall
@@ -53,6 +54,7 @@ lib.internal.simpleModule inputs "basic" {
     tio
     tree
     tssh
+    unzip
     yq
   ];
 
