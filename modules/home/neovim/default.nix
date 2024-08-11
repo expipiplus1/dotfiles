@@ -93,6 +93,14 @@ in {
         '';
       } ([
         {
+          plugin = sg-nvim;
+          type = "lua";
+          config = ''
+            require('sg').setup()
+          '';
+        }
+
+        {
           plugin = vimspector;
           config = ''
             let g:vimspector_enable_mappings = 'HUMAN'
