@@ -1,4 +1,12 @@
 { lib, pkgs, ... }@inputs:
+let
+  homeshick = pkgs.fetchFromGitHub {
+    owner = "andsens";
+    repo = "homeshick";
+    rev = "e46584202dc7b889b52d2458377f62c8570faad0";
+    sha256 = "109lf8n3nsmb04mgc3lngqrgbfmrra8c7nw4wb96pwz9qydqrzmg";
+  };
+in
 lib.internal.simpleModule inputs "zsh" {
   programs.zsh = {
     enable = true;
@@ -116,6 +124,9 @@ lib.internal.simpleModule inputs "zsh" {
       )
       }
 
+      export HOMESHICK_DIR=${homeshick}
+      source "${homeshick}/homeshick.sh"
+      fpath=(${homeshick}/completions $fpath)
     '';
     initExtra = ''
       # if [ -f ~/.config/light ]; then
@@ -142,6 +153,7 @@ lib.internal.simpleModule inputs "zsh" {
       bindkey "''${terminfo[kcud1]}" down-line-or-history
       bindkey "''${terminfo[kcub1]}" backward-char
       bindkey "''${terminfo[kcuf1]}" forward-char
+
     '';
 
     # So ssh machine -- foo works

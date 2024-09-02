@@ -33,7 +33,16 @@ in with pkgs.vimPlugins; {
       '';
     }
     {
-      plugin = nvim-treesitter-context;
+      # plugin = nvim-treesitter-context;
+      plugin = pkgs.vimUtils.buildVimPlugin {
+        name = "nvim-treesitter-context";
+        src = pkgs.fetchFromGitHub {
+          owner = "nvim-treesitter";
+          repo = "nvim-treesitter-context";
+          sha256 = "0x1zc683m3awvvmq8b87dllycpcnrmvmx8fkkzx2hlii1k6a8j2s";
+          rev = "0f3332788e0bd37716fbd25f39120dcfd557c90f";
+        };
+      };
       config = luaConfig ''
         require'treesitter-context'.setup{
           enable = true,

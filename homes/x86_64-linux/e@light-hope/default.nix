@@ -15,4 +15,6 @@
   ellie.dual-boot.enable = true;
   ellie.autostart.enable = true;
   ellie.jujutsu.enable = true;
+  ellie.tg.enable = true;
+  # ellie.astrovim.enable = true;
 }

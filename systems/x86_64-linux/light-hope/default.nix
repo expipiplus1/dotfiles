@@ -13,4 +13,6 @@ config, ... }:
   ellie.desktop.enable = true;
   nix.settings.system-features = [ "gccarch-znver4" ];
   system.stateVersion = "23.11"; # Did you read the comment?
+
+  programs.mosh.enable = true;
 }

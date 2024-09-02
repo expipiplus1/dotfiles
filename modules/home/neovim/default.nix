@@ -75,7 +75,8 @@ in {
     };
     home.packages = [ pkgs.bc ];
     ellie.treesitter.enable = true;
-    ellie.coc-nvim.enable = true;
+    # ellie.coc-nvim.enable = true;
+    # ellie.nvim-lsp.enable = true;
     programs.neovim = with pkgs.vimPlugins; {
       enable = true;
       # package = appendPatches [ ./nvim-backup-dir.patch ./nvim-backup-perms.patch ] pkgs.neovim-unwrapped;
@@ -151,35 +152,35 @@ in {
             vmap gx <Plug>(openbrowser-open)
           '';
         }
-        {
-          plugin = (pkgs.vimUtils.buildVimPlugin {
-            name = "neoscroll";
-            src = pkgs.fetchFromGitHub {
-              owner = "karb94";
-              repo = "neoscroll.nvim";
-              rev = "54c5c419f6ee2b35557b3a6a7d631724234ba97a";
-              sha256 = "09xlpdkbi0rpyh18f80w77454krx65kw463rs12241f5m0bax7xb";
-            };
-          });
-          config = luaConfig ''
-            if not vim.g.vscode
-            then
-              require('neoscroll').setup({
-                  -- All these keys will be mapped to their corresponding default scrolling animation
-                  mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>',
-                              '<C-y>', '<C-e>', 'zt', 'zz', 'zb'},
-                  hide_cursor = true,          -- Hide cursor while scrolling
-                  stop_eof = true,             -- Stop at <EOF> when scrolling downwards
-                  respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
-                  cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
-                  easing_function = "circular",       -- Default easing function
-                  pre_hook = nil,              -- Function to run before the scrolling animation starts
-                  post_hook = nil,             -- Function to run after the scrolling animation ends
-                  performance_mode = false,    -- Disable "Performance Mode" on all buffers.
-              })
-            end
-          '';
-        }
+        # {
+        #   plugin = (pkgs.vimUtils.buildVimPlugin {
+        #     name = "neoscroll";
+        #     src = pkgs.fetchFromGitHub {
+        #       owner = "karb94";
+        #       repo = "neoscroll.nvim";
+        #       rev = "54c5c419f6ee2b35557b3a6a7d631724234ba97a";
+        #       sha256 = "09xlpdkbi0rpyh18f80w77454krx65kw463rs12241f5m0bax7xb";
+        #     };
+        #   });
+        #   config = luaConfig ''
+        #     if not vim.g.vscode
+        #     then
+        #       require('neoscroll').setup({
+        #           -- All these keys will be mapped to their corresponding default scrolling animation
+        #           mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>',
+        #                       '<C-y>', '<C-e>', 'zt', 'zz', 'zb'},
+        #           hide_cursor = true,          -- Hide cursor while scrolling
+        #           stop_eof = true,             -- Stop at <EOF> when scrolling downwards
+        #           respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+        #           cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+        #           easing_function = "circular",       -- Default easing function
+        #           pre_hook = nil,              -- Function to run before the scrolling animation starts
+        #           post_hook = nil,             -- Function to run after the scrolling animation ends
+        #           performance_mode = false,    -- Disable "Performance Mode" on all buffers.
+        #       })
+        #     end
+        #   '';
+        # }
         vim-abolish
         vim-easy-align
         vim-fugitive
