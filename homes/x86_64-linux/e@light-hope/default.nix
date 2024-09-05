@@ -4,7 +4,6 @@
   ellie.fzf.enable = true;
   ellie.git.enable = true;
   ellie.tmux.enable = true;
-  ellie.neovim.enable = true;
   ellie.kakoune.enable = false;
   ellie.helix.enable = false;
   ellie.pc.enable = true;
@@ -16,5 +15,6 @@
   ellie.autostart.enable = true;
   ellie.jujutsu.enable = true;
   ellie.tg.enable = true;
-  # ellie.astrovim.enable = true;
+  # ellie.neovim.enable = true;
+  ellie.astrovim.enable = true;
 }
