@@ -6,6 +6,6 @@ return {
   build = command,
   opts = function(_, opts)
     vim.fn.system(command)
-    return { highlight = { enable = true } }
+    return require("astrocore").extend_tbl(opts, { highlight = { enable = true } })
   end,
 }
