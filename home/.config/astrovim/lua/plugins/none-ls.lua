@@ -23,9 +23,6 @@ return {
 			-- nix
 			null_ls.builtins.formatting.nixfmt,
 
-			-- c/c++
-			-- null_ls.builtins.formatting.clang_format,
-
 			-- bash
 			null_ls.builtins.formatting.shfmt.with {
 				args = { "-i", "2" },
