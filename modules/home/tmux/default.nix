@@ -98,9 +98,9 @@ lib.internal.simpleModule inputs "tmux" {
       # Hilight current window
       # Works well with base16 colors
       set-window-option -g window-active-style bg=terminal
-      set-window-option -g window-style 'bg=black'
-      set-window-option -g pane-border-style fg=black
-      set-window-option -g pane-active-border-style fg=black
+      set-window-option -g window-style 'bg=#2A2A37'
+      set-window-option -g pane-border-style 'fg=#2A2A37'
+      set-window-option -g pane-active-border-style 'fg=#2A2A37'
 
       # Renumber windows
       set-option -g renumber-windows on
