@@ -49,7 +49,7 @@ in {
   boot.kernelModules = [ "kvm-amd" "nct6775" ];
   boot.extraModulePackages = [ asus-ec-sensors-kernel-module ];
 
-  boot.kernelPackages = pkgs.linuxPackages_6_8;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.supportedFilesystems = [ "btrfs" ];
   hardware.enableAllFirmware = true;
 
@@ -68,4 +68,3 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 }
-
