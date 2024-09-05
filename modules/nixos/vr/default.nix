@@ -1,4 +1,4 @@
-{ lib, ... }@inputs:
+{ lib, config, ... }@inputs:
 lib.internal.simpleModule inputs "vr" {
   #
   # todo, something similar for nvidia
@@ -10,7 +10,8 @@ lib.internal.simpleModule inputs "vr" {
   # }];
 
   hardware.steam-hardware.enable = true;
-  hardware.opengl.driSupport32Bit = true;
+  hardware.opengl.driSupport32Bit =
+    if config.ellie.nvidia.devDriver then false else true;
 
   # nixpkgs.overlays = [
   #   (self: super: {

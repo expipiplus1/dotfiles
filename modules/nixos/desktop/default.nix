@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }@inputs:
+{ lib, pkgs, config, ... }@inputs:
 lib.internal.simpleModule inputs "desktop" {
   ellie.dm.enable = true;
   ellie.kde.enable = true;
@@ -41,11 +41,10 @@ lib.internal.simpleModule inputs "desktop" {
 
   environment.wordlist.enable = true;
 
-  programs.steam.enable = true;
+  programs.steam.enable = if config.ellie.nvidia.devDriver then false else true;
 
   # services.nixseparatedebuginfod.enable = true;
 
   # To not upset Windows
   time.hardwareClockInLocalTime = true;
 }
-
