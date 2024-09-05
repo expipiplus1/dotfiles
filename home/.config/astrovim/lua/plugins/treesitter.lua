@@ -1,15 +1,11 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+local nvim_data_dir = vim.fn.stdpath "data"
+local command = "ln -sf " .. nvim_data_dir .. "/site/parser/*.so " .. nvim_data_dir .. "/lazy/nvim-treesitter/parser"
 
--- Customize Treesitter
-
----@type LazySpec
 return {
   "nvim-treesitter/nvim-treesitter",
-  opts = {
-    ensure_installed = {
-      "lua",
-      "vim",
-      -- add more arguments for adding more treesitter parsers
-    },
-  },
+  build = command,
+  opts = function(_, opts)
+    vim.fn.system(command)
+    return { highlight = { enable = true } }
+  end,
 }

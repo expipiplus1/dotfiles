@@ -11,6 +11,10 @@ require("lazy").setup({
       update_notifications = true, -- Enable/disable notification about running `:Lazy update` twice to update pinned plugins
     },
   },
+  {
+		"nvim-treesitter/nvim-treesitter",
+		commit = vim.fn.readfile(vim.fn.stdpath("config") .. "/treesitter-rev", "", 1)[1],
+	},
   { import = "community" },
   { import = "plugins" },
 } --[[@as LazySpec]], {
