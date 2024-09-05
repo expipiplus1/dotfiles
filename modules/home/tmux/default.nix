@@ -99,7 +99,8 @@ lib.internal.simpleModule inputs "tmux" {
       # Works well with base16 colors
       set-window-option -g window-active-style bg=terminal
       set-window-option -g window-style 'bg=black'
-      set-window-option -g pane-active-border-style ''''''
+      set-window-option -g pane-border-style fg=black
+      set-window-option -g pane-active-border-style fg=black
 
       # Renumber windows
       set-option -g renumber-windows on
