@@ -6,6 +6,8 @@ let
     paths = with pkgs; [
       clang-tools
 
+      cmake-language-server
+
       nil
       nixd
 
