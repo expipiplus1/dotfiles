@@ -25,6 +25,9 @@ return {
   {
     "beyondmarc/hlsl.vim",
   },
+  {
+    "hrsh7th/cmp-buffer",
+  },
 
   -- -- You can disable default plugins as follows:
   -- { "max397574/better-escape.nvim", enabled = false },
