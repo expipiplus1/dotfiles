@@ -39,6 +39,7 @@ return {
         signcolumn = "yes",
         wrap = true,
         foldcolumn = "0",
+        clipboard = "",
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
