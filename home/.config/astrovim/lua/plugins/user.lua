@@ -22,6 +22,10 @@ return {
     config = function() require("alpha").setup(require("alpha.themes.startify").config) end,
   },
 
+  {
+    "beyondmarc/hlsl.vim",
+  },
+
   -- -- You can disable default plugins as follows:
   -- { "max397574/better-escape.nvim", enabled = false },
   --
