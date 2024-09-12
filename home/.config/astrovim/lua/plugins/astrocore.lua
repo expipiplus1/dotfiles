@@ -29,6 +29,17 @@ return {
           callback = function(args) vim.b[args.buf].autoformat = false end,
         },
       },
+      haskell_keywords = {
+        {
+          event = { "FileType" },
+          pattern = "haskell",
+          desc = "Set iskeyword options for Haskell files",
+          callback = function()
+            vim.opt_local.iskeyword:append "'"
+            vim.opt_local.iskeyword:remove "."
+          end,
+        },
+      },
     },
     -- vim options can be configured here
     options = {
