@@ -64,7 +64,8 @@ return {
             plugin = {
               ["ghcide-completions"] = { config = { snippetsOn = true, autoExtendOn = true } },
               rename = { config = { crossModule = true } },
-              fourmolu = { config = { external = true } },
+              -- fourmolu = { config = { external = true } },
+              stan = { globalOn = false },
             },
           },
         },
