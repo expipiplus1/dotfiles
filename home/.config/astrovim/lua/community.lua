@@ -11,8 +11,10 @@ return {
   { import = "astrocommunity.pack.haskell" },
   { import = "astrocommunity.pack.cpp",                               enabled = true },
   { import = "astrocommunity.pack.cmake" },
+  { import = "astrocommunity.pack.jj" },
   { import = "astrocommunity.recipes.disable-tabline" },
   { import = "astrocommunity.editing-support.vim-visual-multi" },
   { import = "astrocommunity.editing-support.treesj" },
   { import = "astrocommunity.editing-support.nvim-treesitter-context" },
+  { import = "astrocommunity.motion/nvim-surround" },
 }
