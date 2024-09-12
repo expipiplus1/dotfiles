@@ -85,6 +85,14 @@ return {
 
         ["<Leader>W"] = { ":wa<CR>", desc = "Write all files" },
 
+        ["<leader>y"] = {
+          function()
+            vim.fn.setreg("+", vim.fn.getreg "0")
+            print "copied to CTRL-C clipboard"
+          end,
+          desc = "Copy to CTRL-C clipboard",
+        },
+
         -- tables with just a `desc` key will be registered with which-key if it's installed
         -- this is useful for naming menus
         -- ["<Leader>b"] = { desc = "Buffers" },
