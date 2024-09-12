@@ -30,6 +30,12 @@ return {
   {
     "tpope/vim-abolish",
   },
+  {
+    "sustech-data/wildfire.nvim",
+    event = "VeryLazy",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function() require("wildfire").setup() end,
+  },
 
   -- -- You can disable default plugins as follows:
   -- { "max397574/better-escape.nvim", enabled = false },
