@@ -118,6 +118,67 @@ return {
             return client.supports_method "textDocument/semanticTokens/full" and vim.lsp.semantic_tokens ~= nil
           end,
         },
+        ["<Leader>lA"] = {
+          function()
+            vim.lsp.buf.code_action {
+              range = {
+                start = { 1, 0 },
+                ["end"] = { vim.fn.line "$", 0 },
+              },
+            }
+          end,
+          desc = "All code actions in buffer",
+        },
+        ["<Leader>lu"] = {
+          function()
+            vim.lsp.buf.code_action {
+              range = {
+                start = { 1, 0 },
+                ["end"] = { vim.fn.line "$", 0 },
+              },
+              context = {
+                only = { "quickfix" },
+              },
+              filter = function(action) return action.title == "Remove all redundant imports" end,
+              apply = true,
+            }
+          end,
+          desc = "Remove all redundant imports",
+        },
+        ["<leader>lh"] = {
+          function()
+            local bufnr = 0 -- 0 represents the current buffer
+            local diagnostics = vim.diagnostic.get(bufnr)
+            local formatted_diagnostics = {}
+
+            for _, diag in ipairs(diagnostics) do
+              table.insert(formatted_diagnostics, {
+                range = {
+                  start = { line = diag.lnum - 1, character = diag.col - 1 },
+                  ["end"] = { line = diag.end_lnum - 1, character = diag.end_col - 1 },
+                },
+                severity = diag.severity,
+                message = diag.message,
+                source = diag.source,
+                code = diag.code,
+              })
+            end
+
+            vim.lsp.buf.code_action {
+              range = {
+                start = { 1, 0 },
+                ["end"] = { vim.fn.line "$", 0 },
+              },
+              context = {
+                diagnostics = formatted_diagnostics,
+                only = { "quickfix" },
+              },
+              filter = function(action) return action.title == "Apply all hints" end,
+              apply = true,
+            }
+          end,
+          desc = "Apply all hints",
+        },
       },
     },
     -- A custom `on_attach` function to be run after the default `on_attach` function
