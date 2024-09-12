@@ -4,6 +4,8 @@ let
   lspEnv = pkgs.buildEnv {
     name = "lsp-servers";
     paths = with pkgs; [
+      haskellPackages.cabal-gild
+
       clang-tools
 
       cmake-language-server
