@@ -13,7 +13,7 @@ let
       nil
       nixd
 
-      prettierd
+      nodePackages.prettier
 
       tree-sitter
 
