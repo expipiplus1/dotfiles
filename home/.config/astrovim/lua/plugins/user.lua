@@ -21,12 +21,14 @@ return {
     dependencies = { "echasnovski/mini.icons" },
     config = function() require("alpha").setup(require("alpha.themes.startify").config) end,
   },
-
   {
     "beyondmarc/hlsl.vim",
   },
   {
     "hrsh7th/cmp-buffer",
+  },
+  {
+    "tpope/vim-abolish",
   },
 
   -- -- You can disable default plugins as follows:
