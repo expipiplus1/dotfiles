@@ -14,3 +14,7 @@ vim.filetype.add {
     ["~/%.config/foo/.*"] = "fooscript",
   },
 }
+
+vim.o.wildignorecase = true
+vim.o.wildmenu = true
+vim.o.wildmode = "longest,list:longest,full"
