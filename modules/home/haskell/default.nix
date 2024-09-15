@@ -67,7 +67,6 @@ in {
     nix-diff
     hpack
     cabal-install
-    pkgs.haskell-language-server
     weeder
     pkgs.docServer
   ];
