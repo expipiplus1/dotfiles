@@ -2,8 +2,10 @@
 lib.internal.simpleModule inputs "jujutsu" {
   home.packages = with pkgs; [ jujutsu ];
   programs.zsh = {
-    oh-my-zsh.plugins = [ "gitfast" "github" ];
-    shellAliases = { jst = "jj st"; };
+    shellAliases = {
+      js = "jj st";
+      jd = "jj diff";
+    };
   };
 
   programs.jujutsu = {
@@ -12,6 +14,11 @@ lib.internal.simpleModule inputs "jujutsu" {
       user = {
         name = "Ellie Hermaszewska";
         email = "git@monoid.al";
+      };
+      signing = {
+        sign-all = true;
+        backend = "ssh";
+        key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
       };
     };
 

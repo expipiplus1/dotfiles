@@ -6,8 +6,7 @@ let
     rev = "e46584202dc7b889b52d2458377f62c8570faad0";
     sha256 = "109lf8n3nsmb04mgc3lngqrgbfmrra8c7nw4wb96pwz9qydqrzmg";
   };
-in
-lib.internal.simpleModule inputs "zsh" {
+in lib.internal.simpleModule inputs "zsh" {
   programs.zsh = {
     enable = true;
     oh-my-zsh = {
@@ -181,6 +180,8 @@ lib.internal.simpleModule inputs "zsh" {
         truncate_to_repo = false;
         truncation_length = 0;
       };
+
+      jj.disabled = false;
 
       lua.disabled = true;
 
