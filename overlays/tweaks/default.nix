@@ -16,7 +16,7 @@ self: super: {
   });
 
   signal-desktop = super.signal-desktop.overrideAttrs (old: {
-    postFixup = old.postFixip or "" + ''
+    postFixup = old.postFixup or "" + ''
       wrapProgram "$out/bin/signal-desktop" --add-flags --ozone-platform-hint=auto
     '';
   });
