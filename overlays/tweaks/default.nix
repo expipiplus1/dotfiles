@@ -32,4 +32,18 @@ self: super: {
     };
   };
 
+  fd = super.fd.overrideAttrs (old: {
+    nativeBuildInputs = old.nativeBuildInputs ++ [ self.makeWrapper ];
+    postFixup = old.postFixup or "" + ''
+      wrapProgram "$out/bin/fd" --add-flags --no-require-git
+    '';
+  });
+
+  ripgrep = super.ripgrep.overrideAttrs (old: {
+    nativeBuildInputs = old.nativeBuildInputs ++ [ self.makeWrapper ];
+    postFixup = old.postFixup or "" + ''
+      wrapProgram "$out/bin/rg" --add-flags --no-require-git
+    '';
+  });
+
 }
