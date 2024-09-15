@@ -6,6 +6,7 @@
 vim.filetype.add {
   extension = {
     slang = "hlsl",
+    argot = "hlsl",
   },
   filename = {
     ["Foofile"] = "fooscript",
@@ -18,3 +19,5 @@ vim.filetype.add {
 vim.o.wildignorecase = true
 vim.o.wildmenu = true
 vim.o.wildmode = "longest,list:longest,full"
+
+vim.o.scrolloff = 10

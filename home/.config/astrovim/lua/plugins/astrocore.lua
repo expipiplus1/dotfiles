@@ -40,6 +40,14 @@ return {
           end,
         },
       },
+      hlsl_commentstring = {
+        {
+          event = { "FileType" },
+          pattern = "hlsl",
+          desc = "Set commentstring",
+          callback = function() vim.opt_local.commentstring = "// %s" end,
+        },
+      },
     },
     -- vim options can be configured here
     options = {
@@ -51,6 +59,7 @@ return {
         wrap = true,
         foldcolumn = "0",
         clipboard = "",
+        laststatus = 2,
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
