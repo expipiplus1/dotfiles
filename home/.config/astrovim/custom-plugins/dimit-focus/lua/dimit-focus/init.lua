@@ -32,6 +32,10 @@ M.config = {
   },
 }
 
+local function is_popup(win_id)
+  local config = vim.api.nvim_win_get_config(win_id)
+  return config.relative ~= ""
+end
 
 M.dim_inactive = function()
   local config = M.config
@@ -39,8 +43,10 @@ M.dim_inactive = function()
   local current = vim.api.nvim_get_current_win()
   local dim_value = get_highlight_value(config.dim_elements, config.highlight_group)
   for _, w in pairs(vim.api.nvim_list_wins()) do
-    local winhighlights = current == w and "" or dim_value
-    vim.api.nvim_win_set_option(w, "winhighlight", winhighlights)
+    if not is_popup(w) then
+      local winhighlights = current == w and "" or dim_value
+      vim.api.nvim_win_set_option(w, "winhighlight", winhighlights)
+    end
   end
 end
 
@@ -70,7 +76,9 @@ M.setup = function(opts)
       focus_lost = true
       local dim_value = get_highlight_value(M.config.dim_elements, M.config.highlight_group)
       for _, w in pairs(vim.api.nvim_list_wins()) do
-        vim.api.nvim_win_set_option(w, "winhighlight", dim_value)
+        if not is_popup(w) then
+            vim.api.nvim_win_set_option(w, "winhighlight", dim_value)
+        end
       end
     end,
   })
