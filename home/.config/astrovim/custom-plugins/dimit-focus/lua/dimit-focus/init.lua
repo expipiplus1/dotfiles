@@ -1,4 +1,4 @@
-# from: https://github.com/rosstang/dimit.nvim
+-- from: https://github.com/rosstang/dimit.nvim
 
 local get_highlight_value = function(dim_elements, hlgroup)
   return table.concat(dim_elements, ":" .. hlgroup .. ",") .. ":" .. hlgroup
