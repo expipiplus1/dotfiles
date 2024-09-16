@@ -40,12 +40,14 @@ end
 M.dim_inactive = function()
   local config = M.config
   vim.api.nvim_set_hl(0, config.highlight_group, { bg = config.bgcolor })
+
   local current = vim.api.nvim_get_current_win()
   local dim_value = get_highlight_value(config.dim_elements, config.highlight_group)
+
   for _, w in pairs(vim.api.nvim_list_wins()) do
     if not is_popup(w) then
       local winhighlights = current == w and "" or dim_value
-      vim.api.nvim_win_set_option(w, "winhighlight", winhighlights)
+      vim.api.nvim_set_option_value("winhighlight", winhighlights, { win = w })
     end
   end
 end
@@ -65,9 +67,7 @@ M.setup = function(opts)
 
   M.win_enter_autocmd = vim.api.nvim_create_autocmd({ "WinEnter", "BufWinEnter", "WinClosed" }, {
     callback = function()
-      if not focus_lost then
-        M.dim_inactive()
-      end
+      if not focus_lost then M.dim_inactive() end
     end,
   })
 
@@ -76,9 +76,7 @@ M.setup = function(opts)
       focus_lost = true
       local dim_value = get_highlight_value(M.config.dim_elements, M.config.highlight_group)
       for _, w in pairs(vim.api.nvim_list_wins()) do
-        if not is_popup(w) then
-            vim.api.nvim_win_set_option(w, "winhighlight", dim_value)
-        end
+        if not is_popup(w) then vim.api.nvim_set_option_value("winhighlight", dim_value, { win = w }) end
       end
     end,
   })
