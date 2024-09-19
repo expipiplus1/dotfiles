@@ -32,9 +32,10 @@ M.config = {
   },
 }
 
-local function is_popup(win_id)
+local function undimmable(win_id)
   local config = vim.api.nvim_win_get_config(win_id)
-  return config.relative ~= ""
+  local buf = vim.api.nvim_win_get_buf(win_id)
+  return (vim.bo[buf].buftype == "quickfix") or (config.relative ~= "")
 end
 
 M.dim_inactive = function()
@@ -45,7 +46,7 @@ M.dim_inactive = function()
   local dim_value = get_highlight_value(config.dim_elements, config.highlight_group)
 
   for _, w in pairs(vim.api.nvim_list_wins()) do
-    if not is_popup(w) then
+    if not undimmable(w) then
       local winhighlights = current == w and "" or dim_value
       vim.api.nvim_set_option_value("winhighlight", winhighlights, { win = w })
     end
@@ -76,7 +77,7 @@ M.setup = function(opts)
       focus_lost = true
       local dim_value = get_highlight_value(M.config.dim_elements, M.config.highlight_group)
       for _, w in pairs(vim.api.nvim_list_wins()) do
-        if not is_popup(w) then vim.api.nvim_set_option_value("winhighlight", dim_value, { win = w }) end
+        if not undimmable(w) then vim.api.nvim_set_option_value("winhighlight", dim_value, { win = w }) end
       end
     end,
   })
