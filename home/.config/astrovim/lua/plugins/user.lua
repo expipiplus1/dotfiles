@@ -36,6 +36,10 @@ return {
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function() require("wildfire").setup() end,
   },
+  {
+    "max397574/better-escape.nvim",
+    enabled = false,
+  },
 
   -- -- You can disable default plugins as follows:
   -- { "max397574/better-escape.nvim", enabled = false },

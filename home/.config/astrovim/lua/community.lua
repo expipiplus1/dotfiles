@@ -5,11 +5,11 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrocommunity",
-  { import = "astrocommunity.colorscheme.nord-nvim",                  enabled = true },
-  { import = "astrocommunity.colorscheme.kanagawa-nvim",              enabled = true },
+  { import = "astrocommunity.colorscheme.nord-nvim", enabled = true },
+  { import = "astrocommunity.colorscheme.kanagawa-nvim", enabled = true },
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.haskell" },
-  { import = "astrocommunity.pack.cpp",                               enabled = true },
+  { import = "astrocommunity.pack.cpp", enabled = true },
   { import = "astrocommunity.pack.cmake" },
   { import = "astrocommunity.pack.jj" },
   { import = "astrocommunity.recipes.disable-tabline" },
@@ -17,5 +17,5 @@ return {
   { import = "astrocommunity.editing-support.treesj" },
   { import = "astrocommunity.editing-support.nvim-treesitter-context" },
   { import = "astrocommunity.motion/nvim-surround" },
-  { import = "astrocommunity.workflow/hardtime-nvim" },
+  -- { import = "astrocommunity.workflow/hardtime-nvim" },
 }

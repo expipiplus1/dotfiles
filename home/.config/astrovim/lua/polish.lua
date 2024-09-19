@@ -21,3 +21,37 @@ vim.o.wildmenu = true
 vim.o.wildmode = "longest,list:longest,full"
 
 vim.o.scrolloff = 10
+
+-- Not sure why this doesn't work in astrocore...
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function() vim.opt_local.formatoptions:remove "o" end,
+})
+
+-- combining circumflex
+vim.fn.digraph_set("^^", "\u{0302}")
+
+-- combining tilde
+vim.fn.digraph_set("^~", "\u{0303}")
+
+-- Combining rightwards arrow above
+vim.fn.digraph_set("^>", "\u{20D7}")
+
+vim.fn.digraph_set("|-", "⊩")
+
+vim.g.haskell_tools = require("astrocore").extend_tbl({
+  ---@type HaskellLspClientOpts
+  hls = {
+    settings = {
+      haskell = {
+        formattingProvider = "fourmolu",
+        formatOnImportOn = true,
+        plugin = {
+          ["ghcide-completions"] = { config = { snippetsOn = false, autoExtendOn = true } },
+          rename = { config = { crossModule = true } },
+          stan = { globalOn = false },
+        },
+      },
+    },
+  },
+}, vim.g.haskell_tools)

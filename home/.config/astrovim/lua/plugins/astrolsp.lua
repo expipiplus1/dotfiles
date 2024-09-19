@@ -8,15 +8,15 @@ return {
   opts = {
     -- Configuration table of features provided by AstroLSP
     features = {
-      codelens = true,        -- enable/disable codelens refresh on start
-      inlay_hints = true,     -- enable/disable inlay hints on start
+      codelens = true, -- enable/disable codelens refresh on start
+      inlay_hints = true, -- enable/disable inlay hints on start
       semantic_tokens = true, -- enable/disable semantic token highlighting
     },
     -- customize lsp formatting options
     formatting = {
       -- control auto formatting on save
       format_on_save = {
-        enabled = true,     -- enable or disable format on save globally
+        enabled = true, -- enable or disable format on save globally
         allow_filetypes = { -- enable format on save for specified filetypes only
           -- "go",
         },
@@ -38,7 +38,7 @@ return {
     servers = {
       "bashls",
       "clangd",
-      "hls",
+      -- "hls",
       "lua_ls",
       "marksman",
       "nil_ls",
@@ -54,20 +54,6 @@ return {
           buildDirectory = "build",
           formatProgram = "gersemi",
           formatArgs = { "--definitions", "cmake", "--", "-" },
-        },
-      },
-      hls = {
-        settings = {
-          haskell = {
-            formattingProvider = "fourmolu",
-            formatOnImportOn = false,
-            plugin = {
-              ["ghcide-completions"] = { config = { snippetsOn = true, autoExtendOn = true } },
-              rename = { config = { crossModule = true } },
-              -- fourmolu = { config = { external = true } },
-              stan = { globalOn = false },
-            },
-          },
         },
       },
     },

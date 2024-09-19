@@ -9,11 +9,11 @@ return {
     -- Configure core features of AstroNvim
     features = {
       large_buf = { size = 4096 * 256, lines = 30000 }, -- set global limits for large files for disabling features like treesitter
-      autopairs = false,                                -- enable autopairs at start
-      cmp = true,                                       -- enable completion at start
-      diagnostics_mode = 3,                             -- diagnostic mode on start (0 = off, 1 = no signs/virtual text, 2 = no virtual text, 3 = on)
-      highlighturl = true,                              -- highlight URLs at start
-      notifications = true,                             -- enable notifications at start
+      autopairs = false, -- enable autopairs at start
+      cmp = true, -- enable completion at start
+      diagnostics_mode = 3, -- diagnostic mode on start (0 = off, 1 = no signs/virtual text, 2 = no virtual text, 3 = on)
+      highlighturl = true, -- highlight URLs at start
+      notifications = true, -- enable notifications at start
     },
     -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
     diagnostics = {
@@ -110,6 +110,9 @@ return {
         -- ["<C-S>"] = false,
       },
       v = { ["<"] = "<gv", [">"] = ">gv" },
+      i = {
+        ["<C-d>"] = { "<C-k>", desc = "Enter digraph insert mode" },
+      },
     },
   },
 }
