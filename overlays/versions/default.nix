@@ -1,9 +1,10 @@
 { channels, ... }:
 
 self: super: {
-  anki = self.anki-23;
+  neovim = channels.nixpkgs-unstable.neovim;
+  neovim-unwrapped = channels.nixpkgs-unstable.neovim-unwrapped;
 
-  fourmolu = self.haskell.packages.ghc96.fourmolu;
+  anki = self.anki-23;
 
   # fzf = super.fzf.overrideAttrs (old: {
   #   patches = old.patches or [ ] ++ [ ../patches/fzf-tmux.patch ];

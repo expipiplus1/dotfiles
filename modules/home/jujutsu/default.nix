@@ -20,6 +20,12 @@ lib.internal.simpleModule inputs "jujutsu" {
         backend = "ssh";
         key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
       };
+      ui = {
+        # Use Difftastic by default
+        diff.tool =
+          [ "${pkgs.difftastic}/bin/difft" "--color=always" "$left" "$right" ];
+        diff.editor = [ "nvim" "-c" "DiffEditor $left $right $output" ];
+      };
     };
 
     # userEmail = "git@monoid.al";

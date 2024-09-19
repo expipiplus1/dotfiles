@@ -100,6 +100,8 @@ in {
     ${pkgs.lib.concatMapStringsSep "\n" (s: ":set ${s}") ghcOpts}
     :def hoogle \s -> Prelude.pure Prelude.$ ":! hoogle search -cl --count=15 \"" Prelude.++ s Prelude.++ "\""
     :def doc \s -> Prelude.pure Prelude.$ ":! hoogle search -cl --info \"" Prelude.++ s Prelude.++ "\""
+    :set -Wno-x-partial
+    :script ${pkgs.srcOnly pkgs.haskellPackages.ghc-vis + "/ghci"}
   '';
 
   home.file.".haskeline".source = pkgs.writeText "haskeline" ''

@@ -181,8 +181,6 @@ in lib.internal.simpleModule inputs "zsh" {
         truncation_length = 0;
       };
 
-      jj.disabled = false;
-
       lua.disabled = true;
 
       c.disabled = true;
