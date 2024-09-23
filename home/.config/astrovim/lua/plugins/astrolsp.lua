@@ -1,6 +1,59 @@
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
 
+local function open_lsp_browser_link(link_type)
+  local function make_hover_request(callback, retry)
+    -- First, try to go to definition
+    local definition_found = false
+    vim.lsp.buf.definition {
+      on_list = function()
+        definition_found = true
+        vim.lsp.buf.definition()
+      end,
+    }
+
+    -- If definition is found, we're done
+    if definition_found then return end
+
+    -- If no definition, proceed with hover request
+    local params = vim.lsp.util.make_position_params()
+    vim.lsp.buf_request(0, "textDocument/hover", params, function(err, result, _, _)
+      if err or not result or not result.contents then
+        if not retry then print "No hover information available" end
+        return
+      end
+
+      local markdown_lines = vim.lsp.util.convert_input_to_markdown_lines(result.contents)
+      local uri
+
+      for _, line in ipairs(markdown_lines) do
+        if vim.startswith(line, "[" .. link_type .. "]") then
+          uri = string.match(line, "%[" .. link_type .. "%]%((.+)%)")
+          if uri then
+            callback(uri)
+            return
+          end
+        end
+      end
+
+      if not retry then
+        -- If we didn't find the link, try once more
+        vim.defer_fn(function() make_hover_request(callback, true) end, 100)
+      else
+        print("Could not find " .. link_type .. " link")
+      end
+    end)
+  end
+
+  make_hover_request(function(uri)
+    if uri then
+      local OS = require "haskell-tools.os"
+      OS.open_browser(uri)
+      print("Opening " .. link_type .. " in browser")
+    end
+  end)
+end
+
 ---@type LazySpec
 return {
   "AstroNvim/astrolsp",
@@ -96,6 +149,30 @@ return {
           function() vim.lsp.buf.declaration() end,
           desc = "Declaration of current symbol",
           cond = "textDocument/declaration",
+        },
+        ["<Leader>fs"] = {
+          function()
+            local opts = {}
+            require("telescope.builtin").lsp_dynamic_workspace_symbols(opts)
+          end,
+          desc = "Find workspace symbols",
+          cond = function(client) return client.supports_method "workspace/symbols" end,
+        },
+        ["gd"] = {
+          function() open_lsp_browser_link "Documentation" end,
+          desc = "Go to definition or open documentation",
+          cond = function(client)
+            return vim.bo.filetype == "haskell"
+              and (client.supports_method "textDocument/hover" or client.supports_method "textDocument/definition")
+          end,
+        },
+        ["<Leader>lo"] = {
+          function() open_lsp_browser_link "Source" end,
+          desc = "Open source",
+          cond = function(client)
+            return vim.bo.filetype == "haskell"
+              and (client.supports_method "textDocument/hover" or client.supports_method "textDocument/definition")
+          end,
         },
         ["<Leader>uY"] = {
           function() require("astrolsp.toggles").buffer_semantic_tokens() end,

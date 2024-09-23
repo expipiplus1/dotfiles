@@ -24,7 +24,7 @@ lib.internal.simpleModule inputs "jujutsu" {
         # Use Difftastic by default
         diff.tool =
           [ "${pkgs.difftastic}/bin/difft" "--color=always" "$left" "$right" ];
-        diff.editor = [ "nvim" "-c" "DiffEditor $left $right $output" ];
+        diff-editor = [ "nvim" "-c" "DiffEditor $left $right $output" ];
       };
     };
 

@@ -39,6 +39,11 @@ vim.fn.digraph_set("^>", "\u{20D7}")
 
 vim.fn.digraph_set("|-", "⊩")
 
+vim.opt.shortmess = vim.opt.shortmess + { A = true }
+
+-- Don't be distracted by backslashes near parens
+vim.opt.cpoptions = vim.opt.cpoptions + { M = true }
+
 vim.g.haskell_tools = require("astrocore").extend_tbl({
   ---@type HaskellLspClientOpts
   hls = {

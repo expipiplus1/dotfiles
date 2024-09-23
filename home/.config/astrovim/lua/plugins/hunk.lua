@@ -4,5 +4,11 @@ return {
   dependencies = {
     "echasnovski/mini.icons",
   },
-  opts = {},
+  opts = {
+    keys = {
+      tree = {
+        toggle_file = { "a", "A" },
+      },
+    },
+  },
 }

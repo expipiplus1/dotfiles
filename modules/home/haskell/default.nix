@@ -63,7 +63,7 @@ in {
     pkgs.hlint
     pretty-show
     cabal2nix
-    pkgs.fourmolu
+    fourmolu
     nix-diff
     hpack
     cabal-install
@@ -81,6 +81,7 @@ in {
   xdg.configFile."fourmolu.yaml".source = pkgs.writeText "fourmolu.yaml"
     (builtins.toJSON {
       indentation = 2;
+      column-limit = 100;
       function-arrows = "leading";
       comma-style = "leading";
       import-export-style = "leading";
@@ -88,10 +89,10 @@ in {
         false; # 'false' means save space by only half-indenting the 'where' keyword
       record-brace-space = false; # rec {x = 1} vs. rec{x = 1}
       haddock-style = "single-line"; # '--' vs. '{-'
-      respectful = true; # don't be too opinionated about newlines etc.
-      in-style = "right-align";
       let-style = "auto";
+      in-style = "right-align";
       single-constraint-parens = "auto";
+      respectful = true; # don't be too opinionated about newlines etc.
     });
 
   home.file.".ghci".source = pkgs.writeText "ghci" ''

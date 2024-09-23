@@ -29,6 +29,14 @@ return {
           callback = function(args) vim.b[args.buf].autoformat = false end,
         },
       },
+      disable_format_on_save_in_src_dir = {
+        {
+          event = { "BufNewFile", "BufRead", "BufAdd" },
+          pattern = os.getenv "HOME" .. "/src/*",
+          desc = "Disable format-on-save for files in ~/src directory",
+          callback = function(args) vim.b[args.buf].autoformat = false end,
+        },
+      },
       haskell_keywords = {
         {
           event = { "FileType" },
