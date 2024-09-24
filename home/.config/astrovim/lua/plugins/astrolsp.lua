@@ -145,12 +145,6 @@ return {
     -- mappings to be set up on attaching of a language server
     mappings = {
       n = {
-        -- a `cond` key can provided as the string of a server capability to be required to attach, or a function with `client` and `bufnr` parameters from the `on_attach` that returns a boolean
-        gD = {
-          function() vim.lsp.buf.declaration() end,
-          desc = "Declaration of current symbol",
-          cond = "textDocument/declaration",
-        },
         ["<Leader>fs"] = {
           function()
             local opts = {}
@@ -208,6 +202,7 @@ return {
             }
           end,
           desc = "Remove all redundant imports",
+          cond = function() return vim.bo.filetype == "haskell" end,
         },
         ["<leader>lh"] = {
           function()
@@ -242,6 +237,7 @@ return {
             }
           end,
           desc = "Apply all hints",
+          cond = function() return vim.bo.filetype == "haskell" end,
         },
       },
     },
