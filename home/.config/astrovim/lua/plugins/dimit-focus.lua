@@ -1,7 +1,6 @@
 return {
   dir = vim.fn.stdpath "config" .. "/custom-plugins/dimit-focus",
   opts = {
-    bgcolor = "#2A2A37",
     dim_elements = {
       "ColorColumn",
       "CursorColumn",
