@@ -15,7 +15,11 @@
       url = "github:symphorien/nixseparatedebuginfod";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    impermanence = { url = "github:nix-community/impermanence"; };
+    impermanence = {
+      # https://github.com/nix-community/impermanence/issues/215#issuecomment-2370010816
+      url =
+        "github:nix-community/impermanence/63f4d0443e32b0dd7189001ee1894066765d18a5";
+    };
     lian-li-control = {
       url = "github:expipiplus1/lian-li-control";
       inputs.nixpkgs.follows = "nixpkgs";
