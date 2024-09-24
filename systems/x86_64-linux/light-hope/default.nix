@@ -11,7 +11,7 @@ config, ... }:
   networking.hostName = "light-hope"; # Define your hostname.
   imports = [ ./impermanence.nix ./hardware ];
   ellie.desktop.enable = true;
-  ellie.nvidia.devDriver = true;
+  ellie.nvidia.devDriver = false;
   nix.settings.system-features = [ "gccarch-znver4" ];
   system.stateVersion = "23.11"; # Did you read the comment?
 
