@@ -40,7 +40,11 @@ end
 local function undimmable(win_id)
   local config = vim.api.nvim_win_get_config(win_id)
   local buf = vim.api.nvim_win_get_buf(win_id)
-  return (vim.bo[buf].buftype == "quickfix") or (config.relative ~= "")
+  local active_config = vim.api.nvim_win_get_config(0)
+  return (vim.bo[buf].buftype == "quickfix")
+    or (config.relative ~= "")
+    -- Keep neo-tree visible while filtering
+    or (vim.bo[buf].filetype == "neo-tree" and active_config.relative ~= "")
 end
 
 local function update_dimit_highlight()

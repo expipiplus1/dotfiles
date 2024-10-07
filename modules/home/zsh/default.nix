@@ -18,7 +18,10 @@ in lib.internal.simpleModule inputs "zsh" {
         inherit name;
         src = "${pkgs."zsh-${name}"}/share/zsh/site-functions";
       };
-    in builtins.map p [ "fast-syntax-highlighting" ];
+    in builtins.map p [ "fast-syntax-highlighting" ] ++ [{
+      name = "fzf-tab";
+      src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
+    }];
     autosuggestion.enable = true;
     history = {
       share = false;
@@ -37,6 +40,7 @@ in lib.internal.simpleModule inputs "zsh" {
     localVariables = {
       HYPHEN_INSENSITIVE = "true";
       DISABLE_AUTO_UPDATE = "true";
+      # ZSH_AUTOSUGGEST_STRATEGY = "()";
     };
     initExtraBeforeCompInit = ''
       if command -v xdg-open 2>&1 >/dev/null; then
@@ -153,6 +157,7 @@ in lib.internal.simpleModule inputs "zsh" {
       bindkey "''${terminfo[kcub1]}" backward-char
       bindkey "''${terminfo[kcuf1]}" forward-char
 
+      source <(${pkgs.jujutsu}/bin/jj util completion zsh)
     '';
 
     # So ssh machine -- foo works

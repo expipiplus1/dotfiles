@@ -1,6 +1,19 @@
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
 
+function dump(o)
+  if type(o) == "table" then
+    local s = "{ "
+    for k, v in pairs(o) do
+      if type(k) ~= "number" then k = '"' .. k .. '"' end
+      s = s .. "[" .. k .. "] = " .. dump(v) .. ","
+    end
+    return s .. "} "
+  else
+    return tostring(o)
+  end
+end
+
 local function open_lsp_browser_link(link_type)
   -- First, try to go to definition
   local definition_found = false
@@ -119,6 +132,19 @@ return {
       -- the key is the server that is being setup with `lspconfig`
       -- rust_analyzer = false, -- setting a handler to false will disable the set up of that language server
       -- pyright = function(_, opts) require("lspconfig").pyright.setup(opts) end -- or a custom handler function can be passed
+    },
+    lsp_handlers = {
+      -- TODO: Does this correctly handle requests which require a response...?
+      ["window/showMessage"] = vim.lsp.with(function(err, result, ctx, config)
+        local sev = {
+          vim.log.levels.ERROR,
+          vim.log.levels.WARN,
+          vim.log.levels.INFO,
+          vim.log.levels.INFO, -- DEBUG messages don't show up
+        }
+        local title = vim.lsp.get_client_by_id(ctx.client_id).name
+        require("astrocore").notify(result.message, sev[result.type], { title = title })
+      end, {}),
     },
     -- Configure buffer local auto commands to add when attaching a language server
     autocmds = {

@@ -40,6 +40,51 @@ return {
     "max397574/better-escape.nvim",
     enabled = false,
   },
+  {
+    "kylechui/nvim-surround",
+    specs = {
+      {
+        "AstroNvim/astrocore",
+        opts = function(_, opts)
+          opts.mappings.n["<C-g>z"] = "<Plug>(nvim-surround-insert)"
+          opts.mappings.n["gC-ggZ"] = "<Plug>(nvim-surround-insert-line)"
+          opts.mappings.n["gz"] = "<Plug>(nvim-surround-normal)"
+          opts.mappings.n["gZ"] = "<Plug>(nvim-surround-normal-cur)"
+          opts.mappings.n["gzz"] = "<Plug>(nvim-surround-normal-line)"
+          opts.mappings.n["gZZ"] = "<Plug>(nvim-surround-normal-cur-line)"
+          opts.mappings.n["gz"] = "<Plug>(nvim-surround-visual)"
+          opts.mappings.n["gZ"] = "<Plug>(nvim-surround-visual-line)"
+          opts.mappings.n["dz"] = "<Plug>(nvim-surround-delete)"
+          opts.mappings.n["cz"] = "<Plug>(nvim-surround-change)"
+        end,
+      },
+    },
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    opts = function(_, opts)
+      return require("astrocore").extend_tbl({
+        element_mappings = {
+          stacks = {
+            open = { "o", "<CR>", "<2-LeftMouse>" },
+          },
+        },
+      }, opts)
+    end,
+  },
+  {
+    "lucaSartore/nvim-dap-exception-breakpoints",
+    dependencies = { "mfussenegger/nvim-dap" },
+    specs = {
+      {
+        "AstroNvim/astrocore",
+        opts = function(_, opts)
+          opts.mappings.n["<leader>de"] =
+            { desc = "[D]ebug [E]xception breakpoints", callback = require "nvim-dap-exception-breakpoints" }
+        end,
+      },
+    },
+  },
 
   -- -- You can disable default plugins as follows:
   -- { "max397574/better-escape.nvim", enabled = false },
@@ -82,6 +127,48 @@ return {
   --       -- disable for .vim files, but it work for another filetypes
   --       Rule("a", "a", "-vim")
   --     )
+  --   end,
+  -- },
+  {
+    "AstroNvim/astrolsp",
+    opts = function(_, opts)
+      opts.servers = opts.servers or {}
+      table.insert(opts.servers, "argot")
+      opts.config = require("astrocore").extend_tbl(opts.config or {}, {
+        argot = {
+          cmd = { "argotd-interpreted" },
+          filetypes = { "argot" },
+          root_dir = require("lspconfig.util").root_pattern(".jj", ".git"),
+        },
+      })
+    end,
+  },
+  {
+    "AstroNvim/astrolsp",
+    opts = function(_, opts)
+      opts.servers = opts.servers or {}
+      table.insert(opts.servers, "idris2")
+      opts.config = require("astrocore").extend_tbl(opts.config or {}, {
+        idris2 = {
+          cmd = { "idris2-lsp" },
+          filetypes = { "idris2" },
+          root_dir = require("lspconfig.util").root_pattern(".jj", ".git"),
+        },
+      })
+    end,
+  },
+  -- {
+  --   "neovim/nvim-lspconfig",
+  --   setup = function()
+  --     local lspconfig = require "lspconfig"
+  --     lspconfig.util.default_config = vim.tbl_extend("force", lspconfig.util.default_config, {
+  --       handlers = {
+  --         ["window/showMessage"] = function(err, method, params, client_id)
+  --           require("astrocore").notify(params.message)
+  --           vim.lsp.handlers["window/showMessage"](err, method, params, client_id)
+  --         end,
+  --       },
+  --     })
   --   end,
   -- },
 }

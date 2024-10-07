@@ -5,8 +5,9 @@
 -- Set up custom filetypes
 vim.filetype.add {
   extension = {
-    slang = "hlsl",
-    argot = "hlsl",
+    slang = "slang",
+    argot = "argot",
+    idr = "idris2",
   },
   filename = {
     ["Foofile"] = "fooscript",
@@ -16,16 +17,14 @@ vim.filetype.add {
   },
 }
 
-vim.o.wildignorecase = true
-vim.o.wildmenu = true
-vim.o.wildmode = "longest,list:longest,full"
-
-vim.o.scrolloff = 10
-
 -- Not sure why this doesn't work in astrocore...
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
-  callback = function() vim.opt_local.formatoptions:remove "o" end,
+  callback = function()
+    vim.opt_local.formatoptions:remove "o"
+    -- print(vim.o.scroll)
+    -- vim.o.scroll = 18
+  end,
 })
 
 -- combining circumflex
@@ -34,7 +33,7 @@ vim.fn.digraph_set("^^", "\u{0302}")
 -- combining tilde
 vim.fn.digraph_set("^~", "\u{0303}")
 
--- Combining rightwards arrow above
+-- combining rightwards arrow above
 vim.fn.digraph_set("^>", "\u{20D7}")
 
 vim.fn.digraph_set("|-", "⊩")
@@ -60,3 +59,5 @@ vim.g.haskell_tools = require("astrocore").extend_tbl({
     },
   },
 }, vim.g.haskell_tools)
+
+vim.on_key(nil, vim.api.nvim_get_namespaces()["auto_hlsearch"])

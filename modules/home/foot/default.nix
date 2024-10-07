@@ -4,10 +4,14 @@ lib.internal.simpleModule inputs "foot" {
     enable = true;
     settings = {
       main = {
-        font = "Iosevka Term:size=10:style=Regular";
-        font-bold = "Iosevka Term:size=10:style=Semibold";
-        font-italic = "Iosevka Term:size=10:style=Italic";
-        font-bold-italic = "Iosevka Term:size=10:style=Semibold Italic";
+        font =
+          "Iosevka Term:size=10:style=Regular,Symbols Nerd Font Mono:size=10";
+        font-bold =
+          "Iosevka Term:size=10:style=Semibold,Symbols Nerd Font Mono:size=10";
+        font-italic =
+          "Iosevka Term:size=10:style=Italic,Symbols Nerd Font Mono:size=10";
+        font-bold-italic =
+          "Iosevka Term:size=10:style=Semibold Italic,Symbols Nerd Font Mono:size=10";
         # box-drawings-uses-font-glyphs = "yes";
         initial-window-mode = "maximized";
         dpi-aware = "yes";

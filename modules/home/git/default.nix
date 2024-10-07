@@ -91,7 +91,10 @@ lib.internal.simpleModule inputs "git" {
       github = { user = "expipiplus1"; };
       "credential \"https://github.com\"".username = github.user;
       mergetool = { keepBackup = false; };
-      merge = { tool = "vimdiff"; };
+      merge = {
+        tool = "vimdiff";
+        conflictstyle = "diff3";
+      };
       core = { editor = "vim"; };
       push = { default = "simple"; };
       color = { ui = "auto"; };

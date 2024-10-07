@@ -6,6 +6,8 @@ let
     paths = with pkgs; [
       haskellPackages.cabal-gild
 
+      idris2Packages.idris2Lsp
+
       clang-tools
 
       cmake-language-server

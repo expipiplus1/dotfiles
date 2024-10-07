@@ -56,6 +56,22 @@ return {
           callback = function() vim.opt_local.commentstring = "// %s" end,
         },
       },
+      argot_commentstring = {
+        {
+          event = { "FileType" },
+          pattern = "argot",
+          desc = "Set commentstring",
+          callback = function() vim.opt_local.commentstring = "// %s" end,
+        },
+      },
+      slang_commentstring = {
+        {
+          event = { "FileType" },
+          pattern = "slang",
+          desc = "Set commentstring",
+          callback = function() vim.opt_local.commentstring = "// %s" end,
+        },
+      },
     },
     -- vim options can be configured here
     options = {
@@ -68,6 +84,10 @@ return {
         foldcolumn = "0",
         clipboard = "",
         laststatus = 2,
+        scrolloff = 10,
+        wildignorecase = true,
+        wildmenu = true,
+        wildmode = "longest:full,full",
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
