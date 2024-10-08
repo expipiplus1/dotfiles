@@ -15,6 +15,6 @@
   ellie.autostart.enable = true;
   ellie.jujutsu.enable = true;
   ellie.tg.enable = true;
-  # ellie.neovim.enable = true;
+  ellie.neovim.enable = false;
   ellie.astrovim.enable = true;
 }
