@@ -1,3 +1,13 @@
+local function selection_count()
+  local mode = vim.fn.mode(1)
+  if mode:find "[vV\22]" then
+    local lines = math.abs(vim.fn.line "v" - vim.fn.line ".") + 1
+    return string.format(" %d lines", lines)
+  end
+  return ""
+end
+
+---@type LazySpec
 return {
   "rebelot/heirline.nvim",
   opts = function(_, opts)
@@ -27,6 +37,12 @@ return {
       status.component.fill(),
       status.component.lsp(),
       status.component.virtual_env(),
+      -- Add the custom selection count component
+      {
+        provider = selection_count,
+        hl = { bold = true },
+        update = { "ModeChanged", "CursorMoved", "CursorMovedI" },
+      },
       status.component.treesitter(),
       status.component.nav(),
     }

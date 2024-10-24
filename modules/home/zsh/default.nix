@@ -40,6 +40,7 @@ in lib.internal.simpleModule inputs "zsh" {
     localVariables = {
       HYPHEN_INSENSITIVE = "true";
       DISABLE_AUTO_UPDATE = "true";
+      VI_MODE_DISABLE_CLIPBOARD = "true";
       # ZSH_AUTOSUGGEST_STRATEGY = "()";
     };
     initExtraBeforeCompInit = ''

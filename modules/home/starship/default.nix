@@ -26,14 +26,8 @@ lib.internal.simpleModule inputs "starship" {
       };
       haskell.disabled = true;
 
-      git_branch = {
-        # symbol = "";
-        when = "false";
-      };
-      git_status = {
-        disabled = false;
-        when = "false";
-      };
+      git_branch = { symbol = ""; };
+      git_status = { disabled = true; };
 
       username.format = "[$user]($style)@";
       hostname.format = "[$hostname]($style) in ";

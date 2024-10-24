@@ -29,20 +29,6 @@ self: super: {
     } $@
   '';
 
-  gersemi = self.python3Packages.buildPythonApplication rec {
-    pname = "gersemi";
-    version = "0.9.3";
-    src = self.fetchPypi {
-      inherit pname version;
-      sha256 = "sha256-fNhmq9KKOwlc50iDEd9pqHCM0br9Yt+nKtrsoS1d5ng=";
-    };
-    doCheck = false;
-    propagatedBuildInputs = [
-      self.python3Packages.appdirs
-      self.python3Packages.lark
-      self.python3Packages.pyyaml
-    ];
-  };
 
   cmake-language-server = super.cmake-language-server.overrideAttrs (old: {
     pytestCheckPhase = ":";
