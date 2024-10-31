@@ -33,6 +33,8 @@ lib.internal.simpleModule inputs "tmux" {
       bind-key -Tcopy-mode-vi WheelUpPane send -X halfpage-up
       bind-key -Tcopy-mode-vi WheelDownPane send -X halfpage-down
 
+      bind-key j display-popup -E -w90% -h90% -d "#{pane_current_path}" "lazyjj"
+
       # Focus events for vim
       set-option -g focus-events on
 
@@ -66,7 +68,7 @@ lib.internal.simpleModule inputs "tmux" {
 
       # Smart pane switching with awareness of vim splits and nested tmux sessions
       is_vim='${config.programs.tmux.package}/bin/tmux display -p "#{pane_current_command}" | grep -iqE "(^|\/)\.?g?(view|n?vim?)(diff)?(-wrapped)?$"'
-      is_jj_vim='${config.programs.tmux.package}/bin/tmux display -p "#{pane_pid}" | xargs ps h -oargs --ppid | grep -q "jj .*split"'
+      is_jj_vim='${config.programs.tmux.package}/bin/tmux display -p "#{pane_pid}" | xargs ps h -oargs --ppid | grep -q "jj .*\(split\|squash\)"'
       is_tmux='${config.programs.tmux.package}/bin/tmux display -p "#{pane_pid}" | xargs ps h -oargs --ppid | grep -q "tssh"'
       is_fzf='${config.programs.tmux.package}/bin/tmux display -p "#{pane_pid}" | xargs -n1 ps h -o comm -g | grep -q -x "fzf"'
       is_atuin='${config.programs.tmux.package}/bin/tmux display -p "#{pane_pid}" | xargs -n1 ps h -o comm -g | grep -q -x "atuin"'

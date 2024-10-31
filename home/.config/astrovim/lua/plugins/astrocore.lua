@@ -21,14 +21,14 @@ return {
       underline = true,
     },
     autocmds = {
-      disable_format_on_save_in_work_dir = {
-        {
-          event = { "BufNewFile", "BufRead", "BufAdd" },
-          pattern = os.getenv "HOME" .. "/work/*",
-          desc = "Disable format-on-save for files in ~/work directory",
-          callback = function(args) vim.b[args.buf].autoformat = false end,
-        },
-      },
+      -- disable_format_on_save_in_work_dir = {
+      --   {
+      --     event = { "BufNewFile", "BufRead", "BufAdd" },
+      --     pattern = os.getenv "HOME" .. "/work/*",
+      --     desc = "Disable format-on-save for files in ~/work directory",
+      --     callback = function(args) vim.b[args.buf].autoformat = false end,
+      --   },
+      -- },
       disable_format_on_save_in_src_dir = {
         {
           event = { "BufNewFile", "BufRead", "BufAdd" },

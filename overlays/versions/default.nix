@@ -4,6 +4,11 @@ self: super: {
   neovim = channels.nixpkgs-unstable.neovim;
   neovim-unwrapped = channels.nixpkgs-unstable.neovim-unwrapped;
 
+  rust-parallel = channels.nixpkgs-unstable.rust-parallel;
+  difftastic = channels.nixpkgs-unstable.difftastic;
+  clang-tools = channels.nixpkgs-unstable.llvmPackages_18.clang-tools;
+  lazyjj = channels.nixpkgs-unstable.lazyjj;
+
   # fzf = super.fzf.overrideAttrs (old: {
   #   patches = old.patches or [ ] ++ [ ../patches/fzf-tmux.patch ];
   # });

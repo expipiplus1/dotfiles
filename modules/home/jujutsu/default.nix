@@ -1,6 +1,6 @@
 { lib, config, pkgs, ... }@inputs:
 lib.internal.simpleModule inputs "jujutsu" {
-  home.packages = with pkgs; [ jujutsu ];
+  home.packages = with pkgs; [ jujutsu lazyjj ];
   programs.zsh = {
     shellAliases = {
       js = "jj st";

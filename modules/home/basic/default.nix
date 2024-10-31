@@ -35,7 +35,6 @@ lib.internal.simpleModule inputs "basic" {
     gist
     hackage-release
     htop
-    ripgrep
     jq
     json2nix
     killall
@@ -49,7 +48,9 @@ lib.internal.simpleModule inputs "basic" {
     nmap
     openssl
     perl
+    ripgrep
     rust-analyzer
+    rust-parallel
     silver-searcher
     tio
     tree
