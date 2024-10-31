@@ -60,14 +60,7 @@
         nixos-wsl.nixosModules.default
       ];
       # This seems to pull them in for nixos builds too?
-      # homes.modules = with inputs;
-      #   [ plasma-manager.homeManagerModules.plasma-manager ];
-
-      homes.users."e@light-hope".modules = with inputs;
-        [ plasma-manager.homeManagerModules.plasma-manager ];
-      homes.users."e@sophie".modules = with inputs;
-        [ plasma-manager.homeManagerModules.plasma-manager ];
-      homes.users."e@howl".modules = with inputs;
+      homes.modules = with inputs;
         [ plasma-manager.homeManagerModules.plasma-manager ];
     };
 }
