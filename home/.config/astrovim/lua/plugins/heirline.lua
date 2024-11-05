@@ -1,8 +1,12 @@
-local function is_bottom_right_window()
-  local win_count = vim.fn.winnr "$"
-  local current_win = vim.fn.winnr()
-  -- Assuming a simple grid layout, the bottom-right window is the last window
-  return current_win == win_count
+local function is_bottom_right_window(self)
+  local windows = vim.api.nvim_tabpage_list_wins(0)
+  -- Filter out floating windows
+  local normal_windows = {}
+  for _, win in ipairs(windows) do
+    if vim.api.nvim_win_get_config(win).relative == "" then table.insert(normal_windows, win) end
+  end
+  local is_bottom_right = self.winid == normal_windows[#normal_windows]
+  return is_bottom_right
 end
 
 local function selection_count()
@@ -12,6 +16,38 @@ local function selection_count()
     return string.format(" %d lines", lines)
   end
   return ""
+end
+
+local clock_faces = {
+  "🕛",
+  "🕧",
+  "🕐",
+  "🕜",
+  "🕑",
+  "🕝",
+  "🕒",
+  "🕞",
+  "🕓",
+  "🕟",
+  "🕔",
+  "🕠",
+  "🕕",
+  "🕡",
+  "🕖",
+  "🕢",
+  "🕗",
+  "🕣",
+  "🕘",
+  "🕤",
+  "🕙",
+  "🕥",
+  "🕚",
+  "🕦",
+}
+
+local function get_clock_icon(hour, minute)
+  local index = math.fmod(hour * 2 + (minute >= 30 and 1 or 0), 24)
+  return clock_faces[index + 1] -- Lua arrays are 1-indexed
 end
 
 ---@type LazySpec
@@ -59,15 +95,21 @@ return {
         hl = { bold = true },
         update = { "ModeChanged", "CursorMoved", "CursorMovedI" },
       },
-      status.component.treesitter(),
+      -- status.component.treesitter(),
       status.component.nav(),
       status.component.builder {
         {
-          provider = function()
-            if is_bottom_right_window() then
-              local time = os.date "%H:%M"
-              return status.utils.stylize(time, {
-                icon = { kind = "Clock", padding = { right = 1 } },
+          init = function(self)
+            -- Set winid for the current window
+            self.winid = vim.api.nvim_get_current_win()
+          end,
+          provider = function(self)
+            if is_bottom_right_window(self) then
+              local hour = tonumber(os.date "%H")
+              local minute = tonumber(os.date "%M")
+              local icon = get_clock_icon(hour, minute)
+              local time = tostring(os.date "%H:%M")
+              return status.utils.stylize(icon .. time, {
                 padding = { right = 1 },
               })
             end
