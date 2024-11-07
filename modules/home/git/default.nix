@@ -80,6 +80,7 @@ lib.internal.simpleModule inputs "git" {
       hub.protocol = "ssh";
       commit.gpgsign = true;
       gpg.format = "ssh";
+      gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
       user.signingkey = "~/.ssh/id_ed25519.pub";
       init.defaultBranch = "main";
       oh-my-zsh = { only-branch = 1; };
