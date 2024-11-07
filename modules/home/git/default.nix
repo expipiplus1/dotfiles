@@ -94,9 +94,12 @@ lib.internal.simpleModule inputs "git" {
       mergetool = { keepBackup = false; };
       merge = {
         tool = "vimdiff";
-        conflictstyle = "diff3";
+        conflictstyle = "zdiff3";
       };
-      core = { editor = "vim"; };
+      core = {
+        editor = "vim";
+        pager = "${pkgs.delta}/bin/delta";
+      };
       push = { default = "simple"; };
       color = { ui = "auto"; };
       sendemail = {
@@ -105,6 +108,7 @@ lib.internal.simpleModule inputs "git" {
         smtpencryption = "ssl"; # Not sure why tls doesn't work here..
         smtpserverport = 465;
       };
+      interactive.diffFilter = "${pkgs.delta}/bin/delta --color-only";
     };
   };
 
