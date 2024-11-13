@@ -4,8 +4,8 @@ let
   devDriver = (config.boot.kernelPackages.nvidiaPackages.mkDriver {
     version = "570.00";
     url =
-      "http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_bugfix_main_Release_Linux_AMD64_unix-build_Driver/SW_34804555.0_gpu_drv_bugfix_main_Release_Linux_AMD64_unix-build_Driver.run";
-    sha256_64bit = "sha256-KATBfaWaPaCe5jP0X16pPUV+s2MR73e2kSU+lWo0pmM=";
+      "http://dvstransfer.nvidia.com/dvsshare/dvs-binaries/gpu_drv_bugfix_main_Release_Linux_AMD64_unix-build_Driver/SW_35123259.0_gpu_drv_bugfix_main_Release_Linux_AMD64_unix-build_Driver.run";
+    sha256_64bit = "sha256-ghoDbnYkE48V4eB3RsP7v0v0AGkbXJ4v8Frn+pQwJEM=";
     useSettings = false;
     usePersistenced = false;
   }).override { disable32Bit = true; };

@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 
 let
-  m = { pkgs, lib, kernel ? pkgs.linuxPackages_latest.kernel }:
+  m = { pkgs, lib, kernel }:
 
     pkgs.stdenv.mkDerivation {
       pname = "hwmon-modules";
@@ -49,7 +49,7 @@ in {
   boot.kernelModules = [ "kvm-amd" "nct6775" ];
   boot.extraModulePackages = [ asus-ec-sensors-kernel-module ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_11;
   boot.supportedFilesystems = [ "btrfs" ];
   hardware.enableAllFirmware = true;
 
