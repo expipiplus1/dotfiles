@@ -62,5 +62,7 @@
       # This seems to pull them in for nixos builds too?
       homes.modules = with inputs;
         [ plasma-manager.homeManagerModules.plasma-manager ];
+      homes.users."nixos@nixos".modules = with inputs;
+        [ plasma-manager.homeManagerModules.plasma-manager ];
     };
 }
