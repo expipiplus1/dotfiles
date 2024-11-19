@@ -36,7 +36,7 @@ lib.internal.simpleModule inputs "basic" {
     hackage-release
     htop
     jq
-    json2nix
+    # json2nix
     killall
     lm_sensors
     lsd

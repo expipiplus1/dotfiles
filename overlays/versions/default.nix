@@ -48,20 +48,20 @@ self: super: {
       };
     }) { };
 
-  starship = super.starship.override {
-    rustPlatform = self.rustPlatform // {
-      buildRustPackage = args:
-        self.rustPlatform.buildRustPackage (args // {
-          src = self.fetchFromGitHub {
-            owner = "idursun";
-            repo = "starship";
-            rev = "7226aaedf2dd0dd34a7373859d25da45c7cd3eaa";
-            sha256 = "sha256-m0eA4Kv5RikMcnYqRlGnyHV1bQS3kDgHhGYGqTvbZBE=";
-          };
-          cargoHash = "sha256-d6i9+gnkt4wXzqB8+eLofX4enejG/YYiJAtg7KimA6M=";
-        });
-    };
-  };
+  # starship = super.starship.override {
+  #   rustPlatform = self.rustPlatform // {
+  #     buildRustPackage = args:
+  #       self.rustPlatform.buildRustPackage (args // {
+  #         src = self.fetchFromGitHub {
+  #           owner = "idursun";
+  #           repo = "starship";
+  #           rev = "7226aaedf2dd0dd34a7373859d25da45c7cd3eaa";
+  #           sha256 = "sha256-m0eA4Kv5RikMcnYqRlGnyHV1bQS3kDgHhGYGqTvbZBE=";
+  #         };
+  #         cargoHash = "sha256-d6i9+gnkt4wXzqB8+eLofX4enejG/YYiJAtg7KimA6M=";
+  #       });
+  #   };
+  # };
 
   tree-sitter = super.tree-sitter.overrideAttrs (old: {
     passthru.buildGrammar = x:

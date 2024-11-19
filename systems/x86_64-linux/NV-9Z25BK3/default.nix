@@ -2,9 +2,9 @@
 
 {
   wsl.enable = true;
-  wsl.defaultUser = "nixos";
+  wsl.defaultUser = "e";
 
-  networking.hostName = "nixos";
+  # networking.hostName = "nixos";
 
   time.timeZone = "Asia/Singapore";
 
