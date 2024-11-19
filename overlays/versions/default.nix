@@ -22,7 +22,7 @@ self: super: {
     };
   });
 
-  anki = self.anki-23;
+  carapace = channels.nixpkgs-unstable.carapace;
 
   # fzf = super.fzf.overrideAttrs (old: {
   #   patches = old.patches or [ ] ++ [ ../patches/fzf-tmux.patch ];
