@@ -16,7 +16,7 @@ index d580f704..b4de7b2c 100644
 +        output=$(
 +            cat "$tmpdir/pipe" &;
 +            tmux display-popup -d $(pwd) -B -E -E -h 80% -w 80% -- \
-+                "$(printf "%q " ATUIN_SHELL_ZSH=t ATUIN_LOG=error ATUIN_QUERY=$BUFFER atuin search $* -i --) 1>&2 2>$tmpdir/pipe"
++                "$(printf "%q " ATUIN_SESSION=$ATUIN_SESSION ATUIN_HISTORY_ID=$ATUIN_HISTORY_ID ATUIN_SHELL_ZSH=t ATUIN_LOG=error ATUIN_QUERY=$BUFFER atuin search $* -i --) 1>&2 2>$tmpdir/pipe"
 +        )
 +        rm -rf "$tmpdir"
 +    fi
