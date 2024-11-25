@@ -8,7 +8,21 @@ self: super: {
   difftastic = channels.nixpkgs-unstable.difftastic;
   clang-tools = channels.nixpkgs-unstable.llvmPackages_18.clang-tools;
   lazyjj = channels.nixpkgs-unstable.lazyjj;
-  jujutsu = channels.nixpkgs-unstable.jujutsu;
+  jujutsu = channels.nixpkgs-unstable.jujutsu.overrideAttrs (old: rec {
+    # For openssh support
+    src = self.fetchFromGitHub {
+      owner = "bnjmnt4n";
+      repo = "jj";
+      rev = "3f73ba0c60a8ed430b1a89c289c9bbcea186ff61";
+      sha256 = "sha256-RtRjNtQsgKa2xDwmn8q4sK7DL2q8tBKlPuFDLijtsak=";
+    };
+    cargoDeps = channels.nixpkgs-unstable.rustPlatform.fetchCargoVendor {
+      inherit src;
+      hash = "sha256-+nlCQ7gtBVLl1SvDpzsGjJKKHFZ0uw0ZnFJTS4RQAxM=";
+    };
+  });
+
+  anki = self.anki-23;
 
   # fzf = super.fzf.overrideAttrs (old: {
   #   patches = old.patches or [ ] ++ [ ../patches/fzf-tmux.patch ];
