@@ -1,5 +1,23 @@
 #!/usr/bin/env bash
 
+# Check if we're in a Jujutsu repo
+is_jj_repo() {
+  local current_dir="$PWD"
+  while [[ "$current_dir" != "/" ]]; do
+    if [[ -d "$current_dir/.jj" ]]; then
+      return 0
+    fi
+    current_dir="$(dirname "$current_dir")"
+  done
+  return 1
+}
+
+# If not in a Jujutsu repo, pass arguments directly to jj
+if ! is_jj_repo; then
+  exec "@jj_binary@" "$@"
+  exit $?
+fi
+
 # Function to check if a branch exists
 branch_exists() {
   local branch=$1
@@ -25,10 +43,8 @@ remote_exists() {
 # Function to modify arguments
 modify_args() {
   local args=()
-
   while (($#)); do
     local arg="$1"
-
     # Replace main@xxx with master@xxx if master@xxx exists and main@xxx doesn't
     if [[ "$arg" == "main@"* ]]; then
       local remote="${arg#main@}"
@@ -53,7 +69,6 @@ modify_args() {
     fi
     shift
   done
-
   printf '%s\n' "${args[@]}"
 }
 
