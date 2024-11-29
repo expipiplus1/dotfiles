@@ -37,6 +37,8 @@ let
       luarocks
       stylua
       selene
+
+      golangci-lint
     ];
   };
 
