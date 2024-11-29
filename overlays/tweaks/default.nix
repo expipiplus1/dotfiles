@@ -45,5 +45,4 @@ self: super: {
       wrapProgram "$out/bin/rg" --add-flags --no-require-git
     '';
   });
-
 }
