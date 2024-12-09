@@ -111,6 +111,7 @@ return {
       "nil_ls",
       "rust_analyzer",
       "cmake",
+      "slangd",
     },
     -- customize language server configuration options passed to `lspconfig`
     ---@diagnostic disable: missing-fields

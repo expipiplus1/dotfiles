@@ -139,10 +139,16 @@ return {
     opts = function(_, opts)
       opts.servers = opts.servers or {}
       table.insert(opts.servers, "argot")
+      table.insert(opts.servers, "slang")
       opts.config = require("astrocore").extend_tbl(opts.config or {}, {
         argot = {
           cmd = { "argotd-interpreted" },
           filetypes = { "argot" },
+          root_dir = require("lspconfig.util").root_pattern(".jj", ".git"),
+        },
+        slang = {
+          cmd = { "slangd" },
+          filetypes = { "slang" },
           root_dir = require("lspconfig.util").root_pattern(".jj", ".git"),
         },
       })
