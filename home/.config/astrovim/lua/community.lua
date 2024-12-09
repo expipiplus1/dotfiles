@@ -18,4 +18,5 @@ return {
   { import = "astrocommunity.editing-support.nvim-treesitter-context" },
   { import = "astrocommunity.motion/nvim-surround" },
   -- { import = "astrocommunity.workflow/hardtime-nvim" }, -- It's too hard lol
+  { import = "astrocommunity.markdown-and-latex/render-markdown-nvim" },
 }
