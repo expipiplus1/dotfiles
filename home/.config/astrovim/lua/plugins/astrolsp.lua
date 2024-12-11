@@ -180,14 +180,28 @@ return {
           desc = "Find workspace symbols",
           cond = function(client) return client.supports_method "workspace/symbols" end,
         },
-        -- gd = {
-        --   function() open_lsp_browser_link "Documentation" end,
-        --   desc = "Go to definition or open documentation",
-        --   cond = function(client)
-        --     return vim.bo.filetype == "haskell"
-        --       and (client.supports_method "textDocument/hover" or client.supports_method "textDocument/definition")
-        --   end,
-        -- },
+        gd = {
+          function()
+            local clients = vim.lsp.get_clients { bufnr = 0 }
+            local has_hls_with_capabilities = false
+
+            if vim.bo.filetype == "haskell" then
+              for _, client in ipairs(clients) do
+                if client.supports_method "textDocument/hover" and client.supports_method "textDocument/definition" then
+                  has_hls_with_capabilities = true
+                  break
+                end
+              end
+            end
+
+            if has_hls_with_capabilities then
+              open_lsp_browser_link "Documentation"
+            else
+              vim.lsp.buf.definition()
+            end
+          end,
+          desc = "Go to definition or open documentation",
+        },
         ["<Leader>lo"] = {
           function() open_lsp_browser_link "Source" end,
           desc = "Open source",
