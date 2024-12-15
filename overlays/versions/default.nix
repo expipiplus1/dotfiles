@@ -14,13 +14,14 @@ self: super: {
       src = self.fetchFromGitHub {
         owner = "bnjmnt4n";
         repo = "jj";
-        rev = "3f73ba0c60a8ed430b1a89c289c9bbcea186ff61";
-        sha256 = "sha256-RtRjNtQsgKa2xDwmn8q4sK7DL2q8tBKlPuFDLijtsak=";
+        rev = "70e796a6b622dfdf135c353e6765b2066bb6cc62";
+        sha256 = "sha256-yMEKYrVkZy8c5YSaFUPYGMTZ0WolbExObFpSasbQaN8=";
       };
       cargoDeps = channels.nixpkgs-unstable.rustPlatform.fetchCargoVendor {
         inherit src;
-        hash = "sha256-+nlCQ7gtBVLl1SvDpzsGjJKKHFZ0uw0ZnFJTS4RQAxM=";
+        hash = "sha256-dHdd7uZ8sf62cCRBrURhv7LFJhy0YdDibeGwSPP4Qno=";
       };
+      nativeBuildInputs = old.nativeBuildInputs ++ [ self.cmake ];
     });
   in super.symlinkJoin {
     name = "jujutsu";

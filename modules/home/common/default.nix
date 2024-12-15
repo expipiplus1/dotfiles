@@ -9,7 +9,7 @@ in with lib; {
   };
 
   config = mkIf config.${prefix}.common.enable {
-    ellie.astrovim.enable = true;
+    ellie.astronvim.enable = true;
     ellie.atuin.enable = true;
     ellie.basic.enable = true;
     ellie.carapace.enable = true;

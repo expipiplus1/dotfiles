@@ -1,6 +1,6 @@
 { lib, pkgs, ... }@inputs:
 let
-  configDir = "astrovim";
+  configDir = "astronvim";
   lspEnv = pkgs.buildEnv {
     name = "lsp-servers";
     paths = with pkgs; [
@@ -84,7 +84,7 @@ let
   vscode_lldb_path =
     "${vscode_lldb}/share/vscode/extensions/${vscode_lldb.vscodeExtPublisher}.${vscode_lldb.vscodeExtName}";
 
-in lib.internal.simpleModule inputs "astrovim" {
+in lib.internal.simpleModule inputs "astronvim" {
   programs.neovim = {
     enable = true;
     vimAlias = true;
@@ -111,7 +111,7 @@ in lib.internal.simpleModule inputs "astrovim" {
   xdg.configFile = {
     # "${configDir}" = {
     #   recursive = true;
-    #   source = ./astrovim;
+    #   source = ./astronvim;
     #   # source = pkgs.fetchFromGitHub {
     #   #   owner = "AstroNvim";
     #   #   repo = "template";

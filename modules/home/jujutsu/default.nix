@@ -29,6 +29,26 @@ lib.internal.simpleModule inputs "jujutsu" {
         pager = "${pkgs.delta}/bin/delta";
         diff.format = "git";
       };
+      fix.tools.clang-format = {
+        command = [
+          "clang-format"
+          "--assume-filename=$path"
+          "--style=file:/home/e/work/slang/.clang-format"
+        ];
+        patterns = [
+          "glob:'tools/**/*.cpp'"
+          "glob:'tools/**/*.h'"
+          "glob:'source/**/*.cpp'"
+          "glob:'source/**/*.h'"
+          "glob:'examples/**/*.cpp'"
+          "glob:'examples/**/*.h'"
+          "glob:'prelude/**/*.cpp'"
+          "glob:'prelude/**/*.h'"
+          "glob:'tests/**/*.cpp'"
+          "glob:'tests/**/*.h'"
+        ];
+      };
+
     };
   };
 }
