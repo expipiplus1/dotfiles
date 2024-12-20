@@ -112,6 +112,7 @@ return {
       "rust_analyzer",
       "cmake",
       "slangd",
+      "pylsp",
     },
     -- customize language server configuration options passed to `lspconfig`
     ---@diagnostic disable: missing-fields

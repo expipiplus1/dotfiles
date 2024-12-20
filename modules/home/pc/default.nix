@@ -11,25 +11,26 @@ lib.internal.simpleModule inputs "pc" {
 
   home.packages = with pkgs; [
     anki
-    ffmpeg-full
-    powerline-fonts
-    xsel
-    signal-desktop
-    telegram-desktop
-    firefox
-    tidal-hifi
     darktable
-    opentx
     element-desktop
-    pinta
-    gnomeExtensions.freon
+    ffmpeg-full
+    firefox
     gnomeExtensions.control-blur-effect-on-lock-screen
+    gnomeExtensions.dash-to-panel
+    gnomeExtensions.freon
     gnomeExtensions.hide-activities-button
     gnomeExtensions.unite
-    gnomeExtensions.dash-to-panel
-    wl-clipboard
+    opentx
+    pinta
+    powerline-fonts
+    signal-desktop
+    telegram-desktop
+    tg
     thunderbird
+    tidal-hifi
     vlc
+    wl-clipboard
+    xsel
   ];
 
   programs.neovim = {

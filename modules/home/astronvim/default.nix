@@ -12,6 +12,12 @@ let
 
       cmake-language-server
 
+      python3Packages.python-lsp-server
+      python3Packages.rope
+      python3Packages.yapf
+      python3Packages.flake8
+      python3Packages.pylint
+
       nil
       nixd
 

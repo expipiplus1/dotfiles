@@ -47,6 +47,7 @@ in with inputs.lib; {
 
       # make the settings app available
       nvidiaSettings = if config.ellie.nvidia.devDriver then false else true;
+      gsp.enable = if config.ellie.nvidia.devDriver then false else true;
     };
 
     # Make the driver suspend gpu memory to disk, /run is tmpfs on nixos, and
