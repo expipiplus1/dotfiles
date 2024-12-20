@@ -10,7 +10,7 @@ lib.internal.simpleModule inputs "vr" {
   # }];
 
   hardware.steam-hardware.enable = true;
-  hardware.opengl.driSupport32Bit =
+  hardware.graphics.enable32Bit =
     if config.ellie.nvidia.devDriver then false else true;
 
   # nixpkgs.overlays = [

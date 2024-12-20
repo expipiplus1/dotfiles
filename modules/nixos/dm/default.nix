@@ -13,9 +13,6 @@ lib.internal.simpleModule inputs "dm" {
 
   console.useXkbConfig = true;
 
-  # Enable sound.
-  sound.enable = true;
-
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -31,4 +28,3 @@ lib.internal.simpleModule inputs "dm" {
 
   services.ddccontrol.enable = true;
 }
-

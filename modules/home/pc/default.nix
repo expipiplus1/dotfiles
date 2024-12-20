@@ -6,6 +6,7 @@ lib.internal.simpleModule inputs "pc" {
   ellie.alacritty.enable = true;
   ellie.wezterm.enable = true;
   ellie.kitty.enable = true;
+  # This segfaults on install?
   ellie.plasma.enable = true;
 
   home.packages = with pkgs; [
