@@ -9,29 +9,14 @@ self: super: {
   clang-tools = channels.nixpkgs-unstable.llvmPackages_18.clang-tools;
   lazyjj =
     channels.nixpkgs-unstable.lazyjj.overrideAttrs (old: { checkPhase = ":"; });
-  jujutsu = let
-    original = channels.nixpkgs-unstable.jujutsu.overrideAttrs (old: rec {
-      # For openssh support
-      src = self.fetchFromGitHub {
-        owner = "bnjmnt4n";
-        repo = "jj";
-        rev = "70e796a6b622dfdf135c353e6765b2066bb6cc62";
-        sha256 = "sha256-yMEKYrVkZy8c5YSaFUPYGMTZ0WolbExObFpSasbQaN8=";
-      };
-      cargoDeps = channels.nixpkgs-unstable.rustPlatform.fetchCargoVendor {
-        inherit src;
-        hash = "sha256-dHdd7uZ8sf62cCRBrURhv7LFJhy0YdDibeGwSPP4Qno=";
-      };
-      nativeBuildInputs = old.nativeBuildInputs ++ [ self.cmake ];
-    });
-  in super.symlinkJoin {
+  jujutsu = super.symlinkJoin {
     name = "jujutsu";
-    paths = [ original ];
+    paths = [ super.jujutsu ];
     buildInputs = [ self.makeWrapper ];
     postBuild = ''
       rm $out/bin/jj
       substitute ${./jj-wrapper.sh} $out/bin/jj \
-        --replace '@jj_binary@' ${original}/bin/jj
+        --replace '@jj_binary@' ${super.jujutsu}/bin/jj
       chmod +x $out/bin/jj
     '';
   };
