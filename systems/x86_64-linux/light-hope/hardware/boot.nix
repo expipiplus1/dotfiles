@@ -49,7 +49,7 @@ in {
   boot.kernelModules = [ "kvm-amd" "nct6775" ];
   boot.extraModulePackages = [ asus-ec-sensors-kernel-module ];
 
-  boot.kernelPackages = pkgs.linuxPackages_6_11;
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
   boot.supportedFilesystems = [ "btrfs" ];
   hardware.enableAllFirmware = true;
 
@@ -62,8 +62,10 @@ in {
       allowDiscards = true;
       # improve SSD performance
       bypassWorkqueues = true;
+      keyFile = "/luks-keyfile";
     };
   };
+  boot.initrd.secrets = { "/luks-keyfile" = "/boot/luks-keyfile"; };
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

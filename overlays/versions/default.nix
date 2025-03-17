@@ -11,12 +11,12 @@ self: super: {
     channels.nixpkgs-unstable.lazyjj.overrideAttrs (old: { checkPhase = ":"; });
   jujutsu = super.symlinkJoin {
     name = "jujutsu";
-    paths = [ super.jujutsu ];
+    paths = [ channels.nixpkgs-unstable.jujutsu ];
     buildInputs = [ self.makeWrapper ];
     postBuild = ''
       rm $out/bin/jj
       substitute ${./jj-wrapper.sh} $out/bin/jj \
-        --replace '@jj_binary@' ${super.jujutsu}/bin/jj
+        --replace '@jj_binary@' ${channels.nixpkgs-unstable.jujutsu}/bin/jj
       chmod +x $out/bin/jj
     '';
   };

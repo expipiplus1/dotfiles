@@ -34,4 +34,3 @@ lib.internal.simpleModule inputs "kde" {
     };
   };
 }
-

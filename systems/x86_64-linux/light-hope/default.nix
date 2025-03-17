@@ -17,4 +17,8 @@ config, ... }:
   system.stateVersion = "23.11"; # Did you read the comment?
 
   programs.mosh.enable = true;
+  networking.firewall = {
+    enable = true; # Enable the firewall
+    allowedTCPPorts = [ 8080 8081 8082 ]; # Open TCP ports
+  };
 }

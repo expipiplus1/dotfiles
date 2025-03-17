@@ -8,6 +8,7 @@ vim.filetype.add {
     slang = "slang",
     argot = "argot",
     idr = "idris2",
+    idris = "idris2",
   },
   filename = {
     ["Foofile"] = "fooscript",
