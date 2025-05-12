@@ -1,9 +1,5 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- AstroCore provides a central place to modify mappings, vim options, autocommands, and more!
 -- Configuration documentation can be found with `:h astrocore`
--- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
---       as this provides autocomplete and documentation while editing
 
 ---@type LazySpec
 return {
@@ -12,8 +8,8 @@ return {
   opts = {
     -- Configure core features of AstroNvim
     features = {
-      large_buf = { size = 1024 * 256, lines = 10000 }, -- set global limits for large files for disabling features like treesitter
-      autopairs = true, -- enable autopairs at start
+      large_buf = { size = 65536 * 256, lines = 30000 }, -- set global limits for large files for disabling features like treesitter
+      autopairs = false, -- enable autopairs at start
       cmp = true, -- enable completion at start
       diagnostics = { virtual_text = true, virtual_lines = false }, -- diagnostic settings on startup
       highlighturl = true, -- highlight URLs at start
@@ -24,27 +20,74 @@ return {
       virtual_text = true,
       underline = true,
     },
-    -- passed to `vim.filetype.add`
-    filetypes = {
-      -- see `:h vim.filetype.add` for usage
-      extension = {
-        foo = "fooscript",
+    autocmds = {
+      disable_format_on_save_in_src_dir = {
+        {
+          event = { "BufNewFile", "BufRead", "BufAdd" },
+          pattern = os.getenv "HOME" .. "/src/*",
+          desc = "Disable format-on-save for files in ~/src directory",
+          callback = function(args) vim.b[args.buf].autoformat = false end,
+        },
       },
-      filename = {
-        [".foorc"] = "fooscript",
+      haskell_keywords = {
+        {
+          event = { "FileType" },
+          pattern = "haskell",
+          desc = "Set iskeyword options for Haskell files",
+          callback = function()
+            vim.opt_local.iskeyword:append "'"
+            vim.opt_local.iskeyword:remove "."
+          end,
+        },
       },
-      pattern = {
-        [".*/etc/foo/.*"] = "fooscript",
+      idris_commentstring = {
+        {
+          event = { "FileType" },
+          pattern = "idris",
+          desc = "Set commentstring",
+          callback = function() vim.opt_local.commentstring = "-- %s" end,
+        },
+      },
+      hlsl_commentstring = {
+        {
+          event = { "FileType" },
+          pattern = "hlsl",
+          desc = "Set commentstring",
+          callback = function() vim.opt_local.commentstring = "// %s" end,
+        },
+      },
+      argot_commentstring = {
+        {
+          event = { "FileType" },
+          pattern = "argot",
+          desc = "Set commentstring",
+          callback = function() vim.opt_local.commentstring = "// %s" end,
+        },
+      },
+      slang_commentstring = {
+        {
+          event = { "FileType" },
+          pattern = "slang",
+          desc = "Set commentstring",
+          callback = function() vim.opt_local.commentstring = "// %s" end,
+        },
       },
     },
     -- vim options can be configured here
     options = {
       opt = { -- vim.opt.<key>
-        relativenumber = true, -- sets vim.opt.relativenumber
-        number = true, -- sets vim.opt.number
-        spell = false, -- sets vim.opt.spell
-        signcolumn = "yes", -- sets vim.opt.signcolumn to yes
-        wrap = false, -- sets vim.opt.wrap
+        relativenumber = false,
+        number = false,
+        spell = false,
+        signcolumn = "yes",
+        wrap = true,
+        foldcolumn = "0",
+        clipboard = "",
+        laststatus = 2,
+        scrolloff = 10,
+        wildignorecase = true,
+        wildmenu = true,
+        wildmode = "longest:full,full",
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
@@ -73,12 +116,30 @@ return {
           desc = "Close buffer from tabline",
         },
 
+        -- mappings for creating splits
+        ["<C-Space>v"] = { ":vsplit<CR>", desc = "Create vertical split" },
+        ["<C-Space>s"] = { ":split<CR>", desc = "Create horizontal split" },
+
+        ["<Leader>W"] = { ":wa<CR>", desc = "Write all files" },
+
+        ["<leader>y"] = {
+          function()
+            vim.fn.setreg("+", vim.fn.getreg "0")
+            print "copied to CTRL-C clipboard"
+          end,
+          desc = "Copy to CTRL-C clipboard",
+        },
+
         -- tables with just a `desc` key will be registered with which-key if it's installed
         -- this is useful for naming menus
         -- ["<Leader>b"] = { desc = "Buffers" },
 
         -- setting a mapping to false will disable it
         -- ["<C-S>"] = false,
+      },
+      v = { ["<"] = "<gv", [">"] = ">gv" },
+      i = {
+        ["<C-d>"] = { "<C-k>", desc = "Enter digraph insert mode" },
       },
     },
   },
