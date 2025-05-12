@@ -37,12 +37,17 @@ local function get_color_column_bg()
   return color and string.format("#%06x", color) or "#303030"
 end
 
-local function undimmable(win_id)
+local function is_popup(win_id)
   local config = vim.api.nvim_win_get_config(win_id)
+  return config.relative ~= "" or config.external or config.zindex ~= nil
+end
+
+local function undimmable(win_id)
   local buf = vim.api.nvim_win_get_buf(win_id)
   local active_config = vim.api.nvim_win_get_config(0)
+
   return (vim.bo[buf].buftype == "quickfix")
-    or (config.relative ~= "")
+    or is_popup(win_id)
     -- Keep neo-tree visible while filtering
     or (vim.bo[buf].filetype == "neo-tree" and active_config.relative ~= "")
 end
@@ -52,10 +57,22 @@ local function update_dimit_highlight()
   vim.api.nvim_set_hl(0, M.config.highlight_group, { bg = bgcolor })
 end
 
+-- Track the last active non-popup window
+M.last_normal_win = nil
+
 M.dim_inactive = function()
   update_dimit_highlight()
 
   local current = vim.api.nvim_get_current_win()
+
+  -- If current window is a popup, use the last normal window as the active one
+  if is_popup(current) then
+    if M.last_normal_win and vim.api.nvim_win_is_valid(M.last_normal_win) then current = M.last_normal_win end
+  else
+    -- Update the last normal window
+    M.last_normal_win = current
+  end
+
   local dim_value = get_highlight_value(M.config.dim_elements, M.config.highlight_group)
 
   for _, w in pairs(vim.api.nvim_list_wins()) do
@@ -86,6 +103,11 @@ M.setup = function(opts)
 
   M.win_enter_autocmd = vim.api.nvim_create_autocmd({ "WinEnter", "BufWinEnter", "WinClosed" }, {
     callback = function()
+      local current = vim.api.nvim_get_current_win()
+
+      -- Skip dimming if entering a popup window
+      if is_popup(current) then return end
+
       if not focus_lost then M.dim_inactive() end
     end,
   })

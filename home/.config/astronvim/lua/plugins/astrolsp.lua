@@ -1,18 +1,20 @@
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
 
-function dump(o)
-  if type(o) == "table" then
-    local s = "{ "
-    for k, v in pairs(o) do
-      if type(k) ~= "number" then k = '"' .. k .. '"' end
-      s = s .. "[" .. k .. "] = " .. dump(v) .. ","
-    end
-    return s .. "} "
-  else
-    return tostring(o)
-  end
-end
+local utils = require "astrolsp.utils"
+
+-- function dump(o)
+--   if type(o) == "table" then
+--     local s = "{ "
+--     for k, v in pairs(o) do
+--       if type(k) ~= "number" then k = '"' .. k .. '"' end
+--       s = s .. "[" .. k .. "] = " .. dump(v) .. ","
+--     end
+--     return s .. "} "
+--   else
+--     return tostring(o)
+--   end
+-- end
 
 local function open_lsp_browser_link(link_type)
   -- First, try to go to definition
@@ -190,16 +192,20 @@ return {
             require("telescope.builtin").lsp_dynamic_workspace_symbols(opts)
           end,
           desc = "Find workspace symbols",
-          cond = function(client) return client.supports_method "workspace/symbols" end,
+          cond = "workspace/symbols",
         },
         gd = {
           function()
             local clients = vim.lsp.get_clients { bufnr = 0 }
             local has_hls_with_capabilities = false
+            local current_buf = 0
 
             if vim.bo.filetype == "haskell" then
               for _, client in ipairs(clients) do
-                if client.supports_method "textDocument/hover" and client.supports_method "textDocument/definition" then
+                if
+                  utils.supports_method(client, "textDocument/hover", current_buf)
+                  and utils.supports_method(client, "textDocument/definition", current_buf)
+                then
                   has_hls_with_capabilities = true
                   break
                 end
@@ -217,16 +223,20 @@ return {
         ["<Leader>lo"] = {
           function() open_lsp_browser_link "Source" end,
           desc = "Open source",
-          cond = function(client)
+          cond = function(client, buf)
             return vim.bo.filetype == "haskell"
-              and (client.supports_method "textDocument/hover" or client.supports_method "textDocument/definition")
+              and (
+                utils.supports_method(client, "textDocument/hover", buf)
+                or utils.supports_method(client, "textDocument/definition", buf)
+              )
           end,
         },
         ["<Leader>uY"] = {
           function() require("astrolsp.toggles").buffer_semantic_tokens() end,
           desc = "Toggle LSP semantic highlight (buffer)",
-          cond = function(client)
-            return client.supports_method "textDocument/semanticTokens/full" and vim.lsp.semantic_tokens ~= nil
+          cond = function(client, buf)
+            return utils.supports_method(client, "textDocument/semanticTokens/full", buf)
+              and vim.lsp.semantic_tokens ~= nil
           end,
         },
         ["<Leader>lA"] = {
@@ -255,7 +265,7 @@ return {
             }
           end,
           desc = "Remove all redundant imports",
-          cond = function() return vim.bo.filetype == "haskell" end,
+          cond = function(_, buf) return vim.api.nvim_get_option_value("filetype", { buf = buf }) == "haskell" end,
         },
         ["<leader>lh"] = {
           function()
@@ -290,7 +300,7 @@ return {
             }
           end,
           desc = "Apply all hints",
-          cond = function() return vim.bo.filetype == "haskell" end,
+          cond = function(_, buf) return vim.api.nvim_get_option_value("filetype", { buf = buf }) == "haskell" end,
         },
         gD = {
           function() vim.lsp.buf.declaration() end,
