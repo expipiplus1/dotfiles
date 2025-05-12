@@ -1,7 +1,7 @@
 require("lazy").setup({
   {
     "AstroNvim/AstroNvim",
-    version = "^4", -- Remove version tracking to elect for nighly AstroNvim
+    version = "^5", -- Remove version tracking to elect for nightly AstroNvim
     import = "astronvim.plugins",
     opts = { -- AstroNvim options must be set here with the `import` key
       mapleader = " ", -- This ensures the leader key must be configured before Lazy is set up
@@ -12,9 +12,9 @@ require("lazy").setup({
     },
   },
   {
-		"nvim-treesitter/nvim-treesitter",
-		commit = vim.fn.readfile(vim.fn.stdpath("config") .. "/treesitter-rev", "", 1)[1],
-	},
+    "nvim-treesitter/nvim-treesitter",
+    commit = vim.fn.readfile(vim.fn.stdpath "config" .. "/treesitter-rev", "", 1)[1],
+  },
   { import = "community" },
   { import = "plugins" },
 } --[[@as LazySpec]], {

@@ -281,6 +281,11 @@ return {
           desc = "Apply all hints",
           cond = function() return vim.bo.filetype == "haskell" end,
         },
+        gD = {
+          function() vim.lsp.buf.declaration() end,
+          desc = "Declaration of current symbol",
+          cond = "textDocument/declaration",
+        },
       },
     },
     -- A custom `on_attach` function to be run after the default `on_attach` function
