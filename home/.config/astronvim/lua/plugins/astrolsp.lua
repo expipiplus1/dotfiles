@@ -18,9 +18,20 @@ local function open_lsp_browser_link(link_type)
   -- First, try to go to definition
   local definition_found = false
   vim.lsp.buf.definition {
-    on_list = function()
+    on_list = function(options)
       definition_found = true
-      vim.lsp.buf.definition()
+
+      -- Skip showing the quickfix window entirely
+      if #options.items == 1 then
+        -- Jump directly to the location without using quickfix
+        local item = options.items[1]
+        if item.filename then
+          vim.cmd("edit " .. vim.fn.fnameescape(item.filename))
+          vim.api.nvim_win_set_cursor(0, { item.lnum, item.col - 1 })
+        end
+      else
+        -- For multiple items, just mark as found but don't show anything
+      end
     end,
   }
 
@@ -33,7 +44,7 @@ local function open_lsp_browser_link(link_type)
     if definition_found then return end
 
     -- If no definition, proceed with hover request
-    local params = vim.lsp.util.make_position_params()
+    local params = vim.lsp.util.make_position_params(0, "utf-8")
     vim.lsp.buf_request(0, "textDocument/hover", params, function(err, result, _, _)
       if err or not result or not result.contents then
         if not retry then print "No hover information available" end

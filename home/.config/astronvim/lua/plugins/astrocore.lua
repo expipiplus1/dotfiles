@@ -8,7 +8,21 @@ return {
   opts = {
     -- Configure core features of AstroNvim
     features = {
-      large_buf = { size = 65536 * 256, lines = 30000 }, -- set global limits for large files for disabling features like treesitter
+      large_buf = {
+        enabled = function(bufnr)
+          -- Set high thresholds (adjust these values as needed)
+          local size_threshold = 50000000 -- 50MB in bytes
+          local line_threshold = 500000 -- 500K lines
+
+          -- Get buffer stats
+          local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+          local file_size = ok and stats and stats.size or 0
+          local line_count = vim.api.nvim_buf_line_count(bufnr)
+
+          -- Return true (treat as large file) only if exceeds thresholds
+          return file_size > size_threshold or line_count > line_threshold
+        end,
+      },
       autopairs = false, -- enable autopairs at start
       cmp = true, -- enable completion at start
       diagnostics = { virtual_text = true, virtual_lines = false }, -- diagnostic settings on startup
