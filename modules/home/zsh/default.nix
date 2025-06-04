@@ -159,6 +159,9 @@ in lib.internal.simpleModule inputs "zsh" {
       bindkey "''${terminfo[kcuf1]}" forward-char
 
       source <(${pkgs.jujutsu}/bin/jj util completion zsh)
+
+      zstyle ':fzf-tab:*' prefix '''
+      zstyle ':fzf-tab:*' query-string prefix-hidden
     '';
 
     # So ssh machine -- foo works
