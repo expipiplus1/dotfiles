@@ -55,7 +55,16 @@ lib.internal.simpleModule inputs "tmux" {
       # Wayland
       set -g mode-keys vi
       bind-key -Tcopy-mode-vi 'v' send -X begin-selection
-      bind-key -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel '${pkgs.wl-clipboard}/bin/wl-copy'
+      # bind-key -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel '${pkgs.wl-clipboard}/bin/wl-copy'
+      bind-key -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel "${
+        pkgs.writeShellScript "tmux-copy-fixed2" ''
+          #!/bin/sh
+          input=$(cat)
+          echo -n "$input" | ${pkgs.wl-clipboard}/bin/wl-copy 2>/dev/null || true
+          # Use tmux's pane_tty
+          printf "\033]52;c;%s\007" "$(echo -n "$input" | base64 -w0)" > "$(tmux display -p '#{pane_tty}')"
+        ''
+      }"
       # move x clipboard into tmux paste buffer and paste
       bind C-p run "${config.programs.tmux.package}/bin/tmux set-buffer \"$(${pkgs.wl-clipboard}/bin/wl-paste)\"; ${config.programs.tmux.package}/bin/tmux paste-buffer -p"
       # move tmux copy buffer into x clipboard
@@ -122,7 +131,8 @@ lib.internal.simpleModule inputs "tmux" {
       # see https://github.com/base16-project/base16-shell/issues/1
       set -g allow-passthrough on
 
-      set -g set-clipboard off
+      set -g set-clipboard on
+      set -as terminal-features ',*:clipboard'
 
       # C-c: save into system clipboard (+). With preselection.
       # X11 version
