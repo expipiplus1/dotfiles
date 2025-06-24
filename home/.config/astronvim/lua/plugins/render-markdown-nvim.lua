@@ -1,6 +1,6 @@
 ---@type LazySpec
 return {
-  "render-markdown-nvim",
+  "render-markdown.nvim",
   opts = {
     code = { border = "thin" },
     latex = { enabled = false },
