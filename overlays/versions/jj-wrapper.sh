@@ -45,28 +45,41 @@ modify_args() {
   local args=()
   while (($#)); do
     local arg="$1"
+    local prefix=""
+    local suffix=""
+    local core=""
+
+    # Extract prefix (::) and suffix (::) if present
+    if [[ "$arg" =~ ^(::)?([^:]+)(::)?$ ]]; then
+      prefix="${BASH_REMATCH[1]}"
+      core="${BASH_REMATCH[2]}"
+      suffix="${BASH_REMATCH[3]}"
+    else
+      core="$arg"
+    fi
+
+    # Process the core part
+    local processed_core="$core"
+
     # Replace main@xxx with master@xxx if master@xxx exists and main@xxx doesn't
-    if [[ "$arg" == "main@"* ]]; then
-      local remote="${arg#main@}"
-      if master_exists_for_remote "$remote" && ! branch_exists "$arg"; then
-        echo -e "\033[90mreplacing $arg with master@$remote\033[0m" >&2
-        args+=("master@$remote")
-      else
-        args+=("$arg")
+    if [[ "$core" == "main@"* ]]; then
+      local remote="${core#main@}"
+      if master_exists_for_remote "$remote" && ! branch_exists "$core"; then
+        echo -e "\033[90mreplacing $core with master@$remote\033[0m" >&2
+        processed_core="master@$remote"
       fi
     # Handle github-style branch references
-    elif [[ "$arg" =~ ^([^:]+):([^:]+)$ ]]; then
+    elif [[ "$core" =~ ^([^:]+):([^:]+)$ ]]; then
       local owner="${BASH_REMATCH[1]}"
       local branch="${BASH_REMATCH[2]}"
       if remote_exists "$owner"; then
-        echo -e "\033[90mreplacing $arg with ${branch}@${owner}\033[0m" >&2
-        args+=("${branch}@${owner}")
-      else
-        args+=("$arg")
+        echo -e "\033[90mreplacing $core with ${branch}@${owner}\033[0m" >&2
+        processed_core="${branch}@${owner}"
       fi
-    else
-      args+=("$arg")
     fi
+
+    # Reconstruct with prefix and suffix
+    args+=("${prefix}${processed_core}${suffix}")
     shift
   done
   printf '%s\n' "${args[@]}"
