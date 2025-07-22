@@ -22,12 +22,11 @@ lib.internal.simpleModule inputs "jujutsu" {
       };
       ui = {
         # Use Difftastic by default
-        diff.tool =
+        diff-formatter =
           [ "${pkgs.difftastic}/bin/difft" "--color=always" "$left" "$right" ];
         diff-editor = [ "nvim" "-c" "DiffEditor $left $right $output" ];
         paginate = "auto";
         pager = "${pkgs.delta}/bin/delta";
-        diff.format = "git";
       };
       fix.tools.clang-format = {
         command = [

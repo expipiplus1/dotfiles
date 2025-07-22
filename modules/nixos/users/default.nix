@@ -40,7 +40,7 @@ lib.internal.simpleModule inputs "users" {
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII8wDcEeHIfK63eMWC3pXRmX1DpItY3+cpS0C2fmYc31 e@light-hope"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIADX8HRqBgJD78QAlf8pfYpZ89pWUKEO8HXSX5zPY3KP ellieh"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPzfehGlktzfIvfE5RtfFCR822QvYdPAzflZhgx0K50m ellieh@nvidia.com"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPalnsykM5Suo+0eLLkPCNGZJxgVLivIPKa4fQRZwe2H ellieh@ellieh-mlt"
     ];
   };
 }
-
