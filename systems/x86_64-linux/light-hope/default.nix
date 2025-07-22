@@ -14,6 +14,7 @@ config, ... }:
   ellie.ollama.enable = true;
   ellie.nvidia.devDriver = false;
   nix.settings.system-features = [ "gccarch-znver4" ];
+  nixpkgs.config.allowUnfree = true;
   system.stateVersion = "23.11"; # Did you read the comment?
 
   programs.mosh.enable = true;

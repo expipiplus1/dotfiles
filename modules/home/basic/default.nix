@@ -7,6 +7,8 @@ lib.internal.simpleModule inputs "basic" {
   home.stateVersion = "22.11";
   home.homeDirectory = "/home/e";
 
+  nixpkgs.config.allowUnfree = true;
+
   home.sessionVariables = {
     LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
     NIX_PATH = "nixpkgs=$HOME/src/nixpkgs";
@@ -16,6 +18,7 @@ lib.internal.simpleModule inputs "basic" {
   };
 
   home.packages = with pkgs; [
+    code-cursor
     bat
     bear
     bmon

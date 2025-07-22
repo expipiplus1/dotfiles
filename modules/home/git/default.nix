@@ -77,6 +77,7 @@ lib.internal.simpleModule inputs "git" {
     }];
     ignores = [ ".envrc" ".direnv" ".cache" ];
     extraConfig = rec {
+      rerere.enabled = true;
       hub.protocol = "ssh";
       commit.gpgsign = true;
       gpg.format = "ssh";

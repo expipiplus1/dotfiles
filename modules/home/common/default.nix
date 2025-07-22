@@ -21,5 +21,6 @@ in with lib; {
     ellie.starship.enable = true;
     ellie.tmux.enable = true;
     ellie.zsh.enable = true;
+    nixpkgs.config.allowUnfree = true;
   };
 }
