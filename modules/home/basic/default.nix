@@ -1,16 +1,21 @@
-{ lib, config, pkgs, ... }@inputs:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}@inputs:
 lib.internal.simpleModule inputs "basic" {
-  home.username = "e";
+  home.username = "ellieh";
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   home.stateVersion = "22.11";
-  home.homeDirectory = "/home/e";
+  home.homeDirectory = "/Users/ellieh";
 
   nixpkgs.config.allowUnfree = true;
 
   home.sessionVariables = {
-    LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
+    # LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
     NIX_PATH = "nixpkgs=$HOME/src/nixpkgs";
     EDITOR = "vim";
     NIXOS_OZONE_WL = 1;
@@ -19,6 +24,7 @@ lib.internal.simpleModule inputs "basic" {
 
   home.packages = with pkgs; [
     code-cursor
+    bash
     bat
     bear
     bmon
@@ -30,7 +36,7 @@ lib.internal.simpleModule inputs "basic" {
     dnsutils
     du-dust
     duf
-    efibootmgr
+    #efibootmgr
     entr
     fd
     file
@@ -41,7 +47,7 @@ lib.internal.simpleModule inputs "basic" {
     jq
     # json2nix
     killall
-    lm_sensors
+    # lm_sensors
     lsd
     mosh
     nix
@@ -53,7 +59,7 @@ lib.internal.simpleModule inputs "basic" {
     perl
     ripgrep
     rust-analyzer
-    rust-parallel
+    # rust-parallel
     silver-searcher
     tio
     tree

@@ -1,6 +1,14 @@
-{ lib, config, pkgs, ... }@inputs:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}@inputs:
 lib.internal.simpleModule inputs "jujutsu" {
-  home.packages = with pkgs; [ jujutsu lazyjj ];
+  home.packages = with pkgs; [
+    jujutsu
+    lazyjj
+  ];
   programs.zsh = {
     shellAliases = {
       js = "jj st";
@@ -22,9 +30,17 @@ lib.internal.simpleModule inputs "jujutsu" {
       };
       ui = {
         # Use Difftastic by default
-        diff-formatter =
-          [ "${pkgs.difftastic}/bin/difft" "--color=always" "$left" "$right" ];
-        diff-editor = [ "nvim" "-c" "DiffEditor $left $right $output" ];
+        diff-formatter = [
+          "${pkgs.difftastic}/bin/difft"
+          "--color=always"
+          "$left"
+          "$right"
+        ];
+        diff-editor = [
+          "nvim"
+          "-c"
+          "DiffEditor $left $right $output"
+        ];
         paginate = "auto";
         pager = "${pkgs.delta}/bin/delta";
       };

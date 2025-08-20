@@ -37,11 +37,14 @@
     };
   };
 
-  outputs = inputs:
+  outputs =
+    inputs:
     inputs.snowfall-lib.mkFlake {
       inherit inputs;
       src = ./.;
-      channels-config = { allowUnfree = true; };
+      channels-config = {
+        allowUnfree = true;
+      };
       overlays = with inputs; [
         nil.overlays.default
         lix-module.overlays.default
@@ -53,7 +56,6 @@
         # nixos-wsl.nixosModules.default
       ];
       # This seems to pull them in for nixos builds too?
-      homes.modules = with inputs;
-        [ plasma-manager.homeManagerModules.plasma-manager ];
+      homes.modules = with inputs; [ plasma-manager.homeManagerModules.plasma-manager ];
     };
 }
