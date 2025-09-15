@@ -74,7 +74,8 @@ in {
     # (iosevka-bin.override { variant = "aile"; })
     # (iosevka-bin.override { variant = "sgr-iosevka-fixed"; })
     # (iosevka-bin.override { variant = "sgr-iosevka-term"; })
-    (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+    # (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+    nerd-fonts.symbols-only
     # material-design-icons
 
     # For nicer Chinese character rendering

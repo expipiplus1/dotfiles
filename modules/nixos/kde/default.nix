@@ -24,7 +24,7 @@ lib.internal.simpleModule inputs "kde" {
     print-manager
   ];
 
-  environment.systemPackages = with pkgs; [ kdeplasma-addons ];
+  environment.systemPackages = with pkgs; [ kdePackages.kdeplasma-addons ];
 
   programs.dconf.enable = true;
 

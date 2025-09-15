@@ -15,11 +15,6 @@ lib.internal.simpleModule inputs "pc" {
     element-desktop
     ffmpeg-full
     firefox
-    gnomeExtensions.control-blur-effect-on-lock-screen
-    gnomeExtensions.dash-to-panel
-    gnomeExtensions.freon
-    gnomeExtensions.hide-activities-button
-    gnomeExtensions.unite
     opentx
     pinta
     powerline-fonts
@@ -59,42 +54,44 @@ lib.internal.simpleModule inputs "pc" {
     # vscodium 1.80 doesn't seem to work on wayland
     # package = pkgs-stable.vscodium;
     package = pkgs.vscodium;
-    enableExtensionUpdateCheck = false;
-    enableUpdateCheck = false;
-    extensions = with pkgs;
-      with vscode-extensions; [
-        ms-vscode.cpptools
-        asvetliakov.vscode-neovim
-        justusadam.language-haskell
-        arcticicestudio.nord-visual-studio-code
-        haskell.haskell
-      ];
-    userSettings = {
-      keyboard.dispatch = "keyCode";
-      vscode-neovim.neovimExecutablePaths.linux =
-        "/home/e/.nix-profile/bin/nvim";
-      haskell.manageHLS = "PATH";
-      haskell.formattingProvider = "fourmolu";
-      haskell.openDocumentationInHackage = false;
-      haskell.openSourceInHackage = false;
-      window.zoomLevel = -2;
-      "workbench.colorTheme" = "Nord";
-      "workbench.colorCustomizations"."[Nord]" = {
-        "editor.focusedStackFrameHighlightBackground" = "#a3be8c33";
-        "editor.stackFrameHighlightBackground" = "#ebcb8b33";
-        "editorGroupHeader.noTabsBackground" = "#3b4252";
-        "editorGroupHeader.tabsBackground" = "#3b4252";
-        "tab.activeBackground" = "#2e3440";
-        "tab.inactiveBackground" = "#3b4252";
-        "tab.hoverBackground" = "#2e3440";
-        "tab.unfocusedHoverBackground" = "#434c5eb3";
+    profiles.default = {
+      enableExtensionUpdateCheck = false;
+      enableUpdateCheck = false;
+      extensions = with pkgs;
+        with vscode-extensions; [
+          ms-vscode.cpptools
+          asvetliakov.vscode-neovim
+          justusadam.language-haskell
+          arcticicestudio.nord-visual-studio-code
+          haskell.haskell
+        ];
+      userSettings = {
+        keyboard.dispatch = "keyCode";
+        vscode-neovim.neovimExecutablePaths.linux =
+          "/home/e/.nix-profile/bin/nvim";
+        haskell.manageHLS = "PATH";
+        haskell.formattingProvider = "fourmolu";
+        haskell.openDocumentationInHackage = false;
+        haskell.openSourceInHackage = false;
+        window.zoomLevel = -2;
+        "workbench.colorTheme" = "Nord";
+        "workbench.colorCustomizations"."[Nord]" = {
+          "editor.focusedStackFrameHighlightBackground" = "#a3be8c33";
+          "editor.stackFrameHighlightBackground" = "#ebcb8b33";
+          "editorGroupHeader.noTabsBackground" = "#3b4252";
+          "editorGroupHeader.tabsBackground" = "#3b4252";
+          "tab.activeBackground" = "#2e3440";
+          "tab.inactiveBackground" = "#3b4252";
+          "tab.hoverBackground" = "#2e3440";
+          "tab.unfocusedHoverBackground" = "#434c5eb3";
+        };
+        editor.fontFamily = "Iosevka Term";
+        editor.fontLigatures = "'calt' off, 'dlig' off, 'cv57' 2, 'cv36' 1";
+        C_Cpp.intelliSenseEngine = "disabled";
+        debug.onTaskErrors = "abort";
+        # Hide decorations on wayland
+        window.titleBarStyle = "custom";
       };
-      editor.fontFamily = "Iosevka Term";
-      editor.fontLigatures = "'calt' off, 'dlig' off, 'cv57' 2, 'cv36' 1";
-      C_Cpp.intelliSenseEngine = "disabled";
-      debug.onTaskErrors = "abort";
-      # Hide decorations on wayland
-      window.titleBarStyle = "custom";
     };
   };
 
