@@ -26,6 +26,7 @@ lib.internal.simpleModule inputs "pc" {
     vlc
     wl-clipboard
     xsel
+    claude-code
   ];
 
   programs.neovim = {
