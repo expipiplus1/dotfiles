@@ -40,14 +40,17 @@ remote_exists() {
   "@jj_binary@" git remote list | cut -d' ' -f1 | grep -q "^${remote}$"
 }
 
-# Function to modify arguments
-modify_args() {
-  local args=()
+# Process arguments directly without intermediate storage
+if [ $# -eq 0 ]; then
+  exec "@jj_binary@"
+else
+  # Build modified arguments array directly
+  modified_args=()
   while (($#)); do
-    local arg="$1"
-    local prefix=""
-    local suffix=""
-    local core=""
+    arg="$1"
+    prefix=""
+    suffix=""
+    core=""
 
     # Extract prefix (::) and suffix (::) if present
     if [[ "$arg" =~ ^(::)?([^:]+)(::)?$ ]]; then
@@ -59,37 +62,29 @@ modify_args() {
     fi
 
     # Process the core part
-    local processed_core="$core"
+    processed_core="$core"
 
     # Replace main@xxx with master@xxx if master@xxx exists and main@xxx doesn't
     if [[ "$core" == "main@"* ]]; then
-      local remote="${core#main@}"
+      remote="${core#main@}"
       if master_exists_for_remote "$remote" && ! branch_exists "$core"; then
         echo -e "\033[90mreplacing $core with master@$remote\033[0m" >&2
         processed_core="master@$remote"
       fi
     # Handle github-style branch references
     elif [[ "$core" =~ ^([^:]+):([^:]+)$ ]]; then
-      local owner="${BASH_REMATCH[1]}"
-      local branch="${BASH_REMATCH[2]}"
+      owner="${BASH_REMATCH[1]}"
+      branch="${BASH_REMATCH[2]}"
       if remote_exists "$owner"; then
         echo -e "\033[90mreplacing $core with ${branch}@${owner}\033[0m" >&2
         processed_core="${branch}@${owner}"
       fi
     fi
 
-    # Reconstruct with prefix and suffix
-    args+=("${prefix}${processed_core}${suffix}")
+    # Add the processed argument directly to the array
+    modified_args+=("${prefix}${processed_core}${suffix}")
     shift
   done
-  printf '%s\n' "${args[@]}"
-}
 
-# Get modified arguments
-declare -a modified_args
-if [ $# -eq 0 ]; then
-  exec "@jj_binary@"
-else
-  readarray -t modified_args < <(modify_args "$@")
   exec "@jj_binary@" "${modified_args[@]}"
 fi
