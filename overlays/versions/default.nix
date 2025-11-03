@@ -1,6 +1,8 @@
 { channels, ... }:
 
 self: super: {
+  perf = channels.nixpkgs-unstable.linuxPackages.perf;
+  # linuxPackages = channels.nixpkgs-unstable.linuxPackages;
   neovim = channels.nixpkgs-unstable.neovim;
   neovim-unwrapped = channels.nixpkgs-unstable.neovim-unwrapped;
 
@@ -32,7 +34,7 @@ self: super: {
   atuin = super.atuin.overrideAttrs (old: rec {
     patches = old.patches or [ ] ++ [ ../patches/atuin-popup.patch ];
   });
-  memtest86plus = self.callPackage ({ stdenv, fetchurl, lib }:
+  memtest86plus = self.callPackage ({ stdenv, fetchurl, lib, }:
     stdenv.mkDerivation rec {
       pname = "memtest86+";
       version = "5.31b";

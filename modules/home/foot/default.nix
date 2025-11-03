@@ -3,6 +3,7 @@ lib.internal.simpleModule inputs "foot" {
   programs.foot = {
     enable = true;
     settings = {
+      bell.system = "no";
       main = {
         font =
           "Iosevka Term:size=10:style=Regular,Symbols Nerd Font Mono:size=10";

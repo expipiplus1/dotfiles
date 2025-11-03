@@ -11,6 +11,7 @@ lib.internal.simpleModule inputs "pc" {
 
   home.packages = with pkgs; [
     anki
+    perf
     darktable
     element-desktop
     ffmpeg-full
