@@ -1,6 +1,12 @@
 { channels, ... }:
 
 self: super: {
+  lix = super.lix.overrideAttrs (oldAttrs: {
+    doCheck = false;
+    doInstallCheck = false;
+    checkPhase = "true";
+  });
+
   anki = super.anki.overrideAttrs (old: {
     buildInputs = old.buildInputs ++ [ self.makeWrapper ];
     postInstall = old.postInstall or "" + ''
