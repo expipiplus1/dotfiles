@@ -2,7 +2,7 @@
   inputs = {
     lix-module = {
       url = "git+https://git.lix.systems/lix-project/nixos-module";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:expipiplus1/nixpkgs/push-xnszyllysuxm";

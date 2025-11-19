@@ -43,7 +43,7 @@ in lib.internal.simpleModule inputs "zsh" {
       VI_MODE_DISABLE_CLIPBOARD = "true";
       # ZSH_AUTOSUGGEST_STRATEGY = "()";
     };
-    initExtraBeforeCompInit = ''
+    initContent = lib.mkOrder 550 ''
       if command -v xdg-open 2>&1 >/dev/null; then
         open(){
           xdg-open "$@" 2> /dev/null

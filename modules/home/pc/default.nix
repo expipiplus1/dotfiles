@@ -10,6 +10,7 @@ lib.internal.simpleModule inputs "pc" {
   ellie.plasma.enable = true;
 
   home.packages = with pkgs; [
+    google-chrome
     anki
     perf
     darktable
@@ -40,7 +41,7 @@ lib.internal.simpleModule inputs "pc" {
   programs.tmux = { plugins = [ pkgs.tmuxPlugins.open ]; };
 
   programs.zsh = {
-    initExtraBeforeCompInit = ''
+    initContent = lib.mkOrder 550 ''
       wd() {
         nix-store -q --graph "$1" |
           ${pkgs.graphviz}/bin/dijkstra -da "$2" |
