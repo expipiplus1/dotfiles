@@ -8,7 +8,7 @@ let
 
       idris2Packages.idris2Lsp
 
-      clang-tools
+      llvmPackages_21.clang-tools
 
       cmake-language-server
 

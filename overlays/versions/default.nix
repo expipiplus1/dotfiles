@@ -6,6 +6,9 @@ self: super: {
   neovim = channels.nixpkgs-unstable.neovim;
   neovim-unwrapped = channels.nixpkgs-unstable.neovim-unwrapped;
 
+  cursor-cli = channels.nixpkgs-unstable.cursor-cli;
+  gemini-cli = channels.nixpkgs-gemini.gemini-cli;
+
   rust-parallel = channels.nixpkgs-unstable.rust-parallel;
   difftastic = channels.nixpkgs-unstable.difftastic;
   clang-tools = channels.nixpkgs-unstable.llvmPackages_18.clang-tools;

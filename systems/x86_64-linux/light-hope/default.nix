@@ -13,6 +13,7 @@ config, ... }:
   ellie.desktop.enable = true;
   ellie.ollama.enable = true;
   ellie.nvidia.devDriver = false;
+  ellie.debounce.enable = true;
   nix.settings.system-features = [ "gccarch-znver4" ];
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "23.11"; # Did you read the comment?

@@ -6,6 +6,8 @@
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:expipiplus1/nixpkgs/push-xnszyllysuxm";
+    nixpkgs-gemini.url =
+      "github:nixos/nixpkgs/8d9ef0bb99797cb9a1626a6f34eccc8a52063b49";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";

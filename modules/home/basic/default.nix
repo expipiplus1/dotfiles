@@ -19,6 +19,8 @@ lib.internal.simpleModule inputs "basic" {
 
   home.packages = with pkgs; [
     code-cursor
+    cursor-cli
+    gemini-cli
     bat
     bear
     bmon
