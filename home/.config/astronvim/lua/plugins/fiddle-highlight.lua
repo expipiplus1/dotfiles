@@ -1,3 +1,3 @@
 return {
-  dir = vim.fn.stdpath "config" .. "/custom-plugins/fiddle-highlight",
+  dir = vim.fn.stdpath "config" .. "/custom-plugins/fiddle_highlight",
 }
