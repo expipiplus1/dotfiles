@@ -2,142 +2,240 @@ local M = {}
 
 local ns = vim.api.nvim_create_namespace "fiddle_lua_injection"
 
--- Debug helper
-local function dbg(...)
-  local args = { ... }
-  local parts = {}
-  for i, v in ipairs(args) do
-    parts[i] = vim.inspect(v)
+-- Find balanced parentheses starting at pos (pos points to the opening paren)
+local function find_balanced_paren(str, pos)
+  if str:sub(pos, pos) ~= "(" then return nil end
+
+  local depth = 0
+  for i = pos, #str do
+    local c = str:sub(i, i)
+    if c == "(" then
+      depth = depth + 1
+    elseif c == ")" then
+      depth = depth - 1
+      if depth == 0 then return i end
+    end
   end
-  vim.notify("[fiddle] " .. table.concat(parts, " "), vim.log.levels.INFO)
+  return nil -- Unbalanced
+end
+
+-- Find all $(...) splices in a line
+local function find_splices(line)
+  local splices = {}
+  local i = 1
+  while i <= #line do
+    local dollar_pos = line:find("%$%(", i)
+    if not dollar_pos then break end
+    local paren_start = dollar_pos + 1
+    local paren_end = find_balanced_paren(line, paren_start)
+    if paren_end then
+      table.insert(splices, {
+        start_col = dollar_pos - 1, -- 0-indexed, points to $
+        end_col = paren_end, -- 0-indexed exclusive (after closing paren)
+        lua_start = dollar_pos + 1, -- 0-indexed, start of lua content (after "$(" )
+        lua_end = paren_end - 1, -- 0-indexed exclusive, end of lua content (before ")")
+        lua_code = line:sub(dollar_pos + 2, paren_end - 1),
+      })
+      i = paren_end + 1
+    else
+      i = dollar_pos + 1
+    end
+  end
+  return splices
+end
+
+local function apply_lua_highlights(bufnr, lnum, col_offset, lua_code, priority)
+  local ok, parser = pcall(vim.treesitter.get_string_parser, lua_code, "lua")
+
+  if ok and parser then
+    local parse_ok, trees = pcall(function() return parser:parse() end)
+
+    if parse_ok and trees and trees[1] then
+      local tree = trees[1]
+      local root = tree:root()
+
+      local query_ok, query = pcall(vim.treesitter.query.get, "lua", "highlights")
+
+      if query_ok and query then
+        for id, node, metadata in query:iter_captures(root, lua_code, 0, -1) do
+          local name = query.captures[id]
+          local sr, sc, er, ec = node:range()
+
+          vim.api.nvim_buf_set_extmark(bufnr, ns, lnum, sc + col_offset, {
+            end_col = ec + col_offset,
+            hl_group = "@" .. name .. ".lua",
+            priority = priority,
+          })
+        end
+      end
+    end
+  end
+end
+
+local function apply_cpp_highlights(bufnr, lnum, col_start, col_end, cpp_code, priority)
+  if #cpp_code == 0 then return end
+
+  local ok, parser = pcall(vim.treesitter.get_string_parser, cpp_code, "cpp")
+
+  if ok and parser then
+    local parse_ok, trees = pcall(function() return parser:parse() end)
+
+    if parse_ok and trees and trees[1] then
+      local tree = trees[1]
+      local root = tree:root()
+
+      local query_ok, query = pcall(vim.treesitter.query.get, "cpp", "highlights")
+
+      if query_ok and query then
+        for id, node, metadata in query:iter_captures(root, cpp_code, 0, -1) do
+          local name = query.captures[id]
+          local sr, sc, er, ec = node:range()
+
+          -- Only apply if within bounds
+          if sc + col_start < col_end then
+            vim.api.nvim_buf_set_extmark(bufnr, ns, lnum, sc + col_start, {
+              end_col = math.min(ec + col_start, col_end),
+              hl_group = "@" .. name .. ".cpp",
+              priority = priority,
+            })
+          end
+        end
+      end
+    end
+  end
 end
 
 function M.apply_fiddle_highlighting(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
 
-  dbg("apply_fiddle_highlighting called for buffer", bufnr)
-
-  local filename = vim.api.nvim_buf_get_name(bufnr)
-  dbg("filename:", filename)
-
   vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
 
   local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-  dbg("total lines:", #lines)
 
   local in_fiddle = false
-  local fiddle_start = nil
-  local lua_lines_found = 0
-  local extmarks_applied = 0
 
   for lnum, line in ipairs(lines) do
-    -- Check for FIDDLE block start
+    local lnum0 = lnum - 1 -- 0-indexed line number
+
     if line:match "#if%s+0.-FIDDLE TEMPLATE" then
       in_fiddle = true
-      fiddle_start = lnum
-      dbg("FIDDLE block START at line", lnum, ":", line:sub(1, 60))
     elseif in_fiddle and (line:match "^#else" or line:match "^#endif") then
-      dbg("FIDDLE block END at line", lnum, "started at", fiddle_start)
       in_fiddle = false
-      fiddle_start = nil
-    elseif in_fiddle and line:match "^%%" then
-      lua_lines_found = lua_lines_found + 1
-      local lua_code = line:sub(2) -- Strip leading %
-      local col_offset = 1 -- Account for the %
+    elseif in_fiddle then
+      if line:match "^%%" then
+        -- Entire line (after %) is Lua
+        local lua_code = line:sub(2)
 
-      dbg("Lua line", lnum, ":", lua_code:sub(1, 50))
+        -- Base highlight to reset the line
+        vim.api.nvim_buf_set_extmark(bufnr, ns, lnum0, 0, {
+          end_col = #line,
+          hl_group = "Normal",
+          priority = 150,
+        })
 
-      -- Parse as Lua and apply highlights
-      local ok, parser = pcall(vim.treesitter.get_string_parser, lua_code, "lua")
-      dbg("  parser ok:", ok, "parser:", parser)
+        -- Highlight the leading % as delimiter
+        vim.api.nvim_buf_set_extmark(bufnr, ns, lnum0, 0, {
+          end_col = 1,
+          hl_group = "@punctuation.delimiter.lua",
+          priority = 300,
+        })
 
-      if ok and parser then
-        local parse_ok, trees = pcall(function() return parser:parse() end)
-        dbg("  parse ok:", parse_ok, "trees:", trees and #trees or "nil")
-
-        if parse_ok and trees and trees[1] then
-          local tree = trees[1]
-          local root = tree:root()
-          dbg("  root node:", root and root:type() or "nil")
-
-          local query_ok, query = pcall(vim.treesitter.query.get, "lua", "highlights")
-          dbg("  query ok:", query_ok, "query:", query and "exists" or "nil")
-
-          if query_ok and query then
-            local capture_count = 0
-            for id, node, metadata in query:iter_captures(root, lua_code, 0, -1) do
-              capture_count = capture_count + 1
-              local name = query.captures[id]
-              local sr, sc, er, ec = node:range()
-
-              if capture_count <= 3 then -- Only log first few
-                dbg("    capture:", name, "range:", sc, "-", ec, "text:", lua_code:sub(sc + 1, ec))
-              end
-
-              local extmark_ok, err = pcall(
-                function()
-                  vim.api.nvim_buf_set_extmark(bufnr, ns, lnum - 1, sc + col_offset, {
-                    end_col = ec + col_offset,
-                    hl_group = "@" .. name .. ".lua",
-                    priority = 200,
-                  })
-                end
-              )
-
-              if extmark_ok then
-                extmarks_applied = extmarks_applied + 1
-              else
-                dbg("    extmark ERROR:", err)
-              end
-            end
-            dbg("  captures for this line:", capture_count)
-          end
-        end
+        -- Apply Lua highlighting
+        apply_lua_highlights(bufnr, lnum0, 1, lua_code, 300)
       else
-        dbg "  parser creation failed"
+        -- Mixed line: C++ with $(...) Lua splices
+        local splices = find_splices(line)
+
+        -- Base highlight to reset the line
+        vim.api.nvim_buf_set_extmark(bufnr, ns, lnum0, 0, {
+          end_col = #line,
+          hl_group = "Normal",
+          priority = 150,
+        })
+
+        -- Build segments of C++ code (between splices)
+        local cpp_segments = {}
+        local pos = 1
+        for _, splice in ipairs(splices) do
+          if splice.start_col + 1 > pos then
+            table.insert(cpp_segments, {
+              start_col = pos - 1, -- 0-indexed
+              end_col = splice.start_col, -- 0-indexed
+              code = line:sub(pos, splice.start_col),
+            })
+          end
+          pos = splice.end_col + 1
+        end
+        -- Remaining C++ after last splice
+        if pos <= #line then
+          table.insert(cpp_segments, {
+            start_col = pos - 1,
+            end_col = #line,
+            code = line:sub(pos),
+          })
+        end
+
+        -- Apply C++ highlighting to segments
+        for _, seg in ipairs(cpp_segments) do
+          apply_cpp_highlights(bufnr, lnum0, seg.start_col, seg.end_col, seg.code, 200)
+        end
+
+        -- Apply splice highlighting
+        for _, splice in ipairs(splices) do
+          -- Highlight $( as delimiter
+          vim.api.nvim_buf_set_extmark(bufnr, ns, lnum0, splice.start_col, {
+            end_col = splice.start_col + 2,
+            hl_group = "@punctuation.bracket.lua",
+            priority = 300,
+          })
+
+          -- Highlight ) as delimiter
+          vim.api.nvim_buf_set_extmark(bufnr, ns, lnum0, splice.end_col - 1, {
+            end_col = splice.end_col,
+            hl_group = "@punctuation.bracket.lua",
+            priority = 300,
+          })
+
+          -- Highlight Lua content inside
+          if #splice.lua_code > 0 then apply_lua_highlights(bufnr, lnum0, splice.lua_start, splice.lua_code, 300) end
+        end
       end
-    end
-  end
-
-  dbg("Summary: lua_lines_found =", lua_lines_found, "extmarks_applied =", extmarks_applied)
-
-  if not fiddle_start and lua_lines_found == 0 then
-    dbg "WARNING: No FIDDLE block found. Checking patterns manually..."
-    for i, line in ipairs(lines) do
-      if line:match "FIDDLE" then dbg("  Line", i, "contains FIDDLE:", line:sub(1, 70)) end
-      if line:match "^%%" then dbg("  Line", i, "starts with %%:", line:sub(1, 50)) end
     end
   end
 end
 
 function M.setup()
-  dbg "setup() called"
-
   local group = vim.api.nvim_create_augroup("FiddleLuaHighlight", { clear = true })
 
-  vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "TextChanged" }, {
+  vim.api.nvim_create_autocmd({
+    "BufEnter",
+    "BufWinEnter",
+    "BufReadPost",
+    "BufWritePost",
+    "TextChanged",
+    "TextChangedI",
+    "FileType",
+  }, {
     group = group,
-    pattern = { "*.cpp", "*.h" },
+    pattern = { "*.cpp", "*.h", "*.hpp", "*.cc", "*.cxx" },
     callback = function(ev)
-      dbg("autocmd triggered:", ev.event, "buf:", ev.buf, "file:", ev.file)
-      M.apply_fiddle_highlighting(ev.buf)
+      vim.defer_fn(function()
+        if vim.api.nvim_buf_is_valid(ev.buf) then M.apply_fiddle_highlighting(ev.buf) end
+      end, 10)
     end,
   })
 
-  -- Also run immediately on current buffer if it matches
-  local current_file = vim.api.nvim_buf_get_name(0)
-  if current_file:match "%.cpp$" or current_file:match "%.h$" then
-    dbg "Running immediately on current buffer"
-    M.apply_fiddle_highlighting(0)
-  end
-
-  dbg "setup() complete"
+  -- Run on all currently open cpp buffers
+  vim.defer_fn(function()
+    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+      if vim.api.nvim_buf_is_loaded(bufnr) then
+        local name = vim.api.nvim_buf_get_name(bufnr)
+        if name:match "%.cpp$" or name:match "%.h$" or name:match "%.hpp$" then M.apply_fiddle_highlighting(bufnr) end
+      end
+    end
+  end, 100)
 end
 
--- Manual trigger for testing
-function M.test()
-  dbg "Manual test triggered"
-  M.apply_fiddle_highlighting(0)
-end
+function M.test() M.apply_fiddle_highlighting(0) end
 
 return M
