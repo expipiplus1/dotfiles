@@ -5,7 +5,7 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
     {
-      "AstroNvim/astrocore",
+      "astronvim/astrocore",
       opts = function(_, opts)
         local maps = assert(opts.mappings)
         maps.n["<C-a>"] = { "<cmd>CodeCompanionActions<cr>", desc = "Code Companion Actions" }
@@ -18,6 +18,17 @@ return {
   },
   config = function()
     require("codecompanion").setup {
+      adapters = {
+        ollama = function()
+          return require("codecompanion.adapters").extend("ollama", {
+            schema = {
+              model = {
+                default = "deepseek-coder-v2",
+              },
+            },
+          })
+        end,
+      },
       strategies = {
         chat = {
           adapter = "ollama",
@@ -26,12 +37,7 @@ return {
           adapter = "ollama",
         },
       },
-      adapter = {
-        name = "ollama",
-        model = "deepseek-coder-v2:16b",
-      },
     }
-    -- Expand 'cc' into 'CodeCompanion' in the command line
     vim.cmd [[cab cc CodeCompanion]]
   end,
 }

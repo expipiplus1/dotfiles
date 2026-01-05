@@ -11,13 +11,14 @@ vim.filetype.add {
     idris = "idris2",
   },
   filename = {
-    ["Foofile"] = "fooscript",
+    Foofile = "fooscript",
   },
   pattern = {
     ["~/%.config/foo/.*"] = "fooscript",
+    [".*%.h%.fiddle"] = "cpp",
+    [".*%.cpp%.fiddle"] = "cpp",
   },
 }
-
 -- Not sure why this doesn't work in astrocore...
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
