@@ -6,8 +6,10 @@ self: super: {
   neovim = channels.nixpkgs-unstable.neovim;
   neovim-unwrapped = channels.nixpkgs-unstable.neovim-unwrapped;
 
+  code-cursor = channels.nixpkgs-unstable.code-cursor;
   cursor-cli = channels.nixpkgs-unstable.cursor-cli;
   gemini-cli = channels.nixpkgs-gemini.gemini-cli;
+  claude-code = channels.nixpkgs-unstable.claude-code;
 
   rust-parallel = channels.nixpkgs-unstable.rust-parallel;
   difftastic = channels.nixpkgs-unstable.difftastic;
