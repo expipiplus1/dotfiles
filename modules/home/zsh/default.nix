@@ -59,7 +59,7 @@ in lib.internal.simpleModule inputs "zsh" {
       }
 
       ns(){
-        ${pkgs.cached-nix-shell}/bin/cached-nix-shell --keep XDG_DATA_DIRS --command "IN_NIX_SHELL=impure exec zsh; return" "$@"
+        nix-shell --keep XDG_DATA_DIRS --command "IN_NIX_SHELL=impure exec zsh; return" "$@"
       }
 
       c2n(){
