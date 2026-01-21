@@ -2,3 +2,5 @@
 result
 result-*
 .gdb_history
+.*
+!.gitignore
