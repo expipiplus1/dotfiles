@@ -59,7 +59,7 @@
       forceSSL = true;
       enableACME = true;
       default = true;
-      basicAuth = { };
+      basicAuthFile = "/etc/nginx/auth/home.monoid.al";
       locations = {
         "/" = {
           priority = 1001;
@@ -203,7 +203,7 @@
   users.mutableUsers = false;
 
   programs.zsh.enable = true;
-  users.users.j = {
+  users.users.e = {
     isNormalUser = true;
     home = "/home/j";
     description = "Ellie Hermaszewska";
