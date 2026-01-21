@@ -205,7 +205,7 @@
   programs.zsh.enable = true;
   users.users.e = {
     isNormalUser = true;
-    home = "/home/j";
+    home = "/home/e";
     description = "Ellie Hermaszewska";
     extraGroups = [ "wheel" ];
     shell = pkgs.zsh;
