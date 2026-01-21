@@ -8,11 +8,8 @@
   # Modules
   ellie.nginx-server.enable = true;
   ellie.fail2ban.enable = true;
-  ellie.dnsmasq.enable = true;
-  ellie.tailscale.enable = true;
   ellie.restic-server.enable = true;
   ellie.samba.enable = true;
-  ellie.plex.enable = true;
   ellie.jellyfin.enable = true;
   ellie.minio.enable = true;
   ellie.home-assistant.enable = true;
@@ -31,11 +28,7 @@
   # Networking
   networking.interfaces.eth0.macAddress = "5A:B5:1A:A6:79:5E";
 
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [ 139 445 12345 ];
-    allowedUDPPorts = [ 137 138 60000 60001 ];
-  };
+  networking.firewall.enable = true;
 
   services.openssh = {
     enable = true;
@@ -59,9 +52,6 @@
         X11Forwarding no
     '';
   };
-
-  # DNS address override for local machine
-  services.dnsmasq.settings.address = "/thanos/192.168.1.148";
 
   # Nginx virtual hosts
   services.nginx.virtualHosts = {
@@ -262,13 +252,6 @@
     "orion:s0C06f1M46DCpHUUP2r8iIrhfytkCbXWltMeMMa4jbw=%"
     "expipiplus1/update-nix-fetchgit:Z33K0KEImsos+kVTFvZxfLxaBi+D1jEeB6cX0uCo7B0="
   ];
-
-  networking.hosts = {
-    "192.168.1.77" = [ "riza" ];
-    "192.168.1.121" = [ "orion" ];
-    "192.168.1.20" = [ "nebula" ];
-    "192.168.1.104" = [ "gamora" ];
-  };
 
   system.autoUpgrade = {
     enable = true;
