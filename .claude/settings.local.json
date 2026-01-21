@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /home/e/dotfiles show HEAD:systems/x86_64-linux/historian-bow/aircon-codes/1119.json)",
+      "Bash(git -C /home/e/dotfiles show:*)",
+      "Bash(git -C /home/e/dotfiles log --oneline --all -- '**/aircon-codes/*')"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
