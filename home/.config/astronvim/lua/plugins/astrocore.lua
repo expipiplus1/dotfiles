@@ -86,6 +86,19 @@ return {
           callback = function() vim.opt_local.commentstring = "// %s" end,
         },
       },
+      lua_indentation = {
+        {
+          event = { "FileType" },
+          pattern = "lua",
+          desc = "Set Lua indentation to 2 spaces",
+          callback = function()
+            vim.opt_local.expandtab = true
+            vim.opt_local.shiftwidth = 2
+            vim.opt_local.tabstop = 2
+            vim.opt_local.softtabstop = 2
+          end,
+        },
+      },
     },
     -- vim options can be configured here
     options = {

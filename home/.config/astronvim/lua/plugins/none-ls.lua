@@ -9,7 +9,9 @@ return {
     -- https://github.com/nvimtools/none-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
     config.sources = {
       -- Set a formatter
-      null_ls.builtins.formatting.stylua,
+      null_ls.builtins.formatting.stylua.with {
+        extra_args = { "--indent-type", "Spaces", "--indent-width", "2" },
+      },
 
       -- html/css/js/ts/json/yaml/xml/markdown
       null_ls.builtins.formatting.prettier,
