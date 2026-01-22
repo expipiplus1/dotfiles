@@ -1,7 +1,11 @@
 { lib, inputs, snowfall-inputs }: {
   simpleModule = inputs: name: config:
-    let prefix = "ellie";
+    let
+      prefix = "ellie";
+      imports = config.imports or [ ];
+      configWithoutImports = builtins.removeAttrs config [ "imports" ];
     in with inputs.lib; {
+      inherit imports;
       options.${prefix}.${name} = {
         enable = mkOption {
           type = types.bool;
@@ -9,7 +13,7 @@
         };
       };
 
-      config = mkIf inputs.config.${prefix}.${name}.enable config;
+      config = mkIf inputs.config.${prefix}.${name}.enable configWithoutImports;
     };
 
   appendPatches = patches: drv:
