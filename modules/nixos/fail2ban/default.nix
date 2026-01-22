@@ -2,6 +2,7 @@
 lib.internal.simpleModule inputs "fail2ban" {
   services.fail2ban = {
     enable = true;
+    ignoreIP = [ "202.83.104.81" ];
     jails = {
       nginx-botsearch = ''
         filter   = nginx-botsearch
