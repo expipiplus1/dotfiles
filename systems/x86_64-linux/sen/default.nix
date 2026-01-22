@@ -1,55 +1,35 @@
 { config, pkgs, lib, ... }:
 
-let
-  sshfsAutoMount = { user, host, port ? null, remoteDir, mountPoint, identityFile, uid ? null }:
-    {
-      device = "${user}@${host}:${remoteDir}";
-      inherit mountPoint;
-      fsType = "sshfs";
-      neededForBoot = false;
-      options = [
-        "allow_other"
-        "_netdev"
-        "x-systemd.automount"
-        "IdentityFile=${identityFile}"
-        "ServerAliveInterval=15"
-        "reconnect"
-        (builtins.replaceStrings [ " " ] [ "\\040" ]
-          "ssh_command=${pkgs.openssh}/bin/ssh")
-      ] ++ lib.optional (uid != null) "uid=${builtins.toString uid}"
-        ++ lib.optional (port != null) "PORT=${builtins.toString port}";
-    };
-in {
-  imports = [ ./hardware ];
-
+{
   networking.hostName = "sen";
 
   # Modules
+  ellie.linode.enable = true;
   ellie.nginx-server.enable = true;
   ellie.fail2ban.enable = true;
+  ellie.logrotate-nginx.enable = true;
+  ellie.transmission.enable = true;
 
-  # Boot (Linode specific)
-  boot.loader.grub.enable = true;
-  boot.loader.grub.forceInstall = true;
-  boot.loader.grub.device = "nodev";
-  boot.loader.timeout = 10;
-  boot.kernelParams = [ "console=ttyS0,19200n8" ];
-  boot.loader.grub.extraConfig = ''
-    serial --speed=19200 --unit=0 --word=8 --parity=no --stop=1;
-    terminal_input serial;
-    terminal_output serial
-  '';
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/3604511d-9883-4045-9f7e-bb49ed1be42c";
+    fsType = "ext4";
+  };
+
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/8af325d4-31b1-4274-a57c-72d708589360"; }
+    { device = "/swapfile"; }
+  ];
+
+  # Networking
+  networking.usePredictableInterfaceNames = false;
+  networking.firewall.enable = true;
+
+  time.timeZone = "Asia/Singapore";
 
   boot.kernel.sysctl = {
     "net.core.rmem_max" = 4194304;
     "net.core.wmem_max" = 1048576;
   };
-
-  # Networking
-  networking.usePredictableInterfaceNames = false;
-  networking.firewall.allowedTCPPorts = [ 3000 5000 8080 8042 ];
-
-  time.timeZone = "Asia/Singapore";
 
   security.pam.loginLimits = [{
     domain = "*";
@@ -68,76 +48,6 @@ in {
   services.openssh = {
     enable = true;
     ports = [ 22 ];
-  };
-
-  services.logrotate = {
-    enable = true;
-    settings.nginx = {
-      enable = true;
-      files = "/var/log/nginx/*.log";
-      rotate = 2;
-      frequency = "daily";
-      su = "${config.services.nginx.user} ${config.services.nginx.group}";
-    };
-  };
-
-  # Transmission
-  services.transmission = {
-    enable = true;
-    settings = {
-      download-dir = "/mnt/thanos-transmission/transmission/Downloads";
-      incomplete-dir = "/mnt/thanos-transmission/transmission/.incomplete";
-      rpc-host-whitelist = "transmission.monoid.al";
-    };
-  };
-
-  services.nginx.virtualHosts."transmission.monoid.al" = {
-    forceSSL = true;
-    enableACME = true;
-    basicAuthFile = "/etc/nginx/auth/transmission.monoid.al";
-    extraConfig = ''
-      client_max_body_size 128M;
-    '';
-    locations."/" = {
-      proxyPass = "http://localhost:9091";
-      extraConfig = ''
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      '';
-    };
-  };
-
-  # PostgreSQL backup
-  services.postgresql.package = pkgs.postgresql_13;
-  services.postgresqlBackup = {
-    enable = true;
-    backupAll = true;
-    location = "/mnt/thanos-backup/psql";
-  };
-
-  # Restic backups
-  services.restic.backups.configuration = {
-    user = "root";
-    passwordFile = "/etc/secrets/synapse-restic-password";
-    paths = [ "/etc/nixos/" ];
-    repositoryFile = "/etc/secrets/restic-repository";
-    timerConfig = {
-      OnCalendar = "01:15";
-      RandomizedDelaySec = "5h";
-    };
-  };
-
-  # SSHFS mount to thanos
-  system.fsPackages = [ pkgs.sshfs ];
-  fileSystems.sshfs-transmission = sshfsAutoMount {
-    user = "sshfs-transmission";
-    host = "home.monoid.al";
-    port = 2222;
-    remoteDir = "/files";
-    mountPoint = "/mnt/thanos-transmission";
-    identityFile = "/etc/secrets/sshfs-transmission-sen";
-    uid = config.users.users.transmission.uid;
   };
 
   # Users
