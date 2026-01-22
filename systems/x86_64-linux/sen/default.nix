@@ -43,7 +43,6 @@
   '';
 
   programs.mosh.enable = true;
-  programs.zsh.enable = true;
 
   services.openssh = {
     enable = true;
@@ -51,18 +50,8 @@
   };
 
   # Users
-  users.extraUsers.e = {
-    isNormalUser = true;
-    uid = 1000;
-    shell = pkgs.zsh;
-    extraGroups = [ "wheel" "transmission" ];
-    openssh.authorizedKeys.keys = [
-      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDFErWB61gZadEEFteZYWZm8QRwabpl4kDHXsm0/rsLqoyWJN5Y4zF4kowSGyf92LfJu9zNBs2viuT3vmsLfg6r4wkbVyujpEo3JLuV79r9K8LcM32wA52MvQYATEzxuamZPZCBT9fI/2M6bC9lz67RQ5IoENfjZVCstOegSmODmOvGUs6JjrB40slB+4YXCVFypYq3uTyejaBMtKdu1S4TWUP8WRy8cWYmCt1+a6ACV2yJcwnhSoU2+QKt14R4XZ4QBSk4hFgiw64Bb3WVQlfQjz3qA4j5Tc8P3PESKJcKW/+AsavN1I2FzdiX1CGo2OL7p9TcZjftoi5gpbmzRX05 j@riza"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMBML4JuxphjzZ/gKVLRAunKfTuFT6VVr6DfXduvsiHz j@orion"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGieLCIaLlzqPSZpa8e1SIHm9DVb97SKzzfg6mwvQdz4 e@nixos"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII8wDcEeHIfK63eMWC3pXRmX1DpItY3+cpS0C2fmYc31 e@light-hope"
-    ];
-  };
+  ellie.users.enable = true;
+  users.users.e.extraGroups = lib.mkAfter [ "transmission" ];
 
   # Nix
   nix.settings.auto-optimise-store = true;

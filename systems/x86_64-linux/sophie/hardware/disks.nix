@@ -1,12 +1,7 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 let
-  opts = subvol: [
-    "subvol=${subvol}"
-    "compress=zstd"
-    "noatime"
-    "discard=async"
-  ];
+  opts = lib.internal.btrfs.subvolOpts;
 in {
   services.btrfs.autoScrub = {
     enable = true;

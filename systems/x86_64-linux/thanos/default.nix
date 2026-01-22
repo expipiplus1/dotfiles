@@ -199,32 +199,9 @@
   ];
 
   # Users
+  ellie.users.enable = true;
   security.sudo.enable = true;
   users.mutableUsers = false;
-
-  programs.zsh.enable = true;
-  users.users.e = {
-    isNormalUser = true;
-    home = "/home/e";
-    description = "Ellie Hermaszewska";
-    extraGroups = [ "wheel" ];
-    shell = pkgs.zsh;
-    hashedPassword =
-      "$6$22Tois4OjFC$y3kfcuR7BBHVj8LnZNIfLyNhQOdVZkkTseXCNbiA95WS2JSXv4Zynmy8Ie9nCxNokgSL8cuO1Le0m4VHuzXXI.";
-    openssh.authorizedKeys.keys = [
-      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDFErWB61gZadEEFteZYWZm8QRwabpl4kDHXsm0/rsLqoyWJN5Y4zF4kowSGyf92LfJu9zNBs2viuT3vmsLfg6r4wkbVyujpEo3JLuV79r9K8LcM32wA52MvQYATEzxuamZPZCBT9fI/2M6bC9lz67RQ5IoENfjZVCstOegSmODmOvGUs6JjrB40slB+4YXCVFypYq3uTyejaBMtKdu1S4TWUP8WRy8cWYmCt1+a6ACV2yJcwnhSoU2+QKt14R4XZ4QBSk4hFgiw64Bb3WVQlfQjz3qA4j5Tc8P3PESKJcKW/+AsavN1I2FzdiX1CGo2OL7p9TcZjftoi5gpbmzRX05 j@riza"
-      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQChHW69/lghzz2b6T8hj6cShYGGDNA7g+HhS+P7JAWT43NiCvM+0S3xYr0sY/MNBqTHIV/5e2prP4uaCq7uyNT/5s8LLm6at8dhrKN1RZWQpHD9FID5sgw4yv8HANyVpt1+zY6PoqmhAb+Bj/g/H3Ijb+AAWbvWKxUMoChC9nWd5G+ogPpPQmElg/aGxjAL0oSuwGHEO1wNvV4/ddKLEWiLNF8Xdc0s4QkQnJZhyZMa+oaerI4wF7GqsVzsYg4ppK6YbZt5rv41XCqKp889b2JZphRVlN7LvJxX11ttctxFvhSlqa+C/7QvoFiOo5wJxZrwH3P1rMRfIWwzYas/sWlx jophish@cardassia.local"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMBML4JuxphjzZ/gKVLRAunKfTuFT6VVr6DfXduvsiHz j@orion"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBFTU5LRUEQrVz94VSBbxFzk5AzKp1CwCVBr2tO9cIEq j@nebula"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGieLCIaLlzqPSZpa8e1SIHm9DVb97SKzzfg6mwvQdz4 e@nixos"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBAtwZjdx6Tioq3RNCMFyIyAN19MG7vUKwC7fGE8OZzn j@Dark-Bramble.local"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAzAS1qjFdIIYo3smCLYX8JG1Q2jrmnVjkuC3cZWwMaj JuiceSSH"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII8wDcEeHIfK63eMWC3pXRmX1DpItY3+cpS0C2fmYc31 e@light-hope"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIADX8HRqBgJD78QAlf8pfYpZ89pWUKEO8HXSX5zPY3KP ellieh@nvidia.com"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPzfehGlktzfIvfE5RtfFCR822QvYdPAzflZhgx0K50m ellieh@nvidia.com"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPalnsykM5Suo+0eLLkPCNGZJxgVLivIPKa4fQRZwe2H ellieh@ellieh-mlt"
-    ];
-  };
 
   users.users.sshfs-transmission = {
     isSystemUser = true;
@@ -251,6 +228,7 @@
     "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
     "orion:s0C06f1M46DCpHUUP2r8iIrhfytkCbXWltMeMMa4jbw=%"
     "expipiplus1/update-nix-fetchgit:Z33K0KEImsos+kVTFvZxfLxaBi+D1jEeB6cX0uCo7B0="
+    "light-hope:xkiDuhgkaC8uE9r3/Rr1R1QFozkqxP///eb+cdMFByA="
   ];
 
   system.autoUpgrade = {

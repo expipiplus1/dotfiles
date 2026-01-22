@@ -7,14 +7,20 @@
     in with inputs.lib; {
       inherit imports;
       options.${prefix}.${name} = {
-        enable = mkOption {
-          type = types.bool;
-          default = false;
-        };
+        enable = mkEnableOption "the ${name} module";
       };
 
       config = mkIf inputs.config.${prefix}.${name}.enable configWithoutImports;
     };
+
+  btrfs = {
+    subvolOpts = subvol: [
+      "subvol=${subvol}"
+      "compress=zstd"
+      "noatime"
+      "discard=async"
+    ];
+  };
 
   appendPatches = patches: drv:
     drv.overrideAttrs (old: { patches = old.patches or [ ] ++ patches; });

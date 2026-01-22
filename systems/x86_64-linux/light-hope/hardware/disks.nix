@@ -1,12 +1,7 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 let
-  opts = subvol: [
-    "subvol=${subvol}"
-    "compress=zstd"
-    "noatime"
-    "discard=async"
-  ];
+  opts = lib.internal.btrfs.subvolOpts;
   rootUUID = "1ce5a14e-4cbb-4a39-95f8-4444b33f7ab5";
 in {
   fileSystems."/" = {
