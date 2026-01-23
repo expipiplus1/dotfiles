@@ -18,9 +18,39 @@ lib.internal.simpleModule inputs "basic" {
   };
 
   home.packages = with pkgs; [
-    code-cursor
-    cursor-cli
-    gemini-cli
+    # Cross-platform clipboard copy
+    (writeShellScriptBin "copy" ''
+      if [[ "$OSTYPE" == "darwin"* ]]; then
+        # macOS
+        pbcopy
+      elif [[ -n "$WSL_DISTRO_NAME" ]] || [[ -n "$WSL_INTEROP" ]]; then
+        # WSL
+        clip.exe
+      elif [[ "$XDG_SESSION_TYPE" == "wayland" ]] || [[ -n "$WAYLAND_DISPLAY" ]]; then
+        # Wayland
+        ${wl-clipboard}/bin/wl-copy
+      else
+        # X11
+        ${xclip}/bin/xclip -selection clipboard -in
+      fi
+    '')
+    # Cross-platform clipboard paste
+    (writeShellScriptBin "pasta" ''
+      if [[ "$OSTYPE" == "darwin"* ]]; then
+        # macOS
+        pbpaste
+      elif [[ -n "$WSL_DISTRO_NAME" ]] || [[ -n "$WSL_INTEROP" ]]; then
+        # WSL
+        powershell.exe -Command Get-Clipboard
+      elif [[ "$XDG_SESSION_TYPE" == "wayland" ]] || [[ -n "$WAYLAND_DISPLAY" ]]; then
+        # Wayland
+        ${wl-clipboard}/bin/wl-paste
+      else
+        # X11
+        ${xclip}/bin/xclip -selection clipboard -out
+      fi
+    '')
+
     bat
     bear
     bmon

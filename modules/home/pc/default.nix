@@ -29,6 +29,9 @@ lib.internal.simpleModule inputs "pc" {
     wl-clipboard
     xsel
     claude-code
+    code-cursor
+    cursor-cli
+    gemini-cli
   ];
 
   programs.neovim = {
