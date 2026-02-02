@@ -18,7 +18,7 @@ in lib.internal.simpleModule inputs "zsh" {
         inherit name;
         src = "${pkgs."zsh-${name}"}/share/zsh/site-functions";
       };
-    in builtins.map p [ "fast-syntax-highlighting" ] ++ [{
+    in builtins.map p [ "fast-syntax-highlighting" ] ++ lib.optionals false [{
       name = "fzf-tab";
       src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
     }];

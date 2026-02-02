@@ -1,51 +1,54 @@
-{ lib, pkgs, ... }@inputs:
+{ lib, pkgs, config, ... }@inputs:
+with lib;
+with lib.internal;
 let
   configDir = "astronvim";
   lspEnv = pkgs.buildEnv {
     name = "lsp-servers";
-    paths = with pkgs; [
-      haskellPackages.cabal-gild
+    paths = with pkgs;
+      [
+        python3Packages.python-lsp-server
+        python3Packages.rope
+        python3Packages.yapf
+        python3Packages.flake8
+        python3Packages.pylint
 
-      idris2Packages.idris2Lsp
+        nil
+        nixd
 
-      llvmPackages_21.clang-tools
+        tree-sitter
 
-      cmake-language-server
+        nodePackages.bash-language-server
+        shfmt
+        shellcheck
 
-      python3Packages.python-lsp-server
-      python3Packages.rope
-      python3Packages.yapf
-      python3Packages.flake8
-      python3Packages.pylint
+        nodePackages.vscode-json-languageserver
+        yaml-language-server
+      ] ++ lib.optionals (!cfg.lite) [
+        haskellPackages.cabal-gild
 
-      nil
-      nixd
+        idris2Packages.idris2Lsp
 
-      nodePackages.prettier
+        llvmPackages_21.clang-tools
 
-      tree-sitter
+        cmake-language-server
 
-      lua51Packages.neotest
+        nodePackages.prettier
 
-      rust-analyzer
+        lua51Packages.neotest
 
-      nodePackages.bash-language-server
-      shfmt
-      shellcheck
+        rust-analyzer
 
-      marksman
+        marksman
 
-      nodePackages.vscode-json-languageserver
-      yaml-language-server
+        lua5_1
+        lua-language-server
+        luarocks
+        stylua
+        selene
 
-      lua5_1
-      lua-language-server
-      luarocks
-      stylua
-      selene
-
-      golangci-lint
-    ];
+        golangci-lint
+      ];
   };
 
   treesitter-grammars = let
@@ -90,45 +93,60 @@ let
   vscode_lldb_path =
     "${vscode_lldb}/share/vscode/extensions/${vscode_lldb.vscodeExtPublisher}.${vscode_lldb.vscodeExtName}";
 
-in lib.internal.simpleModule inputs "astronvim" {
-  programs.neovim = {
-    enable = true;
-    vimAlias = true;
-    plugins = with pkgs.vimPlugins; [ nord-nvim vim-tmux-navigator ];
-    extraWrapperArgs = [
-      "--set-default"
-      "NVIM_APPNAME"
-      "${configDir}"
-      "--set-default"
-      "OpenDebugAD7_PATH"
-      "${vscode_cpptools_path}/debugAdapters/bin/OpenDebugAD7"
-      "--set-default"
-      "codelldb_PATH"
-      "${vscode_lldb_path}/adapter/codelldb"
-      "--run"
-      "${pre}"
-      "--prefix"
-      "PATH"
-      ":"
-      "${lspEnv}/bin"
-    ];
-  };
+  cfg = config.ellie.astronvim;
 
-  xdg.configFile = {
-    # "${configDir}" = {
-    #   recursive = true;
-    #   source = ./astronvim;
-    #   # source = pkgs.fetchFromGitHub {
-    #   #   owner = "AstroNvim";
-    #   #   repo = "template";
-    #   #   rev = "20450d8a65a74be39d2c92bc8689b1acccf2cffe";
-    #   #   sha256 = "0ljz7v64gh6vak36wx4409ipi86w3bkr53vzpgijcnvhpva0581z";
-    #   # };
-    # };
-    # "${configDir}/lua/plugins" = {
-    #   recursive = true;
-    #   source = ./lua/plugins;
-    # };
+in {
+  options.ellie.astronvim = {
+    enable = mkOption {
+      type = types.bool;
+      default = false;
+    };
+    lite = mkOption {
+      type = types.bool;
+      default = false;
+    };
   };
+  config = mkIf cfg.enable {
+    programs.neovim = {
+      enable = true;
+      vimAlias = true;
+      plugins = with pkgs.vimPlugins; [ nord-nvim vim-tmux-navigator ];
+      extraWrapperArgs = [
+        "--set-default"
+        "NVIM_APPNAME"
+        "${configDir}"
+        "--run"
+        "${pre}"
+        "--prefix"
+        "PATH"
+        ":"
+        "${lspEnv}/bin"
+      ] ++ lib.optionals (!cfg.lite) [
+        "--set-default"
+        "OpenDebugAD7_PATH"
+        "${vscode_cpptools_path}/debugAdapters/bin/OpenDebugAD7"
+        "--set-default"
+        "codelldb_PATH"
+        "${vscode_lldb_path}/adapter/codelldb"
+      ];
+    };
 
+    xdg.configFile = {
+      # "${configDir}" = {
+      #   recursive = true;
+      #   source = ./astronvim;
+      #   # source = pkgs.fetchFromGitHub {
+      #   #   owner = "AstroNvim";
+      #   #   repo = "template";
+      #   #   rev = "20450d8a65a74be39d2c92bc8689b1acccf2cffe";
+      #   #   sha256 = "0ljz7v64gh6vak36wx4409ipi86w3bkr53vzpgijcnvhpva0581z";
+      #   # };
+      # };
+      # "${configDir}/lua/plugins" = {
+      #   recursive = true;
+      #   source = ./lua/plugins;
+      # };
+    };
+
+  };
 }

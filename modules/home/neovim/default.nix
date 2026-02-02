@@ -13,6 +13,10 @@ in {
       type = types.bool;
       default = false;
     };
+    lite = mkOption {
+      type = types.bool;
+      default = false;
+    };
   };
   config = mkIf cfg.enable (let
     codelldb = pkgs.vscode-extensions.vadimcn.vscode-lldb.overrideAttrs
@@ -68,7 +72,7 @@ in {
     };
 
   in {
-    home.file = {
+    home.file = lib.optionalAttrs (!cfg.lite) {
       ".config/vimspector/gadgets/linux/.gadgets.json".source =
         pkgs.writeText ".gadgets.json"
         (builtins.toJSON vimspector_configuration);

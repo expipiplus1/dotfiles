@@ -84,7 +84,6 @@ lib.internal.simpleModule inputs "basic" {
     openssl
     perl
     ripgrep
-    rust-analyzer
     rust-parallel
     silver-searcher
     tio

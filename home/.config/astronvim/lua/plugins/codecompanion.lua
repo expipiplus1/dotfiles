@@ -19,15 +19,17 @@ return {
   config = function()
     require("codecompanion").setup {
       adapters = {
-        ollama = function()
-          return require("codecompanion.adapters").extend("ollama", {
-            schema = {
-              model = {
-                default = "deepseek-coder-v2",
+        http = {
+          ollama = function()
+            return require("codecompanion.adapters").extend("ollama", {
+              schema = {
+                model = {
+                  default = "deepseek-coder-v2",
+                },
               },
-            },
-          })
-        end,
+            })
+          end,
+        },
       },
       strategies = {
         chat = {
