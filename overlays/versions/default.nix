@@ -1,7 +1,7 @@
 { channels, ... }:
 
 self: super: {
-  perf = channels.nixpkgs-unstable.linuxPackages.perf;
+  perf = channels.nixpkgs-unstable.perf;
   # linuxPackages = channels.nixpkgs-unstable.linuxPackages;
   neovim = channels.nixpkgs-unstable.neovim;
   neovim-unwrapped = channels.nixpkgs-unstable.neovim-unwrapped;
@@ -14,8 +14,42 @@ self: super: {
   rust-parallel = channels.nixpkgs-unstable.rust-parallel;
   difftastic = channels.nixpkgs-unstable.difftastic;
   clang-tools = channels.nixpkgs-unstable.llvmPackages_18.clang-tools;
-  lazyjj =
-    channels.nixpkgs-unstable.lazyjj.overrideAttrs (old: { checkPhase = ":"; });
+  # lazyjj = channels.nixpkgs-unstable.lazyjj.overrideAttrs (old: rec {
+  #   src = self.fetchFromGitHub {
+  #     owner = "expipiplus1";
+  #     repo = "lazyjj";
+  #     rev = "push-zxkwmuvpvxoq";
+  #     sha256 = "sha256-JQUJZMLx6I8EDMObTevKbULjGrW9N2qt83KScMlmBXs=";
+  #   };
+  #   cargoDeps = old.cargoDeps.overrideAttrs (oldCargoDeps: {
+  #     inherit src;
+  #     outputHashMode = "recursive";
+  #     outputHash = "sha256-flfFFqTZRmgLgekKRAstaKJJYRSeKoGRwBusb1wUt0I=";
+  #   });
+  #   doCheck = false;
+  # });
+  lazyjj = channels.nixpkgs-unstable.lazyjj.overrideAttrs (old: rec {
+    src = self.fetchFromGitHub {
+      owner = "expipiplus1";
+      repo = "lazyjj";
+      rev = "push-zxkwmuvpvxoq";
+      sha256 = "sha256-JQUJZMLx6I8EDMObTevKbULjGrW9N2qt83KScMlmBXs=";
+    };
+
+    cargoDeps = self.rustPlatform.importCargoLock {
+      lockFile = "${src}/Cargo.lock";
+      outputHashes = {
+        "ansi-to-tui-7.0.0" =
+          "sha256-ixJKj3lwhpFzGUZoR1TMEXilTSajSPcIU55caXwVUII=";
+      };
+    };
+
+    cargoHash = null;
+    cargoSha256 = null;
+
+    doCheck = false;
+  });
+
   jujutsu = super.symlinkJoin {
     name = "jujutsu";
     paths = [ channels.nixpkgs-unstable.jujutsu ];
