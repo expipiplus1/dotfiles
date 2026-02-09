@@ -10,11 +10,13 @@ lib.internal.simpleModule inputs "basic" {
   nixpkgs.config.allowUnfree = true;
 
   home.sessionVariables = {
-    LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
     NIX_PATH = "nixpkgs=$HOME/src/nixpkgs";
     EDITOR = "vim";
     NIXOS_OZONE_WL = 1;
     SSH_ASKPASS_REQUIRE = "prefer";
+  }
+  // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
+    LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
   };
 
   home.packages = with pkgs; [
