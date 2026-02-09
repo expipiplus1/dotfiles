@@ -34,7 +34,6 @@ lib.internal.simpleModule inputs "basic" {
     dnsutils
     du-dust
     duf
-    efibootmgr
     entr
     fd
     file
@@ -45,7 +44,6 @@ lib.internal.simpleModule inputs "basic" {
     jq
     # json2nix
     killall
-    lm_sensors
     lsd
     mosh
     nix
@@ -64,6 +62,10 @@ lib.internal.simpleModule inputs "basic" {
     tssh
     unzip
     yq
+    ]
+  ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
+    lm_sensors
+    efibootmgr
   ];
 
   xdg.configFile = {
