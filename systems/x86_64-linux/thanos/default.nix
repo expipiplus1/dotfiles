@@ -1,5 +1,11 @@
 { lib, pkgs, config, ... }:
 
+let
+  convertPage = pkgs.runCommand "convert-page" {} ''
+    mkdir -p $out
+    cp ${./convert.html} $out/index.html
+  '';
+in
 {
   imports = [ ./hardware ];
 
@@ -69,8 +75,8 @@
             autoindex on;
           '';
         };
-        "/convert" = {
-          alias = "${./convert.html}";
+        "/convert/" = {
+          alias = "${convertPage}/";
         };
         "/film" = {
           root = "/data/share/linux-isos/files/transmission/Downloads";

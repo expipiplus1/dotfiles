@@ -1,197 +1,709 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Date Format Converter</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mizuka's Super Duper CSV Converter!!!</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+      @keyframes rainbow {
+        0% {
+          color: #ff0000;
         }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f5f5f5;
-            padding: 20px;
-            line-height: 1.6;
+        16% {
+          color: #ff7f00;
         }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        33% {
+          color: #ffff00;
         }
-
-        h1 {
-            margin-bottom: 10px;
-            color: #333;
+        50% {
+          color: #00ff00;
         }
-
-        .description {
-            color: #666;
-            margin-bottom: 30px;
+        66% {
+          color: #0000ff;
         }
+        83% {
+          color: #8b00ff;
+        }
+        100% {
+          color: #ff0000;
+        }
+      }
 
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes blink {
+        0%,
+        50%,
+        100% {
+          opacity: 1;
+        }
+        25%,
+        75% {
+          opacity: 0;
+        }
+      }
+
+      @keyframes tick {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Comic Sans MS", "Chalkboard SE", "Comic Neue", cursive;
+        background: linear-gradient(45deg, #ff6ec7, #7ec8ff, #7eff8e, #ffeb7e);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: linear-gradient(135deg, #ffd4e5 0%, #d4f0ff 100%);
+        padding: 30px;
+        border-radius: 20px;
+        border: 5px dashed #ff1493;
+        box-shadow:
+          0 0 30px rgba(255, 20, 147, 0.5),
+          0 0 50px rgba(127, 200, 255, 0.3);
+      }
+
+      marquee {
+        font-size: 28px;
+        font-weight: bold;
+        animation: rainbow 3s linear infinite;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      h1 {
+        margin-bottom: 10px;
+        text-align: center;
+        font-size: 42px;
+        animation: rainbow 2s linear infinite;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+        animation: bounce 1s ease-in-out infinite;
+      }
+
+      .sparkle {
+        display: inline-block;
+        animation: spin 2s linear infinite;
+      }
+
+      .description {
+        color: #ff1493;
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        animation: blink 2s linear infinite;
+      }
+
+      .box-group {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .box-container {
+        flex: 1;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 700;
+        color: #ff1493;
+        font-size: 18px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 300px;
+        padding: 15px;
+        border: 3px solid #ff1493;
+        border-radius: 15px;
+        font-family: "Comic Sans MS", cursive;
+        font-size: 14px;
+        resize: vertical;
+        transition: all 0.3s;
+        background: #fffacd;
+      }
+
+      textarea:focus {
+        outline: none;
+        border-color: #00ffff;
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        transform: scale(1.02);
+      }
+
+      #output {
+        background: linear-gradient(135deg, #e0f7fa 0%, #fff9c4 100%);
+      }
+
+      .button-group {
+        display: flex;
+        gap: 10px;
+      }
+
+      button {
+        padding: 12px 25px;
+        background: linear-gradient(45deg, #ff00ff, #00ffff);
+        color: white;
+        border: 3px solid #ffd700;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        font-family: "Comic Sans MS", cursive;
+        transition: all 0.3s;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 4px 15px rgba(255, 0, 255, 0.4);
+      }
+
+      button:hover {
+        background: linear-gradient(45deg, #00ffff, #ff00ff);
+        transform: scale(1.1) rotate(2deg);
+        box-shadow: 0 6px 20px rgba(255, 0, 255, 0.6);
+      }
+
+      button:active {
+        transform: scale(0.95) rotate(-2deg);
+      }
+
+      .copy-btn {
+        background: linear-gradient(45deg, #ff6ec7, #ffd700);
+      }
+
+      .copy-btn:hover {
+        background: linear-gradient(45deg, #ffd700, #ff6ec7);
+      }
+
+      .file-section {
+        margin-bottom: 30px;
+        padding: 20px;
+        background: linear-gradient(90deg, #ffff99 0%, #99ffff 100%);
+        border-radius: 15px;
+        border: 4px double #ff1493;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+      }
+
+      .file-section h2 {
+        font-size: 24px;
+        margin-bottom: 15px;
+        color: #ff1493;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        animation: rainbow 4s linear infinite;
+      }
+
+      .file-controls {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      input[type="file"] {
+        padding: 10px;
+        border: 3px solid #ff1493;
+        border-radius: 15px;
+        background: linear-gradient(135deg, #ffffff 0%, #ffccee 100%);
+        cursor: pointer;
+        font-family: "Comic Sans MS", cursive;
+        font-weight: bold;
+      }
+
+      .download-btn {
+        background: linear-gradient(45deg, #7eff8e, #ffeb7e);
+        color: #ff1493;
+      }
+
+      .download-btn:hover {
+        background: linear-gradient(45deg, #ffeb7e, #7eff8e);
+      }
+
+      .download-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .divider {
+        margin: 30px 0;
+        border-top: 4px dotted #ff1493;
+        position: relative;
+        text-align: center;
+      }
+
+      .divider span {
+        position: relative;
+        top: -15px;
+        background: linear-gradient(45deg, #ffd4e5, #d4f0ff);
+        padding: 5px 20px;
+        color: #ff1493;
+        font-weight: bold;
+        font-size: 24px;
+        border: 3px solid #00ffff;
+        border-radius: 20px;
+        animation: rainbow 3s linear infinite;
+      }
+
+      .info {
+        margin-top: 20px;
+        padding: 20px;
+        background: linear-gradient(135deg, #ffccee 0%, #ccffee 100%);
+        border: 4px ridge #ff1493;
+        border-radius: 15px;
+        font-size: 14px;
+        color: #ff1493;
+        font-weight: bold;
+        box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
+      }
+
+      @media (max-width: 768px) {
         .box-group {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
+          flex-direction: column;
+        }
+      }
+
+      /* Analog Clock */
+      .clock {
+        position: fixed;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ffd700 0%, #ff1493 100%);
+        border: 6px solid #00ffff;
+        box-shadow:
+          0 0 30px rgba(255, 20, 147, 0.8),
+          inset 0 0 20px rgba(255, 255, 255, 0.5);
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.1s ease-out;
+      }
+
+      .clock-face {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+
+      .clock-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 12px;
+        height: 12px;
+        background: #ff1493;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        box-shadow: 0 0 10px rgba(255, 20, 147, 0.8);
+      }
+
+      .hand {
+        position: absolute;
+        bottom: 50%;
+        left: 50%;
+        transform-origin: bottom center;
+        border-radius: 50% 50% 0 0;
+      }
+
+      .hour-hand {
+        width: 6px;
+        height: 35%;
+        background: linear-gradient(to top, #ff00ff, #ff1493);
+        margin-left: -3px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      }
+
+      .minute-hand {
+        width: 4px;
+        height: 42%;
+        background: linear-gradient(to top, #00ffff, #0099ff);
+        margin-left: -2px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      }
+
+      .second-hand {
+        width: 2px;
+        height: 45%;
+        background: linear-gradient(to top, #ff0000, #ffff00);
+        margin-left: -1px;
+        animation: tick 60s steps(60) infinite;
+        box-shadow: 0 0 5px rgba(255, 0, 0, 0.8);
+      }
+
+      .clock-number {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+      }
+
+      .clock-number span {
+        display: inline-block;
+        position: absolute;
+        left: 50%;
+        transform-origin: center;
+      }
+
+      @media (max-width: 768px) {
+        .clock {
+          width: 100px;
+          height: 100px;
         }
 
-        .box-container {
-            flex: 1;
+        .clock-number {
+          font-size: 12px;
         }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
+        .hour-hand {
+          width: 4px;
+          margin-left: -2px;
         }
 
-        textarea {
-            width: 100%;
-            min-height: 300px;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            resize: vertical;
-            transition: border-color 0.2s;
+        .minute-hand {
+          width: 3px;
+          margin-left: -1.5px;
         }
 
-        textarea:focus {
-            outline: none;
-            border-color: #4CAF50;
+        .second-hand {
+          width: 2px;
+          margin-left: -1px;
         }
 
-        #output {
-            background-color: #f9f9f9;
+        .clock-center {
+          width: 8px;
+          height: 8px;
         }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        button {
-            padding: 10px 20px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-
-        button:hover {
-            background: #45a049;
-        }
-
-        button:active {
-            transform: translateY(1px);
-        }
-
-        .copy-btn {
-            background: #2196F3;
-        }
-
-        .copy-btn:hover {
-            background: #0b7dda;
-        }
-
-        .info {
-            margin-top: 20px;
-            padding: 15px;
-            background: #e8f5e9;
-            border-left: 4px solid #4CAF50;
-            border-radius: 4px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        @media (max-width: 768px) {
-            .box-group {
-                flex-direction: column;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <!-- Animated Clock that follows mouse -->
+    <div class="clock" id="clock">
+      <div class="clock-face">
+        <div class="clock-number" style="transform: rotate(0deg)">
+          <span style="transform: rotate(0deg) translateY(-55px)">12</span>
+        </div>
+        <div class="clock-number" style="transform: rotate(30deg)">
+          <span style="transform: rotate(-30deg) translateY(-55px)">1</span>
+        </div>
+        <div class="clock-number" style="transform: rotate(60deg)">
+          <span style="transform: rotate(-60deg) translateY(-55px)">2</span>
+        </div>
+        <div class="clock-number" style="transform: rotate(90deg)">
+          <span style="transform: rotate(-90deg) translateY(-55px)">3</span>
+        </div>
+        <div class="clock-number" style="transform: rotate(120deg)">
+          <span style="transform: rotate(-120deg) translateY(-55px)">4</span>
+        </div>
+        <div class="clock-number" style="transform: rotate(150deg)">
+          <span style="transform: rotate(-150deg) translateY(-55px)">5</span>
+        </div>
+        <div class="clock-number" style="transform: rotate(180deg)">
+          <span style="transform: rotate(-180deg) translateY(-55px)">6</span>
+        </div>
+        <div class="clock-number" style="transform: rotate(210deg)">
+          <span style="transform: rotate(-210deg) translateY(-55px)">7</span>
+        </div>
+        <div class="clock-number" style="transform: rotate(240deg)">
+          <span style="transform: rotate(-240deg) translateY(-55px)">8</span>
+        </div>
+        <div class="clock-number" style="transform: rotate(270deg)">
+          <span style="transform: rotate(-270deg) translateY(-55px)">9</span>
+        </div>
+        <div class="clock-number" style="transform: rotate(300deg)">
+          <span style="transform: rotate(-300deg) translateY(-55px)">10</span>
+        </div>
+        <div class="clock-number" style="transform: rotate(330deg)">
+          <span style="transform: rotate(-330deg) translateY(-55px)">11</span>
+        </div>
+        <div class="hand hour-hand" id="hourHand"></div>
+        <div class="hand minute-hand" id="minuteHand"></div>
+        <div class="hand second-hand" id="secondHand"></div>
+        <div class="clock-center"></div>
+      </div>
+    </div>
+
     <div class="container">
-        <h1>Date Format Converter</h1>
-        <p class="description">Converts slashes in dates to dashes (e.g., 2024/01/15 → 2024-01-15)</p>
+      <marquee behavior="alternate" scrollamount="8">
+        *** WELCOME TO THE ULTIMATE CONVERTER ***
+      </marquee>
+      <h1>
+        <span class="sparkle">✨</span> Mizuka's Super Duper CSV Converter
+        <span class="sparkle">✨</span>
+      </h1>
+      <p class="description">
+        ⭐ Converts dates to ISO 8601 format (like magic!!!) ⭐<br />2024/1/5
+        → 2024-01-05
+      </p>
 
-        <div class="box-group">
-            <div class="box-container">
-                <label for="input">Input Text:</label>
-                <textarea id="input" placeholder="Paste your text here..."></textarea>
-            </div>
+      <div class="file-section">
+        <h2>📁 Upload Your File Here! 📁</h2>
+        <div class="file-controls">
+          <input type="file" id="fileInput" accept=".csv,.txt,text/*" />
+          <button
+            class="download-btn"
+            id="downloadBtn"
+            onclick="downloadConverted()"
+            disabled
+          >
+            ⬇️ Download Converted File ⬇️
+          </button>
+        </div>
+      </div>
 
-            <div class="box-container">
-                <label for="output">Output (Converted):</label>
-                <textarea id="output" readonly placeholder="Converted text will appear here..."></textarea>
-            </div>
+      <div class="divider"><span>~*~ OR ~*~</span></div>
+
+      <div class="box-group">
+        <div class="box-container">
+          <label for="input">✏️ Input Text ✏️</label>
+          <textarea
+            id="input"
+            placeholder="Paste your amazing text here..."
+          ></textarea>
         </div>
 
-        <div class="button-group">
-            <button onclick="clearAll()">Clear All</button>
-            <button class="copy-btn" onclick="copyOutput()">Copy Output</button>
+        <div class="box-container">
+          <label for="output">🎉 Output (Converted!) 🎉</label>
+          <textarea
+            id="output"
+            readonly
+            placeholder="Your converted text will magically appear here..."
+          ></textarea>
         </div>
+      </div>
 
-        <div class="info">
-            <strong>How it works:</strong> This tool identifies date patterns with slashes (like 2024/01/15, 12/31/2023, or 1/5/24) and converts them to use dashes instead. All other text remains unchanged.
-        </div>
+      <div class="button-group">
+        <button onclick="clearAll()">🗑️ Clear All</button>
+        <button class="copy-btn" onclick="copyOutput()">📋 Copy Output</button>
+      </div>
+
+      <div class="info">
+        <marquee direction="right" scrollamount="3">
+          🌟 🎨 🌈 ✨ 💫 🎉 🌟 🎨 🌈 ✨ 💫 🎉
+        </marquee>
+        <br />
+        <strong>💡 How it works:</strong> This AMAZING tool identifies date
+        patterns with slashes (like 2024/1/5, 12/31/2023, or 1/5/2024) and
+        converts them to ISO 8601 format (YYYY-MM-DD) with zero-padding!!!
+        So 2024/1/5 becomes 2024-01-05! All other text remains unchanged.
+        (It's like magic! ✨) <br /><br />
+        <strong>🎯 Two SUPER ways to use:</strong>
+        <ul style="margin-top: 10px; margin-left: 20px">
+          <li>
+            <strong>📂 Upload File:</strong> Upload a CSV or text file, and
+            download the converted version with "-converted" appended to the
+            filename! So cool!
+          </li>
+          <li>
+            <strong>⌨️ Text Boxes:</strong> Paste text directly into the input
+            box for LIVE conversion, then copy the result! WOW!
+          </li>
+        </ul>
+        <br />
+        <marquee scrollamount="5">
+          ✨ Made with love for Mizuka ✨ Best converter EVER ✨ Thank you for
+          visiting ✨
+        </marquee>
+      </div>
     </div>
 
     <script>
-        const inputBox = document.getElementById('input');
-        const outputBox = document.getElementById('output');
+      const inputBox = document.getElementById("input");
+      const outputBox = document.getElementById("output");
+      const fileInput = document.getElementById("fileInput");
+      const downloadBtn = document.getElementById("downloadBtn");
 
-        function convertDates(text) {
-            // Pattern to match dates with slashes in various formats:
-            // - YYYY/MM/DD or YYYY/M/D
-            // - MM/DD/YYYY or M/D/YYYY
-            // - DD/MM/YYYY or D/M/YYYY
-            // - YY/MM/DD or YY/M/D
-            // Basically any sequence of digits separated by slashes
-            return text.replace(/(\d+)\/(\d+)\/(\d+)/g, '$1-$2-$3');
-        }
+      let uploadedFileName = "";
+      let convertedFileContent = "";
 
-        inputBox.addEventListener('input', function() {
-            const converted = convertDates(this.value);
-            outputBox.value = converted;
+      // Clock functionality
+      const clock = document.getElementById("clock");
+      const hourHand = document.getElementById("hourHand");
+      const minuteHand = document.getElementById("minuteHand");
+      const secondHand = document.getElementById("secondHand");
+
+      // Update clock hands based on current time
+      function updateClock() {
+        const now = new Date();
+        const hours = now.getHours() % 12;
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+
+        const hourDeg = (hours * 30) + (minutes * 0.5);
+        const minuteDeg = minutes * 6;
+        const secondDeg = seconds * 6;
+
+        hourHand.style.transform = `rotate(${hourDeg}deg)`;
+        minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+        secondHand.style.transform = `rotate(${secondDeg}deg)`;
+      }
+
+      // Make clock follow mouse
+      document.addEventListener("mousemove", function (e) {
+        const x = e.clientX;
+        const y = e.clientY;
+        clock.style.left = `${x - 75}px`;
+        clock.style.top = `${y - 75}px`;
+      });
+
+      // Update clock every second
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      function convertDates(text) {
+        // Pattern to match dates with slashes in various formats
+        // Convert to ISO 8601 format (YYYY-MM-DD) with zero-padding
+        return text.replace(/(\d+)\/(\d+)\/(\d+)/g, function(match, p1, p2, p3) {
+          // Pad single digits with leading zeros
+          const pad = (num) => num.length === 1 ? '0' + num : num;
+
+          // Check if it's likely YYYY/M/D format (first part has 4 digits)
+          if (p1.length === 4) {
+            // YYYY/M/D -> YYYY-MM-DD
+            return `${p1}-${pad(p2)}-${pad(p3)}`;
+          } else if (p3.length === 4) {
+            // M/D/YYYY or MM/DD/YYYY -> YYYY-MM-DD
+            return `${p3}-${pad(p1)}-${pad(p2)}`;
+          } else {
+            // Ambiguous or other format, just replace slashes with dashes
+            return `${p1}-${p2}-${p3}`;
+          }
         });
+      }
 
-        function clearAll() {
-            inputBox.value = '';
-            outputBox.value = '';
-            inputBox.focus();
-        }
+      // Text box live conversion
+      inputBox.addEventListener("input", function () {
+        const converted = convertDates(this.value);
+        outputBox.value = converted;
+      });
 
-        function copyOutput() {
-            outputBox.select();
-            document.execCommand('copy');
+      // File upload handler
+      fileInput.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
 
-            // Visual feedback
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = 'Copied!';
-            setTimeout(() => {
-                btn.textContent = originalText;
-            }, 1500);
-        }
+        uploadedFileName = file.name;
+        const reader = new FileReader();
 
-        // Focus input on load
+        reader.onload = function (e) {
+          const content = e.target.result;
+          convertedFileContent = convertDates(content);
+          downloadBtn.disabled = false;
+
+          // Also populate the text boxes for preview
+          inputBox.value = content;
+          outputBox.value = convertedFileContent;
+        };
+
+        reader.readAsText(file);
+      });
+
+      function downloadConverted() {
+        if (!convertedFileContent) return;
+
+        // Create download link
+        const blob = new Blob([convertedFileContent], { type: "text/plain" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+
+        // Generate new filename
+        const nameParts = uploadedFileName.split(".");
+        const extension = nameParts.pop();
+        const baseName = nameParts.join(".");
+        const newFileName = `${baseName}-converted.${extension}`;
+
+        a.href = url;
+        a.download = newFileName;
+        document.body.appendChild(a);
+        a.click();
+
+        // Cleanup
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
+        // Visual feedback
+        const originalText = downloadBtn.textContent;
+        downloadBtn.textContent = "Downloaded!";
+        setTimeout(() => {
+          downloadBtn.textContent = originalText;
+        }, 1500);
+      }
+
+      function clearAll() {
+        inputBox.value = "";
+        outputBox.value = "";
+        fileInput.value = "";
+        convertedFileContent = "";
+        uploadedFileName = "";
+        downloadBtn.disabled = true;
         inputBox.focus();
+      }
+
+      function copyOutput() {
+        outputBox.select();
+        document.execCommand("copy");
+
+        // Visual feedback
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 1500);
+      }
+
+      // Focus input on load
+      inputBox.focus();
     </script>
-</body>
+  </body>
 </html>
