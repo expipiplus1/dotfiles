@@ -32,26 +32,10 @@ return {
             })
           end,
         },
-        claude_server = function()
-          return require("codecompanion.adapters").extend("openai_compatible", {
-            url = "http://localhost:8000/v1/chat/completions",
-            env = {
-              api_key = "not-needed",
-            },
-            schema = {
-              model = {
-                default = "claude-sonnet-4-5-20250929",
-              },
-            },
-          })
-        end,
       },
       strategies = {
         chat = {
           adapter = "claude_code",
-        },
-        inline = {
-          adapter = "claude_server",
         },
       },
     }

@@ -23,10 +23,10 @@ let
   };
 
   claude-wrapper-src = super.fetchFromGitHub {
-    owner = "RichardAtCT";
+    owner = "expipiplus1";
     repo = "claude-code-openai-wrapper";
-    rev = "f6994d0839f96a73600ef3353231b3afefd384ee";
-    hash = "sha256-++sK/6Gg/HJjDHFbrQnywNUbNdazXHdlSN6xV1MDg8I=";
+    rev = "247202a63827fcadef926991d8d67e7571a895d3";
+    hash = "sha256-riKMuj//C0/RMakYBrY6TF2ZGu8vtF9mrjsmcQDZeEg=";
   };
 
   claude-wrapper = python.pkgs.buildPythonApplication {
@@ -34,7 +34,6 @@ let
     version = "2.2.0";
     pyproject = true;
     src = claude-wrapper-src;
-    patches = [ ../patches/claude-code-openai-wrapper.patch ];
 
     nativeBuildInputs = with python.pkgs; [
       poetry-core
