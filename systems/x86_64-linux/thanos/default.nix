@@ -69,6 +69,9 @@
             autoindex on;
           '';
         };
+        "/convert" = {
+          alias = "${./convert.html}";
+        };
         "/film" = {
           root = "/data/share/linux-isos/files/transmission/Downloads";
           extraConfig = ''
