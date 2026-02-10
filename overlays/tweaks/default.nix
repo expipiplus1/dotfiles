@@ -1,6 +1,29 @@
 { channels, ... }:
 
 self: super: {
+  stylua = super.symlinkJoin {
+    name = "stylua-wrapped";
+    paths = [ super.stylua ];
+    buildInputs = [ super.makeWrapper ];
+    postBuild = ''
+            # Move the original binary to a hidden name
+            mv $out/bin/stylua $out/bin/.stylua-wrapped
+
+            # Create the wrapper script
+            cat <<EOF > $out/bin/stylua
+      #!/bin/sh
+      # Log the date, working directory, and all arguments
+      echo "--- \$(date '+%Y-%m-%d %H:%M:%S') ---" >> ~/tmp/stylua.log
+      echo "PWD: \$PWD" >> ~/tmp/stylua.log
+      echo "ARGS: \$@" >> ~/tmp/stylua.log
+
+      # Execute the real binary with the passed arguments
+      exec $out/bin/.stylua-wrapped "\$@"
+      EOF
+            chmod +x $out/bin/stylua
+    '';
+  };
+
   lix = super.lix.overrideAttrs (oldAttrs: {
     doCheck = false;
     doInstallCheck = false;

@@ -5,5 +5,8 @@ return {
     code = { border = "thin" },
     latex = { enabled = false },
     pipe_table = { style = "normal" },
+    checkbox = {
+      enabled = false,
+    },
   },
 }
