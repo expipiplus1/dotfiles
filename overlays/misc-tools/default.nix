@@ -29,7 +29,6 @@ self: super: {
     } $@
   '';
 
-
   cmake-language-server = super.cmake-language-server.overrideAttrs (old: {
     pytestCheckPhase = ":";
     checkPhase = ":";

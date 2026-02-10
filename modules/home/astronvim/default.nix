@@ -48,6 +48,8 @@ let
         selene
 
         golangci-lint
+
+        claude-code-acp
       ];
   };
 
