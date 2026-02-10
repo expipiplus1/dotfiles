@@ -24,28 +24,17 @@ return {
     require("codecompanion").setup {
       adapters = {
         acp = {
-          -- Configure Claude Code adapter with custom ACP command
           claude_code = function()
             return require("codecompanion.adapters").extend("claude_code", {
               commands = {
-                -- Use claude-code-acp binary for AI interactions
                 default = { "claude-code-acp" },
-              },
-              env = {
-                -- Load API key from file using shell command
-                ANTHROPIC_API_KEY = "cmd:cat ~/.config/anthropic-api-key",
               },
             })
           end,
         },
       },
       strategies = {
-        -- Use Claude Code for chat-based interactions
         chat = {
-          adapter = "claude_code",
-        },
-        -- Use Claude Code for inline code suggestions
-        inline = {
           adapter = "claude_code",
         },
       },
