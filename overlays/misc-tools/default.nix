@@ -1,5 +1,70 @@
-{ ... }:
-self: super: {
+{ inputs, ... }:
+self: super:
+let
+  # Use unstable nixpkgs for Python packages that need newer versions
+  pkgsUnstable = import inputs.nixpkgs-unstable { inherit (super) system; };
+  python = pkgsUnstable.python311;
+
+  claude-agent-sdk = python.pkgs.buildPythonPackage rec {
+    pname = "claude-agent-sdk";
+    version = "0.1.34";
+    format = "wheel";
+
+    src = super.fetchurl {
+      url = "https://files.pythonhosted.org/packages/py3/c/claude_agent_sdk/claude_agent_sdk-${version}-py3-none-manylinux_2_17_x86_64.whl";
+      sha256 = "sha256-gukUhBDsmP9AYeQ+hWAdjwouhWjYl6uCwyTM8Rwpf8U=";
+    };
+
+    nativeBuildInputs = [ super.autoPatchelfHook ];
+    buildInputs = [ super.stdenv.cc.cc.lib super.zlib super.glibc ];
+    propagatedBuildInputs = with python.pkgs; [ anyio mcp typing-extensions ];
+    autoPatchelfIgnoreMissingDeps = [ "libnode.so*" ];
+    pythonImportsCheck = [ "claude_agent_sdk" ];
+  };
+
+  claude-wrapper-src = super.fetchFromGitHub {
+    owner = "RichardAtCT";
+    repo = "claude-code-openai-wrapper";
+    rev = "f6994d0839f96a73600ef3353231b3afefd384ee";
+    hash = "sha256-++sK/6Gg/HJjDHFbrQnywNUbNdazXHdlSN6xV1MDg8I=";
+  };
+
+  claude-wrapper = python.pkgs.buildPythonApplication {
+    pname = "claude-code-openai-wrapper";
+    version = "2.2.0";
+    pyproject = true;
+    src = claude-wrapper-src;
+    patches = [ ../patches/claude-code-openai-wrapper.patch ];
+
+    nativeBuildInputs = with python.pkgs; [
+      poetry-core
+      pythonRelaxDepsHook
+      super.makeBinaryWrapper
+    ];
+
+    propagatedBuildInputs = with python.pkgs; [
+      fastapi
+      uvicorn
+      pydantic
+      python-dotenv
+      httpx
+      sse-starlette
+      python-multipart
+      slowapi
+      claude-agent-sdk
+    ];
+
+    doCheck = false;
+    pythonRelaxDeps = true;
+
+    makeWrapperArgs = [ "--prefix PATH : ${super.nodejs_20}/bin" ];
+  };
+in
+{
+  claude-server = super.writeShellScriptBin "claude-server" ''
+    export CLAUDE_CLI_PATH="$(which claude)"
+    echo n | exec ${claude-wrapper}/bin/claude-wrapper "$@"
+  '';
   ymlfmt = self.stdenv.mkDerivation {
     name = "ymlfmt";
     buildInputs = [

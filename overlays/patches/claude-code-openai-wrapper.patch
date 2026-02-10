@@ -1,0 +1,299 @@
+.gitignore --- Text
+58 58 test_user_*.py
+59 59 test_new_*.py
+60 60 test_roocode_compatibility.py
+   61 
+   62 # Nix
+   63 result
+   64 result-*
+   65 .direnv/
+
+flake.lock --- JSON
+ 1 {
+ 2   "nodes": {
+ 3     "flake-utils": {
+ 4       "inputs": {
+ 5         "systems": "systems"
+ 6       },
+ 7       "locked": {
+ 8         "lastModified": 1731533236,
+ 9         "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+10         "owner": "numtide",
+11         "repo": "flake-utils",
+12         "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+13         "type": "github"
+14       },
+15       "original": {
+16         "owner": "numtide",
+17         "repo": "flake-utils",
+18         "type": "github"
+19       }
+20     },
+21     "nixpkgs": {
+22       "locked": {
+23         "lastModified": 1770562336,
+24         "narHash": "sha256-ub1gpAONMFsT/GU2hV6ZWJjur8rJ6kKxdm9IlCT0j84=",
+25         "owner": "NixOS",
+26         "repo": "nixpkgs",
+27         "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
+28         "type": "github"
+29       },
+30       "original": {
+31         "owner": "NixOS",
+32         "ref": "nixos-unstable",
+33         "repo": "nixpkgs",
+34         "type": "github"
+35       }
+36     },
+37     "root": {
+38       "inputs": {
+39         "flake-utils": "flake-utils",
+40         "nixpkgs": "nixpkgs"
+41       }
+42     },
+43     "systems": {
+44       "locked": {
+45         "lastModified": 1681028828,
+46         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+47         "owner": "nix-systems",
+48         "repo": "default",
+49         "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+50         "type": "github"
+51       },
+52       "original": {
+53         "owner": "nix-systems",
+54         "repo": "default",
+55         "type": "github"
+56       }
+57     }
+58   },
+59   "root": "root",
+60   "version": 7
+61 }
+62 
+
+flake.nix --- Nix
+  1 {
+  2   description = "OpenAI API-compatible wrapper for Claude Code";
+  3 
+  4   inputs = {
+  5     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  6     flake-utils.url = "github:numtide/flake-utils";
+  7   };
+  8 
+  9   outputs = { self, nixpkgs, flake-utils }:
+ 10     flake-utils.lib.eachDefaultSystem (system:
+ 11       let
+ 12         pkgs = import nixpkgs {
+ 13           inherit system;
+ 14           overlays = [
+ 15             (final: prev: {
+ 16               python311 = prev.python311.override {
+ 17                 packageOverrides = pyFinal: pyPrev: {
+ 18                   # Fix nixpkgs-unstable test failure in jaraco-test
+ 19                   jaraco-test = pyPrev.jaraco-test.overridePythonAttrs (old: {
+ 20                     doCheck = false;
+ 21                   });
+ 22                   # Skip slow pytest-benchmark tests
+ 23                   pytest-benchmark = pyPrev.pytest-benchmark.overridePythonAttrs (old: {
+ 24                     doCheck = false;
+ 25                   });
+ 26                 };
+ 27               };
+ 28             })
+ 29           ];
+ 30         };
+ 31         python = pkgs.python311;
+ 32 
+ 33 
+ 34         # Fetch claude-agent-sdk wheel and patch its binary
+ 35         claude-agent-sdk = python.pkgs.buildPythonPackage rec {
+ 36           pname = "claude-agent-sdk";
+ 37           version = "0.1.34";
+ 38           format = "wheel";
+ 39 
+ 40           src = pkgs.fetchurl {
+ 41             url = "https://files.pythonhosted.org/packages/py3/c/claude_agent_sdk/claude_agent_sdk-${version}-py3-none-manylinux_2_17_x86_64.whl";
+ 42             sha256 = "sha256-gukUhBDsmP9AYeQ+hWAdjwouhWjYl6uCwyTM8Rwpf8U=";
+ 43           };
+ 44 
+ 45           nativeBuildInputs = [
+ 46             pkgs.autoPatchelfHook
+ 47           ];
+ 48 
+ 49           buildInputs = [
+ 50             pkgs.stdenv.cc.cc.lib
+ 51             pkgs.zlib
+ 52             pkgs.glibc
+ 53           ];
+ 54 
+ 55           propagatedBuildInputs = with python.pkgs; [
+ 56             anyio
+ 57             mcp
+ 58             typing-extensions
+ 59           ];
+ 60 
+ 61           # The SDK bundles a Node.js binary; allow missing libnode
+ 62           autoPatchelfIgnoreMissingDeps = [ "libnode.so*" ];
+ 63 
+ 64           pythonImportsCheck = [ "claude_agent_sdk" ];
+ 65         };
+ 66 
+ 67         # Build the main application
+ 68         app = python.pkgs.buildPythonApplication {
+ 69           pname = "claude-code-openai-wrapper";
+ 70           version = "2.2.0";
+ 71           pyproject = true;
+ 72 
+ 73           src = ./.;
+ 74 
+ 75           nativeBuildInputs = [
+ 76             python.pkgs.poetry-core
+ 77             python.pkgs.pythonRelaxDepsHook
+ 78             pkgs.makeBinaryWrapper
+ 79           ];
+ 80 
+ 81           propagatedBuildInputs = with python.pkgs; [
+ 82             fastapi
+ 83             uvicorn
+ 84             pydantic
+ 85             python-dotenv
+ 86             httpx
+ 87             sse-starlette
+ 88             python-multipart
+ 89             slowapi
+ 90             claude-agent-sdk
+ 91           ];
+ 92 
+ 93           # Skip tests during build (they require network/API access)
+ 94           doCheck = false;
+ 95 
+ 96           # Skip runtime deps check (nixpkgs has newer compatible versions)
+ 97           pythonRelaxDeps = true;
+ 98 
+ 99           # Add Node.js to PATH for external Claude CLI if user installs one
+100           # Set CLAUDE_CLI_PATH env var to use a custom CLI instead of bundled one
+101           makeWrapperArgs = [
+102             "--prefix PATH : ${pkgs.nodejs_20}/bin"
+103           ];
+104 
+105           meta = {
+106             description = "OpenAI API-compatible wrapper for Claude Code";
+107             homepage = "https://github.com/anthropics/claude-code-openai-wrapper";
+108             license = pkgs.lib.licenses.mit;
+109             mainProgram = "claude-wrapper";
+110           };
+111         };
+112 
+113         # Development shell
+114         devShell = pkgs.mkShell {
+115           packages = [
+116             python
+117             pkgs.poetry
+118             pkgs.nodejs_20
+119           ];
+120 
+121           buildInputs = [
+122             pkgs.stdenv.cc.cc.lib
+123             pkgs.zlib
+124           ];
+125 
+126           shellHook = ''
+127             echo "Claude Code OpenAI Wrapper development environment"
+128             echo "Python: $(python --version)"
+129             echo "Poetry: $(poetry --version)"
+130             echo ""
+131 
+132             # Configure poetry to use in-project virtualenv
+133             poetry config virtualenvs.in-project true 2>/dev/null || true
+134 
+135             # Set up library path for claude-agent-sdk binary
+136             export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath [
+137               pkgs.stdenv.cc.cc.lib
+138               pkgs.zlib
+139               pkgs.glib
+140             ]}''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+141 
+142             # Auto-activate venv if it exists
+143             if [ -f ".venv/bin/activate" ]; then
+144               source .venv/bin/activate
+145               echo "Activated existing virtualenv"
+146             else
+147               echo "Run 'poetry install' to create virtualenv and install dependencies"
+148             fi
+149 
+150             echo "Run 'python -m src.main' to start the server"
+151           '';
+152         };
+153 
+154       in {
+155         packages = {
+156           default = app;
+157           claude-wrapper = app;
+158         };
+159 
+160         devShells.default = devShell;
+161 
+162         apps.default = {
+163           type = "app";
+164           program = "${app}/bin/claude-wrapper";
+165         };
+166       }
+167     );
+168 }
+169 
+
+src/claude_cli.py --- 1/3 --- Python
+ 16  16         self.timeout = timeout / 1000  # Convert ms to seconds
+ 17  17         self.temp_dir = None
+ ..  18 
+ ..  19         # Check for custom CLI path (useful for Nix or custom installations)
+ ..  20         self.cli_path = os.environ.get("CLAUDE_CLI_PATH")
+ ..  21         if self.cli_path:
+ ..  22             logger.info(f"Using custom Claude CLI path: {self.cli_path}")
+ 18  23 
+ 19  24         # If cwd is provided (from CLAUDE_CWD env var), use it
+ 20  25         # Otherwise create an isolated temp directory
+
+src/claude_cli.py --- 2/3 --- Python
+ 58             logger.info("Testing Cl  63             logger.info("Testing Cl
+ .. aude Agent SDK...")                  .. aude Agent SDK...")
+ 59                                      64 
+ 60             messages = []            65             messages = []
+ 61             async for message in qu  .. 
+ .. ery(                                 .. 
+ 62                 prompt="Hello",      .. 
+ 63                 options=ClaudeAgent  66             options = ClaudeAgentOp
+ .. Options(                             .. tions(
+ 64                     max_turns=1,     67                 max_turns=1,
+ 65                     cwd=self.cwd,    68                 cwd=self.cwd,
+ 66                     system_prompt={  69                 system_prompt={"typ
+ .. "type": "preset", "preset": "claude  .. e": "preset", "preset": "claude_cod
+ .. _code"},                             .. e"},
+ 67                 ),                   70             )
+ ..                                      71             if self.cli_path:
+ ..                                      72                 options.cli_path = 
+ ..                                      .. self.cli_path
+ ..                                      73 
+ 68             ):                       74             async for message in qu
+ ..                                      .. ery(prompt="Hello", options=options
+ ..                                      .. ):
+ 69                 messages.append(mes  75                 messages.append(mes
+ .. sage)                                .. sage)
+ 70                 # Break early on fi  76                 # Break early on fi
+ .. rst response to speed up verificati  .. rst response to speed up verificati
+ .. on                                   .. on
+ 71                 # Handle both dict   77                 # Handle both dict 
+ .. and object types                     .. and object types
+
+src/claude_cli.py --- 3/3 --- Python
+119 125                 # Build SDK options
+120 126                 options = ClaudeAgentOptions(max_turns=max_turns, cwd=self.cwd)
+... 127 
+... 128                 # Use custom CLI path if specified
+... 129                 if self.cli_path:
+... 130                     options.cli_path = self.cli_path
+121 131 
+122 132                 # Set model if specified
+123 133                 if model:
+

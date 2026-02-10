@@ -5,7 +5,15 @@
       "Bash(git -C /home/e/dotfiles show:*)",
       "Bash(git -C /home/e/dotfiles log --oneline --all -- '**/aircon-codes/*')",
       "Bash(nix log:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(nix-prefetch-github:*)",
+      "Bash(nix build:*)",
+      "Bash(./result/bin/claude-code-api:*)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(nix flake check:*)",
+      "Bash(home-manager build:*)",
+      "Bash(git -C /home/e/src/claude-code-openai-wrapper diff f6994d0839f96a73600ef3353231b3afefd384ee HEAD)"
     ],
     "deny": [],
     "ask": []

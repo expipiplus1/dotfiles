@@ -91,6 +91,7 @@ lib.internal.simpleModule inputs "basic" {
     tssh
     unzip
     yq
+    claude-server
   ];
 
   xdg.configFile = {
