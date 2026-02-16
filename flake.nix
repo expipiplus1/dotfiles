@@ -52,7 +52,7 @@
         impermanence.nixosModule
         lian-li-control.nixosModules.fan
         lian-li-control.nixosModules.pump
-        # nixos-wsl.nixosModules.default
+        nixos-wsl.nixosModules.default
       ];
       # This seems to pull them in for nixos builds too?
       homes.modules = with inputs;

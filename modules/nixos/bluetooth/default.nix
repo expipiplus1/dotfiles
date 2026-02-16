@@ -1,6 +1,5 @@
 { lib, pkgs, ... }@inputs:
 lib.internal.simpleModule inputs "bluetooth" {
-  hardware.xpadneo.enable = true;
   hardware.bluetooth = {
     enable = true;
     settings = { General = { Enable = "Source,Sink,Media,Socket"; }; };
