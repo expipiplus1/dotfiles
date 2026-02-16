@@ -8,7 +8,7 @@ lib.internal.simpleModule inputs "desktop" {
   ellie.fcitx5.enable = true;
   ellie.docker.enable = true;
   ellie.vm.enable = true;
-  personal.dslr-webcam = {
+  ellie.webcam = {
     enable = true;
     virtual-device-name = "a7iii";
     camera-udev-product = "54c/c34/200";

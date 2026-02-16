@@ -13,7 +13,8 @@
       "WebFetch(domain:api.github.com)",
       "Bash(nix flake check:*)",
       "Bash(home-manager build:*)",
-      "Bash(git -C /home/e/src/claude-code-openai-wrapper diff f6994d0839f96a73600ef3353231b3afefd384ee HEAD)"
+      "Bash(git -C /home/e/src/claude-code-openai-wrapper diff f6994d0839f96a73600ef3353231b3afefd384ee HEAD)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []

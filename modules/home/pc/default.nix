@@ -3,9 +3,6 @@ lib.internal.simpleModule inputs "pc" {
   ellie.tex.enable = true;
   ellie.haskell.enable = true;
   ellie.foot.enable = true;
-  ellie.alacritty.enable = true;
-  ellie.wezterm.enable = true;
-  ellie.kitty.enable = true;
   # This segfaults on install?
   ellie.plasma.enable = true;
 

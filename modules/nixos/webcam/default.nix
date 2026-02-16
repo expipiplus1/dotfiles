@@ -2,9 +2,9 @@
 #   - https://www.crackedthecode.co/how-to-use-your-dslr-as-a-webcam-in-linux/
 #   - https://www.tomoliver.net/posts/using-an-slr-as-a-webcam-nixos
 { pkgs, lib, config, ... }:
-let cfg = config.personal.dslr-webcam;
+let cfg = config.ellie.webcam;
 in {
-  options.personal.dslr-webcam = {
+  options.ellie.webcam = {
     enable = lib.mkEnableOption "DSLR webcam";
     virtual-device-name = lib.mkOption {
       type = lib.types.str;
