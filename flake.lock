@@ -296,6 +296,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-claude": {
+      "locked": {
+        "lastModified": 1764822754,
+        "narHash": "sha256-8NfNXuAskhWFT7vqJ8dscaxHtfyV6DfAnI4ukWsqoGQ=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "1321a23cd31ffea01dcd7f23abbeeb1a3730512b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "1321a23c",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-gemini": {
       "locked": {
         "lastModified": 1764396522,
@@ -314,11 +330,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1764824084,
-        "narHash": "sha256-fvTIdCXppBw+kC2eSYB5uqYhmJ5qhWt/1/oexJaOYVo=",
+        "lastModified": 1771838415,
+        "narHash": "sha256-akPFHmCCdIV0jnC2zycfBtsm79etCbh736FhHwUBRZg=",
         "owner": "expipiplus1",
         "repo": "nixpkgs",
-        "rev": "77c760e60b9d6fc775accaf2d9cfd79d28bd475a",
+        "rev": "f4187dab8c1147e25637ee0a7982d3908bfc6aca",
         "type": "github"
       },
       "original": {
@@ -376,6 +392,7 @@
         "nil": "nil",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_2",
+        "nixpkgs-claude": "nixpkgs-claude",
         "nixpkgs-gemini": "nixpkgs-gemini",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "plasma-manager": "plasma-manager",
