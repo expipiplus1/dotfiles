@@ -160,6 +160,7 @@ in lib.internal.simpleModule inputs "zsh" {
 
       source <(${pkgs.jujutsu}/bin/jj util completion zsh)
 
+      zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
       zstyle ':fzf-tab:*' prefix '''
       zstyle ':fzf-tab:*' query-string prefix-hidden
     '';

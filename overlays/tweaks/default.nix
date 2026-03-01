@@ -74,4 +74,6 @@ self: super: {
       wrapProgram "$out/bin/rg" --add-flags --no-require-git
     '';
   });
+
+  btop = super.btop.override { cudaSupport = true; };
 }
