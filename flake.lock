@@ -205,37 +205,38 @@
     "lix": {
       "flake": false,
       "locked": {
-        "lastModified": 1753306924,
-        "narHash": "sha256-jLCEW0FvjFhC+c4RHzH+xbkSOxrnpFHnhjOw6sudhx0=",
-        "rev": "1a4393d0aac31aba21f5737ede1b171e11336d77",
+        "lastModified": 1772575023,
+        "narHash": "sha256-Ho6TSG4U5nE20jbBNVXwqxkOHhkfd24Z3LqonXzqOBQ=",
+        "rev": "fc649250eca1cb04bd210e6225285275af2d9406",
         "type": "tarball",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/1a4393d0aac31aba21f5737ede1b171e11336d77.tar.gz?rev=1a4393d0aac31aba21f5737ede1b171e11336d77"
+        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/fc649250eca1cb04bd210e6225285275af2d9406.tar.gz?rev=fc649250eca1cb04bd210e6225285275af2d9406"
       },
       "original": {
         "type": "tarball",
-        "url": "https://git.lix.systems/lix-project/lix/archive/release-2.93.tar.gz"
+        "url": "https://git.lix.systems/lix-project/lix/archive/main.tar.gz"
       }
     },
     "lix-module": {
       "inputs": {
         "flake-utils": "flake-utils_2",
         "flakey-profile": "flakey-profile",
-        "lix": "lix",
+        "lix": [
+          "lix"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1756125859,
-        "narHash": "sha256-6a+PWILmqHCs9B5eIBLg6HSZ8jYweZpgOWO8FlyVwYI=",
-        "ref": "release-2.93",
-        "rev": "d3292125035b04df00d01549a26e948631fabe1e",
-        "revCount": 156,
+        "lastModified": 1767364176,
+        "narHash": "sha256-l6YdEBYQxXjD8ujqvc0tKdwWc3K8UQOi+E4Y3DKQ318=",
+        "ref": "refs/heads/main",
+        "rev": "1688100bba140492658d597f6b307c327f35c780",
+        "revCount": 179,
         "type": "git",
         "url": "https://git.lix.systems/lix-project/nixos-module"
       },
       "original": {
-        "ref": "release-2.93",
         "type": "git",
         "url": "https://git.lix.systems/lix-project/nixos-module"
       }
@@ -389,6 +390,7 @@
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "lian-li-control": "lian-li-control",
+        "lix": "lix",
         "lix-module": "lix-module",
         "nil": "nil",
         "nixos-wsl": "nixos-wsl",

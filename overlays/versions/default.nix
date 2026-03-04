@@ -11,6 +11,7 @@ self: super: {
     };
     nativeBuildInputs = old.nativeBuildInputs ++ [ self.autoreconfHook ];
   });
+  toml11 = channels.nixpkgs-unstable.toml11;
   claude-code-acp = channels.nixpkgs-unstable.claude-code-acp;
   perf = channels.nixpkgs-unstable.perf;
   # linuxPackages = channels.nixpkgs-unstable.linuxPackages;

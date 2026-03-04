@@ -23,7 +23,8 @@
       "Bash(cat:*)",
       "Bash(nix flake metadata:*)",
       "WebFetch(domain:git.lix.systems)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(nix flake update:*)"
     ],
     "deny": [],
     "ask": []
