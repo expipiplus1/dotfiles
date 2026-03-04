@@ -24,7 +24,11 @@
       "Bash(nix flake metadata:*)",
       "WebFetch(domain:git.lix.systems)",
       "Bash(python3:*)",
-      "Bash(nix flake update:*)"
+      "Bash(nix flake update:*)",
+      "Bash(nix --extra-deprecated-features or-as-identifier eval --expr '1 + 1')",
+      "Bash(nix derivation show:*)",
+      "Bash(jq:*)",
+      "Bash(nix:*)"
     ],
     "deny": [],
     "ask": []

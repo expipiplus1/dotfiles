@@ -6,6 +6,7 @@
     extraOptions = ''
       secret-key-files = /etc/nix/private-key
       experimental-features = nix-command flakes
+      extra-deprecated-features = or-as-identifier
     '';
   };
 

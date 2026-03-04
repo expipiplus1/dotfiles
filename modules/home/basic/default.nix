@@ -7,6 +7,8 @@ lib.internal.simpleModule inputs "basic" {
   home.stateVersion = "22.11";
   home.homeDirectory = "/home/e";
 
+  nix.package = pkgs.nix;
+  nix.extraOptions = "extra-deprecated-features = or-as-identifier";
   nixpkgs.config.allowUnfree = true;
 
   home.sessionVariables = {
