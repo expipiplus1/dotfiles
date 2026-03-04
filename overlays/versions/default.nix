@@ -1,6 +1,16 @@
 { channels, ... }:
 
 self: super: {
+  tmux = super.tmux.overrideAttrs (old: rec {
+    version = "master-2026-03-01";
+    src = self.fetchFromGitHub {
+      owner = "tmux";
+      repo = "tmux";
+      rev = "4cb29deb93358b8aa6b57f7a4886aa4d5dabd270";
+      hash = "sha256-m7x/hhuSxuqBmq2y4UbzsFntUw6UK2oLqGkVK7XhsjQ=";
+    };
+    nativeBuildInputs = old.nativeBuildInputs ++ [ self.autoreconfHook ];
+  });
   claude-code-acp = channels.nixpkgs-unstable.claude-code-acp;
   perf = channels.nixpkgs-unstable.perf;
   # linuxPackages = channels.nixpkgs-unstable.linuxPackages;
@@ -34,19 +44,13 @@ self: super: {
       owner = "expipiplus1";
       repo = "lazyjj";
       rev = "push-zxkwmuvpvxoq";
-      sha256 = "sha256-JQUJZMLx6I8EDMObTevKbULjGrW9N2qt83KScMlmBXs=";
+      hash = "sha256-Gu9F8XaDnzwSNpduihf8inSq9VSo48giGLknfEBh41Y=";
     };
 
-    cargoDeps = self.rustPlatform.importCargoLock {
-      lockFile = "${src}/Cargo.lock";
-      outputHashes = {
-        "ansi-to-tui-7.0.0" =
-          "sha256-ixJKj3lwhpFzGUZoR1TMEXilTSajSPcIU55caXwVUII=";
-      };
+    cargoDeps = self.rustPlatform.fetchCargoVendor {
+      inherit src;
+      hash = "sha256-PCJqfX+rEvPybZw3HlInrTr/w3XJe6EelZdmPnZYy1g=";
     };
-
-    cargoHash = null;
-    cargoSha256 = null;
 
     doCheck = false;
   });
