@@ -205,11 +205,11 @@
     "lix": {
       "flake": false,
       "locked": {
-        "lastModified": 1761937274,
-        "narHash": "sha256-KlELhsSq3XbemrGyQhmGurFu7m8wOEBw+8M04L7hn7A=",
-        "rev": "91867941fa73afea7869b7c71ede82e5ef8927da",
+        "lastModified": 1772575023,
+        "narHash": "sha256-Ho6TSG4U5nE20jbBNVXwqxkOHhkfd24Z3LqonXzqOBQ=",
+        "rev": "fc649250eca1cb04bd210e6225285275af2d9406",
         "type": "tarball",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/91867941fa73afea7869b7c71ede82e5ef8927da.tar.gz?rev=91867941fa73afea7869b7c71ede82e5ef8927da"
+        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/fc649250eca1cb04bd210e6225285275af2d9406.tar.gz?rev=fc649250eca1cb04bd210e6225285275af2d9406"
       },
       "original": {
         "type": "tarball",
@@ -220,7 +220,9 @@
       "inputs": {
         "flake-utils": "flake-utils_2",
         "flakey-profile": "flakey-profile",
-        "lix": "lix",
+        "lix": [
+          "lix"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ]
@@ -388,6 +390,7 @@
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "lian-li-control": "lian-li-control",
+        "lix": "lix",
         "lix-module": "lix-module",
         "nil": "nil",
         "nixos-wsl": "nixos-wsl",

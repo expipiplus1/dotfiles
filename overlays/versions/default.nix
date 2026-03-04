@@ -39,18 +39,27 @@ self: super: {
   #   });
   #   doCheck = false;
   # });
-  lazyjj = channels.nixpkgs-unstable.lazyjj.overrideAttrs (old: rec {
+  blazingjj = channels.nixpkgs-unstable.lazyjj.overrideAttrs (old: rec {
+    pname = "blazingjj";
+    version = "0.7.1";
     src = self.fetchFromGitHub {
-      owner = "expipiplus1";
-      repo = "lazyjj";
-      rev = "push-zxkwmuvpvxoq";
-      hash = "sha256-Gu9F8XaDnzwSNpduihf8inSq9VSo48giGLknfEBh41Y=";
+      owner = "blazingjj";
+      repo = "blazingjj";
+      rev = "f0f28b3f8a8127e57585749405e70cb13eb34807";
+      hash = "sha256-UkO4x2C+nTGZNcFiOyjaziRJT3h0W98H60Sjk1Wv4FY=";
     };
 
     cargoDeps = self.rustPlatform.fetchCargoVendor {
       inherit src;
-      hash = "sha256-PCJqfX+rEvPybZw3HlInrTr/w3XJe6EelZdmPnZYy1g=";
+      hash = "sha256-ysU4W9+BWuyTEHyiEUOttECAhGIjRyoRzzf8QbbwMuo=";
     };
+
+    postInstall = ''
+      wrapProgram $out/bin/blazingjj \
+        --prefix PATH : ${self.jujutsu}/bin
+    '';
+
+    versionCheckProgram = "${placeholder "out"}/bin/blazingjj";
 
     doCheck = false;
   });

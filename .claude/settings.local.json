@@ -15,7 +15,15 @@
       "Bash(home-manager build:*)",
       "Bash(git -C /home/e/src/claude-code-openai-wrapper diff f6994d0839f96a73600ef3353231b3afefd384ee HEAD)",
       "Bash(tree:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(nix flake show:*)",
+      "Bash(nix-instantiate:*)",
+      "Bash(./build-all.sh:*)",
+      "Bash(bash:*)",
+      "Bash(cat:*)",
+      "Bash(nix flake metadata:*)",
+      "WebFetch(domain:git.lix.systems)",
+      "Bash(python3:*)"
     ],
     "deny": [],
     "ask": []

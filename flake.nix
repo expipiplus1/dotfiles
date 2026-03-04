@@ -1,8 +1,13 @@
 {
   inputs = {
+    lix = {
+      url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
+      flake = false;
+    };
     lix-module = {
       url = "git+https://git.lix.systems/lix-project/nixos-module";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.lix.follows = "lix";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:expipiplus1/nixpkgs/push-xnszyllysuxm";
@@ -57,6 +62,6 @@
       ];
       # This seems to pull them in for nixos builds too?
       homes.modules = with inputs;
-        [ plasma-manager.homeManagerModules.plasma-manager ];
+        [ plasma-manager.homeModules.plasma-manager ];
     };
 }

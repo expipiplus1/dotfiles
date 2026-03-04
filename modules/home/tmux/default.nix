@@ -33,7 +33,7 @@ lib.internal.simpleModule inputs "tmux" {
       bind-key -Tcopy-mode-vi WheelUpPane send -X halfpage-up
       bind-key -Tcopy-mode-vi WheelDownPane send -X halfpage-down
 
-      bind-key j display-popup -E -w90% -h90% -d "#{pane_current_path}" "lazyjj"
+      bind-key j display-popup -E -w90% -h90% -d "#{pane_current_path}" "blazingjj"
 
       # Focus events for vim
       set-option -g focus-events on
