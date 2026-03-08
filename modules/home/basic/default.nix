@@ -104,5 +104,9 @@ lib.internal.simpleModule inputs "basic" {
         rules.line-length.max = 120;
       };
     };
+    "sccache/config".text = builtins.concatStringsSep "\n" [
+      "[cache.disk]"
+      "size = 100000000000"
+    ];
   };
 }
