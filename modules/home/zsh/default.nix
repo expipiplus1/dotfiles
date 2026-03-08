@@ -132,7 +132,7 @@ in lib.internal.simpleModule inputs "zsh" {
       source "${homeshick}/homeshick.sh"
       fpath=(${homeshick}/completions $fpath)
     '';
-    initExtra = ''
+    initContent = ''
       # if [ -f ~/.config/light ]; then
       #   light
       # else

@@ -1,12 +1,11 @@
 { lib, pkgs, config, ... }:
 
 let
-  convertPage = pkgs.runCommand "convert-page" {} ''
+  convertPage = pkgs.runCommand "convert-page" { } ''
     mkdir -p $out
     cp ${./convert.html} $out/index.html
   '';
-in
-{
+in {
   imports = [ ./hardware ];
 
   networking.hostName = "thanos";
@@ -59,6 +58,12 @@ in
     '';
   };
 
+  services."japan-transfer" = {
+    enable = true;
+    port = 19586;
+    jobs = 6;
+  };
+
   # Nginx virtual hosts
   services.nginx.virtualHosts = {
     "home.monoid.al" = {
@@ -75,15 +80,17 @@ in
             autoindex on;
           '';
         };
-        "/convert/" = {
-          alias = "${convertPage}/";
-        };
+        "/convert/" = { alias = "${convertPage}/"; };
         "/film" = {
           root = "/data/share/linux-isos/files/transmission/Downloads";
           extraConfig = ''
             index index.html;
             autoindex on;
           '';
+        };
+        "/transfer-calculator/" = {
+          proxyPass = "http://127.0.0.1:19586/";
+          proxyWebsockets = true;
         };
       };
     };

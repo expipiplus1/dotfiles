@@ -183,16 +183,14 @@
     },
     "japan-transfer": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1772954392,
-        "narHash": "sha256-SJbitL9Fp9yvvjqHFFzxVzj5E6RoILI2AcdHs1JIyHs=",
+        "lastModified": 1773040176,
+        "narHash": "sha256-s8jdzcfGRkQbRHUmMB0yE7jN4BE5y6UsnwcAXut//f8=",
         "ref": "refs/heads/main",
-        "rev": "bc08494418290f4cb81b8780dc6c9a9ca03aa433",
-        "revCount": 41,
+        "rev": "9ad79691b04a71e0797f350a85c0568e3092dc4a",
+        "revCount": 86,
         "type": "git",
         "url": "ssh://git@github.com/expipiplus1/japan-transfer"
       },
@@ -368,6 +366,22 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1772773019,
+        "narHash": "sha256-E1bxHxNKfDoQUuvriG71+f+s/NT0qWkImXsYZNFFfCs=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "aca4d95fce4914b3892661bcb80b8087293536c6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1767313136,
         "narHash": "sha256-16KkgfdYqjaeRGBaYsNrhPRRENs0qzkQVUooNHtoy2w=",
         "owner": "NixOS",
@@ -415,7 +429,7 @@
         "lix-module": "lix-module",
         "nil": "nil",
         "nixos-wsl": "nixos-wsl",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs_3",
         "nixpkgs-claude": "nixpkgs-claude",
         "nixpkgs-gemini": "nixpkgs-gemini",
         "nixpkgs-unstable": "nixpkgs-unstable",

@@ -45,7 +45,7 @@
     };
     japan-transfer = {
       url = "git+ssh://git@github.com/expipiplus1/japan-transfer";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
