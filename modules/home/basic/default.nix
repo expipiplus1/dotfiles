@@ -8,7 +8,6 @@ lib.internal.simpleModule inputs "basic" {
   home.homeDirectory = "/home/e";
 
   nix.package = pkgs.nix;
-  nix.extraOptions = "extra-deprecated-features = or-as-identifier";
   nixpkgs.config.allowUnfree = true;
 
   home.sessionVariables = {
@@ -104,9 +103,7 @@ lib.internal.simpleModule inputs "basic" {
         rules.line-length.max = 120;
       };
     };
-    "sccache/config".text = builtins.concatStringsSep "\n" [
-      "[cache.disk]"
-      "size = 100000000000"
-    ];
+    "sccache/config".text =
+      builtins.concatStringsSep "\n" [ "[cache.disk]" "size = 100000000000" ];
   };
 }

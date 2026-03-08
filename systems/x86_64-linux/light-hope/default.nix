@@ -18,6 +18,12 @@ config, ... }:
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "23.11"; # Did you read the comment?
 
+  services."japan-transfer" = {
+    enable = true;
+    port = 8000;
+    jobs = 1;
+  };
+
   programs.mosh.enable = true;
   networking.firewall = {
     enable = true; # Enable the firewall

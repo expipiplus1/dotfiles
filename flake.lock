@@ -181,6 +181,26 @@
         "type": "github"
       }
     },
+    "japan-transfer": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1772954392,
+        "narHash": "sha256-SJbitL9Fp9yvvjqHFFzxVzj5E6RoILI2AcdHs1JIyHs=",
+        "ref": "refs/heads/main",
+        "rev": "bc08494418290f4cb81b8780dc6c9a9ca03aa433",
+        "revCount": 41,
+        "type": "git",
+        "url": "ssh://git@github.com/expipiplus1/japan-transfer"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/expipiplus1/japan-transfer"
+      }
+    },
     "lian-li-control": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -389,6 +409,7 @@
       "inputs": {
         "home-manager": "home-manager",
         "impermanence": "impermanence",
+        "japan-transfer": "japan-transfer",
         "lian-li-control": "lian-li-control",
         "lix": "lix",
         "lix-module": "lix-module",

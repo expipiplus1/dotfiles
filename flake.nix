@@ -43,6 +43,10 @@
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    japan-transfer = {
+      url = "git+ssh://git@github.com/expipiplus1/japan-transfer";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs:
@@ -59,6 +63,7 @@
         lian-li-control.nixosModules.fan
         lian-li-control.nixosModules.pump
         nixos-wsl.nixosModules.default
+        japan-transfer.nixosModules.default
       ];
       # This seems to pull them in for nixos builds too?
       homes.modules = with inputs;
