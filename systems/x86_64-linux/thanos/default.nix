@@ -169,7 +169,7 @@ in {
 
   # Home assistant SmartIR with custom aircon codes
   services.home-assistant.customComponents = [
-    (pkgs.home-assistant-custom-components.smartir.overrideAttrs (old: {
+    (pkgs-unstable.home-assistant-custom-components.smartir.overrideAttrs (old: {
       postInstall = (old.postInstall or "") + ''
         cp ${./aircon-codes}/*.json $out/custom_components/smartir/codes/climate/
       '';
