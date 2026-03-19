@@ -55,6 +55,9 @@ lib.internal.simpleModule inputs "home-assistant" {
       broadlink
       getmac
     ];
+    customLovelaceModules = with pkgs.home-assistant-custom-lovelace-modules; [
+      mini-graph-card
+    ];
     customComponents = [
       hass-dyson
     ];
