@@ -1,6 +1,7 @@
-{ lib, pkgs, config, ... }:
+{ lib, pkgs, config, inputs, ... }:
 
 let
+  pkgs-unstable = import inputs.nixpkgs-unstable { system = "x86_64-linux"; };
   convertPage = pkgs.runCommand "convert-page" { } ''
     mkdir -p $out
     cp ${./convert.html} $out/index.html
@@ -162,6 +163,18 @@ in {
     "create mask" = "0644";
     "directory mask" = "0755";
   };
+
+  # Use newer Home Assistant from nixpkgs-unstable
+  services.home-assistant.package = pkgs-unstable.home-assistant;
+
+  # Home assistant SmartIR with custom aircon codes
+  services.home-assistant.customComponents = [
+    (pkgs.home-assistant-custom-components.smartir.overrideAttrs (old: {
+      postInstall = (old.postInstall or "") + ''
+        cp ${./aircon-codes}/*.json $out/custom_components/smartir/codes/climate/
+      '';
+    }))
+  ];
 
   # Home assistant climate config
   services.home-assistant.config = {

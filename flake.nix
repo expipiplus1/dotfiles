@@ -10,7 +10,7 @@
       inputs.lix.follows = "lix";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    nixpkgs-unstable.url = "github:expipiplus1/nixpkgs/push-xnszyllysuxm";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-gemini.url =
       "github:nixos/nixpkgs/8d9ef0bb99797cb9a1626a6f34eccc8a52063b49";
     nixpkgs-claude.url = "github:nixos/nixpkgs/1321a23c";
