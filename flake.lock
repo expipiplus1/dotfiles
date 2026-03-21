@@ -186,11 +186,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1773040176,
-        "narHash": "sha256-s8jdzcfGRkQbRHUmMB0yE7jN4BE5y6UsnwcAXut//f8=",
+        "lastModified": 1773896556,
+        "narHash": "sha256-M1OlMeirZXZa5dnv5gXeG6F56Dw+Uxly3IYIGpDyf5M=",
         "ref": "refs/heads/main",
-        "rev": "9ad79691b04a71e0797f350a85c0568e3092dc4a",
-        "revCount": 86,
+        "rev": "5bbc91f317035f56a90280311c58ebe1a0b0193f",
+        "revCount": 89,
         "type": "git",
         "url": "ssh://git@github.com/expipiplus1/japan-transfer"
       },
