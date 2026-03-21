@@ -43,127 +43,129 @@ in lib.internal.simpleModule inputs "zsh" {
       VI_MODE_DISABLE_CLIPBOARD = "true";
       # ZSH_AUTOSUGGEST_STRATEGY = "()";
     };
-    initContent = lib.mkOrder 550 ''
-      if command -v xdg-open 2>&1 >/dev/null; then
-        open(){
-          xdg-open "$@" 2> /dev/null
-        }
-      fi
-
-      md2pdf(){
-        nix-shell -j8 -p pandocEnv --command "pandoc -t latex --latex-engine=xelatex -o $1.pdf $1"
-      }
-
-      printer(){
-        lp -o sides=two-sided-long-edge "$@"
-      }
-
-      ns(){
-        nix-shell --keep XDG_DATA_DIRS --command "IN_NIX_SHELL=impure exec zsh; return" "$@"
-      }
-
-      c2n(){
-        cp -v -n "$HOME/dotfiles/nix-haskell-skeleton/default.nix" .
-      }
-
-      sr(){
-        ${pkgs.silver-searcher}/bin/ag -0 -l $1 | xargs -0 perl -pi -e "s/$1/$2/g"
-      }
-
-      ss() {
-        find "$@" -mindepth 1 -maxdepth 1 -print0 | xargs -0 du -sh | sort -h
-      }
-
-      function nix-source() {
-        git remote get-url origin |
-          sed 's|\.git||' |
-          awk -F '/|:' '{print $(NF-1),"\t",$NF}' |
-          read owner repo &&
-          ${pkgs.nix-prefetch-github}/bin/nix-prefetch-github --prefetch --nix --rev $(git rev-parse HEAD) $owner $repo
-      }
-
-      function highlight() {
-        declare -A fg_color_map
-        fg_color_map[black]=30
-        fg_color_map[red]=31
-        fg_color_map[green]=32
-        fg_color_map[yellow]=33
-        fg_color_map[blue]=34
-        fg_color_map[magenta]=35
-        fg_color_map[cyan]=36
-
-        fg_c=$(echo -e "\e[1;''${fg_color_map[$1]}m")
-        c_rs=$'\e[0m'
-        sed -u s"/$2/$fg_c\0$c_rs/gI"
-      }
-
-      function color-results () {
-        highlight red 'Failure\|Error\|error' | highlight green 'Success' | highlight yellow 'Warning\|warn'
-      }
-
-      function mean-and-sample-std-dev () {
-        col=''${1:-0}
-        awk -f <(cat <<EOF
-        {
-          sum+=\$$col
-          a[NR]=\$$col
-        }
-        END{
-          split("₀₁₂₃₄₅₆₇₈₉", smalls, "")
-          for(i in a){
-            y+=(a[i]-(sum/NR))^2
-
-            s="x"
-            split(i, digits, "")
-            for (d in digits){
-              s=s smalls[digits[d]+1]
-            }
-            print s "=" a[i]
+    initContent = lib.mkMerge [
+      (lib.mkOrder 550 ''
+        if command -v xdg-open 2>&1 >/dev/null; then
+          open(){
+            xdg-open "$@" 2> /dev/null
           }
-          print ""
-          print "s="sqrt(y/(NR-1))
-          print "x̄="sum/NR
+        fi
+
+        md2pdf(){
+          nix-shell -j8 -p pandocEnv --command "pandoc -t latex --latex-engine=xelatex -o $1.pdf $1"
         }
-      EOF
-      )
-      }
 
-      export HOMESHICK_DIR=${homeshick}
-      source "${homeshick}/homeshick.sh"
-      fpath=(${homeshick}/completions $fpath)
-    '';
-    initContent = ''
-      # if [ -f ~/.config/light ]; then
-      #   light
-      # else
-      #   dark
-      # fi
+        printer(){
+          lp -o sides=two-sided-long-edge "$@"
+        }
 
-      unsetopt AUTO_CD
+        ns(){
+          nix-shell --keep XDG_DATA_DIRS --command "IN_NIX_SHELL=impure exec zsh; return" "$@"
+        }
 
-      unset RPS1
+        c2n(){
+          cp -v -n "$HOME/dotfiles/nix-haskell-skeleton/default.nix" .
+        }
 
-      setopt histignorespace
-      setopt inc_append_history
+        sr(){
+          ${pkgs.silver-searcher}/bin/ag -0 -l $1 | xargs -0 perl -pi -e "s/$1/$2/g"
+        }
 
-      export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=12"
-      bindkey '^f' autosuggest-accept
+        ss() {
+          find "$@" -mindepth 1 -maxdepth 1 -print0 | xargs -0 du -sh | sort -h
+        }
 
-      bindkey "''${terminfo[khome]}" beginning-of-line
-      bindkey "''${terminfo[kend]}"  end-of-line
-      bindkey "''${terminfo[kich1]}" overwrite-mode
-      bindkey "''${terminfo[kdch1]}" delete-char
-      bindkey "''${terminfo[kcuu1]}" up-line-or-history
-      bindkey "''${terminfo[kcud1]}" down-line-or-history
-      bindkey "''${terminfo[kcub1]}" backward-char
-      bindkey "''${terminfo[kcuf1]}" forward-char
+        function nix-source() {
+          git remote get-url origin |
+            sed 's|\.git||' |
+            awk -F '/|:' '{print $(NF-1),"\t",$NF}' |
+            read owner repo &&
+            ${pkgs.nix-prefetch-github}/bin/nix-prefetch-github --prefetch --nix --rev $(git rev-parse HEAD) $owner $repo
+        }
 
-      source <(${pkgs.jujutsu}/bin/jj util completion zsh)
+        function highlight() {
+          declare -A fg_color_map
+          fg_color_map[black]=30
+          fg_color_map[red]=31
+          fg_color_map[green]=32
+          fg_color_map[yellow]=33
+          fg_color_map[blue]=34
+          fg_color_map[magenta]=35
+          fg_color_map[cyan]=36
 
-      zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-      zstyle ':fzf-tab:*' prefix '''
-      zstyle ':fzf-tab:*' query-string prefix-hidden
-    '';
+          fg_c=$(echo -e "\e[1;''${fg_color_map[$1]}m")
+          c_rs=$'\e[0m'
+          sed -u s"/$2/$fg_c\0$c_rs/gI"
+        }
+
+        function color-results () {
+          highlight red 'Failure\|Error\|error' | highlight green 'Success' | highlight yellow 'Warning\|warn'
+        }
+
+        function mean-and-sample-std-dev () {
+          col=''${1:-0}
+          awk -f <(cat <<EOF
+          {
+            sum+=\$$col
+            a[NR]=\$$col
+          }
+          END{
+            split("₀₁₂₃₄₅₆₇₈₉", smalls, "")
+            for(i in a){
+              y+=(a[i]-(sum/NR))^2
+
+              s="x"
+              split(i, digits, "")
+              for (d in digits){
+                s=s smalls[digits[d]+1]
+              }
+              print s "=" a[i]
+            }
+            print ""
+            print "s="sqrt(y/(NR-1))
+            print "x̄="sum/NR
+          }
+        EOF
+        )
+        }
+
+        export HOMESHICK_DIR=${homeshick}
+        source "${homeshick}/homeshick.sh"
+        fpath=(${homeshick}/completions $fpath)
+      '')
+      ''
+        # if [ -f ~/.config/light ]; then
+        #   light
+        # else
+        #   dark
+        # fi
+
+        unsetopt AUTO_CD
+
+        unset RPS1
+
+        setopt histignorespace
+        setopt inc_append_history
+
+        export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=12"
+        bindkey '^f' autosuggest-accept
+
+        bindkey "''${terminfo[khome]}" beginning-of-line
+        bindkey "''${terminfo[kend]}"  end-of-line
+        bindkey "''${terminfo[kich1]}" overwrite-mode
+        bindkey "''${terminfo[kdch1]}" delete-char
+        bindkey "''${terminfo[kcuu1]}" up-line-or-history
+        bindkey "''${terminfo[kcud1]}" down-line-or-history
+        bindkey "''${terminfo[kcub1]}" backward-char
+        bindkey "''${terminfo[kcuf1]}" forward-char
+
+        source <(${pkgs.jujutsu}/bin/jj util completion zsh)
+
+        zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+        zstyle ':fzf-tab:*' prefix '''
+        zstyle ':fzf-tab:*' query-string prefix-hidden
+      ''
+    ];
 
     # So ssh machine -- foo works
     envExtra = ''
