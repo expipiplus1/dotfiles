@@ -1,7 +1,7 @@
 {
   inputs = {
     lix = {
-      url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
+      url = "https://git.lix.systems/lix-project/lix/archive/2.95.1.tar.gz";
       flake = false;
     };
     lix-module = {
