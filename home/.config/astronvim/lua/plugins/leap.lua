@@ -19,7 +19,7 @@ local maps = require("astrocore").extend_tbl({
 }, mapsx)
 
 return {
-  "ggandor/leap.nvim",
+  url = "https://codeberg.org/andyg/leap.nvim",
   dependencies = {
     "tpope/vim-repeat",
     {

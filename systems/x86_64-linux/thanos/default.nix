@@ -17,7 +17,6 @@ in {
   ellie.restic-server.enable = true;
   ellie.samba.enable = true;
   ellie.jellyfin.enable = true;
-  ellie.minio.enable = true;
   ellie.home-assistant.enable = true;
 
   # Boot
