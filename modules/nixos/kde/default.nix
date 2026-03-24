@@ -13,8 +13,7 @@ lib.internal.simpleModule inputs "kde" {
 
   programs.kdeconnect.enable = true;
 
-  environment.plasma5.excludePackages = with pkgs.libsForQt5; [
-    elisa
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [
     gwenview
     okular
     oxygen

@@ -22,6 +22,7 @@ in
 lib.internal.simpleModule inputs "transmission" {
   services.transmission = {
     enable = true;
+    package = pkgs.transmission_4;
     settings = {
       download-dir = "/mnt/thanos-transmission/transmission/Downloads";
       incomplete-dir = "/mnt/thanos-transmission/transmission/.incomplete";

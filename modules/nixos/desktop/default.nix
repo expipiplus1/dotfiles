@@ -43,7 +43,7 @@ lib.internal.simpleModule inputs "desktop" {
 
   programs.steam.enable = if config.ellie.nvidia.devDriver then false else true;
 
-  services.nixseparatedebuginfod.enable = false;
+  services.nixseparatedebuginfod2.enable = false;
 
   # To not upset Windows
   time.hardwareClockInLocalTime = true;

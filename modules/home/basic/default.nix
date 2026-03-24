@@ -61,7 +61,7 @@ lib.internal.simpleModule inputs "basic" {
     curl
     difftastic
     dnsutils
-    du-dust
+    dust
     duf
     efibootmgr
     entr

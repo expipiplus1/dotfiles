@@ -6,7 +6,7 @@ lib.internal.simpleModule inputs "wsl" {
           if pwd | grep -q "/mnt/[a-z]"; then
               exec git.exe "$@"
           else
-              exec ${pkgs.gitAndTools.hub}/bin/hub "$@"
+              exec ${pkgs.hub}/bin/hub "$@"
           fi
         ''
       }/bin/git-or-git-exe";

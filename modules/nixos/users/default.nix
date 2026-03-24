@@ -4,7 +4,7 @@ lib.internal.simpleModule inputs "users" {
   programs.zsh.enable = true;
 
   # Keep programs alive after logout (for example, tmux)
-  services.logind.killUserProcesses = false;
+  services.logind.settings.Login.KillUserProcesses = false;
 
   home-manager.users = lib.mkForce { };
   users.users.e = {

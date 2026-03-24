@@ -12,7 +12,7 @@
   programs.zsh.enable = true;
 
   # Keep programs alive after logout (for example, tmux)
-  services.logind.killUserProcesses = false;
+  services.logind.settings.Login.KillUserProcesses = false;
 
   ellie.users.enable = true;
 

@@ -12,7 +12,7 @@ lib.internal.simpleModule inputs "vm" {
     spice
     spice-gtk
     spice-protocol
-    win-virtio
+    virtio-win
     win-spice
     adwaita-icon-theme
   ];
@@ -26,8 +26,6 @@ lib.internal.simpleModule inputs "vm" {
       enable = true;
       qemu = {
         swtpm.enable = true;
-        ovmf.enable = true;
-        ovmf.packages = [ pkgs.OVMFFull.fd ];
       };
     };
     spiceUSBRedirection.enable = true;

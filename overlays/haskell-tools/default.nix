@@ -23,7 +23,7 @@ self: super: {
     super.haskell-language-server.override { supportedGhcVersions = [ "94" ]; };
 
   hackage-release = self.writeShellScriptBin "hackage-release" ''
-    ${self.gitAndTools.hub}/bin/hub release download "$1" |
+    ${self.hub}/bin/hub release download "$1" |
       cut -d' ' -f2 |
       sort -r |
       while read f; do
