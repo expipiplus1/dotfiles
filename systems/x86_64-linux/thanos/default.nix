@@ -169,11 +169,14 @@ in {
 
   # Home assistant SmartIR with custom aircon codes
   services.home-assistant.customComponents = [
-    (pkgs-unstable.home-assistant-custom-components.smartir.overrideAttrs (old: {
-      postInstall = (old.postInstall or "") + ''
-        cp ${./aircon-codes}/*.json $out/custom_components/smartir/codes/climate/
-      '';
-    }))
+    (pkgs-unstable.home-assistant-custom-components.smartir.overrideAttrs
+      (old: {
+        postInstall = (old.postInstall or "") + ''
+          cp ${
+            ./aircon-codes
+          }/*.json $out/custom_components/smartir/codes/climate/
+        '';
+      }))
   ];
 
   # Home assistant climate config
@@ -256,7 +259,6 @@ in {
   nix.settings.trusted-public-keys = [
     "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
     "orion:s0C06f1M46DCpHUUP2r8iIrhfytkCbXWltMeMMa4jbw=%"
-    "expipiplus1/update-nix-fetchgit:Z33K0KEImsos+kVTFvZxfLxaBi+D1jEeB6cX0uCo7B0="
     "light-hope:xkiDuhgkaC8uE9r3/Rr1R1QFozkqxP///eb+cdMFByA="
   ];
 

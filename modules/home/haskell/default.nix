@@ -55,7 +55,6 @@ lib.internal.simpleModule inputs "haskell" (let
 in {
   home.packages = with pkgs.haskellPackages; [
     pkgs.upfind
-    pkgs.update-nix-fetchgit
     pkgs.cachix
     pkgs.nixfmt-classic
     cabal-fmt
