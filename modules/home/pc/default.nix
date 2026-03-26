@@ -1,5 +1,6 @@
 { lib, pkgs, ... }@inputs:
 lib.internal.simpleModule inputs "pc" {
+  ellie.anki.enable = true;
   ellie.tex.enable = true;
   ellie.haskell.enable = true;
   ellie.foot.enable = true;
@@ -8,7 +9,6 @@ lib.internal.simpleModule inputs "pc" {
 
   home.packages = with pkgs; [
     google-chrome
-    anki
     perf
     darktable
     element-desktop
@@ -28,7 +28,7 @@ lib.internal.simpleModule inputs "pc" {
     claude-code
     code-cursor
     cursor-cli
-    gemini-cli
+
   ];
 
   programs.neovim = {

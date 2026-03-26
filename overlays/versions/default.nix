@@ -21,7 +21,6 @@ self: super: {
 
   code-cursor = channels.nixpkgs-unstable.code-cursor;
   cursor-cli = channels.nixpkgs-unstable.cursor-cli;
-  gemini-cli = channels.nixpkgs-gemini.gemini-cli;
   claude-code = channels.nixpkgs-claude.claude-code;
 
   rust-parallel = channels.nixpkgs-unstable.rust-parallel;
