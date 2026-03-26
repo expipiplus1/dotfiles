@@ -78,15 +78,15 @@ in {
     nerd-fonts.symbols-only
     # material-design-icons
 
-    # For nicer Chinese character rendering
+    # CJK fonts
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
     wqy_zenhei
     cm_unicode
   ];
 
   fonts.fontconfig.defaultFonts = {
     monospace = [ "Iosevka Fixed" ];
-    # sansSerif = [ "Iosevka Aile" ];
-    # serif = [ "Iosevka Etoile" ];
     emoji = [ "Material Design Icons" ];
   };
 })
