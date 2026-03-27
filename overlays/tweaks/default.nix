@@ -24,6 +24,23 @@ self: super: {
     '';
   };
 
+  # Use full UniDic instead of the default ipadic dictionary for MeCab
+  unidic = super.fetchzip {
+    url = "https://cotonoha-dic.s3-ap-northeast-1.amazonaws.com/unidic-3.1.0.zip";
+    hash = "sha256-Phyrbf5YlBK1qK/wq+YO42mVLNiE8fK2jPH1aofsT4M=";
+    stripRoot = false;
+  };
+
+  mecab = super.mecab.overrideAttrs (old: {
+    postInstall = ''
+      mkdir -p $out/lib/mecab/dic
+      ln -s ${self.unidic}/unidic $out/lib/mecab/dic/unidic
+      # Point mecabrc to unidic instead of ipadic
+      substituteInPlace $out/etc/mecabrc \
+        --replace-fail "/lib/mecab/dic/ipadic" "/lib/mecab/dic/unidic"
+    '';
+  });
+
   anki = super.anki.overrideAttrs (old: {
     buildInputs = old.buildInputs ++ [ self.makeWrapper ];
     postInstall = old.postInstall or "" + ''
