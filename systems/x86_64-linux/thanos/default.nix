@@ -64,6 +64,11 @@ in {
     jobs = 6;
   };
 
+  services.kanji-explorer = {
+    enable = true;
+    port = 19587;
+  };
+
   # Nginx virtual hosts
   services.nginx.virtualHosts = {
     "home.monoid.al" = {
@@ -90,6 +95,10 @@ in {
         };
         "/transfer-calculator/" = {
           proxyPass = "http://127.0.0.1:19586/";
+          proxyWebsockets = true;
+        };
+        "/kanji/" = {
+          proxyPass = "http://127.0.0.1:19587/";
           proxyWebsockets = true;
         };
       };

@@ -45,6 +45,10 @@
       url = "git+ssh://git@github.com/expipiplus1/japan-transfer";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
+    kanji-explorer = {
+      url = "path:/home/e/projects/rtk";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs:
@@ -62,6 +66,7 @@
         lian-li-control.nixosModules.pump
         nixos-wsl.nixosModules.default
         japan-transfer.nixosModules.default
+        kanji-explorer.nixosModules.default
       ];
       # This seems to pull them in for nixos builds too?
       homes.modules = with inputs;
