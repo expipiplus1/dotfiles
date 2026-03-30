@@ -37,8 +37,28 @@ remote_exists() {
 
 # Function to modify arguments and output them null-terminated
 modify_args() {
+  local skip_next=false
   while (($#)); do
     local arg="$1"
+
+    # Don't transform values of string-valued flags
+    if $skip_next; then
+      skip_next=false
+      printf "%s\0" "$arg"
+      shift
+      continue
+    fi
+
+    # Flags whose next argument is a literal value, not a revset
+    case "$arg" in
+      -m|--message|-d|--description)
+        skip_next=true
+        printf "%s\0" "$arg"
+        shift
+        continue
+        ;;
+    esac
+
     local prefix=""
     local suffix=""
     local core=""

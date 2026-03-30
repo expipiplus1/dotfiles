@@ -28,7 +28,7 @@ lib.internal.simpleModule inputs "pc" {
     claude-code
     code-cursor
     cursor-cli
-    okular
+    kdePackages.okular
 
   ];
 
