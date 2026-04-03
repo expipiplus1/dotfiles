@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "anki-progress": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "rtk": "rtk"
+      },
+      "locked": {
+        "lastModified": 1775191363,
+        "narHash": "sha256-SysHn9rmZgLqpzJrH+3RWYcKGJ64eQTVFUMwycxRUu4=",
+        "path": "/home/e/projects/anki-progress",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/e/projects/anki-progress",
+        "type": "path"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -165,7 +181,7 @@
     "impermanence": {
       "inputs": {
         "home-manager": "home-manager_2",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
         "lastModified": 1769548169,
@@ -183,7 +199,7 @@
     },
     "japan-transfer": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
         "lastModified": 1773896556,
@@ -201,7 +217,7 @@
     },
     "kanji-explorer": {
       "inputs": {
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_4"
       },
       "locked": {
         "lastModified": 1774704528,
@@ -317,15 +333,15 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1768564909,
-        "narHash": "sha256-Kell/SpJYVkHWMvnhqJz/8DqQg2b6PguxVWOuadbHCc=",
-        "owner": "nixos",
+        "lastModified": 1775036866,
+        "narHash": "sha256-ZojAnPuCdy657PbTq5V0Y+AHKhZAIwSIT2cb8UgAz/U=",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "e4bae1bd10c9c57b2cf517953ab70060a828ee6f",
+        "rev": "6201e203d09599479a3b3450ed24fa81537ebc4e",
         "type": "github"
       },
       "original": {
-        "owner": "nixos",
+        "owner": "NixOS",
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
@@ -365,6 +381,22 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1768564909,
+        "narHash": "sha256-Kell/SpJYVkHWMvnhqJz/8DqQg2b6PguxVWOuadbHCc=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "e4bae1bd10c9c57b2cf517953ab70060a828ee6f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1772773019,
         "narHash": "sha256-E1bxHxNKfDoQUuvriG71+f+s/NT0qWkImXsYZNFFfCs=",
         "owner": "NixOS",
@@ -379,7 +411,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_3": {
+    "nixpkgs_4": {
       "locked": {
         "lastModified": 1774386573,
         "narHash": "sha256-4hAV26quOxdC6iyG7kYaZcM3VOskcPUrdCQd/nx8obc=",
@@ -395,7 +427,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_4": {
+    "nixpkgs_5": {
       "locked": {
         "lastModified": 1774244481,
         "narHash": "sha256-4XfMXU0DjN83o6HWZoKG9PegCvKvIhNUnRUI19vzTcQ=",
@@ -436,6 +468,7 @@
     },
     "root": {
       "inputs": {
+        "anki-progress": "anki-progress",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "japan-transfer": "japan-transfer",
@@ -445,11 +478,27 @@
         "lix-module": "lix-module",
         "nil": "nil",
         "nixos-wsl": "nixos-wsl",
-        "nixpkgs": "nixpkgs_4",
+        "nixpkgs": "nixpkgs_5",
         "nixpkgs-claude": "nixpkgs-claude",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "plasma-manager": "plasma-manager",
         "snowfall-lib": "snowfall-lib"
+      }
+    },
+    "rtk": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1775190769,
+        "narHash": "sha256-rwAeB8EuM0Gy0KRBg+0UZGHVrnMxuHZrdgMD+bYIuQA=",
+        "ref": "dfc91700ebb5846f68487dc8ffec1dbd7f0a38a7",
+        "rev": "dfc91700ebb5846f68487dc8ffec1dbd7f0a38a7",
+        "revCount": 39,
+        "type": "git",
+        "url": "file:///home/e/projects/rtk"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/e/projects/rtk"
       }
     },
     "snowfall-lib": {

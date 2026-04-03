@@ -21,6 +21,12 @@ lib.internal.simpleModule inputs "dm" {
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
+    wireplumber.extraConfig."50-hide-monitors" = {
+      "monitor.alsa.rules" = [{
+        matches = [{ "node.name" = "~alsa_output.*"; }];
+        actions.update-props."node.features.monitor" = false;
+      }];
+    };
   };
 
   # Firefox nonsense

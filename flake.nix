@@ -49,6 +49,10 @@
       url = "path:/home/e/projects/rtk";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
+    anki-progress = {
+      url = "path:/home/e/projects/anki-progress";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs:
@@ -67,6 +71,7 @@
         nixos-wsl.nixosModules.default
         japan-transfer.nixosModules.default
         kanji-explorer.nixosModules.default
+        anki-progress.nixosModules.default
       ];
       # This seems to pull them in for nixos builds too?
       homes.modules = with inputs;

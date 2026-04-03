@@ -9,9 +9,9 @@ lib.internal.simpleModule inputs "desktop" {
   ellie.docker.enable = true;
   ellie.vm.enable = true;
   ellie.webcam = {
-    enable = true;
-    virtual-device-name = "a7iii";
-    camera-udev-product = "54c/c34/200";
+    enable = false;
+    virtual-device-name = "a7cr";
+    camera-udev-product = "54c/ea9/200";
     ffmpeg-hwaccel = false;
   };
 

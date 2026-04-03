@@ -69,6 +69,11 @@ in {
     port = 19587;
   };
 
+  services.anki-progress = {
+    enable = true;
+    port = 19588;
+  };
+
   # Nginx virtual hosts
   services.nginx.virtualHosts = {
     "home.monoid.al" = {
@@ -99,6 +104,10 @@ in {
         };
         "/kanji/" = {
           proxyPass = "http://127.0.0.1:19587/";
+          proxyWebsockets = true;
+        };
+        "/anki/" = {
+          proxyPass = "http://127.0.0.1:19588/";
           proxyWebsockets = true;
         };
       };
