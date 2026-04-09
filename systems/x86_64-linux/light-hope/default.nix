@@ -23,4 +23,5 @@ config, ... }:
     enable = true; # Enable the firewall
     allowedTCPPorts = [ 8080 8081 8082 ]; # Open TCP ports
   };
+
 }

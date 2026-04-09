@@ -6,8 +6,8 @@
         "rtk": "rtk"
       },
       "locked": {
-        "lastModified": 1775191363,
-        "narHash": "sha256-SysHn9rmZgLqpzJrH+3RWYcKGJ64eQTVFUMwycxRUu4=",
+        "lastModified": 1775557025,
+        "narHash": "sha256-SzEIShTd3A+unNV/IDl4clsYt6aNKmtj3xcswcdLLg4=",
         "path": "/home/e/projects/anki-progress",
         "type": "path"
       },
@@ -488,11 +488,11 @@
     "rtk": {
       "flake": false,
       "locked": {
-        "lastModified": 1775190769,
-        "narHash": "sha256-rwAeB8EuM0Gy0KRBg+0UZGHVrnMxuHZrdgMD+bYIuQA=",
-        "ref": "dfc91700ebb5846f68487dc8ffec1dbd7f0a38a7",
-        "rev": "dfc91700ebb5846f68487dc8ffec1dbd7f0a38a7",
-        "revCount": 39,
+        "lastModified": 1775358194,
+        "narHash": "sha256-3r5+Gvt3CHn4czhy+O+L0mdLcxiv112+mNp/1vDwzsA=",
+        "ref": "170fd9f8038770e61efd9e6f2a77f9e226dcac18",
+        "rev": "170fd9f8038770e61efd9e6f2a77f9e226dcac18",
+        "revCount": 40,
         "type": "git",
         "url": "file:///home/e/projects/rtk"
       },

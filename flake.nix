@@ -74,7 +74,9 @@
         anki-progress.nixosModules.default
       ];
       # This seems to pull them in for nixos builds too?
-      homes.modules = with inputs;
-        [ plasma-manager.homeModules.plasma-manager ];
+      homes.modules = with inputs; [
+        plasma-manager.homeModules.plasma-manager
+        anki-progress.homeManagerModules.default
+      ];
     };
 }

@@ -4,4 +4,10 @@
   ellie.pc.enable = true;
   ellie.sensors.enable = true;
   ellie.common.enable = true;
+
+  services.anki-progress-sync = {
+    enable = true;
+    remoteHost = "e@thanos";
+    time = "23:59";
+  };
 }

@@ -72,6 +72,7 @@ in {
   services.anki-progress = {
     enable = true;
     port = 19588;
+    syncUser = "e";
   };
 
   # Nginx virtual hosts
