@@ -73,10 +73,13 @@
         lian-li-control.nixosModules.pump
         nixos-wsl.nixosModules.default
         japan-transfer.nixosModules.default
+        kanji-explorer.nixosModules.default
+        anki-progress.nixosModules.default
       ];
       # This seems to pull them in for nixos builds too?
       homes.modules = with inputs; [
         plasma-manager.homeModules.plasma-manager
+        anki-progress.homeManagerModules.default
       ];
     };
 }
