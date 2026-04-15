@@ -1,13 +1,8 @@
 {
   inputs = {
-    lix = {
-      url = "https://git.lix.systems/lix-project/lix/archive/2.95.1.tar.gz";
-      flake = false;
-    };
     lix-module = {
       url = "git+https://git.lix.systems/lix-project/nixos-module?rev=5e56f5a973e24292b125dca9e9d506b0a91d6903";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.lix.follows = "lix";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -65,7 +60,7 @@
       };
       overlays = with inputs; [
         nil.overlays.default
-        lix-module.overlays.default
+        lix-module.overlays.lixFromNixpkgs
       ];
       systems.modules.nixos = with inputs; [
         impermanence.nixosModule

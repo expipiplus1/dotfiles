@@ -1,7 +1,6 @@
 { channels, ... }:
 
 self: super: {
-  nix = super.nix.overrideAttrs { doCheck = false; };
   tmux = super.tmux.overrideAttrs (old: rec {
     version = "master-2026-03-01";
     src = self.fetchFromGitHub {
