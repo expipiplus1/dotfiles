@@ -5,7 +5,7 @@
       flake = false;
     };
     lix-module = {
-      url = "git+https://git.lix.systems/lix-project/nixos-module?rev=1688100bba140492658d597f6b307c327f35c780";
+      url = "git+https://git.lix.systems/lix-project/nixos-module?rev=5e56f5a973e24292b125dca9e9d506b0a91d6903";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.lix.follows = "lix";
     };
