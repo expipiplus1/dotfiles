@@ -11,11 +11,13 @@ lib.internal.simpleModule inputs "basic" {
   nixpkgs.config.allowUnfree = true;
 
   home.sessionVariables = {
-    LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
     NIX_PATH = "nixpkgs=$HOME/src/nixpkgs";
     EDITOR = "vim";
     NIXOS_OZONE_WL = 1;
     SSH_ASKPASS_REQUIRE = "prefer";
+  }
+  // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
+    LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
   };
 
   home.packages = with pkgs; [
@@ -63,7 +65,6 @@ lib.internal.simpleModule inputs "basic" {
     dnsutils
     dust
     duf
-    efibootmgr
     entr
     fd
     file
@@ -74,7 +75,6 @@ lib.internal.simpleModule inputs "basic" {
     jq
     # json2nix
     killall
-    lm_sensors
     lsd
     mosh
     nix
@@ -92,7 +92,10 @@ lib.internal.simpleModule inputs "basic" {
     tssh
     unzip
     yq
-    # claude-server
+    ]
+  ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
+    lm_sensors
+    efibootmgr
   ];
 
   xdg.configFile = {
