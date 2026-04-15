@@ -45,21 +45,16 @@
       url = "git+ssh://git@github.com/expipiplus1/japan-transfer";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
-    kanji-explorer = {
-      url = "path:/home/e/projects/rtk";
-      # inputs.nixpkgs.follows = "nixpkgs";
-    };
-    anki-progress = {
-      url = "path:/home/e/projects/anki-progress";
-      # inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = inputs:
+  outputs =
+    inputs:
     inputs.snowfall-lib.mkFlake {
       inherit inputs;
       src = ./.;
-      channels-config = { allowUnfree = true; };
+      channels-config = {
+        allowUnfree = true;
+      };
       overlays = with inputs; [
         nil.overlays.default
         lix-module.overlays.default
@@ -70,13 +65,10 @@
         lian-li-control.nixosModules.pump
         nixos-wsl.nixosModules.default
         japan-transfer.nixosModules.default
-        kanji-explorer.nixosModules.default
-        anki-progress.nixosModules.default
       ];
       # This seems to pull them in for nixos builds too?
       homes.modules = with inputs; [
         plasma-manager.homeModules.plasma-manager
-        anki-progress.homeManagerModules.default
       ];
     };
 }

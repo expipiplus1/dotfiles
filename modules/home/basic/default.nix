@@ -21,38 +21,22 @@ lib.internal.simpleModule inputs "basic" {
   };
 
   home.packages = with pkgs; [
-    # Cross-platform clipboard copy
-    (writeShellScriptBin "copy" ''
-      if [[ "$OSTYPE" == "darwin"* ]]; then
-        # macOS
-        pbcopy
-      elif [[ -n "$WSL_DISTRO_NAME" ]] || [[ -n "$WSL_INTEROP" ]]; then
-        # WSL
-        clip.exe
-      elif [[ "$XDG_SESSION_TYPE" == "wayland" ]] || [[ -n "$WAYLAND_DISPLAY" ]]; then
-        # Wayland
-        ${wl-clipboard}/bin/wl-copy
-      else
-        # X11
-        ${xclip}/bin/xclip -selection clipboard -in
-      fi
-    '')
-    # Cross-platform clipboard paste
-    (writeShellScriptBin "pasta" ''
-      if [[ "$OSTYPE" == "darwin"* ]]; then
-        # macOS
-        pbpaste
-      elif [[ -n "$WSL_DISTRO_NAME" ]] || [[ -n "$WSL_INTEROP" ]]; then
-        # WSL
-        powershell.exe -Command Get-Clipboard
-      elif [[ "$XDG_SESSION_TYPE" == "wayland" ]] || [[ -n "$WAYLAND_DISPLAY" ]]; then
-        # Wayland
-        ${wl-clipboard}/bin/wl-paste
-      else
-        # X11
-        ${xclip}/bin/xclip -selection clipboard -out
-      fi
-    '')
+    # Cross-platform clipboard scripts
+    (let
+      cmd = if stdenv.isDarwin then "pbcopy" else ''
+        if [[ -n "$WSL_DISTRO_NAME" ]]; then clip.exe
+        elif [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then ${wl-clipboard}/bin/wl-copy
+        else ${xclip}/bin/xclip -selection clipboard -in; fi
+      '';
+    in writeShellScriptBin "copy" cmd)
+  
+    (let
+      cmd = if stdenv.isDarwin then "pbpaste" else ''
+        if [[ -n "$WSL_DISTRO_NAME" ]]; then powershell.exe -Command Get-Clipboard
+        elif [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then ${wl-clipboard}/bin/wl-paste
+        else ${xclip}/bin/xclip -selection clipboard -out; fi
+      '';
+    in writeShellScriptBin "pasta" cmd)
 
     bat
     bear

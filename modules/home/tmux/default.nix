@@ -55,20 +55,20 @@ lib.internal.simpleModule inputs "tmux" {
       # Wayland
       set -g mode-keys vi
       bind-key -Tcopy-mode-vi 'v' send -X begin-selection
-      # bind-key -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel '${pkgs.wl-clipboard}/bin/wl-copy'
+      # bind-key -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel 'copy'
       bind-key -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel "${
         pkgs.writeShellScript "tmux-copy-fixed2" ''
           #!/bin/sh
           input=$(cat)
-          echo -n "$input" | ${pkgs.wl-clipboard}/bin/wl-copy 2>/dev/null || true
+          echo -n "$input" | copy 2>/dev/null || true
           # Use tmux's pane_tty
           printf "\033]52;c;%s\007" "$(echo -n "$input" | base64 -w0)" > "$(tmux display -p '#{pane_tty}')"
         ''
       }"
       # move x clipboard into tmux paste buffer and paste
-      bind C-p run "${config.programs.tmux.package}/bin/tmux set-buffer \"$(${pkgs.wl-clipboard}/bin/wl-paste)\"; ${config.programs.tmux.package}/bin/tmux paste-buffer -p"
+      bind C-p run "${config.programs.tmux.package}/bin/tmux set-buffer \"pasta\"; ${config.programs.tmux.package}/bin/tmux paste-buffer -p"
       # move tmux copy buffer into x clipboard
-      bind C-y run "${config.programs.tmux.package}/bin/tmux show-buffer | ${pkgs.wl-clipboard}/bin/wl-copy"
+      bind C-y run "${config.programs.tmux.package}/bin/tmux show-buffer | copy"
 
       bind ] paste-buffer -p
 
@@ -137,7 +137,7 @@ lib.internal.simpleModule inputs "tmux" {
       # C-c: save into system clipboard (+). With preselection.
       # X11 version
       # bind C-c choose-buffer "run \"${config.programs.tmux.package}/bin/tmux save-buffer -b %% - | ${pkgs.xsel}/bin/xsel -i --clipboard\" \; run \" ${config.programs.tmux.package}/bin/tmux display \\\"Clipboard \(+\) filled with: $(${config.programs.tmux.package}/bin/tmux save-buffer -b %1 - | dd ibs=1 obs=1 status=noxfer count=80 2> /dev/null)... \\\" \" "
-      bind C-c choose-buffer "run \"${config.programs.tmux.package}/bin/tmux save-buffer -b %% - | ${pkgs.wl-clipboard}/bin/wl-copy\" \; run \" ${config.programs.tmux.package}/bin/tmux display \\\"Clipboard \(+\) filled with: $(${config.programs.tmux.package}/bin/tmux save-buffer -b %1 - | dd ibs=1 obs=1 status=noxfer count=80 2> /dev/null)... \\\" \" "
+      bind C-c choose-buffer "run \"${config.programs.tmux.package}/bin/tmux save-buffer -b %% - | copy\" \; run \" ${config.programs.tmux.package}/bin/tmux display \\\"Clipboard \(+\) filled with: $(${config.programs.tmux.package}/bin/tmux save-buffer -b %1 - | dd ibs=1 obs=1 status=noxfer count=80 2> /dev/null)... \\\" \" "
     '';
   };
 }
