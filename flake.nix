@@ -1,9 +1,5 @@
 {
   inputs = {
-    lix-module = {
-      url = "git+https://git.lix.systems/lix-project/nixos-module?rev=5e56f5a973e24292b125dca9e9d506b0a91d6903";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-claude.url = "github:expipiplus1/nixpkgs/claude-code-2.0.58-or-fix";
@@ -60,7 +56,6 @@
       };
       overlays = with inputs; [
         nil.overlays.default
-        lix-module.overlays.lixFromNixpkgs
       ];
       systems.modules.nixos = with inputs; [
         impermanence.nixosModule

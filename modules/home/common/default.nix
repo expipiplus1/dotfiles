@@ -1,6 +1,14 @@
-{ lib, config, ... }:
-let prefix = "ellie";
-in with lib; {
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
+  prefix = "ellie";
+in
+with lib;
+{
   options.${prefix}.common = {
     enable = mkOption {
       type = types.bool;

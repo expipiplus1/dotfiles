@@ -1,6 +1,11 @@
-{ pkgs, ... }: {
-  nix.settings.system-features =
-    [ "benchmark" "big-parallel" "kvm" "nixos-test" ];
+{ pkgs, ... }:
+{
+  nix.settings.system-features = [
+    "benchmark"
+    "big-parallel"
+    "kvm"
+    "nixos-test"
+  ];
 
   nix = {
     extraOptions = ''
