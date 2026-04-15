@@ -46,11 +46,11 @@
       # inputs.nixpkgs.follows = "nixpkgs";
     };
     kanji-explorer = {
-      url = "path:/home/e/projects/rtk";
+      url = "git+ssh://git@github.com/expipiplus1/kanji-explorer";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
     anki-progress = {
-      url = "path:/home/e/projects/anki-progress";
+      url = "git+ssh://git@github.com/expipiplus1/anki-progress";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
   };

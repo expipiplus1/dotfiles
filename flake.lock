@@ -6,14 +6,17 @@
         "rtk": "rtk"
       },
       "locked": {
-        "lastModified": 1775557025,
-        "narHash": "sha256-SzEIShTd3A+unNV/IDl4clsYt6aNKmtj3xcswcdLLg4=",
-        "path": "/home/e/projects/anki-progress",
-        "type": "path"
+        "lastModified": 1776218792,
+        "narHash": "sha256-IeHokYmUKlmTkTwnFL6Cs9NYvMhpxywoHmfoZUtD+/c=",
+        "ref": "refs/heads/main",
+        "rev": "60d91675531d0748b3f7a73f65c69e47b85c7fdd",
+        "revCount": 26,
+        "type": "git",
+        "url": "ssh://git@github.com/expipiplus1/anki-progress"
       },
       "original": {
-        "path": "/home/e/projects/anki-progress",
-        "type": "path"
+        "type": "git",
+        "url": "ssh://git@github.com/expipiplus1/anki-progress"
       }
     },
     "flake-compat": {
@@ -220,14 +223,17 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1774704528,
-        "narHash": "sha256-bBp2lopRmcKLDNBWot4S72y3j37ywq1/IDJVaaCz6zE=",
-        "path": "/home/e/projects/rtk",
-        "type": "path"
+        "lastModified": 1776218496,
+        "narHash": "sha256-X3XRhL8LhOo4y7lB2C5iKk6VfGjB65cx7oQbsXrCmGQ=",
+        "ref": "refs/heads/main",
+        "rev": "125316962efed7d068b086de00cbaf8f5f66e7f5",
+        "revCount": 41,
+        "type": "git",
+        "url": "ssh://git@github.com/expipiplus1/kanji-explorer"
       },
       "original": {
-        "path": "/home/e/projects/rtk",
-        "type": "path"
+        "type": "git",
+        "url": "ssh://git@github.com/expipiplus1/kanji-explorer"
       }
     },
     "lian-li-control": {
@@ -488,17 +494,17 @@
     "rtk": {
       "flake": false,
       "locked": {
-        "lastModified": 1775358194,
-        "narHash": "sha256-3r5+Gvt3CHn4czhy+O+L0mdLcxiv112+mNp/1vDwzsA=",
-        "ref": "170fd9f8038770e61efd9e6f2a77f9e226dcac18",
-        "rev": "170fd9f8038770e61efd9e6f2a77f9e226dcac18",
-        "revCount": 40,
+        "lastModified": 1776218496,
+        "narHash": "sha256-X3XRhL8LhOo4y7lB2C5iKk6VfGjB65cx7oQbsXrCmGQ=",
+        "ref": "refs/heads/main",
+        "rev": "125316962efed7d068b086de00cbaf8f5f66e7f5",
+        "revCount": 41,
         "type": "git",
-        "url": "file:///home/e/projects/rtk"
+        "url": "ssh://git@github.com/expipiplus1/kanji-explorer"
       },
       "original": {
         "type": "git",
-        "url": "file:///home/e/projects/rtk"
+        "url": "ssh://git@github.com/expipiplus1/kanji-explorer"
       }
     },
     "snowfall-lib": {
