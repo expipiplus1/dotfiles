@@ -24,6 +24,7 @@ self: super: {
 
   rust-parallel = channels.nixpkgs-unstable.rust-parallel;
   difftastic = channels.nixpkgs-unstable.difftastic;
+  direnv = channels.nixpkgs-unstable.direnv;
   clang-tools = channels.nixpkgs-unstable.llvmPackages_18.clang-tools;
   # lazyjj = channels.nixpkgs-unstable.lazyjj.overrideAttrs (old: rec {
   #   src = self.fetchFromGitHub {
@@ -87,14 +88,18 @@ self: super: {
   atuin = super.atuin.overrideAttrs (old: rec {
     patches = old.patches or [ ] ++ [ ../patches/atuin-popup.patch ];
   });
-  memtest86plus = self.callPackage ({ stdenv, fetchurl, lib, }:
+  memtest86plus = self.callPackage (
+    {
+      stdenv,
+      fetchurl,
+      lib,
+    }:
     stdenv.mkDerivation rec {
       pname = "memtest86+";
       version = "5.31b";
 
       src = fetchurl {
-        url =
-          "https://www.memtest.org/download/${version}/memtest86+-${version}.tar.gz";
+        url = "https://www.memtest.org/download/${version}/memtest86+-${version}.tar.gz";
         sha256 = "028zrch87ggajlb5xx1c2ab85ggl9qldpibf45735sy0haqzyiki";
       };
 
@@ -111,10 +116,14 @@ self: super: {
         homepage = "https://www.memtest.org/";
         description = "An advanced memory diagnostic tool";
         license = licenses.gpl2Only;
-        platforms = [ "x86_64-linux" "i686-linux" ];
+        platforms = [
+          "x86_64-linux"
+          "i686-linux"
+        ];
         maintainers = with maintainers; [ evils ];
       };
-    }) { };
+    }
+  ) { };
 
   # starship = super.starship.override {
   #   rustPlatform = self.rustPlatform // {
@@ -132,17 +141,21 @@ self: super: {
   # };
 
   tree-sitter = super.tree-sitter.overrideAttrs (old: {
-    passthru.buildGrammar = x:
+    passthru.buildGrammar =
+      x:
       if x.language == "haskell" then
-        old.passthru.buildGrammar (x // {
-          src = self.fetchFromGitHub {
-            owner = "tek";
-            repo = "tree-sitter-haskell";
-            sha256 = "0kpg1c87magrcgp365kmvnfjq9c0mlc81mx4vdz22p00jfynmin3";
-            rev = "3a965b242b1a6553097b8c0d12c4989074d74b5f";
-          };
-          generate = true;
-        })
+        old.passthru.buildGrammar (
+          x
+          // {
+            src = self.fetchFromGitHub {
+              owner = "tek";
+              repo = "tree-sitter-haskell";
+              sha256 = "0kpg1c87magrcgp365kmvnfjq9c0mlc81mx4vdz22p00jfynmin3";
+              rev = "3a965b242b1a6553097b8c0d12c4989074d74b5f";
+            };
+            generate = true;
+          }
+        )
       else
         old.passthru.buildGrammar x;
   });
