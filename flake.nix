@@ -45,6 +45,14 @@
       url = "git+ssh://git@github.com/expipiplus1/japan-transfer";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
+    kanji-explorer = {
+      url = "git+ssh://git@github.com/expipiplus1/kanji-explorer";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
+    anki-progress = {
+      url = "git+ssh://git@github.com/expipiplus1/anki-progress";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
