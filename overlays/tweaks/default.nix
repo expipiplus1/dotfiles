@@ -92,5 +92,8 @@ self: super: {
 
   nix = super.nix.overrideAttrs (old: {
     doCheck = false;
+    buildInputs = builtins.filter
+      (i: !(builtins.hasAttr "pname" i && i.pname == "nix-functional-tests"))
+      (old.buildInputs or []);
   });
 }
