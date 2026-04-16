@@ -28,8 +28,8 @@ self: super: {
     src = self.fetchFromGitHub {
       owner = "blazingjj";
       repo = "blazingjj";
-      rev = "f0f28b3f8a8127e57585749405e70cb13eb34807";
-      hash = "sha256-UkO4x2C+nTGZNcFiOyjaziRJT3h0W98H60Sjk1Wv4FY=";
+      rev = "d2f16e4dde33a3a3c2f8bc30ee68b18650edb317";
+      hash = "sha256-oVUlwIgR5rKjO6QUhubUqmbDNjIGhZlfKuqRpDqLcOA=";
     };
 
     cargoDeps = self.rustPlatform.fetchCargoVendor {
