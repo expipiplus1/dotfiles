@@ -20,10 +20,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
-    nil = {
-      url = "github:oxalica/nil";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     snowfall-lib = {
       url = "github:snowfallorg/lib";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -54,9 +50,6 @@
       channels-config = {
         allowUnfree = true;
       };
-      overlays = with inputs; [
-        nil.overlays.default
-      ];
       systems.modules.nixos = with inputs; [
         impermanence.nixosModule
         lian-li-control.nixosModules.fan
