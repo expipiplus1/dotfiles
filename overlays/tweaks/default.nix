@@ -89,4 +89,8 @@ self: super: {
   });
 
   btop = super.btop.override { cudaSupport = true; };
+
+  nix = super.nix.overrideAttrs (old: {
+    doCheck = false;
+  });
 }
