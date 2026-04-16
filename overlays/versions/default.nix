@@ -23,7 +23,6 @@ self: super: {
 
   rust-parallel = channels.nixpkgs-unstable.rust-parallel;
   difftastic = channels.nixpkgs-unstable.difftastic;
-  direnv = channels.nixpkgs-unstable.direnv;
 
   # lazyjj = channels.nixpkgs-unstable.lazyjj.overrideAttrs (old: rec {
   #   src = self.fetchFromGitHub {
