@@ -1,11 +1,17 @@
-{ lib, pkgs, config, ... }@inputs:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}@inputs:
 with lib;
 with lib.internal;
 let
   configDir = "astronvim";
   lspEnv = pkgs.buildEnv {
     name = "lsp-servers";
-    paths = with pkgs;
+    paths =
+      with pkgs;
       [
         python3Packages.python-lsp-server
         python3Packages.rope
@@ -24,7 +30,8 @@ let
 
         nodePackages.vscode-json-languageserver
         yaml-language-server
-      ] ++ lib.optionals (!cfg.lite) [
+      ]
+      ++ lib.optionals (!cfg.lite) [
         haskellPackages.cabal-gild
 
         idris2Packages.idris2Lsp
@@ -49,21 +56,26 @@ let
 
         golangci-lint
 
-        claude-code-acp
+        claude-agent-acp
       ];
   };
 
-  treesitter-grammars = let
-    grammars = lib.filterAttrs (n: _: lib.hasPrefix "tree-sitter-" n)
-      pkgs.vimPlugins.nvim-treesitter.builtGrammars;
-    symlinks = lib.mapAttrsToList (name: grammar:
-      "ln -s ${grammar}/parser $out/${lib.removePrefix "tree-sitter-" name}.so")
-      grammars;
-  in (pkgs.runCommand "treesitter-grammars" { } ''
-    mkdir -p $out
-    ${lib.concatStringsSep "\n" symlinks}
-  '').overrideAttrs
-  (_: { passthru.rev = pkgs.vimPlugins.nvim-treesitter.src.rev; });
+  treesitter-grammars =
+    let
+      grammars = lib.filterAttrs (
+        n: _: lib.hasPrefix "tree-sitter-" n
+      ) pkgs.vimPlugins.nvim-treesitter.builtGrammars;
+      symlinks = lib.mapAttrsToList (
+        name: grammar: "ln -s ${grammar}/parser $out/${lib.removePrefix "tree-sitter-" name}.so"
+      ) grammars;
+    in
+    (pkgs.runCommand "treesitter-grammars" { } ''
+      mkdir -p $out
+      ${lib.concatStringsSep "\n" symlinks}
+    '').overrideAttrs
+      (_: {
+        passthru.rev = pkgs.vimPlugins.nvim-treesitter.src.rev;
+      });
 
   # Sourced mainly from
   # https://github.com/Mic92/dotfiles/blob/8fe93df19d47c8051e569a3a72d72aa6fbf66269/home-manager/modules/neovim/default.nix#L17
@@ -88,16 +100,15 @@ let
   '';
 
   vscode_cpptools = pkgs.vscode-extensions.ms-vscode.cpptools;
-  vscode_cpptools_path =
-    "${vscode_cpptools}/share/vscode/extensions/${vscode_cpptools.vscodeExtPublisher}.${vscode_cpptools.vscodeExtName}";
+  vscode_cpptools_path = "${vscode_cpptools}/share/vscode/extensions/${vscode_cpptools.vscodeExtPublisher}.${vscode_cpptools.vscodeExtName}";
 
   vscode_lldb = pkgs.vscode-extensions.vadimcn.vscode-lldb;
-  vscode_lldb_path =
-    "${vscode_lldb}/share/vscode/extensions/${vscode_lldb.vscodeExtPublisher}.${vscode_lldb.vscodeExtName}";
+  vscode_lldb_path = "${vscode_lldb}/share/vscode/extensions/${vscode_lldb.vscodeExtPublisher}.${vscode_lldb.vscodeExtName}";
 
   cfg = config.ellie.astronvim;
 
-in {
+in
+{
   options.ellie.astronvim = {
     enable = mkOption {
       type = types.bool;
@@ -112,7 +123,10 @@ in {
     programs.neovim = {
       enable = true;
       vimAlias = true;
-      plugins = with pkgs.vimPlugins; [ nord-nvim vim-tmux-navigator ];
+      plugins = with pkgs.vimPlugins; [
+        nord-nvim
+        vim-tmux-navigator
+      ];
       extraWrapperArgs = [
         "--set-default"
         "NVIM_APPNAME"
@@ -123,7 +137,8 @@ in {
         "PATH"
         ":"
         "${lspEnv}/bin"
-      ] ++ lib.optionals (!cfg.lite) [
+      ]
+      ++ lib.optionals (!cfg.lite) [
         "--set-default"
         "OpenDebugAD7_PATH"
         "${vscode_cpptools_path}/debugAdapters/bin/OpenDebugAD7"
