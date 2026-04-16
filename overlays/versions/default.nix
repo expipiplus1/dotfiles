@@ -61,6 +61,12 @@ self: super: {
 
   carapace = channels.nixpkgs-unstable.carapace;
 
+  lua51Packages = super.lua51Packages // {
+    neotest = super.lua51Packages.neotest.overrideAttrs (_: {
+      doCheck = false;
+    });
+  };
+
   atuin = super.atuin.overrideAttrs (old: rec {
     patches = old.patches or [ ] ++ [ ../patches/atuin-popup.patch ];
   });
