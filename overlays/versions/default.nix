@@ -12,7 +12,6 @@ self: super: {
     nativeBuildInputs = old.nativeBuildInputs ++ [ self.autoreconfHook ];
   });
   claude-code-acp = channels.nixpkgs-unstable.claude-code-acp;
-  perf = channels.nixpkgs-unstable.perf;
   # linuxPackages = channels.nixpkgs-unstable.linuxPackages;
   neovim = channels.nixpkgs-unstable.neovim;
   neovim-unwrapped = channels.nixpkgs-unstable.neovim-unwrapped;
