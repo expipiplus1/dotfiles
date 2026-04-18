@@ -59,6 +59,10 @@ self: super: {
     '';
   };
 
+  darktable = channels.nixpkgs-unstable.darktable.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [ ../patches/darktable-ilce-7m5.patch ];
+  });
+
   carapace = channels.nixpkgs-unstable.carapace;
 
   lua51Packages = super.lua51Packages // {

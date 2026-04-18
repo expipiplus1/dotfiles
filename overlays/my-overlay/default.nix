@@ -1,9 +1,6 @@
 { ... }:
 
 self: super: {
-  darktable = super.darktable.overrideAttrs (old: {
-    patches = (old.patches or [ ]) ++ [ ../patches/darktable-ilce-7m5.patch ];
-  });
   haskell = super.haskell // {
     packageOverrides = (with self.haskell.lib;
       (hself: hsuper: {
