@@ -13,11 +13,20 @@ in {
 
   # Modules
   ellie.nginx-server.enable = true;
+
+  # Wildcard cert for monoid.al
+  security.acme.certs."monoid.al" = {
+    domain = "monoid.al";
+    extraDomainNames = [ "*.monoid.al" "*.home.monoid.al" ];
+    dnsProvider = "namecheap";
+    environmentFile = "/etc/acme/namecheap.env";
+  };
   ellie.fail2ban.enable = true;
   ellie.restic-server.enable = true;
   ellie.samba.enable = true;
   ellie.jellyfin.enable = true;
   ellie.home-assistant.enable = true;
+  ellie.immich.enable = true;
 
   # Boot
   boot.loader.grub.enable = true;
@@ -79,7 +88,7 @@ in {
   services.nginx.virtualHosts = {
     "home.monoid.al" = {
       forceSSL = true;
-      enableACME = true;
+      useACMEHost = "monoid.al";
       default = true;
       basicAuthFile = "/etc/nginx/auth/home.monoid.al";
       locations = {
@@ -129,7 +138,7 @@ in {
     };
     "restic.home.monoid.al" = {
       forceSSL = true;
-      enableACME = true;
+      useACMEHost = "monoid.al";
       extraConfig = ''
         ignore_invalid_headers off;
         client_max_body_size 0;
@@ -144,7 +153,7 @@ in {
       };
     };
     "jellyfin.home.monoid.al" = {
-      enableACME = true;
+      useACMEHost = "monoid.al";
       forceSSL = true;
       locations."/" = {
         proxyPass = "http://127.0.0.1:8096";
@@ -161,7 +170,7 @@ in {
     };
     "ass.home.monoid.al" = {
       forceSSL = true;
-      enableACME = true;
+      useACMEHost = "monoid.al";
       extraConfig = "proxy_buffering off;";
       locations."/" = {
         proxyPass = "http://[::1]:8123";

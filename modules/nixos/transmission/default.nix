@@ -32,7 +32,7 @@ lib.internal.simpleModule inputs "transmission" {
 
   services.nginx.virtualHosts."transmission.monoid.al" = {
     forceSSL = true;
-    enableACME = true;
+    useACMEHost = "monoid.al";
     basicAuthFile = "/etc/nginx/auth/transmission.monoid.al";
     extraConfig = ''
       client_max_body_size 128M;
