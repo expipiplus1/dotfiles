@@ -6,6 +6,15 @@
   # Modules
   ellie.linode.enable = true;
   ellie.nginx-server.enable = true;
+
+  # Wildcard cert for monoid.al
+  security.acme.certs."monoid.al" = {
+    domain = "monoid.al";
+    extraDomainNames = [ "*.monoid.al" "*.home.monoid.al" ];
+    dnsProvider = "namecheap";
+    environmentFile = "/etc/acme/namecheap.env";
+    group = "nginx";
+  };
   ellie.fail2ban.enable = true;
   ellie.logrotate-nginx.enable = true;
   ellie.transmission.enable = true;

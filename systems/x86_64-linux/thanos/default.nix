@@ -20,6 +20,7 @@ in {
     extraDomainNames = [ "*.monoid.al" "*.home.monoid.al" ];
     dnsProvider = "namecheap";
     environmentFile = "/etc/acme/namecheap.env";
+    group = "nginx";
   };
   ellie.fail2ban.enable = true;
   ellie.restic-server.enable = true;
@@ -294,5 +295,5 @@ in {
     randomizedDelaySec = "45min";
   };
 
-  system.stateVersion = "20.09";
+  system.stateVersion = "25.11";
 }
