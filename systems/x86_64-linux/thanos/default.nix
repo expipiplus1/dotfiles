@@ -29,6 +29,8 @@ in {
   ellie.home-assistant.enable = true;
   ellie.immich.enable = true;
 
+  services.postgresql.package = pkgs.postgresql_16;
+
   # Boot
   boot.loader.grub.enable = true;
   boot.loader.grub.device =
@@ -295,5 +297,5 @@ in {
     randomizedDelaySec = "45min";
   };
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "20.09";
 }

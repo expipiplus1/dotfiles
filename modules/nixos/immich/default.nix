@@ -15,7 +15,7 @@ lib.internal.simpleModule inputs "immich" {
     useACMEHost = "monoid.al";
     forceSSL = true;
     locations."/" = {
-      proxyPass = "http://127.0.0.1:2283";
+      proxyPass = "http://[::1]:2283";
       proxyWebsockets = true;
       extraConfig = ''
         proxy_buffering off;
