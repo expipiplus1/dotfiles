@@ -28,6 +28,7 @@ in {
   ellie.jellyfin.enable = true;
   ellie.home-assistant.enable = true;
   ellie.immich.enable = true;
+  ellie.pihole.enable = true;
 
   services.postgresql.package = pkgs.postgresql_16;
 
