@@ -21,7 +21,17 @@ config, ... }:
   programs.mosh.enable = true;
   networking.firewall = {
     enable = true; # Enable the firewall
-    allowedTCPPorts = [ 8080 8081 8082 ]; # Open TCP ports
+    allowedTCPPorts = [ 8000 8080 8081 8082 ]; # Open TCP ports
+  };
+
+  security.pki.certificateFiles = [ ./certs/ultimate-guitar.crt ];
+  networking.hosts = {
+    "127.0.0.1" = [
+      "tabs.ultimate-guitar.com"
+      "www.ultimate-guitar.com"
+      "static.ultimate-guitar.com"
+      "ultimate-guitar.com"
+    ];
   };
 
 }
