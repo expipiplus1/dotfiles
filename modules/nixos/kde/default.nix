@@ -13,6 +13,18 @@ lib.internal.simpleModule inputs "kde" {
 
   programs.kdeconnect.enable = true;
 
+  # KDE Connect uses mDNS/DNS-SD for device discovery; avahi provides the
+  # multicast responder and ensures the kernel has a route for 224.0.0.251.
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      workstation = true;
+    };
+  };
+
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     gwenview
     okular
