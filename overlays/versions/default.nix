@@ -60,7 +60,10 @@ self: super: {
   };
 
   darktable = channels.nixpkgs-unstable.darktable.overrideAttrs (old: {
-    patches = (old.patches or [ ]) ++ [ ../patches/darktable-ilce-7m5.patch ];
+    patches = (old.patches or [ ]) ++ [
+      ../patches/darktable-ilce-7m5.patch
+      ../patches/darktable-ilce-7m5-noiseprofile.patch
+    ];
   });
 
   carapace = channels.nixpkgs-unstable.carapace;
