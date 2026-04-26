@@ -64,6 +64,18 @@ self: super: {
       ../patches/darktable-ilce-7m5.patch
       ../patches/darktable-ilce-7m5-noiseprofile.patch
     ];
+    cmakeFlags = (old.cmakeFlags or [ ]) ++ [
+      # CPU-portable optimizations. Per-host -march=native is layered on top
+      # in the host config (see systems/x86_64-linux/light-hope/default.nix).
+      "-DCMAKE_BUILD_TYPE=Release"
+      "-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON"
+      # Default to a generic build; hosts that want -march=native flip this
+      # to OFF in their own overlay.
+      "-DBINARY_PACKAGE_BUILD=ON"
+      "-DCUSTOM_CFLAGS=OFF"
+      "-DUSE_OPENCL=ON"
+      "-DUSE_OPENMP=ON"
+    ];
   });
 
   carapace = channels.nixpkgs-unstable.carapace;
