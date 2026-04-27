@@ -3,87 +3,93 @@ set -euo pipefail
 
 flake="$(cd "$(dirname "$0")" && pwd -P)"
 
-current="$(nix eval --impure --raw --expr 'builtins.currentSystem')"
+# Set of systems this Nix installation can build for, harvested from its own
+# config: the local `system`, any `extra-platforms` (binfmt/qemu/native), and
+# the systems advertised by any configured remote `builders`.
+mapfile -t buildable_systems < <(
+  cfg="$(nix config show --json 2>/dev/null || echo '{}')"
+  printf '%s' "$cfg" | jq -r '
+    # Parse builders into per-builder system lists. Builders may be a single
+    # string, "@/path/to/file" pointing to a builders file, or a single
+    # newline/semicolon-separated list. Each entry is space-separated fields:
+    # uri systems sshKey maxJobs speed supportedFeatures mandatoryFeatures.
+    def parse_builders(s):
+      if (s|type) != "string" or (s|length) == 0 then []
+      elif (s|startswith("@")) then
+        # File reference; reading files isn''t supported here, skip.
+        []
+      else
+        s
+        | split("\n") | map(select(length > 0))
+        | map(split(";")) | add // []
+        | map(select(length > 0))
+        | map(split(" +"; ""))
+        | map(.[1] // "")
+        | map(split(",")) | add // []
+        | map(select(length > 0))
+      end;
+    [ .system.value ]
+    + (."extra-platforms".value // [])
+    + parse_builders(.builders.value)
+    | unique | .[]
+  '
+)
 
-# Decide whether a target system can be built locally.
-# Skip cross-OS (linux<->darwin); allow same-OS arch differences (cross/emulation
-# may still work, and remote builders can pick them up).
-buildable() {
-  local target="$1"
-  case "$current:$target" in
-    *linux:*darwin|*darwin:*linux) return 1 ;;
-    *) return 0 ;;
-  esac
+contains() {
+  local needle="$1"; shift
+  local x
+  for x in "$@"; do [[ "$x" == "$needle" ]] && return 0; done
+  return 1
 }
 
-# Per-kind: name -> { sys, attr } where attr is the flake attr path of the
-# realisable derivation. We evaluate ALL of them (forcing eval of every
-# derivation), then filter for which ones we actually try to build.
-nixos_json="$(nix eval --json "$flake#nixosConfigurations" \
-  --apply 'cfgs: builtins.mapAttrs (n: c: {
-    sys = c.pkgs.stdenv.hostPlatform.system;
-    attr = "nixosConfigurations.\"" + n + "\".config.system.build.toplevel";
-  }) cfgs' 2>/dev/null || echo '{}')"
+# Single eval pass: return for every config across all known kinds the
+# (system, attr-path-of-realisable-derivation, drvPath). Adding new kinds in
+# future just means extending this expression. drvPath is included so the
+# evaluation is forced for every target, surfacing eval errors regardless of
+# whether we end up building.
+all_json="$(nix eval --json --impure --expr "
+  let
+    flake = builtins.getFlake \"$flake\";
+    kinds = [
+      { kind = \"nixos\";  set = flake.nixosConfigurations  or {}; sysOf = c: c.pkgs.stdenv.hostPlatform.system; attrFmt = n: ''nixosConfigurations.\"\${n}\".config.system.build.toplevel''; drvOf = c: c.config.system.build.toplevel.drvPath; }
+      { kind = \"home\";   set = flake.homeConfigurations   or {}; sysOf = c: c.pkgs.stdenv.hostPlatform.system; attrFmt = n: ''homeConfigurations.\"\${n}\".activationPackage'';            drvOf = c: c.activationPackage.drvPath; }
+      { kind = \"darwin\"; set = flake.darwinConfigurations or {}; sysOf = c: c.pkgs.stdenv.hostPlatform.system; attrFmt = n: ''darwinConfigurations.\"\${n}\".system'';                    drvOf = c: c.system.drvPath; }
+    ];
+  in builtins.concatMap (k:
+    map (n: {
+      kind = k.kind;
+      name = n;
+      sys  = k.sysOf k.set.\${n};
+      attr = k.attrFmt n;
+      drv  = k.drvOf k.set.\${n};
+    }) (builtins.attrNames k.set)
+  ) kinds
+")"
 
-home_json="$(nix eval --json "$flake#homeConfigurations" \
-  --apply 'cfgs: builtins.mapAttrs (n: c: {
-    sys = c.pkgs.stdenv.hostPlatform.system;
-    attr = "homeConfigurations.\"" + n + "\".activationPackage";
-  }) cfgs' 2>/dev/null || echo '{}')"
+n_total="$(printf '%s' "$all_json" | jq 'length')"
+echo "Evaluated $n_total derivation(s)."
+echo "Local Nix can build for: ${buildable_systems[*]}"
 
-darwin_json="$(nix eval --json "$flake#darwinConfigurations" \
-  --apply 'cfgs: builtins.mapAttrs (n: c: {
-    sys = (c.config.nixpkgs.hostPlatform.system or c.pkgs.stdenv.hostPlatform.system);
-    attr = "darwinConfigurations.\"" + n + "\".system";
-  }) cfgs' 2>/dev/null || echo '{}')"
-
-# Combine into a single list of "kind\tname\tsys\tattr" lines.
-all="$(jq -rn \
-  --argjson nixos "$nixos_json" \
-  --argjson home "$home_json" \
-  --argjson darwin "$darwin_json" \
-  '
-    [ ($nixos  | to_entries[] | {kind:"nixos",  name:.key, sys:.value.sys, attr:.value.attr})
-    , ($home   | to_entries[] | {kind:"home",   name:.key, sys:.value.sys, attr:.value.attr})
-    , ($darwin | to_entries[] | {kind:"darwin", name:.key, sys:.value.sys, attr:.value.attr})
-    ] | .[] | [.kind, .name, .sys, .attr] | @tsv
-  ')"
-
-# Phase 1: evaluate every derivation (drvPath) so eval errors surface even for
-# targets we will not build.
-n_total="$(printf '%s\n' "$all" | grep -c . || true)"
-if (( n_total > 0 )); then
-  echo "Evaluating $n_total derivations..."
-  nix eval --json "$flake" --apply '
-    flake: let
-      n = builtins.mapAttrs (_: c: c.config.system.build.toplevel.drvPath) (flake.nixosConfigurations or {});
-      h = builtins.mapAttrs (_: c: c.activationPackage.drvPath)             (flake.homeConfigurations or {});
-      d = builtins.mapAttrs (_: c: c.system.drvPath)                        (flake.darwinConfigurations or {});
-    in { nixos = n; home = h; darwin = d; }
-  ' >/dev/null
-fi
-
-# Phase 2: pick buildable ones.
 targets=()
 skipped=()
 while IFS=$'\t' read -r kind name sys attr; do
   [[ -z "$kind" ]] && continue
-  if buildable "$sys"; then
+  if contains "$sys" "${buildable_systems[@]}"; then
     targets+=("$flake#$attr")
   else
     skipped+=("$kind:$name ($sys)")
   fi
-done <<< "$all"
+done < <(printf '%s' "$all_json" | jq -r '.[] | [.kind, .name, .sys, .attr] | @tsv')
 
 if ((${#skipped[@]})); then
-  echo "Skipping ${#skipped[@]} unbuildable on $current (evaluated only):"
+  echo "Skipping ${#skipped[@]} target(s) for unsupported systems:"
   printf '  - %s\n' "${skipped[@]}"
 fi
 
 if ((${#targets[@]} == 0)); then
-  echo "No buildable targets for $current."
+  echo "No buildable targets."
   exit 0
 fi
 
-echo "Building ${#targets[@]} targets on $current"
+echo "Building ${#targets[@]} target(s)."
 exec nom build --keep-going --no-link "${targets[@]}"
