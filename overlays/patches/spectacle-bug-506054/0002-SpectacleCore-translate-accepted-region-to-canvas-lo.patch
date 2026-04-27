@@ -1,0 +1,57 @@
+From ded2e178f86b376116e5201bcb90f51dd9604365 Mon Sep 17 00:00:00 2001
+From: Ellie Hermaszewska <git@monoid.al>
+Date: Tue, 28 Apr 2026 00:27:04 +0800
+Subject: [PATCH 2/5] SpectacleCore: translate accepted region to canvas-local
+ before cropping
+
+`AnnotationDocument::cropCanvas` documents that (0, 0) of its crop
+rect parameter is the top-left of the current canvas rect, and
+internally translates it back to absolute coords with
+`cropRect.translated(m_canvasRect.topLeft()).intersected(m_canvasRect)`.
+The CropTool QML caller honours that contract because it's positioning
+items inside the AnnotationViewport.
+
+The other caller, in SpectacleCore's `accepted` handler, was passing
+the selection rect through unchanged. SelectionEditor emits the
+selection in absolute desktop coords. With the canvas previously
+always at (0, 0), the translate-then-intersect happened to give the
+right answer; with the canvas now anchored at the captured screen's
+logicalXY (see preceding commit) the intersection ends up entirely
+outside the canvas, `newCanvasRect` becomes empty,
+`AnnotationDocument::setCanvas` rejects it with the
+"`rect` is empty. This should not happen." warning, and the saved
+image is the full uncropped screenshot.
+
+Translate the accepted rect into canvas-local coordinates before
+calling `cropCanvas` so both callers honour the same contract.
+
+Bug: https://bugs.kde.org/show_bug.cgi?id=506054
+---
+ src/SpectacleCore.cpp | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/src/SpectacleCore.cpp b/src/SpectacleCore.cpp
+index 502d6db..3f4ad73 100644
+--- a/src/SpectacleCore.cpp
++++ b/src/SpectacleCore.cpp
+@@ -161,7 +161,16 @@ SpectacleCore::SpectacleCore(QObject *parent)
+         } else {
+             SpectacleWindow::setVisibilityForAll(QWindow::Hidden);
+             deleteWindows();
+-            m_annotationDocument->cropCanvas(rect);
++            // SelectionEditor emits the accepted rect in absolute desktop
++            // logical coordinates. AnnotationDocument::cropCanvas expects
++            // (0, 0) of the crop rect to be the top-left of the canvas
++            // (i.e. the captured image's logical position on the desktop).
++            // Translate before passing it on. Previously this was a no-op
++            // because the captured image always sat at desktop (0, 0); for
++            // captures of a non-origin screen the two differ. See
++            // https://bugs.kde.org/show_bug.cgi?id=506054.
++            const auto canvasLocalRect = rect.translated(-m_annotationDocument->canvasRect().topLeft());
++            m_annotationDocument->cropCanvas(canvasLocalRect);
+             syncExportImage();
+             const auto &exportActions = actions & ExportManager::AnyAction ? actions : autoExportActions();
+             const bool willQuit = exportActions.testFlag(ExportManager::AnyAction) //
+-- 
+2.51.2
+

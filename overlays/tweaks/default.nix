@@ -96,4 +96,29 @@ self: super: {
       (i: !(builtins.hasAttr "pname" i && i.pname == "nix-functional-tests"))
       (old.buildInputs or []);
   });
+
+  # Apply local fixes for KDE bug 506054 to spectacle. These patches make
+  # rectangular-region capture work when the active monitor's logical
+  # position is not (0, 0) (e.g. with a Valve Index headset or a
+  # connected-but-disabled second output occupying x=0..N to the left of
+  # the active monitor).
+  #
+  # The patches are also kept as a `bug-506054-fixes` branch in the
+  # working spectacle checkout at ~/src/spectacle, generated with
+  # `git format-patch origin/Plasma/6.5..bug-506054-fixes`. They apply
+  # cleanly to the upstream Plasma 6.5.6 tarball with no fuzz; refresh
+  # them whenever nixpkgs bumps spectacle to a release that doesn't
+  # already include them. Investigation notes:
+  # ~/src/SPECTACLE-REGION-HANG-BUG.md.
+  kdePackages = super.kdePackages.overrideScope (kdeSelf: kdeSuper: {
+    spectacle = kdeSuper.spectacle.overrideAttrs (old: {
+      patches = (old.patches or [ ]) ++ [
+        ../patches/spectacle-bug-506054/0001-AnnotationDocument-honour-image-s-logicalXY-in-canva.patch
+        ../patches/spectacle-bug-506054/0002-SpectacleCore-translate-accepted-region-to-canvas-lo.patch
+        ../patches/spectacle-bug-506054/0003-SelectionEditor-don-t-reset-screensRect-to-origin-fo.patch
+        ../patches/spectacle-bug-506054/0004-CaptureOverlay-clamp-toolbars-against-screensRect-s-.patch
+        ../patches/spectacle-bug-506054/0005-ImagePlatformKWin-emit-newScreenshotCanceled-when-ev.patch
+      ];
+    });
+  });
 }

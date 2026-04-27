@@ -1,0 +1,72 @@
+From c654a2f6dfbe21be2d0d9f1b82052a2ad11ca61b Mon Sep 17 00:00:00 2001
+From: Ellie Hermaszewska <git@monoid.al>
+Date: Tue, 28 Apr 2026 00:27:35 +0800
+Subject: [PATCH 3/5] SelectionEditor: don't reset screensRect to origin for
+ handle offsets
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+`updateHandlePositions` was computing edge-clamping offsets against a
+copy of screensRect translated to (0, 0):
+
+    const auto translatedScreensRect = screensRect.translated(-screensRect.topLeft());
+    offsetRight = translatedScreensRect.right() - right - handleRadius + devicePixel;
+
+while `right`/`top`/etc. came from `selection->left()` and friends in
+the original (absolute) screensRect coordinate space. The two operands
+were in the same units only when screensRect started at (0, 0).
+
+When the workspace origin is not (0, 0) — e.g. with a Valve Index or
+other output occupying x=0..N to the left of the active monitor — the
+mismatch produced a handlesRect with bottom-right pinned at
+(screensRect.width, screensRect.height) regardless of the selection's
+actual position, leaving the resize handles drawn far away from the
+selection rectangle.
+
+Compare the selection edges against screensRect directly. The edges
+are conceptually the workspace bounds for clamping; using them
+verbatim does the right thing in any coordinate space.
+
+Bug: https://bugs.kde.org/show_bug.cgi?id=506054
+---
+ src/Gui/SelectionEditor.cpp | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
+
+diff --git a/src/Gui/SelectionEditor.cpp b/src/Gui/SelectionEditor.cpp
+index de7ede8..fd4df9f 100644
+--- a/src/Gui/SelectionEditor.cpp
++++ b/src/Gui/SelectionEditor.cpp
+@@ -169,18 +169,23 @@ void SelectionEditorPrivate::updateHandlePositions()
+     if (minEdgeLength < minDragHandleSpace) {
+         offset = (minDragHandleSpace - minEdgeLength) / 2.0;
+     } else {
+-        const auto translatedScreensRect = screensRect.translated(-screensRect.topLeft());
+-
+-        offsetTop = top - translatedScreensRect.top() - handleRadius;
++        // The selection's left/top/right/bottom are in the same coordinate
++        // space as screensRect (the desktop logical coordinate space, with
++        // the workspace origin where KWin places it). Compare them
++        // directly; translating screensRect to a (0, 0)-based rect breaks
++        // the comparison whenever the active monitor is not at logical
++        // (0, 0), which is the configuration that triggers
++        // https://bugs.kde.org/show_bug.cgi?id=506054.
++        offsetTop = top - screensRect.top() - handleRadius;
+         offsetTop = (offsetTop >= 0) ? 0 : offsetTop;
+ 
+-        offsetRight = translatedScreensRect.right() - right - handleRadius + devicePixel;
++        offsetRight = screensRect.right() - right - handleRadius + devicePixel;
+         offsetRight = (offsetRight >= 0) ? 0 : offsetRight;
+ 
+-        offsetBottom = translatedScreensRect.bottom() - bottom - handleRadius + devicePixel;
++        offsetBottom = screensRect.bottom() - bottom - handleRadius + devicePixel;
+         offsetBottom = (offsetBottom >= 0) ? 0 : offsetBottom;
+ 
+-        offsetLeft = left - translatedScreensRect.left() - handleRadius;
++        offsetLeft = left - screensRect.left() - handleRadius;
+         offsetLeft = (offsetLeft >= 0) ? 0 : offsetLeft;
+     }
+ 
+-- 
+2.51.2
+

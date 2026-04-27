@@ -1,0 +1,101 @@
+From 835b7093795102591659441884fffcd1bbd6061d Mon Sep 17 00:00:00 2001
+From: Ellie Hermaszewska <git@monoid.al>
+Date: Tue, 28 Apr 2026 00:29:17 +0800
+Subject: [PATCH 4/5] CaptureOverlay: clamp toolbars against screensRect's
+ actual edges
+
+The capture overlay's two floating toolbars (annotation tools and
+finalizer) are positioned with x bindings of the form
+
+    Math.max(toolBar.leftPadding,
+        Math.min(dprRound(v),
+                 SelectionEditor.screensRect.width - toolBar.width - toolBar.rightPadding))
+
+The lower bound is just `leftPadding` and the upper bound subtracts
+the toolbar width from `screensRect.width`. That treats x=0 as the
+left edge of the workspace and `screensRect.width` as the right edge,
+which is only correct when screensRect starts at (0, 0). With the
+active monitor at, say, logical (3200, 0), the toolbar's x gets
+clamped to a value below screensRect.left and the toolbar ends up
+off-screen to the left of the capture window.
+
+Use `screensRect.left + leftPadding` and `screensRect.right - width
+- rightPadding` so the clamp is correct for any workspace origin.
+
+Same coordinate-space fix to `valignment`: replace
+`screensRect.height - handlesRect.bottom` with
+`screensRect.bottom - handlesRect.bottom` when checking how much room
+is below the selection, and `handlesRect.top` with
+`handlesRect.top - screensRect.top` for the symmetric above-selection
+check. The original expressions only computed available space
+correctly when screensRect.top == 0.
+
+Bug: https://bugs.kde.org/show_bug.cgi?id=506054
+---
+ src/Gui/CaptureOverlay.qml | 27 +++++++++++++++++++++------
+ 1 file changed, 21 insertions(+), 6 deletions(-)
+
+diff --git a/src/Gui/CaptureOverlay.qml b/src/Gui/CaptureOverlay.qml
+index d9ca9a1..10e0b40 100644
+--- a/src/Gui/CaptureOverlay.qml
++++ b/src/Gui/CaptureOverlay.qml
+@@ -560,7 +560,10 @@ MouseArea {
+                 id: annotationsToolBar
+                 property bool rememberPosition: false
+                 readonly property int valignment: {
+-                    if (SelectionEditor.handlesRect.top >= height + annotationsToolBar.bottomPadding || SelectionEditor.selection.empty) {
++                    // Measure available space above the handles relative to
++                    // the screensRect top, not from absolute 0 (which is only
++                    // correct when screensRect.top == 0).
++                    if (SelectionEditor.handlesRect.top - SelectionEditor.screensRect.top >= height + annotationsToolBar.bottomPadding || SelectionEditor.selection.empty) {
+                         // the top of the top side of the selection
+                         // or the top of the screen
+                         return Qt.AlignTop
+@@ -611,9 +614,12 @@ MouseArea {
+                     value: {
+                         const v = SelectionEditor.selection.empty ? (root.width - annotationsToolBar.width) / 2 + root.viewportRect.x
+                                                     : SelectionEditor.selection.horizontalCenter - annotationsToolBar.width / 2
+-                        return Math.max(annotationsToolBar.leftPadding, // min value
++                        // Same workspace-not-at-x=0 fix as the floating-toolbar
++                        // binding below; clamp against screensRect's actual
++                        // left/right edges, not against width-as-upper-bound.
++                        return Math.max(SelectionEditor.screensRect.left + annotationsToolBar.leftPadding, // min value
+                             Math.min(dprRound(v),
+-                                        SelectionEditor.screensRect.width - annotationsToolBar.width - annotationsToolBar.rightPadding)) // max value
++                                        SelectionEditor.screensRect.right - annotationsToolBar.width - annotationsToolBar.rightPadding)) // max value
+                     }
+                     when: screensRectItem.allowToolbars && !annotationsToolBar.rememberPosition
+                     restoreMode: Binding.RestoreNone
+@@ -735,7 +741,11 @@ MouseArea {
+                 property bool rememberPosition: false
+                 property alias dragging: dragHandler.active
+                 readonly property int valignment: {
+-                    if (SelectionEditor.screensRect.height - SelectionEditor.handlesRect.bottom >= height + toolBar.topPadding || SelectionEditor.selection.empty) {
++                    // `screensRect.bottom - handlesRect.bottom` is "how much
++                    // space is below the selection's handles", not
++                    // `screensRect.height - handlesRect.bottom` (which only
++                    // works when screensRect.top == 0).
++                    if (SelectionEditor.screensRect.bottom - SelectionEditor.handlesRect.bottom >= height + toolBar.topPadding || SelectionEditor.selection.empty) {
+                         // the bottom of the bottom side of the selection
+                         // or the bottom of the screen
+                         return Qt.AlignBottom
+@@ -750,9 +760,14 @@ MouseArea {
+                     value: {
+                         const v = SelectionEditor.selection.empty ? (root.width - toolBar.width) / 2 + root.viewportRect.x
+                                                     : SelectionEditor.selection.horizontalCenter - toolBar.width / 2
+-                        return Math.max(toolBar.leftPadding, // min value
++                        // Clamp against the screensRect's actual left/right
++                        // edges: when the workspace doesn't start at logical
++                        // x=0 (e.g. a Valve Index occupying x=0..3200 with
++                        // the active monitor at +3200), \`screensRect.width\`
++                        // is not a valid upper bound for an absolute-coord x.
++                        return Math.max(SelectionEditor.screensRect.left + toolBar.leftPadding, // min value
+                             Math.min(dprRound(v),
+-                                        SelectionEditor.screensRect.width - toolBar.width - toolBar.rightPadding)) // max value
++                                        SelectionEditor.screensRect.right - toolBar.width - toolBar.rightPadding)) // max value
+                     }
+                     when: screensRectItem.allowToolbars && !toolBar.rememberPosition
+                     restoreMode: Binding.RestoreNone
+-- 
+2.51.2
+
