@@ -39,7 +39,6 @@ lib.internal.simpleModule inputs "nginx-server" {
     # that have remembered the policy from the wildcard parent.
     appendHttpConfig = ''
       server_names_hash_bucket_size 64;
-      server_tokens off;
 
       add_header Strict-Transport-Security "max-age=15552000" always;
       add_header X-Content-Type-Options "nosniff" always;
