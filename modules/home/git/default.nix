@@ -4,13 +4,24 @@ lib.internal.simpleModule inputs "git" {
   programs.zsh = {
     oh-my-zsh.plugins = [ "gitfast" "github" ];
     shellAliases = {
-      git = "${pkgs.hub}/bin/hub";
+      git = "${
+          pkgs.writeShellScriptBin "git-jj-guard" ''
+            # If we're inside a jj repo, refuse and suggest jj or the `g` escape hatch.
+            if ${pkgs.jujutsu}/bin/jj --ignore-working-copy root >/dev/null 2>&1; then
+              echo "git: refusing to run inside a jj (jujutsu) repo." >&2
+              echo "  Use jj instead, or run 'g $*' if you really need git." >&2
+              exit 1
+            fi
+            exec ${pkgs.hub}/bin/hub "$@"
+          ''
+        }/bin/git-jj-guard";
       gap = "git add -p";
       gs = "git status";
       gsi = "git switch";
       gd = "git diff";
       gdc = "git diff --cached";
-      g = "git";
+      # `g` bypasses the jj-guard wrapper above, calling hub (git) directly.
+      g = "${pkgs.hub}/bin/hub";
       glog = "git log --oneline --graph";
       grs = "git restore --staged";
       gcm = "git commit --message";
