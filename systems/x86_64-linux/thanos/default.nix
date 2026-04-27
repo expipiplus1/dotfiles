@@ -28,7 +28,26 @@ in {
   ellie.jellyfin.enable = true;
   ellie.home-assistant.enable = true;
   ellie.immich.enable = true;
-  ellie.pihole.enable = true;
+  ellie.dns = {
+    enable = true;
+    trustedCIDRs = [
+      "192.168.1.0/24"     # LAN
+      "202.83.104.81/32"   # home WAN
+      "172.104.175.207/32" # sen public
+    ];
+    peerHost = "sen.monoid.al";
+    peerIP = "172.104.175.207";
+    localHosts = [
+      "192.168.1.148 thanos"
+      "192.168.1.148 pihole.thanos"
+      "192.168.1.148 restic.thanos"
+    ];
+    localTLD = "thanos";
+    webUIVHost = "pihole.thanos";          # LAN-only pseudo-TLD, no HTTPS
+    webUIPublic = false;
+    dotVHostName = "thanos.home.monoid.al";
+    dnsListenAddresses = [ "127.0.0.1" "192.168.1.148" ];
+  };
 
   services.postgresql.package = pkgs.postgresql_16;
 

@@ -18,6 +18,21 @@
   ellie.fail2ban.enable = true;
   ellie.logrotate-nginx.enable = true;
   ellie.transmission.enable = true;
+  ellie.dns = {
+    enable = true;
+    trustedCIDRs = [
+      "192.168.1.0/24"     # LAN (no-op on sen, kept for consistency)
+      "202.83.104.81/32"   # home WAN
+      "172.104.175.207/32" # sen public (loopback to self)
+    ];
+    peerHost = "thanos.home.monoid.al";
+    peerIP = "202.83.104.81";
+    webUIVHost = "pihole.monoid.al";
+    webUIPublic = true;
+    webUIBasicAuthFile = "/etc/nginx/auth/transmission.monoid.al";
+    dotVHostName = "sen.monoid.al";
+    dnsListenAddresses = [ "127.0.0.1" "172.104.175.207" ];
+  };
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/3604511d-9883-4045-9f7e-bb49ed1be42c";
