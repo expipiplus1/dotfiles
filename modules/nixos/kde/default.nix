@@ -39,9 +39,7 @@ lib.internal.simpleModule inputs "kde" {
 
   programs.dconf.enable = true;
 
-  environment = {
-    etc."xdg/baloofilerc".source = (pkgs.formats.ini { }).generate "baloorc" {
-      "Basic Settings" = { "Indexing-Enabled" = false; };
-    };
+  environment.etc."xdg/baloofilerc".source = (pkgs.formats.ini { }).generate "baloorc" {
+    "Basic Settings" = { "Indexing-Enabled" = false; };
   };
 }
