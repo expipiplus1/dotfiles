@@ -87,6 +87,14 @@ return {
   },
   { "dhruvasagar/vim-table-mode" },
   {
+    -- Track master until a release > 2.7.0 ships the fix for
+    -- iter_matches({all = false}) being removed in nvim 0.12.
+    -- See aerial.nvim commit f93dcee.
+    "stevearc/aerial.nvim",
+    branch = "master",
+    version = false,
+  },
+  {
     "mrcjkb/neotest-haskell",
     enabled = false,
   },
