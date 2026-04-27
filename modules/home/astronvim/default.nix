@@ -60,11 +60,27 @@ let
       ];
   };
 
+  # Use the actively-maintained tek/tree-sitter-haskell fork for the Haskell
+  # grammar (upstream tree-sitter/tree-sitter-haskell hasn't been updated in
+  # ~ a year and tek has many newer features).
+  haskellGrammar = pkgs.tree-sitter.buildGrammar {
+    language = "haskell";
+    version = "tek-2026-04-24";
+    src = pkgs.fetchFromGitHub {
+      owner = "tek";
+      repo = "tree-sitter-haskell";
+      rev = "064b41807b2af4a9a23716c4987597ed7e21947a";
+      hash = "sha256-EJw8AHpfpfzAOwa6RKASm4C+Dt2JAgCodHXxSBO7WzA=";
+    };
+    generate = true;
+  };
+
   treesitter-grammars =
     let
-      grammars = lib.filterAttrs (
-        n: _: lib.hasPrefix "tree-sitter-" n
-      ) pkgs.vimPlugins.nvim-treesitter.builtGrammars;
+      builtGrammars = pkgs.vimPlugins.nvim-treesitter.builtGrammars // {
+        tree-sitter-haskell = haskellGrammar;
+      };
+      grammars = lib.filterAttrs (n: _: lib.hasPrefix "tree-sitter-" n) builtGrammars;
       symlinks = lib.mapAttrsToList (
         name: grammar: "ln -s ${grammar}/parser $out/${lib.removePrefix "tree-sitter-" name}.so"
       ) grammars;

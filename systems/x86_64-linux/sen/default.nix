@@ -61,7 +61,22 @@
 
   services.openssh = {
     enable = true;
-    ports = [ 22 ];
+    # Non-default port to drop ~99% of scanner noise. Make sure to
+    # update ~/.ssh/config and any deploy/CI tooling.
+    ports = [ 50539 ];
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      # MaxAuthTries=2 gives a one-typo grace per connection without
+      # letting a scanner burn 6 password attempts per TCP connection.
+      # Combined with PasswordAuthentication=false above, this only
+      # affects key-auth: ssh will try identities in order and
+      # disconnect after 2 wrong keys. If ssh-agent has many identities
+      # loaded, set IdentitiesOnly=yes in ~/.ssh/config for sen.
+      MaxAuthTries = 2;
+      LoginGraceTime = "30s";
+    };
   };
 
   # Users

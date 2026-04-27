@@ -11,6 +11,7 @@ lib.internal.simpleModule inputs "users" {
     isNormalUser = true;
     description = "Ellie Hermaszewska";
     shell = pkgs.zsh;
+    linger = true;
     extraGroups = [
       "wheel"
       "bluetooth"

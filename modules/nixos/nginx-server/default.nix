@@ -30,8 +30,21 @@ lib.internal.simpleModule inputs "nginx-server" {
   services.nginx = {
     enable = true;
     recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+
+    # Security headers applied to every vhost. `always` makes nginx
+    # emit them on error responses (e.g. 401 from a basic-auth probe)
+    # too. HSTS deliberately omits `includeSubDomains` so that a future
+    # plain-HTTP `*.thanos` LAN vhost doesn't get refused by browsers
+    # that have remembered the policy from the wildcard parent.
     appendHttpConfig = ''
       server_names_hash_bucket_size 64;
+      server_tokens off;
+
+      add_header Strict-Transport-Security "max-age=15552000" always;
+      add_header X-Content-Type-Options "nosniff" always;
+      add_header X-Frame-Options "SAMEORIGIN" always;
+      add_header Referrer-Policy "strict-origin-when-cross-origin" always;
     '';
   };
 }

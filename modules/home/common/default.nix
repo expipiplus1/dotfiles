@@ -26,6 +26,7 @@ with lib;
     ellie.gdb.enable = true;
     ellie.git.enable = true;
     ellie.jujutsu.enable = true;
+    ellie.ssh.enable = true;
     ellie.starship.enable = true;
     ellie.tmux.enable = true;
     ellie.zsh.enable = true;

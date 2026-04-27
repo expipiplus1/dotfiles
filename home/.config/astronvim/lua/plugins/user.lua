@@ -87,14 +87,6 @@ return {
   },
   { "dhruvasagar/vim-table-mode" },
   {
-    -- Track master until a release > 2.7.0 ships the fix for
-    -- iter_matches({all = false}) being removed in nvim 0.12.
-    -- See aerial.nvim commit f93dcee.
-    "stevearc/aerial.nvim",
-    branch = "master",
-    version = false,
-  },
-  {
     "mrcjkb/neotest-haskell",
     enabled = false,
   },
@@ -108,12 +100,12 @@ return {
         argot = {
           cmd = { "argotd-interpreted" },
           filetypes = { "argot" },
-          root_dir = require("lspconfig.util").root_pattern(".jj", ".git"),
+          root_markers = { ".jj", ".git" },
         },
         slang = {
           cmd = { "slangd" },
           filetypes = { "slang" },
-          root_dir = require("lspconfig.util").root_pattern(".jj", ".git"),
+          root_markers = { ".jj", ".git" },
         },
       })
     end,
@@ -127,7 +119,7 @@ return {
         idris2 = {
           cmd = { "idris2-lsp" },
           filetypes = { "idris2" },
-          root_dir = require("lspconfig.util").root_pattern(".jj", ".git"),
+          root_markers = { ".jj", ".git" },
         },
       })
     end,

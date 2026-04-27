@@ -1,8 +1,6 @@
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
 
-local utils = require "astrolsp.utils"
-
 -- function dump(o)
 --   if type(o) == "table" then
 --     local s = "{ "
@@ -140,12 +138,11 @@ return {
     },
     -- customize how language servers are attached
     handlers = {
-      -- a function without a key is simply the default handler, functions take two parameters, the server name and the configured options table for that server
-      -- function(server, opts) require("lspconfig")[server].setup(opts) end
+      -- a function with the key `*` modifies the default handler, the function takes the server name as the parameter
+      -- ["*"] = function(server) vim.lsp.enable(server) end,
 
-      -- the key is the server that is being setup with `lspconfig`
+      -- the key is the server that is being setup with `vim.lsp.config`
       -- rust_analyzer = false, -- setting a handler to false will disable the set up of that language server
-      -- pyright = function(_, opts) require("lspconfig").pyright.setup(opts) end -- or a custom handler function can be passed
     },
     lsp_handlers = {
       -- TODO: Does this correctly handle requests which require a response...?
@@ -202,8 +199,8 @@ return {
             if vim.bo.filetype == "haskell" then
               for _, client in ipairs(clients) do
                 if
-                  utils.supports_method(client, "textDocument/hover", current_buf)
-                  and utils.supports_method(client, "textDocument/definition", current_buf)
+                  client:supports_method("textDocument/hover", current_buf)
+                  and client:supports_method("textDocument/definition", current_buf)
                 then
                   has_hls_with_capabilities = true
                   break
@@ -225,8 +222,8 @@ return {
           cond = function(client, buf)
             return vim.bo.filetype == "haskell"
               and (
-                utils.supports_method(client, "textDocument/hover", buf)
-                or utils.supports_method(client, "textDocument/definition", buf)
+                client:supports_method("textDocument/hover", buf)
+                or client:supports_method("textDocument/definition", buf)
               )
           end,
         },
@@ -234,7 +231,7 @@ return {
           function() require("astrolsp.toggles").buffer_semantic_tokens() end,
           desc = "Toggle LSP semantic highlight (buffer)",
           cond = function(client, buf)
-            return utils.supports_method(client, "textDocument/semanticTokens/full", buf)
+            return client:supports_method("textDocument/semanticTokens/full", buf)
               and vim.lsp.semantic_tokens ~= nil
           end,
         },

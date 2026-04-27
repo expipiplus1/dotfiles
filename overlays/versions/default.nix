@@ -86,27 +86,16 @@ self: super: {
     });
   };
 
+  # Pull the nvim-treesitter `main`-branch packaging from unstable so it works
+  # with Neovim 0.12 / AstroNvim v6. The archived `master` branch shipped in
+  # 25.11 is incompatible with Neovim 0.12's `iter_matches` API change.
+  vimPlugins = super.vimPlugins // {
+    nvim-treesitter = channels.nixpkgs-unstable.vimPlugins.nvim-treesitter;
+    nvim-treesitter-textobjects = channels.nixpkgs-unstable.vimPlugins.nvim-treesitter-textobjects;
+  };
+
   atuin = super.atuin.overrideAttrs (old: rec {
     patches = old.patches or [ ] ++ [ ../patches/atuin-popup.patch ];
   });
 
-  tree-sitter = super.tree-sitter.overrideAttrs (old: {
-    passthru.buildGrammar =
-      x:
-      if x.language == "haskell" then
-        old.passthru.buildGrammar (
-          x
-          // {
-            src = self.fetchFromGitHub {
-              owner = "tek";
-              repo = "tree-sitter-haskell";
-              sha256 = "0kpg1c87magrcgp365kmvnfjq9c0mlc81mx4vdz22p00jfynmin3";
-              rev = "3a965b242b1a6553097b8c0d12c4989074d74b5f";
-            };
-            generate = true;
-          }
-        )
-      else
-        old.passthru.buildGrammar x;
-  });
 }

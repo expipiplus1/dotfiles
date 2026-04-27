@@ -1,11 +1,17 @@
-local nvim_data_dir = vim.fn.stdpath "data"
-local command = "ln -sf " .. nvim_data_dir .. "/site/parser/*.so " .. nvim_data_dir .. "/lazy/nvim-treesitter/parser"
+-- Treesitter configuration in v6: configuration moves to AstroCore. The
+-- nvim-treesitter plugin itself only acts as a parser download utility and
+-- registry. Parsers are provided via Nix at $XDG_DATA_HOME/astronvim/site/parser
+-- so we leave auto_install off.
 
+---@type LazySpec
 return {
-  "nvim-treesitter/nvim-treesitter",
-  build = command,
-  opts = function(_, opts)
-    vim.fn.system(command)
-    return require("astrocore").extend_tbl(opts, { highlight = { enable = true } })
-  end,
+  "AstroNvim/astrocore",
+  ---@type AstroCoreOpts
+  opts = {
+    treesitter = {
+      highlight = true,
+      indent = true,
+      auto_install = false,
+    },
+  },
 }
