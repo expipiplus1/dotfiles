@@ -50,13 +50,5 @@ config, ... }:
   };
 
   security.pki.certificateFiles = [ ./certs/ultimate-guitar.crt ];
-  networking.hosts = {
-    "127.0.0.1" = [
-      "tabs.ultimate-guitar.com"
-      "www.ultimate-guitar.com"
-      "static.ultimate-guitar.com"
-      "ultimate-guitar.com"
-    ];
-  };
 
 }

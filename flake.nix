@@ -40,6 +40,10 @@
       url = "git+ssh://git@github.com/expipiplus1/anki-progress";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
+    ug-proxy = {
+      url = "path:/home/e/projects/ultimate-guitar";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -58,6 +62,7 @@
         japan-transfer.nixosModules.default
         kanji-explorer.nixosModules.default
         anki-progress.nixosModules.default
+        ug-proxy.nixosModules.default
       ];
       # This seems to pull them in for nixos builds too?
       homes.modules = with inputs; [

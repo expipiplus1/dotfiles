@@ -18,6 +18,12 @@
     ];
     peerHost = "thanos.home.monoid.al";
     peerIP = "202.83.104.81";
+    localHosts = [
+      "192.168.1.148 ultimate-guitar.com"
+      "192.168.1.148 www.ultimate-guitar.com"
+      "192.168.1.148 tabs.ultimate-guitar.com"
+      "192.168.1.148 static.ultimate-guitar.com"
+    ];
     webUIVHost = "pihole.monoid.al";
     webUIPublic = true;
     webUIBasicAuthFile = "/etc/nginx/auth/transmission.monoid.al";

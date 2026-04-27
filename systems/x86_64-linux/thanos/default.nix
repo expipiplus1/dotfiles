@@ -32,6 +32,10 @@ in {
       "192.168.1.148 thanos"
       "192.168.1.148 pihole.thanos"
       "192.168.1.148 restic.thanos"
+      "192.168.1.148 ultimate-guitar.com"
+      "192.168.1.148 www.ultimate-guitar.com"
+      "192.168.1.148 tabs.ultimate-guitar.com"
+      "192.168.1.148 static.ultimate-guitar.com"
     ];
     localTLD = "thanos";
     webUIVHost = "pihole.thanos";          # LAN-only pseudo-TLD, no HTTPS
@@ -97,6 +101,32 @@ in {
     port = 19588;
     syncUser = "e";
   };
+
+  services.ug-proxy = {
+    enable = true;
+    # 80/443 are already opened by ellie.nginx-server; LAN-only access is
+    # enforced at the nginx layer below rather than the firewall.
+    openFirewall = false;
+    nginx = {
+      enable = true;
+      # Outside /var/lib/ug-proxy because that path is owned by the
+      # ug-proxy DynamicUser with mode 700 — nginx can't traverse into
+      # it. /var/lib/nginx-certs/ is plain root-owned 755 so nginx can
+      # read the leaf files.
+      sslCertificate = "/var/lib/nginx-certs/ug-proxy/server.crt";
+      sslCertificateKey = "/var/lib/nginx-certs/ug-proxy/server.key";
+    };
+  };
+
+  # Restrict the ug-proxy nginx vhost to LAN clients (matches the
+  # restic.thanos pattern). The vhost itself is created by the
+  # services.ug-proxy module; this just layers an allow/deny ACL onto
+  # its single location.
+  services.nginx.virtualHosts."ultimate-guitar.com".locations."/".extraConfig = ''
+    allow 192.168.1.0/24;
+    allow 127.0.0.1;
+    deny all;
+  '';
 
   # Nginx virtual hosts
   services.nginx.virtualHosts = {
