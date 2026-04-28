@@ -6,6 +6,10 @@ lib.internal.simpleModule inputs "git" {
     shellAliases = {
       git = "${
           pkgs.writeShellScriptBin "git-jj-guard" ''
+            # jj doesn't handle submodules, so let those commands through.
+            if [ "''${1:-}" = "submodule" ]; then
+              exec ${pkgs.hub}/bin/hub "$@"
+            fi
             # If we're inside a jj repo, refuse and suggest jj or the `g` escape hatch.
             if ${pkgs.jujutsu}/bin/jj --ignore-working-copy root >/dev/null 2>&1; then
               echo "git: refusing to run inside a jj (jujutsu) repo." >&2
