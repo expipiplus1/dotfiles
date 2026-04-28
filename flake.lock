@@ -520,8 +520,8 @@
         "nixpkgs": "nixpkgs_6"
       },
       "locked": {
-        "lastModified": 1777363253,
-        "narHash": "sha256-I9h1hp3rVcigbdvC0ZRK/EP2yFDVNi48kdgKRSK6Z14=",
+        "lastModified": 1777426755,
+        "narHash": "sha256-ChuhBkGNLxt18mXvS9K+XJJeeS9VdrtHPOHhVyBP+Mo=",
         "path": "/home/e/projects/ultimate-guitar",
         "type": "path"
       },

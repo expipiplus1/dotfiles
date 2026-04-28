@@ -116,17 +116,33 @@ in {
       sslCertificate = "/var/lib/nginx-certs/ug-proxy/server.crt";
       sslCertificateKey = "/var/lib/nginx-certs/ug-proxy/server.key";
     };
+    # Public-facing read-only catalogue: search page + cached tab
+    # reads at ug.home.monoid.al. Uncached /tab/<id> redirects to
+    # ultimate-guitar.com. Covered by the wildcard *.home.monoid.al
+    # Let's Encrypt cert provisioned in modules/nixos/nginx-server.
+    publicHosts = {
+      enable = true;
+      hostNames = [ "ug.home.monoid.al" ];
+      useACMEHost = "monoid.al";
+    };
   };
 
-  # Restrict the ug-proxy nginx vhost to LAN clients (matches the
-  # restic.thanos pattern). The vhost itself is created by the
-  # services.ug-proxy module; this just layers an allow/deny ACL onto
-  # its single location.
+  # Restrict the upstream-spoofing ug-proxy nginx vhost to LAN
+  # clients (matches the restic.thanos pattern). The vhost itself
+  # is created by the services.ug-proxy module; this just layers
+  # an allow/deny ACL onto its root location.
   services.nginx.virtualHosts."ultimate-guitar.com".locations."/".extraConfig = ''
     allow 192.168.1.0/24;
     allow 127.0.0.1;
     deny all;
   '';
+  # Public-facing ug.home.monoid.al: world-accessible (no LAN ACL)
+  # but gated by HTTP basic auth, same credentials file as
+  # home.monoid.al. The proxy itself only serves the read-only
+  # catalogue on this hostname so even authenticated users can't
+  # trigger upstream UG fetches.
+  services.nginx.virtualHosts."ug.home.monoid.al".basicAuthFile =
+    "/etc/nginx/auth/home.monoid.al";
 
   # Nginx virtual hosts
   services.nginx.virtualHosts = {
