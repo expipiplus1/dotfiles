@@ -17,7 +17,27 @@ self: super: {
 
   code-cursor = channels.nixpkgs-unstable.code-cursor;
   cursor-cli = channels.nixpkgs-unstable.cursor-cli;
-  claude-code = channels.nixpkgs-claude.claude-code;
+
+  # Wrap claude-code to disable Statsig telemetry. Without this, each running
+  # `claude` process polls statsig.anthropic.com on a short interval; with many
+  # concurrent sessions this trips Pi-hole's per-client rate limit and causes
+  # transient DNS failures across the whole host.
+  claude-code = super.symlinkJoin {
+    name = "claude-code";
+    paths = [ channels.nixpkgs-claude.claude-code ];
+    nativeBuildInputs = [ self.makeWrapper ];
+    postBuild = ''
+      for bin in $out/bin/*; do
+        if [ -L "$bin" ]; then
+          target=$(readlink -f "$bin")
+          rm "$bin"
+          makeWrapper "$target" "$bin" \
+            --set-default DISABLE_TELEMETRY 1 \
+            --set-default CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC 1
+        fi
+      done
+    '';
+  };
 
   rust-parallel = channels.nixpkgs-unstable.rust-parallel;
   difftastic = channels.nixpkgs-unstable.difftastic;
