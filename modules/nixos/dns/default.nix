@@ -177,6 +177,14 @@ in {
           # All upstream queries go through stubby-upstream → Cloudflare DoT.
           upstreams = [ "127.0.0.1#5353" ];
           hosts = cfg.localHosts;
+          # Disable per-client rate limiting. Default is 1000/60, which is
+          # easily tripped by chatty local processes (e.g. concurrent claude
+          # sessions polling statsig) and causes transient REFUSED responses
+          # for the whole host.
+          rateLimit = {
+            count = 0;
+            interval = 0;
+          };
         };
         misc.dnsmasq_lines =
           (lib.optional (cfg.localTLD != null) "local=/${cfg.localTLD}/")
