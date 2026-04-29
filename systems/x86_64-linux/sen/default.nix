@@ -63,6 +63,16 @@
     SystemMaxUse=512M
   '';
 
+  # Redirect ug.monoid.al → ug.home.monoid.al (the actual ug-proxy
+  # public vhost, which lives on thanos and is gated by basic auth).
+  # Lets users / bookmarks use the shorter monoid.al name without
+  # having to expose ug-proxy on sen itself.
+  services.nginx.virtualHosts."ug.monoid.al" = {
+    forceSSL = true;
+    useACMEHost = "monoid.al";
+    globalRedirect = "ug.home.monoid.al";
+  };
+
   programs.mosh.enable = true;
 
   services.openssh = {
