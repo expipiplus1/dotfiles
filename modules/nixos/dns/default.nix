@@ -207,6 +207,7 @@ in {
 
     # Bind the FTL webserver to localhost only; nginx terminates and proxies.
     services.pihole-ftl.settings.webserver.port = lib.mkForce "127.0.0.1:8053";
+    services.pihole-ftl.settings.webserver.interface.theme = "lcars";
 
     # Silence a benign FTL.log warning about a missing versions file.
     systemd.tmpfiles.rules = [
