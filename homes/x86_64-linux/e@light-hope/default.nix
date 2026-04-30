@@ -7,7 +7,7 @@
 
   services.anki-progress-sync = {
     enable = true;
-    remoteHost = "e@thanos";
+    remoteHost = "e@bow";
     time = "23:59";
   };
 }

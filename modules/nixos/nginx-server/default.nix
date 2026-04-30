@@ -7,7 +7,7 @@ lib.internal.simpleModule inputs "nginx-server" {
     acceptTerms = true;
 
     # Wildcard cert for monoid.al, issued via Namecheap DNS-01.
-    # Both sen and thanos request this same cert. Their renewal cycles are
+    # Both sen and bow request this same cert. Their renewal cycles are
     # naturally out of phase (~1 week apart at issuance time) so they don't
     # race on Namecheap's full-replace setHosts API in practice.
     #
@@ -35,7 +35,7 @@ lib.internal.simpleModule inputs "nginx-server" {
     # Security headers applied to every vhost. `always` makes nginx
     # emit them on error responses (e.g. 401 from a basic-auth probe)
     # too. HSTS deliberately omits `includeSubDomains` so that a future
-    # plain-HTTP `*.thanos` LAN vhost doesn't get refused by browsers
+    # plain-HTTP `*.bow` LAN vhost doesn't get refused by browsers
     # that have remembered the policy from the wildcard parent.
     appendHttpConfig = ''
       server_names_hash_bucket_size 64;

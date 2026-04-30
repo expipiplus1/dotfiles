@@ -9,7 +9,7 @@ let
 in {
   imports = [ ./hardware ];
 
-  networking.hostName = "thanos";
+  networking.hostName = "bow";
 
   # Modules
   ellie.nginx-server.enable = true;
@@ -29,18 +29,18 @@ in {
     peerHost = "sen.monoid.al";
     peerIP = "172.104.175.207";
     localHosts = [
-      "192.168.1.148 thanos"
-      "192.168.1.148 pihole.thanos"
-      "192.168.1.148 restic.thanos"
+      "192.168.1.148 bow"
+      "192.168.1.148 pihole.bow"
+      "192.168.1.148 restic.bow"
       "192.168.1.148 ultimate-guitar.com"
       "192.168.1.148 www.ultimate-guitar.com"
       "192.168.1.148 tabs.ultimate-guitar.com"
       "192.168.1.148 static.ultimate-guitar.com"
     ];
-    localTLD = "thanos";
-    webUIVHost = "pihole.thanos";          # LAN-only pseudo-TLD, no HTTPS
+    localTLD = "bow";
+    webUIVHost = "pihole.bow";             # LAN-only pseudo-TLD, no HTTPS
     webUIPublic = false;
-    dotVHostName = "thanos.home.monoid.al";
+    dotVHostName = "bow.home.monoid.al";
     dnsListenAddresses = [ "127.0.0.1" "192.168.1.148" ];
   };
 
@@ -128,7 +128,7 @@ in {
   };
 
   # Restrict the upstream-spoofing ug-proxy nginx vhost to LAN
-  # clients (matches the restic.thanos pattern). The vhost itself
+  # clients (matches the restic.bow pattern). The vhost itself
   # is created by the services.ug-proxy module; this just layers
   # an allow/deny ACL onto its root location.
   services.nginx.virtualHosts."ultimate-guitar.com".locations."/".extraConfig = ''
@@ -182,7 +182,7 @@ in {
         };
       };
     };
-    "restic.thanos" = {
+    "restic.bow" = {
       locations."/" = {
         proxyPass = "http://localhost:8000";
         extraConfig = ''
@@ -243,7 +243,7 @@ in {
   services.samba.settings.share = {
     path = "/data/share";
     browseable = "yes";
-    comment = "Thanos share";
+    comment = "Bow share";
     "guest ok" = "yes";
     writable = "yes";
     "force user" = "root";

@@ -16,7 +16,7 @@
       "202.83.104.81/32"   # home WAN
       "172.104.175.207/32" # sen public (loopback to self)
     ];
-    peerHost = "thanos.home.monoid.al";
+    peerHost = "bow.home.monoid.al";
     peerIP = "202.83.104.81";
     localHosts = [
       "192.168.1.148 ultimate-guitar.com"
@@ -64,7 +64,7 @@
   '';
 
   # Redirect ug.monoid.al → ug.home.monoid.al (the actual ug-proxy
-  # public vhost, which lives on thanos and is gated by basic auth).
+  # public vhost, which lives on bow and is gated by basic auth).
   # Lets users / bookmarks use the shorter monoid.al name without
   # having to expose ug-proxy on sen itself.
   services.nginx.virtualHosts."ug.monoid.al" = {

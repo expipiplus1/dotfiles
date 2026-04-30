@@ -24,7 +24,7 @@ lib.internal.simpleModule inputs "ssh" {
       };
 
       # LAN hosts.
-      thanos = { hostname = "192.168.1.148"; user = "e"; };
+      bow = { hostname = "192.168.1.148"; user = "e"; };
       sophie = { hostname = "192.168.1.118"; user = "e"; };
 
       # Borrowed shell account on a friend's box.

@@ -24,8 +24,8 @@ lib.internal.simpleModule inputs "transmission" {
     enable = true;
     package = pkgs.transmission_4;
     settings = {
-      download-dir = "/mnt/thanos-transmission/transmission/Downloads";
-      incomplete-dir = "/mnt/thanos-transmission/transmission/.incomplete";
+      download-dir = "/mnt/bow-transmission/transmission/Downloads";
+      incomplete-dir = "/mnt/bow-transmission/transmission/.incomplete";
       rpc-host-whitelist = "transmission.monoid.al";
     };
   };
@@ -53,7 +53,7 @@ lib.internal.simpleModule inputs "transmission" {
     host = "home.monoid.al";
     port = 2222;
     remoteDir = "/files";
-    mountPoint = "/mnt/thanos-transmission";
+    mountPoint = "/mnt/bow-transmission";
     identityFile = "/etc/secrets/sshfs-transmission-sen";
     uid = config.users.users.transmission.uid;
   };

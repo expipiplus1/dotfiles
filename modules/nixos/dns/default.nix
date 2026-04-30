@@ -60,7 +60,7 @@ in {
       description = ''
         TLS-validated hostname of the peer DNS server. Used by stubby-peer
         to forward encrypted DNS over port 853 (e.g. "sen.monoid.al" or
-        "thanos.home.monoid.al"). Hostname must match a SAN on the peer's
+        "bow.home.monoid.al"). Hostname must match a SAN on the peer's
         ACME cert.
       '';
     };
@@ -76,7 +76,7 @@ in {
       default = [ ];
       description = ''
         Static A records to publish via dnsmasq. Each entry is an
-        `<ip> <name>` string (e.g. "192.168.1.148 thanos").
+        `<ip> <name>` string (e.g. "192.168.1.148 bow").
       '';
     };
 
@@ -84,7 +84,7 @@ in {
       type = types.nullOr types.str;
       default = null;
       description = ''
-        Optional pseudo-TLD (e.g. "thanos") that dnsmasq treats as
+        Optional pseudo-TLD (e.g. "bow") that dnsmasq treats as
         local-only via `local=/<tld>/`.
       '';
     };
@@ -122,7 +122,7 @@ in {
       type = types.str;
       description = ''
         Hostname this server presents on port 853 for DoT. Must be a SAN
-        on the wildcard cert (e.g. "thanos.home.monoid.al" or
+        on the wildcard cert (e.g. "bow.home.monoid.al" or
         "sen.monoid.al"). Used in stream block labels and for operator
         clarity; the actual TLS cert comes from acmeCertName.
       '';
