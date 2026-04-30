@@ -3,26 +3,32 @@ lib.internal.simpleModule inputs "fail2ban" {
   # Filter regexes for apps fail2ban doesn't ship by default. Each
   # filter must define a `failregex` matching auth failures with a
   # named `<HOST>` group that fail2ban substitutes its IP regex into.
-  environment.etc = {
-    "fail2ban/filter.d/home-assistant.conf".text = ''
-      [Definition]
-      failregex = ^.*Login attempt or request with invalid authentication from <HOST>.*$
-                  ^.*Failed login attempt .* from <HOST>.*$
-      ignoreregex =
-    '';
+  environment.etc = lib.mkMerge [
+    (lib.mkIf config.ellie.home-assistant.enable {
+      "fail2ban/filter.d/home-assistant.conf".text = ''
+        [Definition]
+        failregex = ^.*Login attempt or request with invalid authentication from <HOST>.*$
+                    ^.*Failed login attempt .* from <HOST>.*$
+        ignoreregex =
+      '';
+    })
 
-    "fail2ban/filter.d/jellyfin.conf".text = ''
-      [Definition]
-      failregex = ^.*Authentication request for .* has been denied \(IP: <HOST>\)\..*$
-      ignoreregex =
-    '';
+    (lib.mkIf config.ellie.jellyfin.enable {
+      "fail2ban/filter.d/jellyfin.conf".text = ''
+        [Definition]
+        failregex = ^.*Authentication request for .* has been denied \(IP: <HOST>\)\..*$
+        ignoreregex =
+      '';
+    })
 
-    "fail2ban/filter.d/immich.conf".text = ''
-      [Definition]
-      failregex = ^.*Failed login attempt for user .* from ip address <HOST>.*$
-      ignoreregex =
-    '';
-  };
+    (lib.mkIf config.ellie.immich.enable {
+      "fail2ban/filter.d/immich.conf".text = ''
+        [Definition]
+        failregex = ^.*Failed login attempt for user .* from ip address <HOST>.*$
+        ignoreregex =
+      '';
+    })
+  ];
 
   services.fail2ban = {
     enable = true;
@@ -76,17 +82,26 @@ lib.internal.simpleModule inputs "fail2ban" {
       nginx-botsearch = ''
         enabled  = true
         filter   = nginx-botsearch
-        action = iptables-multiport[name=NGINXBOT, port=http,https, protocol=tcp]
+        action = iptables-multiport[name=NGINXBOT, port="http,https", protocol=tcp]
       '';
       nginx-http-auth = ''
         enabled  = true
         filter   = nginx-http-auth
-        action = iptables-multiport[name=NGINXAUTH, port=http,https, protocol=tcp]
+        action = iptables-multiport[name=NGINXAUTH, port="http,https", protocol=tcp]
       '';
-
-      # App-level auth jails (only effective on hosts running these
-      # services; if the log/journal target doesn't exist, fail2ban
-      # logs a warning and skips the jail).
+      nginx-bad-request = ''
+        enabled  = true
+        filter   = nginx-bad-request
+        bantime  = 1h
+        action   = iptables-multiport[name=NGINXBADREQ, port="http,https", protocol=tcp]
+      '';
+      nginx-forbidden = ''
+        enabled  = true
+        filter   = nginx-forbidden
+        bantime  = 1h
+        action   = iptables-multiport[name=NGINXFORBID, port="http,https", protocol=tcp]
+      '';
+    } // lib.optionalAttrs config.ellie.home-assistant.enable {
       home-assistant = ''
         enabled  = true
         filter   = home-assistant
@@ -95,20 +110,20 @@ lib.internal.simpleModule inputs "fail2ban" {
         maxretry = 5
         findtime = 10m
         bantime  = 1h
-        action   = iptables-multiport[name=HASS, port=http,https, protocol=tcp]
+        action   = iptables-multiport[name=HASS, port="http,https", protocol=tcp]
       '';
-
+    } // lib.optionalAttrs config.ellie.jellyfin.enable {
       jellyfin = ''
         enabled  = true
         filter   = jellyfin
-        backend  = auto
-        logpath  = /var/log/jellyfin/log_*.log
+        backend  = systemd
+        journalmatch = _SYSTEMD_UNIT=jellyfin.service
         maxretry = 5
         findtime = 10m
         bantime  = 1h
-        action   = iptables-multiport[name=JELLYFIN, port=http,https, protocol=tcp]
+        action   = iptables-multiport[name=JELLYFIN, port="http,https", protocol=tcp]
       '';
-
+    } // lib.optionalAttrs config.ellie.immich.enable {
       immich = ''
         enabled  = true
         filter   = immich
@@ -117,7 +132,7 @@ lib.internal.simpleModule inputs "fail2ban" {
         maxretry = 5
         findtime = 10m
         bantime  = 1h
-        action   = iptables-multiport[name=IMMICH, port=http,https, protocol=tcp]
+        action   = iptables-multiport[name=IMMICH, port="http,https", protocol=tcp]
       '';
     };
   };
