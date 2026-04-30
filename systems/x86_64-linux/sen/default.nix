@@ -9,6 +9,20 @@
   ellie.fail2ban.enable = true;
   ellie.logrotate-nginx.enable = true;
   ellie.transmission.enable = true;
+  ellie.health = {
+    enable = true;
+    ntfyTopicFile = "/etc/secrets/ntfy_topic";
+    ntfyTokenFile = "/etc/secrets/ntfy_token";
+    loginNotify.ignoredCIDRs = [ "e@202.83.104.81/32" ];
+    diskCheck.threshold = 85;
+    memoryCheck.threshold = 85;
+    healthEndpoint = "health.monoid.al";
+    deadManSwitch = {
+      enable = true;
+      peerName = "bow";
+      peerUrl = "https://health.home.monoid.al";
+    };
+  };
   ellie.dns = {
     enable = true;
     trustedCIDRs = [

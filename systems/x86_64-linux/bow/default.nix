@@ -19,6 +19,23 @@ in {
   ellie.jellyfin.enable = true;
   ellie.home-assistant.enable = true;
   ellie.immich.enable = true;
+  ellie.health = {
+    enable = true;
+    ntfyTopicFile = "/etc/secrets/ntfy_topic";
+    ntfyTokenFile = "/etc/secrets/ntfy_token";
+    loginNotify.ignoredCIDRs = [ "e@192.168.1.0/24" ];
+    diskCheck.paths = [ "/" "/data" ];
+    btrfsCheck = {
+      enable = true;
+      devices = [ "/" "/data" ];
+    };
+    healthEndpoint = "health.home.monoid.al";
+    deadManSwitch = {
+      enable = true;
+      peerName = "sen";
+      peerUrl = "https://health.monoid.al";
+    };
+  };
   ellie.dns = {
     enable = true;
     trustedCIDRs = [
