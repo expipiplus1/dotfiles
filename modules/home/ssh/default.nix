@@ -23,6 +23,15 @@ lib.internal.simpleModule inputs "ssh" {
         identitiesOnly = true;
       };
 
+      # Oracle Cloud VPS. Same non-default-port pattern as sen.
+      haku = {
+        hostname = "152.69.215.136";
+        port = 49813;
+        user = "e";
+        identityFile = "~/.ssh/id_ed25519";
+        identitiesOnly = true;
+      };
+
       # LAN hosts.
       bow = { hostname = "192.168.1.148"; user = "e"; };
       sophie = { hostname = "192.168.1.118"; user = "e"; };
