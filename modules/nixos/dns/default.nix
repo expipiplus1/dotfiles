@@ -217,6 +217,14 @@ in {
     services.pihole-ftl.settings.webserver.port = lib.mkForce "127.0.0.1:8053";
     services.pihole-ftl.settings.webserver.interface.theme = "lcars";
 
+    # Wait for the listen addresses to be assigned before starting dnsmasq.
+    # With bind-interfaces, dnsmasq fails immediately if the address doesn't
+    # exist yet (e.g. DHCP hasn't finished).
+    systemd.services.pihole-FTL = {
+      after = [ "network-online.target" ];
+      wants = [ "network-online.target" ];
+    };
+
     # Silence a benign FTL.log warning about a missing versions file.
     systemd.tmpfiles.rules = [
       "f /etc/pihole/versions 0644 pihole pihole - -"
