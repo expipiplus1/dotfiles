@@ -12,13 +12,13 @@
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/2a811a80-b9d6-41ec-af9e-dca08acef178";
     fsType = "btrfs";
-    options = [ "subvol=nixos" ];
+    options = [ "subvol=nixos" "space_cache=v2" ];
   };
 
   fileSystems."/data" = {
     device = "/dev/disk/by-uuid/b8f4ad49-29c8-4d19-a886-cef9c487f124";
     fsType = "btrfs";
-    options = [ "subvol=nixos/data" ];
+    options = [ "subvol=nixos/data" "space_cache=v2" ];
   };
 
   fileSystems."/boot" = {

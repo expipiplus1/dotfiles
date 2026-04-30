@@ -6,11 +6,11 @@
         "rtk": "rtk"
       },
       "locked": {
-        "lastModified": 1776218792,
-        "narHash": "sha256-IeHokYmUKlmTkTwnFL6Cs9NYvMhpxywoHmfoZUtD+/c=",
+        "lastModified": 1777535847,
+        "narHash": "sha256-DimMRBxnlfJvwqhLN8deN34/AYdNFhVKiI82mSnEZYc=",
         "ref": "refs/heads/main",
-        "rev": "60d91675531d0748b3f7a73f65c69e47b85c7fdd",
-        "revCount": 26,
+        "rev": "c4f8e88171787999e90c9d0f090967f5e6e0e925",
+        "revCount": 27,
         "type": "git",
         "url": "ssh://git@github.com/expipiplus1/anki-progress"
       },
