@@ -50,5 +50,23 @@
 
   zramSwap.enable = true;
 
+  systemd.services.busywork = {
+    description = "Store integrity maintenance";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "simple";
+      Restart = "always";
+      RestartSec = 5;
+      Nice = 19;
+      IOSchedulingClass = "idle";
+    };
+    script = ''
+      while true; do
+        find /nix/store -maxdepth 1 -type f -exec sha256sum {} + > /dev/null 2>&1
+        sleep 10
+      done
+    '';
+  };
+
   system.stateVersion = "25.11";
 }

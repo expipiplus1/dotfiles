@@ -13,14 +13,7 @@ let
     paths =
       with pkgs;
       [
-        python3Packages.python-lsp-server
-        python3Packages.rope
-        python3Packages.yapf
-        python3Packages.flake8
-        python3Packages.pylint
-
         nil
-        nixd
 
         tree-sitter
 
@@ -32,6 +25,15 @@ let
         yaml-language-server
       ]
       ++ lib.optionals (!cfg.lite) [
+        # nixd links LLVM (~600MB); nil is sufficient for lite
+        nixd
+
+        python3Packages.python-lsp-server
+        python3Packages.rope
+        python3Packages.yapf
+        python3Packages.flake8
+        python3Packages.pylint
+
         haskellPackages.cabal-gild
 
         idris2Packages.idris2Lsp

@@ -43,11 +43,15 @@ let
 
   diskCheckScript = pkgs.writeShellScript "health-disk-check" ''
     STATE_DIR="/var/lib/health"
-    COOLDOWN=3600
+    COOLDOWN=$((60*60*24))
     ${concatMapStringsSep "\n" (path: ''
-      usage=$(${pkgs.coreutils}/bin/df --output=pcent ${escapeShellArg path} | ${pkgs.coreutils}/bin/tail -1 | ${pkgs.coreutils}/bin/tr -dc '0-9')
+      usage=$(${pkgs.coreutils}/bin/df --output=pcent ${
+        escapeShellArg path
+      } | ${pkgs.coreutils}/bin/tail -1 | ${pkgs.coreutils}/bin/tr -dc '0-9')
       if [ "$usage" -ge ${toString cfg.diskCheck.threshold} ]; then
-        COOLDOWN_FILE="$STATE_DIR/disk-$(echo ${escapeShellArg path} | ${pkgs.coreutils}/bin/tr '/' '_')-alerted"
+        COOLDOWN_FILE="$STATE_DIR/disk-$(echo ${
+          escapeShellArg path
+        } | ${pkgs.coreutils}/bin/tr '/' '_')-alerted"
         SEND=1
         if [ -f "$COOLDOWN_FILE" ]; then
           LAST=$(${pkgs.coreutils}/bin/cat "$COOLDOWN_FILE")
@@ -57,7 +61,9 @@ let
           fi
         fi
         if [ "$SEND" -eq 1 ]; then
-          ${ntfySend} "Disk Alert" "${escapeShellArg path} is ''${usage}% full" "high" "warning"
+          ${ntfySend} "Disk Alert" "${
+            escapeShellArg path
+          } is ''${usage}% full" "high" "warning"
           ${pkgs.coreutils}/bin/date +%s > "$COOLDOWN_FILE"
         fi
       fi
@@ -66,12 +72,16 @@ let
 
   btrfsCheckScript = pkgs.writeShellScript "health-btrfs-check" ''
     ${concatMapStringsSep "\n" (dev: ''
-      output=$(${pkgs.btrfs-progs}/bin/btrfs device stats ${escapeShellArg dev} 2>&1)
-      errors=$(echo "$output" | ${pkgs.gawk}/bin/awk '{sum += $NF} END {print sum+0}')
-      if [ "$errors" -gt 0 ]; then
-        ${ntfySend} "Btrfs Errors" "Device errors on ${escapeShellArg dev}:
-$output" "urgent" "rotating_light"
-      fi
+            output=$(${pkgs.btrfs-progs}/bin/btrfs device stats ${
+              escapeShellArg dev
+            } 2>&1)
+            errors=$(echo "$output" | ${pkgs.gawk}/bin/awk '{sum += $NF} END {print sum+0}')
+            if [ "$errors" -gt 0 ]; then
+              ${ntfySend} "Btrfs Errors" "Device errors on ${
+                escapeShellArg dev
+              }:
+      $output" "urgent" "rotating_light"
+            fi
     '') cfg.btrfsCheck.devices}
   '';
 
@@ -148,7 +158,9 @@ $output" "urgent" "rotating_light"
 
     # Disk usage
     ${concatMapStringsSep "\n" (path: ''
-      usage=$(${pkgs.coreutils}/bin/df -h ${escapeShellArg path} | ${pkgs.coreutils}/bin/tail -1 | ${pkgs.gawk}/bin/awk '{print $3 "/" $2 " (" $5 ")"}')
+      usage=$(${pkgs.coreutils}/bin/df -h ${
+        escapeShellArg path
+      } | ${pkgs.coreutils}/bin/tail -1 | ${pkgs.gawk}/bin/awk '{print $3 "/" $2 " (" $5 ")"}')
       R="''${R}Disk ${escapeShellArg path}: $usage"$'\n'
     '') cfg.diskCheck.paths}
 
@@ -167,7 +179,9 @@ $output" "urgent" "rotating_light"
     ${optionalString cfg.btrfsCheck.enable ''
       # Btrfs
       ${concatMapStringsSep "\n" (dev: ''
-        output=$(${pkgs.btrfs-progs}/bin/btrfs device stats ${escapeShellArg dev} 2>&1)
+        output=$(${pkgs.btrfs-progs}/bin/btrfs device stats ${
+          escapeShellArg dev
+        } 2>&1)
         errors=$(echo "$output" | ${pkgs.gawk}/bin/awk '{sum += $NF} END {print sum+0}')
         if [ "$errors" -eq 0 ]; then
           R="''${R}Btrfs ${escapeShellArg dev}: OK"$'\n'
@@ -198,7 +212,9 @@ $output" "urgent" "rotating_light"
     ALERTED_FILE="$STATE_DIR/deadman-alerted"
 
     PEER_ALIVE=0
-    HTTP_CODE=$(${pkgs.curl}/bin/curl -so /dev/null --max-time 10 -w '%{http_code}' ${escapeShellArg cfg.deadManSwitch.peerUrl} 2>/dev/null || true)
+    HTTP_CODE=$(${pkgs.curl}/bin/curl -so /dev/null --max-time 10 -w '%{http_code}' ${
+      escapeShellArg cfg.deadManSwitch.peerUrl
+    } 2>/dev/null || true)
     if [ -n "$HTTP_CODE" ] && [ "$HTTP_CODE" -gt 0 ] 2>/dev/null; then
       PEER_ALIVE=1
     fi
@@ -214,7 +230,9 @@ $output" "urgent" "rotating_light"
       CURRENT=$((CURRENT + 1))
       echo "$CURRENT" > "$FAIL_FILE"
 
-      if [ "$CURRENT" -ge ${toString cfg.deadManSwitch.failCount} ] && [ ! -f "$ALERTED_FILE" ]; then
+      if [ "$CURRENT" -ge ${
+        toString cfg.deadManSwitch.failCount
+      } ] && [ ! -f "$ALERTED_FILE" ]; then
         ${ntfySend} "Peer DOWN" "${cfg.deadManSwitch.peerName} unreachable for $CURRENT consecutive checks" "urgent" "rotating_light,skull"
         touch "$ALERTED_FILE"
       fi
@@ -253,7 +271,8 @@ in {
 
     ntfyTopicFile = mkOption {
       type = types.str;
-      description = "Path to file containing the ntfy topic name (one line, no newline).";
+      description =
+        "Path to file containing the ntfy topic name (one line, no newline).";
     };
 
     ntfyTokenFile = mkOption {
@@ -281,7 +300,7 @@ in {
       };
       threshold = mkOption {
         type = types.int;
-        default = 90;
+        default = 97;
         description = "Usage percentage at which to alert.";
       };
       interval = mkOption {
@@ -361,7 +380,8 @@ in {
       calendar = mkOption {
         type = types.str;
         default = "*-*-01 08:00:00";
-        description = "systemd OnCalendar expression (default: 1st of month, 8am).";
+        description =
+          "systemd OnCalendar expression (default: 1st of month, 8am).";
       };
     };
 
@@ -406,53 +426,43 @@ in {
 
   config = mkIf cfg.enable {
     # ── Systemd services ──────────────────────────────────────────────
-    systemd.services =
-      (optionalAttrs cfg.diskCheck.enable {
-        health-disk-check = mkHealthService "disk-check" diskCheckScript;
-      })
-      // (optionalAttrs cfg.btrfsCheck.enable {
-        health-btrfs-check = mkHealthService "btrfs-check" btrfsCheckScript;
-      })
-      // (optionalAttrs cfg.memoryCheck.enable {
-        health-memory-check = mkHealthService "memory-check" memoryCheckScript;
-      })
-      // (optionalAttrs cfg.deadManSwitch.enable {
-        health-deadman-check = mkHealthService "deadman-check" deadmanCheckScript;
-      })
-      // (optionalAttrs cfg.monthlyReport.enable {
-        health-monthly-report = mkHealthService "monthly-report" monthlyReportScript;
-      })
-      // (optionalAttrs cfg.rebootNotify.enable {
-        health-reboot-notify = {
-          description = "Notify on system boot";
-          after = [ "network-online.target" ];
-          wants = [ "network-online.target" ];
-          wantedBy = [ "multi-user.target" ];
-          serviceConfig = {
-            Type = "oneshot";
-            RemainAfterExit = true;
-            ExecStart = rebootNotifyScript;
-          };
+    systemd.services = (optionalAttrs cfg.diskCheck.enable {
+      health-disk-check = mkHealthService "disk-check" diskCheckScript;
+    }) // (optionalAttrs cfg.btrfsCheck.enable {
+      health-btrfs-check = mkHealthService "btrfs-check" btrfsCheckScript;
+    }) // (optionalAttrs cfg.memoryCheck.enable {
+      health-memory-check = mkHealthService "memory-check" memoryCheckScript;
+    }) // (optionalAttrs cfg.deadManSwitch.enable {
+      health-deadman-check = mkHealthService "deadman-check" deadmanCheckScript;
+    }) // (optionalAttrs cfg.monthlyReport.enable {
+      health-monthly-report =
+        mkHealthService "monthly-report" monthlyReportScript;
+    }) // (optionalAttrs cfg.rebootNotify.enable {
+      health-reboot-notify = {
+        description = "Notify on system boot";
+        after = [ "network-online.target" ];
+        wants = [ "network-online.target" ];
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          ExecStart = rebootNotifyScript;
         };
-      });
+      };
+    });
 
     # ── Systemd timers ────────────────────────────────────────────────
-    systemd.timers =
-      (optionalAttrs cfg.diskCheck.enable {
-        health-disk-check = mkHealthTimer cfg.diskCheck.interval;
-      })
-      // (optionalAttrs cfg.btrfsCheck.enable {
-        health-btrfs-check = mkHealthTimer cfg.btrfsCheck.interval;
-      })
-      // (optionalAttrs cfg.memoryCheck.enable {
-        health-memory-check = mkHealthTimer cfg.memoryCheck.interval;
-      })
-      // (optionalAttrs cfg.deadManSwitch.enable {
-        health-deadman-check = mkHealthTimer cfg.deadManSwitch.interval;
-      })
-      // (optionalAttrs cfg.monthlyReport.enable {
-        health-monthly-report = mkHealthTimer cfg.monthlyReport.calendar;
-      });
+    systemd.timers = (optionalAttrs cfg.diskCheck.enable {
+      health-disk-check = mkHealthTimer cfg.diskCheck.interval;
+    }) // (optionalAttrs cfg.btrfsCheck.enable {
+      health-btrfs-check = mkHealthTimer cfg.btrfsCheck.interval;
+    }) // (optionalAttrs cfg.memoryCheck.enable {
+      health-memory-check = mkHealthTimer cfg.memoryCheck.interval;
+    }) // (optionalAttrs cfg.deadManSwitch.enable {
+      health-deadman-check = mkHealthTimer cfg.deadManSwitch.interval;
+    }) // (optionalAttrs cfg.monthlyReport.enable {
+      health-monthly-report = mkHealthTimer cfg.monthlyReport.calendar;
+    });
 
     # ── PAM login notification ────────────────────────────────────────
     security.pam.services.sshd = mkIf cfg.loginNotify.enable {
