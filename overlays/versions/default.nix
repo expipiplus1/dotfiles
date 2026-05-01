@@ -1,6 +1,18 @@
-{ channels, ... }:
+{ channels, inputs, ... }:
 
-self: super: {
+self: super:
+let
+  pkgsCuda = import inputs.nixpkgs-unstable {
+    inherit (super) system;
+    config = {
+      allowUnfree = true;
+      cudaSupport = true;
+      cudaCapabilities = [ "8.9" ];
+      cudaForwardCompat = false;
+    };
+  };
+in
+{
   tmux = super.tmux.overrideAttrs (old: rec {
     version = "master-2026-03-01";
     src = self.fetchFromGitHub {
@@ -80,6 +92,21 @@ self: super: {
   };
 
   darktable = channels.nixpkgs-unstable.darktable.overrideAttrs (old: {
+    version = "master";
+    src = self.fetchgit {
+      url = "https://github.com/darktable-org/darktable";
+      rev = "c8e6954c2be1578098096e911843793abd2b5ede";
+      hash = "sha256-qxn8KsuLST7MGuoWkljqHiRrSNVaQxhNk4e9MqlBaME=";
+      fetchSubmodules = true;
+      deepClone = true;
+    };
+    nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ self.git ];
+    buildInputs = (old.buildInputs or [ ]) ++ [
+      pkgsCuda.onnxruntime
+      self.potrace
+      self.xz
+      self.libarchive
+    ];
     patches = (old.patches or [ ]) ++ [
       ../patches/darktable-ilce-7m5.patch
       ../patches/darktable-ilce-7m5-noiseprofile.patch
@@ -95,15 +122,17 @@ self: super: {
       "-DCUSTOM_CFLAGS=OFF"
       "-DUSE_OPENCL=ON"
       "-DUSE_OPENMP=ON"
+      "-DUSE_AI=ON"
     ];
+    # git describe version won't match nixpkgs versionCheckHook.
+    doInstallCheck = false;
   });
 
   carapace = channels.nixpkgs-unstable.carapace;
 
   lua51Packages = super.lua51Packages // {
-    neotest = super.lua51Packages.neotest.overrideAttrs (_: {
-      doCheck = false;
-    });
+    neotest =
+      super.lua51Packages.neotest.overrideAttrs (_: { doCheck = false; });
   };
 
   # Pull the nvim-treesitter `main`-branch packaging from unstable so it works
@@ -111,7 +140,8 @@ self: super: {
   # 25.11 is incompatible with Neovim 0.12's `iter_matches` API change.
   vimPlugins = super.vimPlugins // {
     nvim-treesitter = channels.nixpkgs-unstable.vimPlugins.nvim-treesitter;
-    nvim-treesitter-textobjects = channels.nixpkgs-unstable.vimPlugins.nvim-treesitter-textobjects;
+    nvim-treesitter-textobjects =
+      channels.nixpkgs-unstable.vimPlugins.nvim-treesitter-textobjects;
   };
 
   atuin = super.atuin.overrideAttrs (old: rec {
