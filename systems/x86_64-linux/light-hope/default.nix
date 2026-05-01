@@ -12,6 +12,7 @@ config, ... }:
   imports = [ ./impermanence.nix ./hardware ];
   ellie.desktop.enable = true;
   ellie.ollama.enable = true;
+  ellie.comfyui.enable = true;
   ellie.nvidia.devDriver = false;
   ellie.debounce.enable = true;
   nix.settings.system-features = [ "gccarch-znver4" ];

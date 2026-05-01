@@ -44,6 +44,9 @@
       url = "path:/home/e/projects/ultimate-guitar";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
+    comfyui-nix = {
+      url = "github:utensils/comfyui-nix";
+    };
   };
 
   outputs =

@@ -11,8 +11,7 @@ let
       cudaForwardCompat = false;
     };
   };
-in
-{
+in {
   tmux = super.tmux.overrideAttrs (old: rec {
     version = "master-2026-03-01";
     src = self.fetchFromGitHub {
@@ -101,12 +100,8 @@ in
       deepClone = true;
     };
     nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ self.git ];
-    buildInputs = (old.buildInputs or [ ]) ++ [
-      pkgsCuda.onnxruntime
-      self.potrace
-      self.xz
-      self.libarchive
-    ];
+    buildInputs = (old.buildInputs or [ ])
+      ++ [ pkgsCuda.onnxruntime self.potrace self.xz self.libarchive ];
     patches = (old.patches or [ ]) ++ [
       ../patches/darktable-ilce-7m5.patch
       ../patches/darktable-ilce-7m5-noiseprofile.patch
@@ -124,6 +119,16 @@ in
       "-DUSE_OPENMP=ON"
       "-DUSE_AI=ON"
     ];
+    # darktable lazy-loads ONNX Runtime via g_module_open("libonnxruntime.so").
+    # When built against a nix system package, CMake skips installing the .so
+    # into lib/darktable/ and the nix store path isn't in the runtime linker
+    # search path, so the dlopen fails. Symlink the libraries into the plugin
+    # directory where darktable's fallback path looks.
+    postInstall = (old.postInstall or "") + ''
+      for lib in ${pkgsCuda.onnxruntime}/lib/libonnxruntime*.so*; do
+        ln -sf "$lib" "$out/lib/darktable/$(basename "$lib")"
+      done
+    '';
     # git describe version won't match nixpkgs versionCheckHook.
     doInstallCheck = false;
   });

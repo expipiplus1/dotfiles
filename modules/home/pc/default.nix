@@ -11,6 +11,7 @@ lib.internal.simpleModule inputs "pc" {
     google-chrome
     perf
     darktable
+    krita
     element-desktop
     ffmpeg-full
     firefox
