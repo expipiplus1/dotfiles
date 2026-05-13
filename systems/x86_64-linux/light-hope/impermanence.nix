@@ -26,6 +26,7 @@ in {
         group = "nixseparatedebuginfod";
         mode = "0755";
       }
+      (rootd "/var/lib/private/comfyui" "0700")
     ];
     files = [
       "/etc/adjtime"
