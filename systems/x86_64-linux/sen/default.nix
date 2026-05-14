@@ -92,7 +92,7 @@ in {
     forceSSL = true;
     useACMEHost = "monoid.al";
     locations."/stickers/" = {
-      alias = "${stickerSite}/stickers/";
+      alias = "${stickerSite}/";
       extraConfig = ''
         index index.html;
         autoindex off;
@@ -104,49 +104,127 @@ in {
     };
   };
 
-  # Notify via ntfy every 5 minutes with sticker site access log
+  # Notify via ntfy every 10 minutes with sticker site access log
   systemd.services.sticker-access-notify = {
     description = "Notify sticker site accesses via ntfy";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = pkgs.writeShellScript "sticker-access-notify" ''
-        STATE_FILE=/var/lib/sticker-notify/last-pos
-        mkdir -p /var/lib/sticker-notify
-        LOG=/var/log/nginx/access.log
+      StateDirectory = "sticker-notify";
+      ExecStart = pkgs.writeScript "sticker-access-notify" ''
+        #!${pkgs.python3}/bin/python3
+        """Parse nginx access log for /stickers/ hits, geo-lookup IPs, send ntfy."""
+        import collections, json, os, re, subprocess, sys, urllib.request
 
-        [ -f "$LOG" ] || exit 0
+        STATE_FILE = "/var/lib/sticker-notify/last-pos"
+        LOG = "/var/log/nginx/access.log"
+        TOPIC_FILE = "/etc/secrets/ntfy_topic"
+        TOKEN_FILE = "/etc/secrets/ntfy_token"
 
-        # Read from last known position
-        LAST_POS=0
-        [ -f "$STATE_FILE" ] && LAST_POS=$(cat "$STATE_FILE")
-        CURRENT_SIZE=$(${pkgs.coreutils}/bin/stat -c%s "$LOG" 2>/dev/null || echo 0)
+        # nginx combined log format regex
+        # 1.2.3.4 - - [14/May/2026:10:00:00 +0800] "GET /path HTTP/2.0" 200 1234 "ref" "ua"
+        LOG_RE = re.compile(
+            r'^(\S+)\s+'           # IP
+            r'\S+\s+\S+\s+'        # ident, user
+            r'\[[^]]+\]\s+'        # [date]
+            r'"(\S+)\s+(\S+)\s+'   # "METHOD URL
+        )
 
-        # If log was rotated (smaller than last pos), reset
-        if [ "$CURRENT_SIZE" -lt "$LAST_POS" ]; then
-          LAST_POS=0
-        fi
+        if not os.path.isfile(LOG):
+            sys.exit(0)
 
-        # Extract new sticker-related lines
-        HITS=$(${pkgs.coreutils}/bin/tail -c +"$((LAST_POS + 1))" "$LOG" \
-          | ${pkgs.gnugrep}/bin/grep '"[A-Z]* /stickers/' \
-          | ${pkgs.gawk}/bin/awk '{print $1, $7}' \
-          | ${pkgs.coreutils}/bin/sort | ${pkgs.coreutils}/bin/uniq -c \
-          | ${pkgs.coreutils}/bin/sort -rn \
-          | ${pkgs.coreutils}/bin/head -20)
+        # Read position state
+        last_pos = 0
+        if os.path.isfile(STATE_FILE):
+            try:
+                last_pos = int(open(STATE_FILE).read().strip())
+            except (ValueError, OSError):
+                last_pos = 0
 
-        # Save current position
-        echo "$CURRENT_SIZE" > "$STATE_FILE"
+        current_size = os.path.getsize(LOG)
 
-        [ -z "$HITS" ] && exit 0
+        # Handle log rotation
+        if current_size < last_pos:
+            last_pos = 0
 
-        TOPIC=$(cat /etc/secrets/ntfy_topic)
-        TOKEN=$(cat /etc/secrets/ntfy_token)
-        ${pkgs.curl}/bin/curl -s \
-          -H "Authorization: Bearer $TOKEN" \
-          -H "Title: Sticker site visitors" \
-          -H "Tags: eyes" \
-          -d "$HITS" \
-          "https://ntfy.sh/$TOPIC"
+        # Read new bytes
+        with open(LOG, "rb") as f:
+            f.seek(last_pos)
+            new_data = f.read()
+
+        # Save position (do this early so we don't re-process on failure)
+        with open(STATE_FILE, "w") as f:
+            f.write(str(current_size))
+
+        if not new_data:
+            sys.exit(0)
+
+        # Parse lines, extract sticker hits
+        hits = []  # list of (ip, url)
+        for line in new_data.decode("utf-8", errors="replace").splitlines():
+            m = LOG_RE.match(line)
+            if not m:
+                continue
+            ip, method, url = m.group(1), m.group(2), m.group(3)
+            if url.startswith("/stickers/"):
+                hits.append((ip, url))
+
+        if not hits:
+            sys.exit(0)
+
+        # Aggregate: count per (ip, url)
+        counter = collections.Counter(hits)
+
+        # Group by IP
+        by_ip = collections.defaultdict(list)
+        for (ip, url), count in counter.items():
+            by_ip[ip].append((count, url))
+
+        # Geo-lookup unique IPs via ip-api.com batch endpoint
+        unique_ips = list(by_ip.keys())
+        geo = {}
+        try:
+            batch = [{"query": ip, "fields": "query,countryCode"} for ip in unique_ips[:100]]
+            req = urllib.request.Request(
+                "http://ip-api.com/batch",
+                data=json.dumps(batch).encode(),
+                headers={"Content-Type": "application/json"},
+            )
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                for r in json.loads(resp.read()):
+                    geo[r.get("query", "")] = r.get("countryCode", "??")
+        except Exception:
+            pass
+
+        # Build report
+        lines = []
+        for ip, ip_hits in sorted(by_ip.items(), key=lambda x: -sum(c for c, _ in x[1])):
+            cc = geo.get(ip, "??")
+            total = sum(c for c, _ in ip_hits)
+            lines.append(f"{ip} ({cc}) - {total} hits")
+            for count, url in sorted(ip_hits, key=lambda x: -x[0]):
+                lines.append(f"  {count:3d}  {url}")
+        report = "\n".join(lines)
+
+        # Send via ntfy
+        try:
+            topic = open(TOPIC_FILE).read().strip()
+            token = open(TOKEN_FILE).read().strip()
+        except OSError as e:
+            print(f"Cannot read secrets: {e}", file=sys.stderr)
+            sys.exit(1)
+
+        req = urllib.request.Request(
+            f"https://ntfy.sh/{topic}",
+            data=report.encode(),
+            headers={
+                "Authorization": f"Bearer {token}",
+                "Title": "[sen] Sticker site visitors",
+                "Tags": "eyes",
+            },
+        )
+        urllib.request.urlopen(req, timeout=10)
       '';
     };
   };
@@ -154,7 +232,7 @@ in {
   systemd.timers.sticker-access-notify = {
     wantedBy = [ "timers.target" ];
     timerConfig = {
-      OnCalendar = "*:0/5"; # every 5 minutes
+      OnCalendar = "*:0/10";
       Persistent = true;
     };
   };

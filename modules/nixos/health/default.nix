@@ -43,18 +43,27 @@ let
 
   diskCheckScript = pkgs.writeShellScript "health-disk-check" ''
     STATE_DIR="/var/lib/health"
-    COOLDOWN=$((60*60*24))
+    BASE_COOLDOWN=3600        # 1 hour initial cooldown
+    MAX_COOLDOWN=$((7*24*3600))  # cap at 7 days
     ${concatMapStringsSep "\n" (path: ''
       usage=$(${pkgs.coreutils}/bin/df --output=pcent ${
         escapeShellArg path
       } | ${pkgs.coreutils}/bin/tail -1 | ${pkgs.coreutils}/bin/tr -dc '0-9')
+      STATE_PREFIX="$STATE_DIR/disk-$(echo ${
+        escapeShellArg path
+      } | ${pkgs.coreutils}/bin/tr '/' '_')"
       if [ "$usage" -ge ${toString cfg.diskCheck.threshold} ]; then
-        COOLDOWN_FILE="$STATE_DIR/disk-$(echo ${
-          escapeShellArg path
-        } | ${pkgs.coreutils}/bin/tr '/' '_')-alerted"
+        COUNT=0
+        if [ -f "''${STATE_PREFIX}-count" ]; then
+          COUNT=$(${pkgs.coreutils}/bin/cat "''${STATE_PREFIX}-count")
+        fi
+        COOLDOWN=$((BASE_COOLDOWN * (1 << COUNT)))
+        if [ "$COOLDOWN" -gt "$MAX_COOLDOWN" ]; then
+          COOLDOWN=$MAX_COOLDOWN
+        fi
         SEND=1
-        if [ -f "$COOLDOWN_FILE" ]; then
-          LAST=$(${pkgs.coreutils}/bin/cat "$COOLDOWN_FILE")
+        if [ -f "''${STATE_PREFIX}-alerted" ]; then
+          LAST=$(${pkgs.coreutils}/bin/cat "''${STATE_PREFIX}-alerted")
           NOW=$(${pkgs.coreutils}/bin/date +%s)
           if [ $((NOW - LAST)) -lt $COOLDOWN ]; then
             SEND=0
@@ -64,8 +73,11 @@ let
           ${ntfySend} "Disk Alert" "${
             escapeShellArg path
           } is ''${usage}% full" "high" "warning"
-          ${pkgs.coreutils}/bin/date +%s > "$COOLDOWN_FILE"
+          ${pkgs.coreutils}/bin/date +%s > "''${STATE_PREFIX}-alerted"
+          echo $((COUNT + 1)) > "''${STATE_PREFIX}-count"
         fi
+      else
+        ${pkgs.coreutils}/bin/rm -f "''${STATE_PREFIX}-alerted" "''${STATE_PREFIX}-count"
       fi
     '') cfg.diskCheck.paths}
   '';
@@ -87,26 +99,47 @@ let
 
   memoryCheckScript = pkgs.writeShellScript "health-memory-check" ''
     STATE_DIR="/var/lib/health"
-    COOLDOWN=3600
-    total=$(${pkgs.gawk}/bin/awk '/^MemTotal:/ {print $2}' /proc/meminfo)
-    available=$(${pkgs.gawk}/bin/awk '/^MemAvailable:/ {print $2}' /proc/meminfo)
-    pct=$(( (total - available) * 100 / total ))
+    BASE_COOLDOWN=3600           # 1 hour initial cooldown
+    MAX_COOLDOWN=$((24*3600))    # cap at 24 hours
+    eval $(${pkgs.gawk}/bin/awk '
+      /^MemTotal:/     {mt=$2}
+      /^MemAvailable:/ {ma=$2}
+      /^SwapTotal:/    {st=$2}
+      /^SwapFree:/     {sf=$2}
+      END {
+        total = mt + st
+        used  = (mt - ma) + (st - sf)
+        printf "total_kb=%d used_kb=%d\n", total, used
+      }
+    ' /proc/meminfo)
+    if [ "$total_kb" -eq 0 ]; then exit 0; fi
+    pct=$(( used_kb * 100 / total_kb ))
     if [ "$pct" -ge ${toString cfg.memoryCheck.threshold} ]; then
-      COOLDOWN_FILE="$STATE_DIR/memory-alerted"
+      COUNT=0
+      if [ -f "$STATE_DIR/memory-count" ]; then
+        COUNT=$(${pkgs.coreutils}/bin/cat "$STATE_DIR/memory-count")
+      fi
+      COOLDOWN=$((BASE_COOLDOWN * (1 << COUNT)))
+      if [ "$COOLDOWN" -gt "$MAX_COOLDOWN" ]; then
+        COOLDOWN=$MAX_COOLDOWN
+      fi
       SEND=1
-      if [ -f "$COOLDOWN_FILE" ]; then
-        LAST=$(${pkgs.coreutils}/bin/cat "$COOLDOWN_FILE")
+      if [ -f "$STATE_DIR/memory-alerted" ]; then
+        LAST=$(${pkgs.coreutils}/bin/cat "$STATE_DIR/memory-alerted")
         NOW=$(${pkgs.coreutils}/bin/date +%s)
         if [ $((NOW - LAST)) -lt $COOLDOWN ]; then
           SEND=0
         fi
       fi
       if [ "$SEND" -eq 1 ]; then
-        used_mb=$(( (total - available) / 1024 ))
-        total_mb=$(( total / 1024 ))
-        ${ntfySend} "Memory Alert" "Memory ''${pct}% used (''${used_mb}MB / ''${total_mb}MB)" "high" "warning"
-        ${pkgs.coreutils}/bin/date +%s > "$COOLDOWN_FILE"
+        used_mb=$(( used_kb / 1024 ))
+        total_mb=$(( total_kb / 1024 ))
+        ${ntfySend} "Memory Alert" "Memory+swap ''${pct}% used (''${used_mb}MB / ''${total_mb}MB)" "high" "warning"
+        ${pkgs.coreutils}/bin/date +%s > "$STATE_DIR/memory-alerted"
+        echo $((COUNT + 1)) > "$STATE_DIR/memory-count"
       fi
+    else
+      ${pkgs.coreutils}/bin/rm -f "$STATE_DIR/memory-alerted" "$STATE_DIR/memory-count"
     fi
   '';
 
