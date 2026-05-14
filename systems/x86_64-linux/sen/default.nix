@@ -1,6 +1,8 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
-{
+let
+  stickerSite = inputs.stickers.packages.x86_64-linux.site;
+in {
   networking.hostName = "sen";
 
   # Modules
@@ -83,6 +85,78 @@
     forceSSL = true;
     useACMEHost = "monoid.al";
     globalRedirect = "ug.home.monoid.al";
+  };
+
+  # Public sticker pack registry — no auth required.
+  services.nginx.virtualHosts."monoid.al" = {
+    forceSSL = true;
+    useACMEHost = "monoid.al";
+    locations."/stickers/" = {
+      alias = "${stickerSite}/stickers/";
+      extraConfig = ''
+        index index.html;
+        autoindex off;
+      '';
+    };
+    # Redirect bare /stickers to /stickers/
+    locations."= /stickers" = {
+      return = "301 /stickers/";
+    };
+  };
+
+  # Notify via ntfy every 5 minutes with sticker site access log
+  systemd.services.sticker-access-notify = {
+    description = "Notify sticker site accesses via ntfy";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = pkgs.writeShellScript "sticker-access-notify" ''
+        STATE_FILE=/var/lib/sticker-notify/last-pos
+        mkdir -p /var/lib/sticker-notify
+        LOG=/var/log/nginx/access.log
+
+        [ -f "$LOG" ] || exit 0
+
+        # Read from last known position
+        LAST_POS=0
+        [ -f "$STATE_FILE" ] && LAST_POS=$(cat "$STATE_FILE")
+        CURRENT_SIZE=$(${pkgs.coreutils}/bin/stat -c%s "$LOG" 2>/dev/null || echo 0)
+
+        # If log was rotated (smaller than last pos), reset
+        if [ "$CURRENT_SIZE" -lt "$LAST_POS" ]; then
+          LAST_POS=0
+        fi
+
+        # Extract new sticker-related lines
+        HITS=$(${pkgs.coreutils}/bin/tail -c +"$((LAST_POS + 1))" "$LOG" \
+          | ${pkgs.gnugrep}/bin/grep '"[A-Z]* /stickers/' \
+          | ${pkgs.gawk}/bin/awk '{print $1, $7}' \
+          | ${pkgs.coreutils}/bin/sort | ${pkgs.coreutils}/bin/uniq -c \
+          | ${pkgs.coreutils}/bin/sort -rn \
+          | ${pkgs.coreutils}/bin/head -20)
+
+        # Save current position
+        echo "$CURRENT_SIZE" > "$STATE_FILE"
+
+        [ -z "$HITS" ] && exit 0
+
+        TOPIC=$(cat /etc/secrets/ntfy_topic)
+        TOKEN=$(cat /etc/secrets/ntfy_token)
+        ${pkgs.curl}/bin/curl -s \
+          -H "Authorization: Bearer $TOKEN" \
+          -H "Title: Sticker site visitors" \
+          -H "Tags: eyes" \
+          -d "$HITS" \
+          "https://ntfy.sh/$TOPIC"
+      '';
+    };
+  };
+
+  systemd.timers.sticker-access-notify = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "*:0/5"; # every 5 minutes
+      Persistent = true;
+    };
   };
 
   programs.mosh.enable = true;

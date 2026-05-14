@@ -497,6 +497,7 @@
         "nixpkgs-unstable": "nixpkgs-unstable",
         "plasma-manager": "plasma-manager",
         "snowfall-lib": "snowfall-lib",
+        "stickers": "stickers",
         "ug-proxy": "ug-proxy"
       }
     },
@@ -536,6 +537,23 @@
         "owner": "snowfallorg",
         "repo": "lib",
         "type": "github"
+      }
+    },
+    "stickers": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1778747637,
+        "narHash": "sha256-KhCvAARxdO63fYKZEV4QmqggkH3PoKmLp40GQBVqaYk=",
+        "path": "/home/e/projects/stickers",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/e/projects/stickers",
+        "type": "path"
       }
     },
     "systems": {

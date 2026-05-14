@@ -44,6 +44,10 @@
       url = "path:/home/e/projects/ultimate-guitar";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
+    stickers = {
+      url = "path:/home/e/projects/stickers";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     comfyui-nix = {
       url = "github:utensils/comfyui-nix";
     };
