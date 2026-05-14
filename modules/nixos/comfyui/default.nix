@@ -1,7 +1,7 @@
-{ lib, config, inputs, system, pkgs, ... }@args:
+{ lib, config, inputs, pkgs, ... }@args:
 
 let
-  comfyui = inputs.comfyui-nix.packages.${system}.cuda;
+  comfyui = inputs.comfyui-nix.packages.${pkgs.stdenv.hostPlatform.system}.cuda;
 in with args.lib; {
   options.ellie.comfyui = {
     enable = mkEnableOption "the comfyui module";

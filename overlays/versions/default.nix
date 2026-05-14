@@ -3,7 +3,7 @@
 self: super:
 let
   pkgsCuda = import inputs.nixpkgs-unstable {
-    inherit (super) system;
+    localSystem = super.stdenv.hostPlatform.system;
     config = {
       allowUnfree = true;
       cudaSupport = true;
@@ -134,6 +134,8 @@ in {
   });
 
   carapace = channels.nixpkgs-unstable.carapace;
+
+  dnsmasq = channels.nixpkgs-unstable.dnsmasq;
 
   lua51Packages = super.lua51Packages // {
     neotest =

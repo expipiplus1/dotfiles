@@ -1,7 +1,7 @@
 { lib, pkgs, config, inputs, ... }:
 
 let
-  pkgs-unstable = import inputs.nixpkgs-unstable { system = "x86_64-linux"; };
+  pkgs-unstable = import inputs.nixpkgs-unstable { localSystem = "x86_64-linux"; };
   convertPage = pkgs.runCommand "convert-page" { } ''
     mkdir -p $out
     cp ${./convert.html} $out/index.html

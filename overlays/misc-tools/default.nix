@@ -2,7 +2,7 @@
 self: super:
 let
   # Use unstable nixpkgs for Python packages that need newer versions
-  pkgsUnstable = import inputs.nixpkgs-unstable { inherit (super) system; };
+  pkgsUnstable = import inputs.nixpkgs-unstable { localSystem = super.stdenv.hostPlatform.system; };
   python = pkgsUnstable.python311;
 
   claude-agent-sdk = python.pkgs.buildPythonPackage rec {
