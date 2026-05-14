@@ -30,7 +30,7 @@ lib.internal.simpleModule inputs "basic" {
       # Cross-platform clipboard scripts
       (
         let
-          cmd =
+          clipCmd =
             if stdenv.isDarwin then
               "pbcopy"
             else
@@ -40,7 +40,9 @@ lib.internal.simpleModule inputs "basic" {
                 else ${xclip}/bin/xclip -selection clipboard -in; fi
               '';
         in
-        writeShellScriptBin "copy" cmd
+        writeShellScriptBin "copy" ''
+          cat "''${@:--}" | ${clipCmd}
+        ''
       )
 
       (

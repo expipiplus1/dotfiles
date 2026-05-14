@@ -14,8 +14,6 @@
     ntfyTopicFile = "/etc/secrets/ntfy_topic";
     ntfyTokenFile = "/etc/secrets/ntfy_token";
     loginNotify.ignoredCIDRs = [ "e@202.83.104.81/32" ];
-    diskCheck.threshold = 85;
-    memoryCheck.threshold = 85;
     healthEndpoint = "health.monoid.al";
     deadManSwitch = {
       enable = true;
@@ -26,8 +24,8 @@
   ellie.dns = {
     enable = true;
     trustedCIDRs = [
-      "192.168.1.0/24"     # LAN (no-op on sen, kept for consistency)
-      "202.83.104.81/32"   # home WAN
+      "192.168.1.0/24" # LAN (no-op on sen, kept for consistency)
+      "202.83.104.81/32" # home WAN
       "172.104.175.207/32" # sen public (loopback to self)
     ];
     peerHost = "bow.home.monoid.al";
@@ -115,12 +113,17 @@
 
   # Nix
   nix.settings.auto-optimise-store = true;
+  nix.optimise = {
+    automatic = true;
+    dates = [ "daily" ];
+  };
   nix.gc = {
     automatic = true;
-    dates = "weekly";
+    dates = "daily";
+    options = "--delete-older-than 1d";
   };
   nix.extraOptions = ''
-    min-free = ${toString (100 * 1024 * 1024)}
+    min-free = ${toString (512 * 1024 * 1024)}
     max-free = ${toString (1024 * 1024 * 1024)}
   '';
   nix.settings.trusted-public-keys = [

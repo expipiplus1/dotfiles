@@ -1,7 +1,8 @@
 { lib, pkgs, config, inputs, ... }:
 
 let
-  pkgs-unstable = import inputs.nixpkgs-unstable { localSystem = "x86_64-linux"; };
+  pkgs-unstable =
+    import inputs.nixpkgs-unstable { localSystem = "x86_64-linux"; };
   convertPage = pkgs.runCommand "convert-page" { } ''
     mkdir -p $out
     cp ${./convert.html} $out/index.html
@@ -18,7 +19,7 @@ in {
   ellie.samba.enable = true;
   ellie.jellyfin.enable = true;
   ellie.home-assistant.enable = true;
-  ellie.immich.enable = true;
+  ellie.immich.enable = false;
   ellie.health = {
     enable = true;
     ntfyTopicFile = "/etc/secrets/ntfy_topic";
@@ -39,8 +40,8 @@ in {
   ellie.dns = {
     enable = true;
     trustedCIDRs = [
-      "192.168.1.0/24"     # LAN
-      "202.83.104.81/32"   # home WAN
+      "192.168.1.0/24" # LAN
+      "202.83.104.81/32" # home WAN
       "172.104.175.207/32" # sen public
     ];
     peerHost = "sen.monoid.al";
@@ -55,7 +56,7 @@ in {
       "192.168.1.148 static.ultimate-guitar.com"
     ];
     localTLD = "bow";
-    webUIVHost = "pihole.bow";             # LAN-only pseudo-TLD, no HTTPS
+    webUIVHost = "pihole.bow"; # LAN-only pseudo-TLD, no HTTPS
     webUIPublic = false;
     dotVHostName = "bow.home.monoid.al";
     dnsListenAddresses = [ "127.0.0.1" "192.168.1.148" ];
@@ -148,11 +149,12 @@ in {
   # clients (matches the restic.bow pattern). The vhost itself
   # is created by the services.ug-proxy module; this just layers
   # an allow/deny ACL onto its root location.
-  services.nginx.virtualHosts."ultimate-guitar.com".locations."/".extraConfig = ''
-    allow 192.168.1.0/24;
-    allow 127.0.0.1;
-    deny all;
-  '';
+  services.nginx.virtualHosts."ultimate-guitar.com".locations."/".extraConfig =
+    ''
+      allow 192.168.1.0/24;
+      allow 127.0.0.1;
+      deny all;
+    '';
   # Public-facing ug.home.monoid.al: world-accessible (no LAN ACL)
   # but gated by HTTP basic auth, same credentials file as
   # home.monoid.al. The proxy itself only serves the read-only

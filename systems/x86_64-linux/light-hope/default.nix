@@ -16,6 +16,8 @@ config, ... }:
   ellie.nvidia.devDriver = false;
   ellie.debounce.enable = true;
   nix.settings.system-features = [ "gccarch-znver4" ];
+  nix.settings.extra-substituters = [ "ssh://haku" ];
+  nix.settings.extra-trusted-public-keys = [ "haku:92+LQSJi4wxbgWw+tMeFfaQByUdJi6dqj4rWqTxwV2k=" ];
   nixpkgs.config.allowUnfree = true;
 
   # Compile darktable (and its vendored rawspeed) with -march=native -mtune=native
