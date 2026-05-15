@@ -77,6 +77,12 @@ in {
     SystemMaxUse=512M
   '';
 
+  services.wordle = {
+    enable = true;
+    hostName = "wordle.monoid.al";
+    useACMEHost = "monoid.al";
+  };
+
   # Redirect ug.monoid.al → ug.home.monoid.al (the actual ug-proxy
   # public vhost, which lives on bow and is gated by basic auth).
   # Lets users / bookmarks use the shorter monoid.al name without

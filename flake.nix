@@ -48,6 +48,9 @@
       url = "path:/home/e/projects/stickers";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    wordle = {
+      url = "path:/home/e/projects/32wordle";
+    };
     comfyui-nix = {
       url = "github:utensils/comfyui-nix";
     };
@@ -70,6 +73,7 @@
         kanji-explorer.nixosModules.default
         anki-progress.nixosModules.default
         ug-proxy.nixosModules.default
+        wordle.nixosModules.default
       ];
       # This seems to pull them in for nixos builds too?
       homes.modules = with inputs; [
