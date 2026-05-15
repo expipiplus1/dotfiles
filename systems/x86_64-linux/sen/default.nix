@@ -197,14 +197,43 @@ in {
         except Exception:
             pass
 
-        # Build report
+        # Build report, condensing lines that share count + directory + extension
+        # e.g. "2  /stickers/stellarcats/2/18.png" x6 => "2 /stickers/stellarcats/2/{18,05,...}.png"
+        def format_hits(ip_hits):
+            result = []
+            # Group by count
+            by_count = collections.defaultdict(list)
+            for count, url in ip_hits:
+                by_count[count].append(url)
+            for count in sorted(by_count, reverse=True):
+                urls = by_count[count]
+                # Try to group urls that share (directory, extension)
+                groupable = {}   # (dir, ext) -> [basename_without_ext]
+                ungroupable = []
+                for url in urls:
+                    if "/" in url and "." in url.rsplit("/", 1)[-1]:
+                        dir_part = url.rsplit("/", 1)[0]
+                        filename = url.rsplit("/", 1)[1]
+                        stem, ext = filename.rsplit(".", 1)
+                        groupable.setdefault((dir_part, ext), []).append(stem)
+                    else:
+                        ungroupable.append(url)
+                for (dir_part, ext), stems in sorted(groupable.items()):
+                    if len(stems) == 1:
+                        result.append(f"  {count:3d}  {dir_part}/{stems[0]}.{ext}")
+                    else:
+                        joined = ",".join(stems)
+                        result.append(f"  {count:3d}  {dir_part}/{{{joined}}}.{ext}")
+                for url in ungroupable:
+                    result.append(f"  {count:3d}  {url}")
+            return result
+
         lines = []
         for ip, ip_hits in sorted(by_ip.items(), key=lambda x: -sum(c for c, _ in x[1])):
             cc = geo.get(ip, "??")
             total = sum(c for c, _ in ip_hits)
             lines.append(f"{ip} ({cc}) - {total} hits")
-            for count, url in sorted(ip_hits, key=lambda x: -x[0]):
-                lines.append(f"  {count:3d}  {url}")
+            lines.extend(format_hits(ip_hits))
         report = "\n".join(lines)
 
         # Send via ntfy
@@ -272,7 +301,7 @@ in {
   nix.gc = {
     automatic = true;
     dates = "daily";
-    options = "--delete-older-than 1d";
+    options = "--delete-older-than 3d";
   };
   nix.extraOptions = ''
     min-free = ${toString (512 * 1024 * 1024)}

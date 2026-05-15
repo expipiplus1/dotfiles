@@ -48,7 +48,7 @@
   nix.gc = {
     automatic = true;
     dates = "daily";
-    options = "--delete-older-than 1d";
+    options = "--delete-older-than 3d";
   };
   nix.extraOptions = ''
     min-free = ${toString (512 * 1024 * 1024)}
@@ -170,16 +170,14 @@
         ) &
         MONITOR_PID=$!
 
-        BUILD_LOG="${stateDir}/build-$font.log"
-        if nix build ".#$font" ${overrides} --cores 1 -j 1 --no-link --print-out-paths 2>&1 | tee "$BUILD_LOG"; then
+        if nix build ".#$font" ${overrides} --cores 1 -j 1 --no-link --print-out-paths -L 2>&1; then
           PEAK=$(cat ${stateDir}/mem-peak 2>/dev/null || echo "?")
           echo "$(date -Iseconds) $font OK peak=''${PEAK}MB" >> "$PEAK_LOG"
           ${ntfySend} "Iosevka Build" "$font built. Peak memory: ''${PEAK}MB" "default" "white_check_mark"
         else
           PEAK=$(cat ${stateDir}/mem-peak 2>/dev/null || echo "?")
           echo "$(date -Iseconds) $font FAIL peak=''${PEAK}MB" >> "$PEAK_LOG"
-          ERR=$(tail -20 "$BUILD_LOG")
-          ${ntfySend} "Iosevka Build" "$font FAILED. Peak: ''${PEAK}MB. $ERR" "high" "x"
+          ${ntfySend} "Iosevka Build" "$font FAILED. Peak: ''${PEAK}MB" "high" "x"
         fi
 
         kill $MONITOR_PID 2>/dev/null || true
@@ -192,7 +190,7 @@
     description = "Periodically build Iosevka fonts";
     wantedBy = [ "timers.target" ];
     timerConfig = {
-      OnActiveSec = "0";
+      OnActiveSec = "1min";
       OnUnitActiveSec = "1h";
       Persistent = true;
     };

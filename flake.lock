@@ -546,8 +546,8 @@
         ]
       },
       "locked": {
-        "lastModified": 1778747866,
-        "narHash": "sha256-KhCvAARxdO63fYKZEV4QmqggkH3PoKmLp40GQBVqaYk=",
+        "lastModified": 1778753294,
+        "narHash": "sha256-9ZYojcMQzUlqIgUP8ueFb/tWpkVYxM8c6x008IUlu94=",
         "path": "/home/e/projects/stickers",
         "type": "path"
       },
@@ -607,8 +607,8 @@
         "nixpkgs": "nixpkgs_7"
       },
       "locked": {
-        "lastModified": 1778728884,
-        "narHash": "sha256-BBy5GAvhALCsI2tGyN1iKdGb4nkDEEKHnhepQp961aU=",
+        "lastModified": 1778759510,
+        "narHash": "sha256-6VtWpgOV7T8DVVog2hZGrloQJ+7JpfKCNFibIJWeXTE=",
         "path": "/home/e/projects/ultimate-guitar",
         "type": "path"
       },
