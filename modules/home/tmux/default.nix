@@ -13,6 +13,8 @@ lib.internal.simpleModule inputs "tmux" {
     terminal = "tmux-256color";
     secureSocket = false;
     extraConfig = ''
+      bind C-space last-window
+
       # Something sensible
       set-option -g default-shell ~/.nix-profile/bin/zsh
 
