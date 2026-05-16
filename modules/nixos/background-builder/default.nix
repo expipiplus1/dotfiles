@@ -35,49 +35,6 @@ let
       "https://ntfy.sh/$TOPIC" || true
   '';
 
-  ntfyOnStop = pkgs.writeShellScript "background-builder-ntfy-on-stop" ''
-    ${if hasNtfy then ''
-      if [ ! -f ${escapeShellArg cfg.ntfyTopicFile} ] \
-         || [ ! -f ${escapeShellArg cfg.ntfyTokenFile} ]; then
-        exit 0
-      fi
-
-      TOPIC=$(${pkgs.coreutils}/bin/tr -d '[:space:]' < ${escapeShellArg cfg.ntfyTopicFile})
-      TOKEN=$(${pkgs.coreutils}/bin/cat ${escapeShellArg cfg.ntfyTokenFile})
-    '' else ''
-      exit 0
-    ''}
-    PEAK=$(${pkgs.coreutils}/bin/cat ${stateDir}/mem-peak 2>/dev/null || echo "?")
-    START=$(${pkgs.coreutils}/bin/cat ${stateDir}/start-time 2>/dev/null || echo "")
-    if [ -n "$START" ]; then
-      ELAPSED=$(( $(${pkgs.coreutils}/bin/date +%s) - START ))
-      HOURS=$(( ELAPSED / 3600 ))
-      MINS=$(( (ELAPSED % 3600) / 60 ))
-      TIME_STR="''${HOURS}h''${MINS}m"
-    else
-      TIME_STR="?"
-    fi
-    if [ "$SERVICE_RESULT" = "success" ]; then
-      # Only notify on success in verbose mode
-      if [ ! -f ${stateDir}/verbose ]; then
-        exit 0
-      fi
-      TITLE="Build Complete"
-      PRIO="default"
-      TAGS="white_check_mark"
-    else
-      TITLE="Builder Died"
-      PRIO="urgent"
-      TAGS="skull"
-    fi
-    ${pkgs.curl}/bin/curl -s \
-      -H "Title: [${cfg.hostname}] $TITLE" \
-      -H "Priority: $PRIO" \
-      -H "Tags: $TAGS" \
-      -H "Authorization: Bearer $TOKEN" \
-      -d "result=$SERVICE_RESULT status=$EXIT_STATUS time=$TIME_STR peak=''${PEAK}MB" \
-      "https://ntfy.sh/$TOPIC" || true
-  '';
 
   dummyFlakeDir = "${stateDir}/dummy-flake";
 
@@ -182,6 +139,10 @@ in {
       description = "Build packages in the background";
       after = [ "network-online.target" "multi-user.target" ];
       wants = [ "network-online.target" ];
+      # Never let nixos-rebuild touch this service — the timer handles everything.
+      restartIfChanged = false;
+      stopIfChanged = false;
+      unitConfig.X-OnlyManualStart = true;
       path = with pkgs; [ nix git coreutils gawk procps ];
       environment = {
         HOME = stateDir;
@@ -193,7 +154,7 @@ in {
         Nice = 19;
         IOSchedulingClass = "idle";
         StateDirectory = "background-builder";
-        ExecStopPost = "!${ntfyOnStop}";
+
       } // optionalAttrs hasNtfy {
         LoadCredential = [
           "ntfy_topic:${cfg.ntfyTopicFile}"
@@ -203,20 +164,24 @@ in {
       script = ''
         set -o pipefail
         PEAK_LOG="${stateDir}/peak-memory.log"
+        FAILURES=0
 
         date +%s > ${stateDir}/start-time
+        echo 0 > ${stateDir}/mem-peak
 
-        # Write verbose flag for ExecStopPost to read
-        ${if cfg.verbose then ''
-          touch ${stateDir}/verbose
-        '' else ''
-          rm -f ${stateDir}/verbose
+        ${optionalString cfg.verbose ''
+          ${ntfySend} "Builder" "Service started" "low" "rocket"
         ''}
 
         # Create dummy flake for overriding unavailable inputs
         mkdir -p ${dummyFlakeDir}
         cat > ${dummyFlakeDir}/flake.nix << 'DUMMY'
-        { outputs = { self, ... }: { }; }
+        {
+          outputs = { self, ... }: {
+            nixosModules.default = { };
+            homeManagerModules.default = { };
+          };
+        }
         DUMMY
 
         ${optionalString (cfg.flakeURL != null) ''
@@ -307,6 +272,7 @@ in {
             PKG_M=$(( (PKG_ELAPSED % 3600) / 60 ))
             echo "$(date -Iseconds) ${pkg} FAIL ''${PKG_H}h''${PKG_M}m peak=''${PEAK}MB" >> "$PEAK_LOG"
             ${ntfySend} "Build" "${pkg} FAILED after ''${PKG_H}h''${PKG_M}m. Peak: ''${PEAK}MB" "high" "x"
+            FAILURES=$((FAILURES + 1))
           fi
 
           kill $MONITOR_PID 2>/dev/null || true
@@ -314,6 +280,10 @@ in {
         '') cfg.packages}
 
         # Record current state so we can skip next run if nothing changed
+        # Only save state if all builds succeeded, so failures are retried
+        if [ "$FAILURES" -gt 0 ]; then
+          exit 1
+        fi
         if [ -n "$CURRENT_STATE" ]; then
           echo "$CURRENT_STATE" > ${stateDir}/last-build-state
         fi
