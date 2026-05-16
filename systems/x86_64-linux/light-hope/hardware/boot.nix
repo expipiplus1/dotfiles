@@ -43,6 +43,8 @@ let
   };
 
 in {
+  boot.kernel.sysctl."kernel.sysrq" = 1;
+
   boot.initrd.availableKernelModules =
     [ "nvme" "thunderbolt" "xhci_pci" "ahci" "usbhid" "aesni_intel" "cryptd" ];
   boot.initrd.kernelModules = [ ];

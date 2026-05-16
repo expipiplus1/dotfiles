@@ -96,6 +96,15 @@
       TOPIC=$(${pkgs.coreutils}/bin/tr -d '[:space:]' < /etc/secrets/ntfy_topic)
       TOKEN=$(${pkgs.coreutils}/bin/cat /etc/secrets/ntfy_token)
       PEAK=$(${pkgs.coreutils}/bin/cat /var/lib/iosevka-builder/mem-peak 2>/dev/null || echo "?")
+      START=$(${pkgs.coreutils}/bin/cat /var/lib/iosevka-builder/start-time 2>/dev/null || echo "")
+      if [ -n "$START" ]; then
+        ELAPSED=$(( $(${pkgs.coreutils}/bin/date +%s) - START ))
+        HOURS=$(( ELAPSED / 3600 ))
+        MINS=$(( (ELAPSED % 3600) / 60 ))
+        TIME_STR="''${HOURS}h''${MINS}m"
+      else
+        TIME_STR="?"
+      fi
       if [ "$SERVICE_RESULT" = "success" ]; then
         TITLE="Iosevka Build Complete"
         PRIO="default"
@@ -110,7 +119,7 @@
         -H "Priority: $PRIO" \
         -H "Tags: $TAGS" \
         -H "Authorization: Bearer $TOKEN" \
-        -d "result=$SERVICE_RESULT status=$EXIT_STATUS peak=''${PEAK}MB" \
+        -d "result=$SERVICE_RESULT status=$EXIT_STATUS time=$TIME_STR peak=''${PEAK}MB" \
         "https://ntfy.sh/$TOPIC"
     '';
     overrides = builtins.concatStringsSep " " [
@@ -146,10 +155,14 @@
       set -o pipefail
       PEAK_LOG="${stateDir}/peak-memory.log"
 
+      # Record overall start time
+      date +%s > ${stateDir}/start-time
+
       # Update only nixpkgs (other inputs are overridden/unavailable)
       nix flake update nixpkgs 2>&1 || true
 
       for font in iosevka-term iosevka-aile iosevka-etoile; do
+        FONT_START=$(date +%s)
         ${ntfySend} "Iosevka Build" "Building $font..." "low" "hammer"
 
         # Reset peak tracking
@@ -172,12 +185,18 @@
 
         if nix build ".#$font" ${overrides} --cores 1 -j 1 --no-link --print-out-paths -L 2>&1; then
           PEAK=$(cat ${stateDir}/mem-peak 2>/dev/null || echo "?")
-          echo "$(date -Iseconds) $font OK peak=''${PEAK}MB" >> "$PEAK_LOG"
-          ${ntfySend} "Iosevka Build" "$font built. Peak memory: ''${PEAK}MB" "default" "white_check_mark"
+          FONT_ELAPSED=$(( $(date +%s) - FONT_START ))
+          FONT_H=$(( FONT_ELAPSED / 3600 ))
+          FONT_M=$(( (FONT_ELAPSED % 3600) / 60 ))
+          echo "$(date -Iseconds) $font OK ''${FONT_H}h''${FONT_M}m peak=''${PEAK}MB" >> "$PEAK_LOG"
+          ${ntfySend} "Iosevka Build" "$font built in ''${FONT_H}h''${FONT_M}m. Peak memory: ''${PEAK}MB" "default" "white_check_mark"
         else
           PEAK=$(cat ${stateDir}/mem-peak 2>/dev/null || echo "?")
-          echo "$(date -Iseconds) $font FAIL peak=''${PEAK}MB" >> "$PEAK_LOG"
-          ${ntfySend} "Iosevka Build" "$font FAILED. Peak: ''${PEAK}MB" "high" "x"
+          FONT_ELAPSED=$(( $(date +%s) - FONT_START ))
+          FONT_H=$(( FONT_ELAPSED / 3600 ))
+          FONT_M=$(( (FONT_ELAPSED % 3600) / 60 ))
+          echo "$(date -Iseconds) $font FAIL ''${FONT_H}h''${FONT_M}m peak=''${PEAK}MB" >> "$PEAK_LOG"
+          ${ntfySend} "Iosevka Build" "$font FAILED after ''${FONT_H}h''${FONT_M}m. Peak: ''${PEAK}MB" "high" "x"
         fi
 
         kill $MONITOR_PID 2>/dev/null || true
