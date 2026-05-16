@@ -268,20 +268,7 @@ in {
   users.users.e.extraGroups = lib.mkAfter [ "transmission" ];
 
   # Nix
-  nix.settings.auto-optimise-store = true;
-  nix.optimise = {
-    automatic = true;
-    dates = [ "daily" ];
-  };
-  nix.gc = {
-    automatic = true;
-    dates = "daily";
-    options = "--delete-older-than 3d";
-  };
-  nix.extraOptions = ''
-    min-free = ${toString (512 * 1024 * 1024)}
-    max-free = ${toString (1024 * 1024 * 1024)}
-  '';
+  ellie.low-disk-space.enable = true;
   nix.settings.trusted-public-keys = [
     "orion:s0C06f1M46DCpHUUP2r8iIrhfytkCbXWltMeMMa4jbw="
     "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="

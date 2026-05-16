@@ -360,6 +360,7 @@ in {
   users.groups.sshfs-sen = { };
 
   # Nix
+  ellie.low-disk-space.enable = true;
   nix.settings.trusted-users = [ "root" "@wheel" "nix" ];
   nix.settings.substituters = [ "https://cache.nixos.org/" ];
   nix.settings.trusted-public-keys = [
