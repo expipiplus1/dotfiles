@@ -21,6 +21,8 @@ in {
       hash = "sha256-m7x/hhuSxuqBmq2y4UbzsFntUw6UK2oLqGkVK7XhsjQ=";
     };
     nativeBuildInputs = old.nativeBuildInputs ++ [ self.autoreconfHook ];
+    # tmux -V reports "next-3.7" which won't match our version string.
+    doInstallCheck = false;
   });
   claude-agent-acp = channels.nixpkgs-unstable.claude-agent-acp;
   neovim = channels.nixpkgs-unstable.neovim;
