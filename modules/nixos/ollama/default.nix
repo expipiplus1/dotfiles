@@ -2,6 +2,7 @@
 lib.internal.simpleModule inputs "ollama" {
   services.ollama = {
     enable = true;
-    acceleration = "cuda";
+    package = pkgs.ollama-cuda;
+    loadModels = [ "qwen3.6:27b" ];
   };
 }

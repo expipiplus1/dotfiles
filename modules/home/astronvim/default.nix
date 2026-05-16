@@ -17,11 +17,11 @@ let
 
         tree-sitter
 
-        nodePackages.bash-language-server
+        bash-language-server
         shfmt
         shellcheck
 
-        nodePackages.vscode-json-languageserver
+        vscode-json-languageserver
         yaml-language-server
       ]
       ++ lib.optionals (!cfg.lite) [
@@ -42,7 +42,7 @@ let
 
         cmake-language-server
 
-        nodePackages.prettier
+        prettier
 
         lua51Packages.neotest
 

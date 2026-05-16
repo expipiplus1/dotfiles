@@ -23,11 +23,16 @@ return {
   config = function()
     require("codecompanion").setup {
       adapters = {
-        acp = {
-          claude_code = function()
-            return require("codecompanion.adapters").extend("claude_code", {
-              commands = {
-                default = { "claude-code-acp" },
+        http = {
+          ollama = function()
+            return require("codecompanion.adapters").extend("ollama", {
+              schema = {
+                model = {
+                  default = "qwen3.6:27b",
+                },
+                num_ctx = {
+                  default = 8192,
+                },
               },
             })
           end,
@@ -35,7 +40,10 @@ return {
       },
       strategies = {
         chat = {
-          adapter = "claude_code",
+          adapter = "ollama",
+        },
+        inline = {
+          adapter = "ollama",
         },
       },
     }

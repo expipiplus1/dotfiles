@@ -64,7 +64,7 @@
 
   swapDevices = [{
     device = "/var/swapfile";
-    size = 16 * 1024; # 16GB
+    size = 4 * 1024; # 4GB
   }];
 
   systemd.services.iosevka-builder = let

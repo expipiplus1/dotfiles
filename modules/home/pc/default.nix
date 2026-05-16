@@ -54,11 +54,8 @@ lib.internal.simpleModule inputs "pc" {
     '';
   };
 
-  programs.vscode = {
+  programs.vscodium = {
     enable = true;
-    # vscodium 1.80 doesn't seem to work on wayland
-    # package = pkgs-stable.vscodium;
-    package = pkgs.vscodium;
     profiles.default = {
       enableExtensionUpdateCheck = false;
       enableUpdateCheck = false;
