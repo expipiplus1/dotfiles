@@ -214,6 +214,7 @@ for h in "${deploy_homes[@]}"; do
     exit 1
   fi
   out="$(nix derivation show "$drv" | jq -r '.[].outputs.out.path')"
+  echo "Deploying home configuration for e@$h ($out)..."
   nix copy --to "ssh://$h" "$out"
   # shellcheck disable=SC2029
   ssh "$h" "$out/activate"
@@ -227,6 +228,7 @@ for h in "${deploy_systems[@]}"; do
     exit 1
   fi
   out="$(nix derivation show "$drv" | jq -r '.[].outputs.out.path')"
+  echo "Deploying NixOS configuration for $h ($out)..."
   nix copy --to "ssh://$h" "$out"
   nixos-rebuild switch --store-path "$out" --target-host "$h" --sudo --ask-sudo-password
 done

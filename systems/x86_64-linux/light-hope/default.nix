@@ -48,12 +48,6 @@ config, ... }:
           cmakeFlags = (builtins.filter (f: f != "-DBINARY_PACKAGE_BUILD=ON")
             (old.cmakeFlags or [ ])) ++ [ "-DBINARY_PACKAGE_BUILD=OFF" ];
         }));
-
-        # darktable's compute-heavy dependencies
-        lensfun = goFaster prev.lensfun;
-        openexr = goFaster prev.openexr;
-        openjpeg = goFaster prev.openjpeg;
-        gmic = goFaster prev.gmic;
       })
   ];
 

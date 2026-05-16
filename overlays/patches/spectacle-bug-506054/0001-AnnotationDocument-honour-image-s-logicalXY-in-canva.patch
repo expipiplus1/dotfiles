@@ -1,0 +1,83 @@
+From e22d865675ca69a571a63157fc29e1f1c94367fb Mon Sep 17 00:00:00 2001
+From: Ellie Hermaszewska <git@monoid.al>
+Date: Tue, 28 Apr 2026 00:26:16 +0800
+Subject: [PATCH 1/5] AnnotationDocument: honour image's logicalXY in canvas
+ rect
+
+The base image's logical position on the desktop is recorded in its
+QImage text metadata (via ImageMetaData::setLogicalXY, written by
+ImagePlatformKWin::readImage from QScreen::geometry().topLeft()).
+`resetCanvas` and `setCanvas` previously assumed the canvas's
+top-left was always (0, 0) and thus implicitly mixed two coordinate
+spaces:
+
+  - For full-screen captures of the only enabled output sitting at
+    desktop (0, 0), this was a no-op.
+  - For captures of a screen whose logical position is non-zero (e.g.
+    when a Valve Index headset or other output to its left occupies
+    the (0, 0..N) layout area), the canvas rect was at (0, 0) but the
+    QScreen geometry consumers compared it against was at (logicalX,
+    logicalY). The two never intersected; SpectacleCore::initCaptureWindows
+    skipped the screen, no CaptureWindow was created, and Spectacle
+    hung silently.
+
+Fixes by:
+  - resetCanvas: anchor the canvas at the image's logicalXY so the
+    canvas matches the screen geometry it was captured from.
+  - setCanvas: translate the (now-non-origin) canvas back into
+    image-local space before computing m_croppedBaseImage, so the
+    intersection with imageDIRect (which is anchored at (0, 0))
+    happens in a consistent coordinate space.
+
+Bug: https://bugs.kde.org/show_bug.cgi?id=506054
+---
+ src/Gui/Annotations/AnnotationDocument.cpp | 23 +++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
+
+diff --git a/src/Gui/Annotations/AnnotationDocument.cpp b/src/Gui/Annotations/AnnotationDocument.cpp
+index 6d3f580..382e0a3 100644
+--- a/src/Gui/Annotations/AnnotationDocument.cpp
++++ b/src/Gui/Annotations/AnnotationDocument.cpp
+@@ -101,11 +101,19 @@ void AnnotationDocument::setCanvas(const QRectF &rect, qreal dpr)
+     }
+     // Reset cropped image
+     if (!m_baseImage.isNull()) {
++        // imageDIRect is the base image's pixel size at origin (0, 0). The
++        // canvas rect lives in absolute desktop logical coordinates with
++        // its top-left at the image's logicalXY (set by
++        // ImagePlatformKWin::readImage from QScreen::geometry().topLeft()).
++        // To compare them in the same coordinate space, translate the
++        // canvas rect into image-local space.
+         const auto imageDIRect = deviceIndependentRect(m_baseImage);
+-        if (m_canvasRect.contains(imageDIRect)) {
++        const auto imageOrigin = ImageMetaData::logicalXY(m_baseImage);
++        const auto canvasInImage = m_canvasRect.translated(-imageOrigin);
++        if (canvasInImage.contains(imageDIRect)) {
+             m_croppedBaseImage = {};
+         } else {
+-            const auto imageRect = G::rectScaled(m_canvasRect.intersected(imageDIRect), m_imageDpr).toRect();
++            const auto imageRect = G::rectScaled(canvasInImage.intersected(imageDIRect), m_imageDpr).toRect();
+             m_croppedBaseImage = m_baseImage.copy(imageRect);
+         }
+     } else if (!m_croppedBaseImage.isNull()) {
+@@ -117,7 +125,16 @@ void AnnotationDocument::setCanvas(const QRectF &rect, qreal dpr)
+ 
+ void AnnotationDocument::resetCanvas()
+ {
+-    setCanvas(deviceIndependentRect(m_baseImage), m_baseImage.devicePixelRatio());
++    // The base image carries its logical position on the desktop in its
++    // QImage text metadata (set by ImagePlatformKWin::readImage from
++    // QScreen::geometry().topLeft()). For per-screen / rectangular-region
++    // captures of a non-origin screen this is non-zero, and we must
++    // reflect it in the canvas rect so consumers like
++    // SpectacleCore::initCaptureWindows can match the canvas against the
++    // QScreen's geometry.
++    QRectF rect = deviceIndependentRect(m_baseImage);
++    rect.moveTopLeft(ImageMetaData::logicalXY(m_baseImage));
++    setCanvas(rect, m_baseImage.devicePixelRatio());
+ }
+ 
+ QSizeF AnnotationDocument::imageSize() const
+-- 
+2.51.2
+
