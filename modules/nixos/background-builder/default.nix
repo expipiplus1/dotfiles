@@ -155,6 +155,7 @@ in {
         IOSchedulingClass = "idle";
         StateDirectory = "background-builder";
 
+
       } // optionalAttrs hasNtfy {
         LoadCredential = [
           "ntfy_topic:${cfg.ntfyTopicFile}"
@@ -165,6 +166,32 @@ in {
         set -o pipefail
         PEAK_LOG="${stateDir}/peak-memory.log"
         FAILURES=0
+        # Notification throttling: exponential backoff 1h → 2h → ... → 30d
+        NOTIFY_BACKOFF_FILE="${stateDir}/notify-backoff-seconds"
+        NOTIFY_AFTER_FILE="${stateDir}/notify-after"
+        MAX_NOTIFY_BACKOFF=$((30 * 24 * 3600))  # 30 days
+
+        # Wrapper: only send failure notifications if the backoff period has elapsed
+        gated_notify() {
+          NOW=$(date +%s)
+          NOTIFY_AFTER=$(cat "$NOTIFY_AFTER_FILE" 2>/dev/null || echo 0)
+          if [ "$NOW" -lt "$NOTIFY_AFTER" ]; then
+            return
+          fi
+          ${ntfySend} "$@"
+          # Bump the backoff for next time
+          PREV=$(cat "$NOTIFY_BACKOFF_FILE" 2>/dev/null || echo 0)
+          if [ "$PREV" -lt 3600 ]; then
+            NEXT=3600
+          else
+            NEXT=$((PREV * 2))
+          fi
+          if [ "$NEXT" -gt "$MAX_NOTIFY_BACKOFF" ]; then
+            NEXT=$MAX_NOTIFY_BACKOFF
+          fi
+          echo "$NEXT" > "$NOTIFY_BACKOFF_FILE"
+          echo $((NOW + NEXT)) > "$NOTIFY_AFTER_FILE"
+        }
 
         date +%s > ${stateDir}/start-time
         echo 0 > ${stateDir}/mem-peak
@@ -189,7 +216,7 @@ in {
           if [ ! -d ${escapeShellArg cfg.flakeDir}/.git ]; then
             echo "Cloning ${cfg.flakeURL} to ${cfg.flakeDir}..."
             if ! git clone ${escapeShellArg cfg.flakeURL} ${escapeShellArg cfg.flakeDir}; then
-              ${ntfySend} "Repo" "git clone failed" "high" "x"
+              gated_notify "Repo" "git clone failed" "high" "x"
               exit 1
             fi
           else
@@ -199,7 +226,7 @@ in {
 
             echo "Pulling latest changes..."
             if ! git -C ${escapeShellArg cfg.flakeDir} pull --ff-only; then
-              ${ntfySend} "Repo" "git pull --ff-only failed" "high" "warning"
+              gated_notify "Repo" "git pull --ff-only failed" "high" "warning"
             fi
           fi
         ''}
@@ -208,7 +235,7 @@ in {
 
         # Update all fetchable inputs (overridden ones use the dummy flake)
         if ! nix flake update ${overrides} 2>&1; then
-          ${ntfySend} "Update" "nix flake update failed" "high" "warning"
+          gated_notify "Update" "nix flake update failed" "high" "warning"
         fi
 
         # Check if anything has changed since the last build
@@ -271,7 +298,7 @@ in {
             PKG_H=$(( PKG_ELAPSED / 3600 ))
             PKG_M=$(( (PKG_ELAPSED % 3600) / 60 ))
             echo "$(date -Iseconds) ${pkg} FAIL ''${PKG_H}h''${PKG_M}m peak=''${PEAK}MB" >> "$PEAK_LOG"
-            ${ntfySend} "Build" "${pkg} FAILED after ''${PKG_H}h''${PKG_M}m. Peak: ''${PEAK}MB" "high" "x"
+            gated_notify "Build" "${pkg} FAILED after ''${PKG_H}h''${PKG_M}m. Peak: ''${PEAK}MB" "high" "x"
             FAILURES=$((FAILURES + 1))
           fi
 
@@ -284,6 +311,10 @@ in {
         if [ "$FAILURES" -gt 0 ]; then
           exit 1
         fi
+
+        # Success: clear notification backoff
+        rm -f "$NOTIFY_BACKOFF_FILE" "$NOTIFY_AFTER_FILE"
+
         if [ -n "$CURRENT_STATE" ]; then
           echo "$CURRENT_STATE" > ${stateDir}/last-build-state
         fi

@@ -150,10 +150,10 @@ in {
 
   config = mkIf cfg.enable {
     # ─── Free up port 53 for pi-hole ─────────────────────────────────────
-    services.resolved.settings.Resolve = {
-      DNSStubListener = "no";
-      MulticastDNS = "no";
-    };
+    services.resolved.extraConfig = ''
+      DNSStubListener=no
+      MulticastDNS=no
+    '';
 
     # ─── Pi-hole ─────────────────────────────────────────────────────────
     services.pihole-ftl = {
