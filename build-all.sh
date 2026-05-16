@@ -101,70 +101,109 @@ contains() {
 }
 
 # ─── Evaluation ──────────────────────────────────────────────────────────────
-# Single eval pass: return for every config across all known kinds the
-# (system, attr-path-of-realisable-derivation, drvPath). Adding new kinds in
-# future just means extending this expression. drvPath is included so the
-# evaluation is forced for every target, surfacing eval errors regardless of
-# whether we end up building.
-all_json="$(nix eval --json --impure --expr "
-  let
-    flake = builtins.getFlake \"$flake\";
-    kinds = [
-      { kind = \"nixos\";  set = flake.nixosConfigurations  or {}; sysOf = c: c.pkgs.stdenv.hostPlatform.system; drvOf = c: c.config.system.build.toplevel.drvPath; }
-      { kind = \"home\";   set = flake.homeConfigurations   or {}; sysOf = c: c.pkgs.stdenv.hostPlatform.system; drvOf = c: c.activationPackage.drvPath; }
-      { kind = \"darwin\"; set = flake.darwinConfigurations or {}; sysOf = c: c.pkgs.stdenv.hostPlatform.system; drvOf = c: c.system.drvPath; }
-    ];
-  in builtins.concatMap (k:
-    map (n: {
-      kind = k.kind;
-      name = n;
-      sys  = k.sysOf k.set.\${n};
-      drv  = k.drvOf k.set.\${n};
-    }) (builtins.attrNames k.set)
-  ) kinds
-")"
+# Step 1: discover config names from the snowfall-lib directory structure.
+# Layout: systems/<arch>/<name>/  homes/<arch>/<name>/
+declare -A config_names=()  # "kind:name" -> system
+for dir in "$flake"/systems/*/; do
+  [[ -d "$dir" ]] || continue
+  sys="$(basename "$dir")"
+  for cfg in "$dir"*/; do
+    [[ -d "$cfg" ]] || continue
+    config_names["nixos:$(basename "$cfg")"]="$sys"
+  done
+done
+for dir in "$flake"/homes/*/; do
+  [[ -d "$dir" ]] || continue
+  sys="$(basename "$dir")"
+  for cfg in "$dir"*/; do
+    [[ -d "$cfg" ]] || continue
+    config_names["home:$(basename "$cfg")"]="$sys"
+  done
+done
 
-n_total="$(printf '%s' "$all_json" | jq 'length')"
-echo "Evaluated $n_total derivation(s)."
+# Step 2: eval each config in parallel. Each writes a JSON result (or error
+# log) to a temp file. We track PIDs to wait on and collect results.
+eval_tmpdir="$(mktemp -d)"
+trap 'rm -rf "$eval_tmpdir"' EXIT
 
-if $eval_only; then
-  echo "Eval-only mode; stopping."
-  exit 0
-fi
+declare -A eval_pids=()  # "kind:name" -> pid
 
-echo "Local Nix can build for: ${buildable_systems[*]}"
+eval_one() {
+  local kind="$1" name="$2" outfile="$3" errfile="$4"
+  local nix_name
+  # Quote the name for nix attribute access (handles @ and other special chars).
+  nix_name="\"$name\""
+  local expr
+  case "$kind" in
+    nixos)  expr="let f = builtins.getFlake \"$flake\"; c = f.nixosConfigurations.$nix_name; in c.config.system.build.toplevel.drvPath" ;;
+    home)   expr="let f = builtins.getFlake \"$flake\"; c = f.homeConfigurations.$nix_name; in c.activationPackage.drvPath" ;;
+    darwin) expr="let f = builtins.getFlake \"$flake\"; c = f.darwinConfigurations.$nix_name; in c.system.drvPath" ;;
+  esac
+  nix eval --json --impure --expr "$expr" > "$outfile" 2> "$errfile"
+}
 
-targets=()
-skipped=()
-# Collect drv paths for deploy targets so we can reuse the eval.
+n_total=0
+for key in "${!config_names[@]}"; do
+  kind="${key%%:*}"
+  name="${key#*:}"
+  outfile="$eval_tmpdir/$kind-$name.json"
+  errfile="$eval_tmpdir/$kind-$name.err"
+  eval_one "$kind" "$name" "$outfile" "$errfile" &
+  eval_pids["$key"]=$!
+  ((n_total++)) || true
+done
+
+# Wait for all evals and collect results.
+eval_failures=()
+all_results=()
 declare -A home_drvs=()
 declare -A nixos_drvs=()
 
-while IFS=$'\t' read -r kind name sys drv; do
-  [[ -z "$kind" ]] && continue
-  if contains "$sys" "${buildable_systems[@]}"; then
-    targets+=("$drv^*")
-  else
-    skipped+=("$kind:$name ($sys)")
-  fi
-  if [[ "$kind" == "home" ]]; then
-    home_drvs["$name"]="$drv"
-  elif [[ "$kind" == "nixos" ]]; then
-    nixos_drvs["$name"]="$drv"
-  fi
-done < <(printf '%s' "$all_json" | jq -r '.[] | [.kind, .name, .sys, .drv] | @tsv')
+for key in "${!eval_pids[@]}"; do
+  pid="${eval_pids[$key]}"
+  kind="${key%%:*}"
+  name="${key#*:}"
+  sys="${config_names[$key]}"
+  outfile="$eval_tmpdir/$kind-$name.json"
+  errfile="$eval_tmpdir/$kind-$name.err"
 
-if ((${#skipped[@]})); then
-  echo "Skipping ${#skipped[@]} target(s) for unsupported systems:"
-  printf '  - %s\n' "${skipped[@]}"
+  if wait "$pid"; then
+    drv="$(jq -r '.' < "$outfile")"
+    all_results+=("$kind"$'\t'"$name"$'\t'"$sys"$'\t'"$drv")
+    if [[ "$kind" == "home" ]]; then
+      home_drvs["$name"]="$drv"
+    elif [[ "$kind" == "nixos" ]]; then
+      nixos_drvs["$name"]="$drv"
+    fi
+  else
+    eval_failures+=("$key")
+    echo "EVAL FAILED: $key" >&2
+    cat "$errfile" >&2
+  fi
+done
+
+if ((${#eval_failures[@]})); then
+  printf '  - %s\n' "${eval_failures[@]}" >&2
+  exit 1
 fi
 
-if ((${#targets[@]} == 0)); then
-  echo "No buildable targets."
+if $eval_only; then
   exit 0
 fi
 
-echo "Building ${#targets[@]} target(s)."
+targets=()
+for entry in "${all_results[@]}"; do
+  IFS=$'\t' read -r kind name sys drv <<< "$entry"
+  if contains "$sys" "${buildable_systems[@]}"; then
+    targets+=("$drv^*")
+  fi
+done
+
+if ((${#targets[@]} == 0)); then
+  echo "No buildable targets." >&2
+  exit 0
+fi
+
 nom build --keep-going --no-link "${targets[@]}"
 
 # ─── Deploy homes ────────────────────────────────────────────────────────────
@@ -175,7 +214,6 @@ for h in "${deploy_homes[@]}"; do
     exit 1
   fi
   out="$(nix derivation show "$drv" | jq -r '.[].outputs.out.path')"
-  echo "Deploying home configuration for e@$h ($out)..."
   nix copy --to "ssh://$h" "$out"
   # shellcheck disable=SC2029
   ssh "$h" "$out/activate"
@@ -189,7 +227,6 @@ for h in "${deploy_systems[@]}"; do
     exit 1
   fi
   out="$(nix derivation show "$drv" | jq -r '.[].outputs.out.path')"
-  echo "Deploying NixOS configuration for $h ($out)..."
   nix copy --to "ssh://$h" "$out"
   nixos-rebuild switch --store-path "$out" --target-host "$h" --sudo --ask-sudo-password
 done

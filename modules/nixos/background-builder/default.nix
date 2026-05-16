@@ -66,9 +66,9 @@ in {
             description = "Flake attribute to build (e.g. nixosConfigurations.light-hope.config.ellie.fonts.iosevka-term).";
           };
           cores = mkOption {
-            type = types.int;
-            default = 1;
-            description = "Number of cores to use for this build.";
+            type = types.nullOr types.int;
+            default = null;
+            description = "Number of cores to use for this build. Defaults to ceil(nproc/2).";
           };
           jobs = mkOption {
             type = types.int;
@@ -277,7 +277,8 @@ in {
           ) &
           MONITOR_PID=$!
 
-          if OUT_PATH=$(nix build ${escapeShellArg ".#${p.flakeAttr}"} ${overrides} --cores ${toString p.cores} -j ${toString p.jobs} --no-link --print-out-paths -L); then
+          CORES=${if p.cores != null then toString p.cores else "$(( ($(nproc) + 1) / 2 ))"}
+          if OUT_PATH=$(nix build ${escapeShellArg ".#${p.flakeAttr}"} ${overrides} --cores $CORES -j ${toString p.jobs} --no-link --print-out-paths -L); then
             PEAK=$(cat ${stateDir}/mem-peak 2>/dev/null || echo "?")
             PKG_ELAPSED=$(( $(date +%s) - PKG_START ))
             PKG_H=$(( PKG_ELAPSED / 3600 ))
