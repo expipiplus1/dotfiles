@@ -58,6 +58,10 @@ let
       TIME_STR="?"
     fi
     if [ "$SERVICE_RESULT" = "success" ]; then
+      # Only notify on success in verbose mode
+      if [ ! -f ${stateDir}/verbose ]; then
+        exit 0
+      fi
       TITLE="Build Complete"
       PRIO="default"
       TAGS="white_check_mark"
@@ -156,6 +160,12 @@ in {
       description = "Path to file containing the ntfy bearer token. Notifications are disabled if null.";
     };
 
+    verbose = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Send notifications on build start and success too, not just failures.";
+    };
+
     timerConfig = mkOption {
       type = types.attrs;
       default = {
@@ -195,6 +205,13 @@ in {
         PEAK_LOG="${stateDir}/peak-memory.log"
 
         date +%s > ${stateDir}/start-time
+
+        # Write verbose flag for ExecStopPost to read
+        ${if cfg.verbose then ''
+          touch ${stateDir}/verbose
+        '' else ''
+          rm -f ${stateDir}/verbose
+        ''}
 
         # Create dummy flake for overriding unavailable inputs
         mkdir -p ${dummyFlakeDir}
@@ -247,7 +264,6 @@ in {
           pkg = shortName p;
         in ''
           PKG_START=$(date +%s)
-          ${ntfySend} "Build" "Building ${pkg}..." "low" "hammer"
 
           echo 0 > ${stateDir}/mem-peak
 
@@ -283,7 +299,7 @@ in {
               echo "$OUT_PATH" > "${stateDir}/latest-paths/${pkg}"
             fi
 
-            ${ntfySend} "Build" "${pkg} built in ''${PKG_H}h''${PKG_M}m. Peak memory: ''${PEAK}MB" "default" "white_check_mark"
+            ${optionalString cfg.verbose ''${ntfySend} "Build" "${pkg} built in ''${PKG_H}h''${PKG_M}m. Peak memory: ''${PEAK}MB" "default" "white_check_mark"''}
           else
             PEAK=$(cat ${stateDir}/mem-peak 2>/dev/null || echo "?")
             PKG_ELAPSED=$(( $(date +%s) - PKG_START ))

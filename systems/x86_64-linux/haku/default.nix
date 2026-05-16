@@ -40,6 +40,7 @@
   '';
 
   # Nix
+  boot.loader.grub.configurationLimit = 2;
   ellie.low-disk-space.enable = true;
   nix.settings.trusted-public-keys = [
     "orion:s0C06f1M46DCpHUUP2r8iIrhfytkCbXWltMeMMa4jbw="
@@ -56,6 +57,7 @@
 
   ellie.background-builder = {
     enable = true;
+    verbose = true;
     flakeURL = "https://github.com/expipiplus1/dotfiles";
     ntfyTopicFile = "/etc/secrets/ntfy_topic";
     ntfyTokenFile = "/etc/secrets/ntfy_token";
