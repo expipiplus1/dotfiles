@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ ... }:
 
 {
   networking.hostName = "haku";
@@ -67,152 +67,16 @@
     size = 4 * 1024; # 4GB
   }];
 
-  systemd.services.iosevka-builder = let
-    ntfySend = pkgs.writeShellScript "iosevka-ntfy-send" ''
-      TITLE="$1"
-      MESSAGE="$2"
-      PRIORITY="''${3:-default}"
-      TAGS="''${4:-}"
-
-      TOPIC=$(${pkgs.coreutils}/bin/tr -d '[:space:]' < "$CREDENTIALS_DIRECTORY/ntfy_topic")
-      TOKEN=$(${pkgs.coreutils}/bin/cat "$CREDENTIALS_DIRECTORY/ntfy_token")
-
-      TAG_ARGS=()
-      if [ -n "$TAGS" ]; then
-        TAG_ARGS+=(-H "Tags: $TAGS")
-      fi
-
-      ${pkgs.curl}/bin/curl -s \
-        -H "Title: [haku] $TITLE" \
-        -H "Priority: $PRIORITY" \
-        -H "Authorization: Bearer $TOKEN" \
-        "''${TAG_ARGS[@]}" \
-        -d "$MESSAGE" \
-        "https://ntfy.sh/$TOPIC"
-    '';
-    ntfyOnStop = pkgs.writeShellScript "iosevka-ntfy-on-stop" ''
-      # $SERVICE_RESULT and $EXIT_STATUS are set by systemd
-      # ExecStopPost with ! runs as root; read secrets directly
-      TOPIC=$(${pkgs.coreutils}/bin/tr -d '[:space:]' < /etc/secrets/ntfy_topic)
-      TOKEN=$(${pkgs.coreutils}/bin/cat /etc/secrets/ntfy_token)
-      PEAK=$(${pkgs.coreutils}/bin/cat /var/lib/iosevka-builder/mem-peak 2>/dev/null || echo "?")
-      START=$(${pkgs.coreutils}/bin/cat /var/lib/iosevka-builder/start-time 2>/dev/null || echo "")
-      if [ -n "$START" ]; then
-        ELAPSED=$(( $(${pkgs.coreutils}/bin/date +%s) - START ))
-        HOURS=$(( ELAPSED / 3600 ))
-        MINS=$(( (ELAPSED % 3600) / 60 ))
-        TIME_STR="''${HOURS}h''${MINS}m"
-      else
-        TIME_STR="?"
-      fi
-      if [ "$SERVICE_RESULT" = "success" ]; then
-        TITLE="Iosevka Build Complete"
-        PRIO="default"
-        TAGS="white_check_mark"
-      else
-        TITLE="Iosevka Builder Died"
-        PRIO="urgent"
-        TAGS="skull"
-      fi
-      ${pkgs.curl}/bin/curl -s \
-        -H "Title: [haku] $TITLE" \
-        -H "Priority: $PRIO" \
-        -H "Tags: $TAGS" \
-        -H "Authorization: Bearer $TOKEN" \
-        -d "result=$SERVICE_RESULT status=$EXIT_STATUS time=$TIME_STR peak=''${PEAK}MB" \
-        "https://ntfy.sh/$TOPIC"
-    '';
-    overrides = builtins.concatStringsSep " " [
-      "--override-input japan-transfer path:/home/e/dummy-flake"
-      "--override-input kanji-explorer path:/home/e/dummy-flake"
-      "--override-input anki-progress path:/home/e/dummy-flake"
-      "--override-input ug-proxy path:/home/e/dummy-flake"
+  ellie.background-builder = {
+    enable = true;
+    ntfyTopicFile = "/etc/secrets/ntfy_topic";
+    ntfyTokenFile = "/etc/secrets/ntfy_token";
+    overrideInputs = [ "japan-transfer" "kanji-explorer" "anki-progress" "ug-proxy" ];
+    packages = [
+      { name = "iosevka-term"; }
+      { name = "iosevka-aile"; }
+      { name = "iosevka-etoile"; }
     ];
-    stateDir = "/var/lib/iosevka-builder";
-  in {
-    description = "Build Iosevka fonts";
-    after = [ "network-online.target" "multi-user.target" ];
-    wants = [ "network-online.target" ];
-    path = with pkgs; [ nix git coreutils gawk procps ];
-    environment = {
-      HOME = "/home/e";
-      NIX_PATH = "";
-    };
-    serviceConfig = {
-      Type = "oneshot";
-      User = "e";
-      WorkingDirectory = "/home/e/dotfiles";
-      Nice = 19;
-      IOSchedulingClass = "idle";
-      StateDirectory = "iosevka-builder";
-      LoadCredential = [
-        "ntfy_topic:/etc/secrets/ntfy_topic"
-        "ntfy_token:/etc/secrets/ntfy_token"
-      ];
-      ExecStopPost = "!${ntfyOnStop}";
-    };
-    script = ''
-      set -o pipefail
-      PEAK_LOG="${stateDir}/peak-memory.log"
-
-      # Record overall start time
-      date +%s > ${stateDir}/start-time
-
-      # Update only nixpkgs (other inputs are overridden/unavailable)
-      nix flake update nixpkgs 2>&1 || true
-
-      for font in iosevka-term iosevka-aile iosevka-etoile; do
-        FONT_START=$(date +%s)
-        ${ntfySend} "Iosevka Build" "Building $font..." "low" "hammer"
-
-        # Reset peak tracking
-        echo 0 > ${stateDir}/mem-peak
-
-        # Start memory monitor in background
-        (
-          while true; do
-            MEM=$(awk '/^MemTotal:/{t=$2} /^MemAvailable:/{a=$2} END{print int((t-a)/1024)}' /proc/meminfo)
-            SWAP=$(awk '/^SwapTotal:/{t=$2} /^SwapFree:/{f=$2} END{print int((t-f)/1024)}' /proc/meminfo)
-            TOTAL=$((MEM + SWAP))
-            PREV=$(cat ${stateDir}/mem-peak 2>/dev/null || echo 0)
-            if [ "$TOTAL" -gt "$PREV" ]; then
-              echo "$TOTAL" > ${stateDir}/mem-peak
-            fi
-            sleep 5
-          done
-        ) &
-        MONITOR_PID=$!
-
-        if nix build ".#$font" ${overrides} --cores 1 -j 1 --no-link --print-out-paths -L 2>&1; then
-          PEAK=$(cat ${stateDir}/mem-peak 2>/dev/null || echo "?")
-          FONT_ELAPSED=$(( $(date +%s) - FONT_START ))
-          FONT_H=$(( FONT_ELAPSED / 3600 ))
-          FONT_M=$(( (FONT_ELAPSED % 3600) / 60 ))
-          echo "$(date -Iseconds) $font OK ''${FONT_H}h''${FONT_M}m peak=''${PEAK}MB" >> "$PEAK_LOG"
-          ${ntfySend} "Iosevka Build" "$font built in ''${FONT_H}h''${FONT_M}m. Peak memory: ''${PEAK}MB" "default" "white_check_mark"
-        else
-          PEAK=$(cat ${stateDir}/mem-peak 2>/dev/null || echo "?")
-          FONT_ELAPSED=$(( $(date +%s) - FONT_START ))
-          FONT_H=$(( FONT_ELAPSED / 3600 ))
-          FONT_M=$(( (FONT_ELAPSED % 3600) / 60 ))
-          echo "$(date -Iseconds) $font FAIL ''${FONT_H}h''${FONT_M}m peak=''${PEAK}MB" >> "$PEAK_LOG"
-          ${ntfySend} "Iosevka Build" "$font FAILED after ''${FONT_H}h''${FONT_M}m. Peak: ''${PEAK}MB" "high" "x"
-        fi
-
-        kill $MONITOR_PID 2>/dev/null || true
-        wait $MONITOR_PID 2>/dev/null || true
-      done
-    '';
-  };
-
-  systemd.timers.iosevka-builder = {
-    description = "Periodically build Iosevka fonts";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnActiveSec = "1min";
-      OnUnitActiveSec = "1h";
-      Persistent = true;
-    };
   };
 
   system.stateVersion = "25.11";
