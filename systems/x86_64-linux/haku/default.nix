@@ -61,9 +61,9 @@
     ntfyTokenFile = "/etc/secrets/ntfy_token";
     overrideInputs = [ "japan-transfer" "kanji-explorer" "anki-progress" "ug-proxy" "stickers" "wordle" ];
     packages = [
-      { name = "iosevka-term"; }
-      { name = "iosevka-aile"; }
-      { name = "iosevka-etoile"; }
+      "nixosConfigurations.light-hope.config.ellie.fonts.iosevka-term"
+      "nixosConfigurations.light-hope.config.ellie.fonts.iosevka-aile"
+      "nixosConfigurations.light-hope.config.ellie.fonts.iosevka-etoile"
     ];
   };
 

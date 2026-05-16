@@ -84,7 +84,8 @@ let
 
   stateDir = "/var/lib/background-builder";
 
-  packageNames = map (p: p.name) cfg.packages;
+  # Derive a short name from the last dotted segment of the flake attr
+  shortName = p: lib.last (lib.splitString "." p.flakeAttr);
 
 in {
   options.ellie.background-builder = {
@@ -97,11 +98,11 @@ in {
     };
 
     packages = mkOption {
-      type = types.listOf (types.submodule {
+      type = types.listOf (types.coercedTo types.str (flakeAttr: { inherit flakeAttr; }) (types.submodule {
         options = {
-          name = mkOption {
+          flakeAttr = mkOption {
             type = types.str;
-            description = "Flake attribute name to build (e.g. iosevka-term).";
+            description = "Flake attribute to build (e.g. nixosConfigurations.light-hope.config.ellie.fonts.iosevka-term).";
           };
           cores = mkOption {
             type = types.int;
@@ -114,9 +115,9 @@ in {
             description = "Number of parallel jobs for this build.";
           };
         };
-      });
+      }));
       default = [];
-      description = "List of packages to build in the background.";
+      description = "List of packages to build in the background. Can be flake attr strings or attrsets with flakeAttr/cores/jobs.";
     };
 
     flakeDir = mkOption {
@@ -205,30 +206,30 @@ in {
           # Clone or update the flake repo
           if [ ! -d ${escapeShellArg cfg.flakeDir}/.git ]; then
             echo "Cloning ${cfg.flakeURL} to ${cfg.flakeDir}..."
-            git clone ${escapeShellArg cfg.flakeURL} ${escapeShellArg cfg.flakeDir}
+            if ! git clone ${escapeShellArg cfg.flakeURL} ${escapeShellArg cfg.flakeDir}; then
+              ${ntfySend} "Repo" "git clone failed" "high" "x"
+              exit 1
+            fi
           else
             echo "Pulling latest changes..."
-            git -C ${escapeShellArg cfg.flakeDir} pull --ff-only || true
+            if ! git -C ${escapeShellArg cfg.flakeDir} pull --ff-only; then
+              ${ntfySend} "Repo" "git pull --ff-only failed" "high" "warning"
+            fi
           fi
         ''}
 
         cd ${escapeShellArg cfg.flakeDir}
 
         # Update all fetchable inputs (overridden ones use the dummy flake)
-        nix flake update ${overrides} 2>&1 || true
+        if ! nix flake update ${overrides} 2>&1; then
+          ${ntfySend} "Update" "nix flake update failed" "high" "warning"
+        fi
 
-        for pkg in ${escapeShellArgs packageNames}; do
-
+        ${concatMapStrings (p: let
+          pkg = shortName p;
+        in ''
           PKG_START=$(date +%s)
-          ${ntfySend} "Build" "Building $pkg..." "low" "hammer"
-
-          # Determine build args for this package
-          ${concatMapStringsSep "\n" (p: ''
-            if [ "$pkg" = ${escapeShellArg p.name} ]; then
-              BUILD_CORES=${toString p.cores}
-              BUILD_JOBS=${toString p.jobs}
-            fi
-          '') cfg.packages}
+          ${ntfySend} "Build" "Building ${pkg}..." "low" "hammer"
 
           echo 0 > ${stateDir}/mem-peak
 
@@ -247,33 +248,33 @@ in {
           ) &
           MONITOR_PID=$!
 
-          if OUT_PATH=$(nix build ".#$pkg" ${overrides} --cores "$BUILD_CORES" -j "$BUILD_JOBS" --no-link --print-out-paths -L); then
+          if OUT_PATH=$(nix build ${escapeShellArg ".#${p.flakeAttr}"} ${overrides} --cores ${toString p.cores} -j ${toString p.jobs} --no-link --print-out-paths -L); then
             PEAK=$(cat ${stateDir}/mem-peak 2>/dev/null || echo "?")
             PKG_ELAPSED=$(( $(date +%s) - PKG_START ))
             PKG_H=$(( PKG_ELAPSED / 3600 ))
             PKG_M=$(( (PKG_ELAPSED % 3600) / 60 ))
-            echo "$(date -Iseconds) $pkg OK ''${PKG_H}h''${PKG_M}m peak=''${PEAK}MB" >> "$PEAK_LOG"
+            echo "$(date -Iseconds) ${pkg} OK ''${PKG_H}h''${PKG_M}m peak=''${PEAK}MB" >> "$PEAK_LOG"
 
             # Keep a GC root and record the output path for consumers
             if [ -n "$OUT_PATH" ]; then
               mkdir -p ${stateDir}/roots ${stateDir}/latest-paths
-              nix-store --realise $OUT_PATH --add-root "${stateDir}/roots/$pkg" --indirect
-              echo "$OUT_PATH" > "${stateDir}/latest-paths/$pkg"
+              nix-store --realise $OUT_PATH --add-root "${stateDir}/roots/${pkg}" --indirect
+              echo "$OUT_PATH" > "${stateDir}/latest-paths/${pkg}"
             fi
 
-            ${ntfySend} "Build" "$pkg built in ''${PKG_H}h''${PKG_M}m. Peak memory: ''${PEAK}MB" "default" "white_check_mark"
+            ${ntfySend} "Build" "${pkg} built in ''${PKG_H}h''${PKG_M}m. Peak memory: ''${PEAK}MB" "default" "white_check_mark"
           else
             PEAK=$(cat ${stateDir}/mem-peak 2>/dev/null || echo "?")
             PKG_ELAPSED=$(( $(date +%s) - PKG_START ))
             PKG_H=$(( PKG_ELAPSED / 3600 ))
             PKG_M=$(( (PKG_ELAPSED % 3600) / 60 ))
-            echo "$(date -Iseconds) $pkg FAIL ''${PKG_H}h''${PKG_M}m peak=''${PEAK}MB" >> "$PEAK_LOG"
-            ${ntfySend} "Build" "$pkg FAILED after ''${PKG_H}h''${PKG_M}m. Peak: ''${PEAK}MB" "high" "x"
+            echo "$(date -Iseconds) ${pkg} FAIL ''${PKG_H}h''${PKG_M}m peak=''${PEAK}MB" >> "$PEAK_LOG"
+            ${ntfySend} "Build" "${pkg} FAILED after ''${PKG_H}h''${PKG_M}m. Peak: ''${PEAK}MB" "high" "x"
           fi
 
           kill $MONITOR_PID 2>/dev/null || true
           wait $MONITOR_PID 2>/dev/null || true
-        done
+        '') cfg.packages}
       '';
     };
 

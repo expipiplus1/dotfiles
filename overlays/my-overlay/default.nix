@@ -26,13 +26,4 @@ self: super: {
     destination = "/bin/tssh";
   };
 
-  iosevka-term = import ../../packages/x86_64-linux/iosevka-term/default.nix {
-    inherit (self) lib iosevka;
-  };
-  iosevka-aile = import ../../packages/x86_64-linux/iosevka-aile/default.nix {
-    inherit (self) lib iosevka;
-  };
-  iosevka-etoile = import ../../packages/x86_64-linux/iosevka-etoile/default.nix {
-    inherit (self) lib iosevka;
-  };
 }
