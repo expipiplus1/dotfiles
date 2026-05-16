@@ -139,9 +139,8 @@ in {
       description = "Build packages in the background";
       after = [ "network-online.target" "multi-user.target" ];
       wants = [ "network-online.target" ];
-      # Never let nixos-rebuild touch this service — the timer handles everything.
-      # RemainAfterExit keeps the service "active (exited)" after completion,
-      # so the activation script doesn't see it as a new unit and try to start it.
+      # Type=simple so systemctl start returns immediately and doesn't block
+      # nixos-rebuild switch. The timer handles periodic scheduling.
       restartIfChanged = false;
       stopIfChanged = false;
       path = with pkgs; [ nix git coreutils gawk procps ];
@@ -150,8 +149,7 @@ in {
         NIX_PATH = "";
       };
       serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
+        Type = "simple";
         User = cfg.user;
         Nice = 19;
         IOSchedulingClass = "idle";
