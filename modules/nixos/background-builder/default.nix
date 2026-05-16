@@ -197,7 +197,7 @@ in {
         echo 0 > ${stateDir}/mem-peak
 
         ${optionalString cfg.verbose ''
-          ${ntfySend} "Builder" "Service started" "low" "rocket"
+          gated_notify "Builder" "Service started" "low" "rocket"
         ''}
 
         # Create dummy flake for overriding unavailable inputs

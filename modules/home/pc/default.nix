@@ -54,8 +54,9 @@ lib.internal.simpleModule inputs "pc" {
     '';
   };
 
-  programs.vscodium = {
+  programs.vscode = {
     enable = true;
+    package = pkgs.vscodium;
     profiles.default = {
       enableExtensionUpdateCheck = false;
       enableUpdateCheck = false;
