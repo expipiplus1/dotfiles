@@ -113,7 +113,7 @@ in {
           fi
 
           # Create/update GC root (replaces previous version automatically)
-          nix-store --add-root "${stateDir}/roots/$pkg" --indirect --realise "$REMOTE_PATH"
+          nix-store --realise "$REMOTE_PATH" --add-root "${stateDir}/roots/$pkg" --indirect
 
           echo "[$pkg] done ($REMOTE_PATH)"
         done

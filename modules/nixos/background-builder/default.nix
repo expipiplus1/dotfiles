@@ -75,8 +75,10 @@ let
       "https://ntfy.sh/$TOPIC" || true
   '';
 
+  dummyFlakeDir = "${stateDir}/dummy-flake";
+
   overrides = builtins.concatStringsSep " " (map
-    (name: "--override-input ${name} path:/home/e/dummy-flake")
+    (name: "--override-input ${name} path:${dummyFlakeDir}")
     cfg.overrideInputs
   );
 
@@ -133,12 +135,6 @@ in {
       type = types.str;
       default = "e";
       description = "User to run the builder as.";
-    };
-
-    updateInputs = mkOption {
-      type = types.listOf types.str;
-      default = [ "nixpkgs" ];
-      description = "Flake inputs to update before each package build.";
     };
 
     overrideInputs = mkOption {
@@ -199,6 +195,12 @@ in {
 
         date +%s > ${stateDir}/start-time
 
+        # Create dummy flake for overriding unavailable inputs
+        mkdir -p ${dummyFlakeDir}
+        cat > ${dummyFlakeDir}/flake.nix << 'DUMMY'
+        { outputs = { self, ... }: { }; }
+        DUMMY
+
         ${optionalString (cfg.flakeURL != null) ''
           # Clone or update the flake repo
           if [ ! -d ${escapeShellArg cfg.flakeDir}/.git ]; then
@@ -212,11 +214,10 @@ in {
 
         cd ${escapeShellArg cfg.flakeDir}
 
+        # Update all fetchable inputs (overridden ones use the dummy flake)
+        nix flake update ${overrides} 2>&1 || true
+
         for pkg in ${escapeShellArgs packageNames}; do
-          # Update flake inputs before each package build
-          ${concatMapStringsSep "\n" (input: ''
-            nix flake update ${escapeShellArg input} 2>&1 || true
-          '') cfg.updateInputs}
 
           PKG_START=$(date +%s)
           ${ntfySend} "Build" "Building $pkg..." "low" "hammer"
@@ -256,7 +257,7 @@ in {
             # Keep a GC root and record the output path for consumers
             if [ -n "$OUT_PATH" ]; then
               mkdir -p ${stateDir}/roots ${stateDir}/latest-paths
-              nix-store --add-root "${stateDir}/roots/$pkg" --indirect --realise $OUT_PATH
+              nix-store --realise $OUT_PATH --add-root "${stateDir}/roots/$pkg" --indirect
               echo "$OUT_PATH" > "${stateDir}/latest-paths/$pkg"
             fi
 
