@@ -17,6 +17,12 @@ in {
       (rootd "/var/lib/systemd" "0755")
       (rootd "/var/lib/fail2ban" "0755")
       (rootd "/var/log" "0755")
+      {
+        directory = "/var/lib/background-builder";
+        user = "e";
+        group = "users";
+        mode = "0755";
+      }
     ];
     # No files entries: without wipe-on-boot these persist naturally
     # on the ext4 root. Bind-mounting over existing files fails.

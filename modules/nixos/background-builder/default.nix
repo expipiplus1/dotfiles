@@ -211,6 +211,10 @@ in {
               exit 1
             fi
           else
+            # Reset to clean state so pull --ff-only can't fail due to local dirt
+            git -C ${escapeShellArg cfg.flakeDir} reset --hard HEAD
+            git -C ${escapeShellArg cfg.flakeDir} clean -fd
+
             echo "Pulling latest changes..."
             if ! git -C ${escapeShellArg cfg.flakeDir} pull --ff-only; then
               ${ntfySend} "Repo" "git pull --ff-only failed" "high" "warning"
@@ -225,6 +229,20 @@ in {
           ${ntfySend} "Update" "nix flake update failed" "high" "warning"
         fi
 
+        # Check if anything has changed since the last build
+        # Hash both the git tree and the flake lock to detect any change
+        CURRENT_STATE=""
+        if [ -d .git ]; then
+          GIT_REV=$(git rev-parse HEAD 2>/dev/null || echo "unknown")
+          LOCK_HASH=$(sha256sum flake.lock 2>/dev/null | cut -d' ' -f1 || echo "no-lock")
+          CURRENT_STATE="''${GIT_REV}-''${LOCK_HASH}"
+        fi
+        PREV_STATE=$(cat ${stateDir}/last-build-state 2>/dev/null || echo "")
+        if [ -n "$CURRENT_STATE" ] && [ "$CURRENT_STATE" = "$PREV_STATE" ]; then
+          echo "No changes since last build (state: $CURRENT_STATE), nothing to do"
+          exit 0
+        fi
+
         ${concatMapStrings (p: let
           pkg = shortName p;
         in ''
@@ -233,15 +251,18 @@ in {
 
           echo 0 > ${stateDir}/mem-peak
 
-          # Memory monitor
+          # Record baseline memory usage before build starts
+          BASELINE_MEM=$(awk '/^MemTotal:/{t=$2} /^MemAvailable:/{a=$2} END{print int((t-a)/1024)}' /proc/meminfo)
+
+          # Memory monitor: track memory usage above pre-build baseline
           (
             while true; do
               MEM=$(awk '/^MemTotal:/{t=$2} /^MemAvailable:/{a=$2} END{print int((t-a)/1024)}' /proc/meminfo)
-              SWAP=$(awk '/^SwapTotal:/{t=$2} /^SwapFree:/{f=$2} END{print int((t-f)/1024)}' /proc/meminfo)
-              TOTAL=$((MEM + SWAP))
+              DELTA=$((MEM - BASELINE_MEM))
+              if [ "$DELTA" -lt 0 ]; then DELTA=0; fi
               PREV=$(cat ${stateDir}/mem-peak 2>/dev/null || echo 0)
-              if [ "$TOTAL" -gt "$PREV" ]; then
-                echo "$TOTAL" > ${stateDir}/mem-peak
+              if [ "$DELTA" -gt "$PREV" ]; then
+                echo "$DELTA" > ${stateDir}/mem-peak
               fi
               sleep 5
             done
@@ -275,6 +296,11 @@ in {
           kill $MONITOR_PID 2>/dev/null || true
           wait $MONITOR_PID 2>/dev/null || true
         '') cfg.packages}
+
+        # Record current state so we can skip next run if nothing changed
+        if [ -n "$CURRENT_STATE" ]; then
+          echo "$CURRENT_STATE" > ${stateDir}/last-build-state
+        fi
       '';
     };
 

@@ -84,6 +84,12 @@ in {
       script = ''
         set -euo pipefail
 
+        # Fail fast if SSH key is missing rather than silently failing every package
+        if [ ! -f ${escapeShellArg cfg.sshKeyFile} ]; then
+          echo "FATAL: SSH key not found at ${cfg.sshKeyFile}"
+          exit 1
+        fi
+
         mkdir -p ${stateDir}/roots
 
         for pkg in ${escapeShellArgs cfg.packages}; do
