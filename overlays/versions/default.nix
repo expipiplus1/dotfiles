@@ -151,8 +151,4 @@ in {
       channels.nixpkgs-unstable.vimPlugins.nvim-treesitter-textobjects;
   };
 
-  atuin = super.atuin.overrideAttrs (old: rec {
-    patches = old.patches or [ ] ++ [ ../patches/atuin-popup.patch ];
-  });
-
 }

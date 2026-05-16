@@ -119,8 +119,14 @@ in {
 
     flakeDir = mkOption {
       type = types.str;
-      default = "/home/e/dotfiles";
-      description = "Path to the flake directory.";
+      default = "${stateDir}/repo";
+      description = "Path to the local flake checkout.";
+    };
+
+    flakeURL = mkOption {
+      type = types.nullOr types.str;
+      default = null;
+      description = "HTTPS URL to clone/pull the flake repo from (e.g. https://github.com/user/dotfiles). If set, the repo is cloned on first run and pulled on subsequent runs.";
     };
 
     user = mkOption {
@@ -171,13 +177,12 @@ in {
       wants = [ "network-online.target" ];
       path = with pkgs; [ nix git coreutils gawk procps ];
       environment = {
-        HOME = "/home/${cfg.user}";
+        HOME = stateDir;
         NIX_PATH = "";
       };
       serviceConfig = {
         Type = "oneshot";
         User = cfg.user;
-        WorkingDirectory = cfg.flakeDir;
         Nice = 19;
         IOSchedulingClass = "idle";
         StateDirectory = "background-builder";
@@ -193,6 +198,19 @@ in {
         PEAK_LOG="${stateDir}/peak-memory.log"
 
         date +%s > ${stateDir}/start-time
+
+        ${optionalString (cfg.flakeURL != null) ''
+          # Clone or update the flake repo
+          if [ ! -d ${escapeShellArg cfg.flakeDir}/.git ]; then
+            echo "Cloning ${cfg.flakeURL} to ${cfg.flakeDir}..."
+            git clone ${escapeShellArg cfg.flakeURL} ${escapeShellArg cfg.flakeDir}
+          else
+            echo "Pulling latest changes..."
+            git -C ${escapeShellArg cfg.flakeDir} pull --ff-only || true
+          fi
+        ''}
+
+        cd ${escapeShellArg cfg.flakeDir}
 
         for pkg in ${escapeShellArgs packageNames}; do
           # Update flake inputs before each package build
@@ -228,12 +246,20 @@ in {
           ) &
           MONITOR_PID=$!
 
-          if nix build ".#$pkg" ${overrides} --cores "$BUILD_CORES" -j "$BUILD_JOBS" --no-link --print-out-paths -L 2>&1; then
+          if OUT_PATH=$(nix build ".#$pkg" ${overrides} --cores "$BUILD_CORES" -j "$BUILD_JOBS" --no-link --print-out-paths -L); then
             PEAK=$(cat ${stateDir}/mem-peak 2>/dev/null || echo "?")
             PKG_ELAPSED=$(( $(date +%s) - PKG_START ))
             PKG_H=$(( PKG_ELAPSED / 3600 ))
             PKG_M=$(( (PKG_ELAPSED % 3600) / 60 ))
             echo "$(date -Iseconds) $pkg OK ''${PKG_H}h''${PKG_M}m peak=''${PEAK}MB" >> "$PEAK_LOG"
+
+            # Keep a GC root and record the output path for consumers
+            if [ -n "$OUT_PATH" ]; then
+              mkdir -p ${stateDir}/roots ${stateDir}/latest-paths
+              nix-store --add-root "${stateDir}/roots/$pkg" --indirect --realise $OUT_PATH
+              echo "$OUT_PATH" > "${stateDir}/latest-paths/$pkg"
+            fi
+
             ${ntfySend} "Build" "$pkg built in ''${PKG_H}h''${PKG_M}m. Peak memory: ''${PEAK}MB" "default" "white_check_mark"
           else
             PEAK=$(cat ${stateDir}/mem-peak 2>/dev/null || echo "?")

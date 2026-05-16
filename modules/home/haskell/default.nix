@@ -56,7 +56,7 @@ in {
   home.packages = with pkgs.haskellPackages; [
     pkgs.upfind
     pkgs.cachix
-    pkgs.nixfmt-classic
+    pkgs.nixfmt
     cabal-fmt
     ghcid
     pkgs.hlint

@@ -27,6 +27,12 @@ in {
         mode = "0755";
       }
       (rootd "/var/lib/private/comfyui" "0700")
+      {
+        directory = "/var/lib/store-sync";
+        user = "e";
+        group = "users";
+        mode = "0755";
+      }
     ];
     files = [
       "/etc/adjtime"

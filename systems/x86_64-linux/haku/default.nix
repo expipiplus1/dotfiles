@@ -56,9 +56,10 @@
 
   ellie.background-builder = {
     enable = true;
+    flakeURL = "https://github.com/expipiplus1/dotfiles";
     ntfyTopicFile = "/etc/secrets/ntfy_topic";
     ntfyTokenFile = "/etc/secrets/ntfy_token";
-    overrideInputs = [ "japan-transfer" "kanji-explorer" "anki-progress" "ug-proxy" ];
+    overrideInputs = [ "japan-transfer" "kanji-explorer" "anki-progress" "ug-proxy" "stickers" "wordle" ];
     packages = [
       { name = "iosevka-term"; }
       { name = "iosevka-aile"; }

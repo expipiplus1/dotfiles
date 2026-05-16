@@ -17,9 +17,15 @@ config, ... }:
   ellie.debounce.enable = true;
   nix.settings.system-features = [ "gccarch-znver4" ];
   networking.hosts."152.69.215.136" = [ "haku" ];
-  nix.settings.extra-substituters = [ "ssh://e@haku:49813?ssh-key=/home/e/.ssh/id_ed25519" ];
-  nix.settings.extra-trusted-public-keys = [ "haku:92+LQSJi4wxbgWw+tMeFfaQByUdJi6dqj4rWqTxwV2k=" ];
   nixpkgs.config.allowUnfree = true;
+
+  ellie.store-sync = {
+    enable = true;
+    remoteSSH = "e@haku";
+    remotePort = 49813;
+    sshKeyFile = "/home/e/.ssh/id_ed25519";
+    packages = [ "iosevka-term" "iosevka-aile" "iosevka-etoile" ];
+  };
 
   # Compile darktable (and its vendored rawspeed) with -march=native -mtune=native
   # for this specific machine (Ryzen 9 7950X3D / znver4). This trades binary cache
