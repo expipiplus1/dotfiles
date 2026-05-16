@@ -32,7 +32,7 @@ in with inputs.lib; {
       package = if config.ellie.nvidia.devDriver then
         devDriver
       else
-        config.boot.kernelPackages.nvidiaPackages.beta;
+        config.boot.kernelPackages.nvidiaPackages.stable;
 
       modesetting.enable = true;
 
