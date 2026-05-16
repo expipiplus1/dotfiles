@@ -16,7 +16,8 @@ config, ... }:
   ellie.nvidia.devDriver = false;
   ellie.debounce.enable = true;
   nix.settings.system-features = [ "gccarch-znver4" ];
-  nix.settings.extra-substituters = [ "ssh://haku" ];
+  networking.hosts."152.69.215.136" = [ "haku" ];
+  nix.settings.extra-substituters = [ "ssh://e@haku:49813?ssh-key=/home/e/.ssh/id_ed25519" ];
   nix.settings.extra-trusted-public-keys = [ "haku:92+LQSJi4wxbgWw+tMeFfaQByUdJi6dqj4rWqTxwV2k=" ];
   nixpkgs.config.allowUnfree = true;
 
