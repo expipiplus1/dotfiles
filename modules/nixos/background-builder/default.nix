@@ -140,9 +140,10 @@ in {
       after = [ "network-online.target" "multi-user.target" ];
       wants = [ "network-online.target" ];
       # Never let nixos-rebuild touch this service — the timer handles everything.
+      # RemainAfterExit keeps the service "active (exited)" after completion,
+      # so the activation script doesn't see it as a new unit and try to start it.
       restartIfChanged = false;
       stopIfChanged = false;
-      unitConfig.X-OnlyManualStart = true;
       path = with pkgs; [ nix git coreutils gawk procps ];
       environment = {
         HOME = stateDir;
@@ -150,6 +151,7 @@ in {
       };
       serviceConfig = {
         Type = "oneshot";
+        RemainAfterExit = true;
         User = cfg.user;
         Nice = 19;
         IOSchedulingClass = "idle";
