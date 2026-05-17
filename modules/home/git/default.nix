@@ -6,12 +6,32 @@ lib.internal.simpleModule inputs "git" {
     shellAliases = {
       git = "${
           pkgs.writeShellScriptBin "git-jj-guard" ''
+            # Extract -C <dir> to determine the effective working directory.
+            dir=.
+            args=("$@")
+            cmd=
+            i=0
+            while [ $i -lt ''${#args[@]} ]; do
+              a="''${args[$i]}"
+              if [ "$a" = "-C" ] && [ $((i+1)) -lt ''${#args[@]} ]; then
+                dir="''${args[$((i+1))]}"
+                i=$((i+2))
+              elif [[ "$a" == -C* ]]; then
+                dir="''${a#-C}"
+                i=$((i+1))
+              elif [[ "$a" == -* ]]; then
+                i=$((i+1))
+              else
+                cmd="$a"
+                break
+              fi
+            done
             # jj doesn't handle submodules, so let those commands through.
-            if [ "''${1:-}" = "submodule" ]; then
+            if [ "''${cmd:-}" = "submodule" ]; then
               exec ${pkgs.hub}/bin/hub "$@"
             fi
             # If we're inside a jj repo, refuse and suggest jj or the `g` escape hatch.
-            if ${pkgs.jujutsu}/bin/jj --ignore-working-copy root >/dev/null 2>&1; then
+            if ${pkgs.jujutsu}/bin/jj --ignore-working-copy -R "$dir" root >/dev/null 2>&1; then
               echo "git: refusing to run inside a jj (jujutsu) repo." >&2
               echo "  Use jj instead, or run 'g $*' if you really need git." >&2
               exit 1
