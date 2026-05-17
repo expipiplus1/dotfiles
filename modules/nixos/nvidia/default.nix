@@ -27,7 +27,7 @@ in with lib; {
     nixpkgs.config.nvidia.acceptLicense = true;
     # Work around: DRM kernel driver 'nvidia-drm' in use. NVK requires nouveau.
     environment.sessionVariables.VK_DRIVER_FILES =
-      "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
+      "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.json";
     hardware.nvidia = {
       package = if config.ellie.nvidia.devDriver then
         devDriver
