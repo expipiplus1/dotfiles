@@ -1,0 +1,75 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ellie Hermaszewska <git@monoid.al>
+Date: Fri, 16 May 2026 12:00:00 +0800
+Subject: [PATCH 1/2] SpectacleCore: fix non-origin screen capture and crop for
+ bug 506054
+
+Two fixes in SpectacleCore for when the active monitor's logical
+position is not (0, 0):
+
+1. initCaptureWindows: the canvas rect from
+   AnnotationDocument::setBaseImage is anchored at (0, 0), but the
+   image's actual desktop position is stored in its QImage text
+   metadata (ImageMetaData::logicalXY). Translate the canvas rect
+   before the intersection test so CaptureWindows are created for
+   non-origin screens.
+
+2. accepted handler: SelectionEditor emits the accepted rect in
+   absolute desktop logical coordinates, but
+   AnnotationDocument::cropCanvas expects (0, 0) to be the canvas
+   top-left. Translate the rect to canvas-local coordinates before
+   cropping.
+
+Bug: https://bugs.kde.org/show_bug.cgi?id=506054
+---
+ src/SpectacleCore.cpp | 28 ++++++++++++++++++++++++----
+ 1 file changed, 24 insertions(+), 4 deletions(-)
+
+diff --git a/src/SpectacleCore.cpp b/src/SpectacleCore.cpp
+index 502d6db..1234567 100644
+--- a/src/SpectacleCore.cpp
++++ b/src/SpectacleCore.cpp
+@@ -164,7 +164,16 @@
+         } else {
+             SpectacleWindow::setVisibilityForAll(QWindow::Hidden);
+             deleteWindows();
+-            m_annotationDocument->cropCanvas(rect);
++            // SelectionEditor emits the accepted rect in absolute desktop
++            // logical coordinates. AnnotationDocument::cropCanvas expects
++            // (0, 0) of the crop rect to be the top-left of the canvas
++            // (i.e. the captured image's logical position on the desktop).
++            // Translate before passing it on. Previously this was a no-op
++            // because the captured image always sat at desktop (0, 0); for
++            // captures of a non-origin screen the two differ. See
++            // https://bugs.kde.org/show_bug.cgi?id=506054.
++            const auto canvasLocalRect = rect.translated(-m_annotationDocument->canvasRect().topLeft());
++            m_annotationDocument->cropCanvas(canvasLocalRect);
+             syncExportImage();
+             auto exportActions = actions & ExportManager::AnyAction ? actions : autoExportActions();
+             if (m_ocrExportInProgress) {
+@@ -1476,10 +1485,20 @@
+     for (auto *screen : screens) {
+         const auto screenRect = Geometry::mapFromPlatformRect(screen->geometry(), screen->devicePixelRatio());
+         // Don't show windows for screens that don't have an image.
++        // The canvas rect from AnnotationDocument::setBaseImage is anchored
++        // at (0, 0), but the image's actual desktop position is stored in
++        // its QImage text metadata (set by ImagePlatformKWin::readImage
++        // from QScreen::geometry().topLeft()). Translate the canvas rect
++        // to the image's logical position so the intersection test works
++        // for screens that are not at desktop (0, 0). See
++        // https://bugs.kde.org/show_bug.cgi?id=506054.
+         if (!m_videoMode
+-            && !m_annotationDocument->baseImage().isNull()
+-            && !screenRect.intersects(m_annotationDocument->canvasRect())) {
+-            continue;
++            && !m_annotationDocument->baseImage().isNull()) {
++            const auto canvasRect = m_annotationDocument->canvasRect()
++                .translated(ImageMetaData::logicalXY(m_annotationDocument->baseImage()));
++            if (!screenRect.intersects(canvasRect)) {
++                continue;
++            }
+         }
+         m_captureWindows.emplace_back(CaptureWindow::makeUnique(mode, screen, engine));
+     }
+--
+2.51.2

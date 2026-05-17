@@ -1,4 +1,4 @@
-{ pkgs, config, lib, inputs, ... }:
+{ pkgs, config, lib, ... }:
 
 let
   m = { pkgs, lib, kernel }:
@@ -37,19 +37,12 @@ let
       };
     };
 
-  pkgs-unstable = import inputs.nixpkgs-unstable {
-    localSystem = pkgs.stdenv.hostPlatform.system;
-    config.allowUnfree = true;
-  };
-
   asus-ec-sensors-kernel-module = pkgs.callPackage m {
     # Make sure the module targets the same kernel as your system is using.
     kernel = config.boot.kernelPackages.kernel;
   };
 
 in {
-  boot.kernelPackages = pkgs-unstable.linuxPackages;
-
   boot.kernel.sysctl."kernel.sysrq" = 1;
 
   boot.initrd.availableKernelModules =
