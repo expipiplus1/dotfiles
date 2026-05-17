@@ -2,7 +2,10 @@
 
 {
   networking.hostName = "haku";
-  imports = [ ./hardware ./impermanence.nix ];
+  imports = [
+    ./hardware
+    ./impermanence.nix
+  ];
 
   # Modules
   ellie.oci.enable = true;
@@ -50,18 +53,26 @@
 
   zramSwap.enable = true;
 
-  swapDevices = [{
-    device = "/var/swapfile";
-    size = 4 * 1024; # 4GB
-  }];
+  swapDevices = [
+    {
+      device = "/var/swapfile";
+      size = 4 * 1024; # 4GB
+    }
+  ];
 
   ellie.background-builder = {
     enable = true;
-    verbose = true;
     flakeURL = "https://github.com/expipiplus1/dotfiles";
     ntfyTopicFile = "/etc/secrets/ntfy_topic";
     ntfyTokenFile = "/etc/secrets/ntfy_token";
-    overrideInputs = [ "japan-transfer" "kanji-explorer" "anki-progress" "ug-proxy" "stickers" "wordle" ];
+    overrideInputs = [
+      "japan-transfer"
+      "kanji-explorer"
+      "anki-progress"
+      "ug-proxy"
+      "stickers"
+      "wordle"
+    ];
     packages = [
       "nixosConfigurations.light-hope.config.ellie.fonts.iosevka-term"
       "nixosConfigurations.light-hope.config.ellie.fonts.iosevka-aile"
