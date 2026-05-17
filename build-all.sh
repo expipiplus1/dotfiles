@@ -213,7 +213,7 @@ for h in "${deploy_homes[@]}"; do
     echo "Error: no home configuration found for e@$h" >&2
     exit 1
   fi
-  out="$(nix derivation show "$drv" | jq -r '.[].outputs.out.path')"
+  out="$(nix derivation show "$drv" | jq -r '(.derivations // .)[].outputs.out.path | if startswith("/") then . else "/nix/store/" + . end')"
   echo "Deploying home configuration for e@$h ($out)..."
   nix copy --to "ssh://$h" "$out"
   # shellcheck disable=SC2029
@@ -227,7 +227,7 @@ for h in "${deploy_systems[@]}"; do
     echo "Error: no NixOS configuration found for $h" >&2
     exit 1
   fi
-  out="$(nix derivation show "$drv" | jq -r '.[].outputs.out.path')"
+  out="$(nix derivation show "$drv" | jq -r '(.derivations // .)[].outputs.out.path | if startswith("/") then . else "/nix/store/" + . end')"
   echo "Deploying NixOS configuration for $h ($out)..."
   nix copy --to "ssh://$h" "$out"
   nixos-rebuild switch --store-path "$out" --target-host "$h" --sudo --ask-sudo-password
