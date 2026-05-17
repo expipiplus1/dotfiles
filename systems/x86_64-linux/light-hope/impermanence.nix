@@ -35,7 +35,6 @@ in {
       }
     ];
     files = [
-      "/etc/adjtime"
       "/etc/machine-id"
       "/etc/nix/private-key"
       "/etc/ssh/ssh_host_ed25519_key"

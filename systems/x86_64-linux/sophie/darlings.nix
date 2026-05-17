@@ -4,7 +4,6 @@
   environment.etc = {
     nixos.source = "/persist/etc/nixos";
     "NetworkManager/system-connections".source = "/persist/etc/NetworkManager/system-connections";
-    adjtime.source = lib.mkForce "/persist/etc/adjtime";
     NIXOS.source = "/persist/etc/NIXOS";
     machine-id.source = "/persist/etc/machine-id";
     "nix/private-key".source = "/persist/etc/nix/sophie.secret";
