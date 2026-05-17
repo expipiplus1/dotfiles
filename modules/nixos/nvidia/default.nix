@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }@inputs:
+{ lib, config, pkgs, ... }:
 
 let
   devDriver = (config.boot.kernelPackages.nvidiaPackages.mkDriver {
@@ -10,7 +10,7 @@ let
     usePersistenced = false;
   }).override { disable32Bit = true; };
 
-in with inputs.lib; {
+in with lib; {
   options.ellie.nvidia = {
     enable = mkOption {
       type = types.bool;
@@ -22,7 +22,7 @@ in with inputs.lib; {
     };
   };
 
-  config = mkIf inputs.config.ellie.nvidia.enable {
+  config = mkIf config.ellie.nvidia.enable {
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.nvidia.acceptLicense = true;
     # Work around: DRM kernel driver 'nvidia-drm' in use. NVK requires nouveau.
@@ -36,27 +36,18 @@ in with inputs.lib; {
 
       modesetting.enable = true;
 
-      # The open drivers have problems suspending
-      # https://github.com/NVIDIA/open-gpu-kernel-modules/issues/472
-      open = false;
+      # 595+ dropped proprietary kernel modules — open is the only option
+      open = true;
 
-      # NVreg_PreserveVideoMemoryAllocations=1
-      # (does this solve the 'corruption after suspend' on wayland)?
-      # https://github.com/NixOS/nixpkgs/issues/254614
-      powerManagement.enable = true;
+      # NVreg_PreserveVideoMemoryAllocations causes suspend failures with open
+      # kernel modules (GSP firmware errors, kernel panics on resume)
+      # https://github.com/NVIDIA/open-gpu-kernel-modules/issues/472
+      powerManagement.enable = false;
 
       # make the settings app available
       nvidiaSettings = if config.ellie.nvidia.devDriver then false else true;
       gsp.enable = if config.ellie.nvidia.devDriver then false else true;
     };
-
-    # Make the driver suspend gpu memory to disk, /run is tmpfs on nixos, and
-    # probably won't meet the recommended size of
-    # `nvidia-smi -q -d MEMORY | grep 'FB Memory Usage' -A1`
-    systemd.tmpfiles.rules = [ "d /var/nvidia-suspend 0770 root root -" ];
-    boot.extraModprobeConfig = ''
-      options nvidia NVreg_TemporaryFilePath=/var/nvidia-suspend
-    '';
 
     services.xserver.videoDrivers = [ "nvidia" ];
   };
