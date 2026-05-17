@@ -230,5 +230,12 @@ for h in "${deploy_systems[@]}"; do
   out="$(nix derivation show "$drv" | jq -r '(.derivations // .)[].outputs.out.path | if startswith("/") then . else "/nix/store/" + . end')"
   echo "Deploying NixOS configuration for $h ($out)..."
   nix copy --to "ssh://$h" "$out"
-  nixos-rebuild switch --store-path "$out" --target-host "$h" --sudo --ask-sudo-password --no-reexec
+  rc=0
+  nixos-rebuild switch --store-path "$out" --target-host "$h" --sudo --ask-sudo-password --no-reexec || rc=$?
+  if (( rc != 0 && rc != 4 )); then
+    echo "Error: nixos-rebuild for $h failed with exit code $rc" >&2
+    exit "$rc"
+  elif (( rc == 4 )); then
+    echo "Warning: $h switched successfully but some units failed to activate"
+  fi
 done

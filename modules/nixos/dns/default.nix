@@ -235,6 +235,73 @@ in {
         after = [ "network-online.target" ];
         wants = [ "network-online.target" ];
       };
+      # Work around https://github.com/NixOS/nixpkgs/issues/500852
+      # pihole-FTL v6 API expects type as a query parameter, not in the body.
+      pihole-ftl-setup.script = let
+        piholePackage = config.services.pihole-ftl.piholePackage;
+        ftlCfg = config.services.pihole-ftl;
+        makePayload = list: builtins.toJSON {
+          inherit (list) enabled;
+          address = list.url;
+          comment = list.description;
+        };
+      in lib.mkForce ''
+        set -eo pipefail
+        pihole="${lib.getExe piholePackage}"
+        jq="${lib.getExe pkgs.jq}"
+
+        ${lib.getExe pkgs.curl} --retry 3 --retry-delay 5 ${lib.escapeShellArg ftlCfg.macvendorURL} -o "${ftlCfg.settings.files.macvendor}" || echo "Failed to download MAC database"
+
+        if [ ! -f '${ftlCfg.settings.files.gravity}' ]; then
+          $pihole -g
+          ${lib.getExe' pkgs.procps "kill"} -s SIGRTMIN $(systemctl show --property MainPID --value pihole-ftl)
+        fi
+
+        source ${piholePackage}/share/pihole/advanced/Scripts/api.sh
+        source ${piholePackage}/share/pihole/advanced/Scripts/utils.sh
+
+        any_failed=0
+
+        addList() {
+          local list_type="$1"
+          local payload="$2"
+
+          echo "Adding list (type=$list_type): $payload"
+          local result=$(PostFTLData "lists?type=$list_type" "$payload")
+
+          local error="$($jq '.error' <<< "$result")"
+          if [[ "$error" != "null" ]]; then
+              echo "Error: $error"
+              any_failed=1
+              return
+          fi
+
+          id="$($jq '.lists.[].id?' <<< "$result")"
+          if [[ "$id" == "null" ]]; then
+              any_failed=1
+              error="$($jq '.processed.errors.[].error' <<< "$result")"
+              echo "Error: $error"
+              return
+          fi
+
+          echo "Added list ID $id: $result"
+        }
+
+        for i in 1 2 3; do
+          (TestAPIAvailability) && break
+          echo "Retrying API shortly..."
+          ${lib.getExe' pkgs.coreutils "sleep"} .5s
+        done
+
+        LoginAPI
+
+        ${concatStringsSep "\n" (map (list:
+          "addList ${lib.escapeShellArg list.type} ${lib.escapeShellArg (makePayload list)}"
+        ) ftlCfg.lists)}
+
+        $pihole -g
+        exit $any_failed
+      '';
       stubby-upstream = {
         description = "stubby DoT upstream forwarder (pi-hole → Cloudflare)";
         after = [ "network.target" ];
