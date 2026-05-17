@@ -231,14 +231,14 @@ in {
       # Wait for the listen addresses to be assigned before starting dnsmasq.
       # With bind-interfaces, dnsmasq fails immediately if the address doesn't
       # exist yet (e.g. DHCP hasn't finished).
-      pihole-FTL = {
+      pihole-ftl = {
         after = [ "network-online.target" ];
         wants = [ "network-online.target" ];
       };
       stubby-upstream = {
         description = "stubby DoT upstream forwarder (pi-hole → Cloudflare)";
         after = [ "network.target" ];
-        before = [ "pihole-FTL.service" ];
+        before = [ "pihole-ftl.service" ];
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
           Type = "notify";
