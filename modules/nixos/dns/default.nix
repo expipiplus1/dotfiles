@@ -236,7 +236,6 @@ in {
         wants = [ "network-online.target" ];
         serviceConfig = {
           Restart = "on-failure";
-          RestartSec = "5s";
         };
       };
       # Work around https://github.com/NixOS/nixpkgs/issues/500852

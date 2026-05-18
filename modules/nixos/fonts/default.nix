@@ -6,7 +6,12 @@ let
   mkIosevka = { set, family, spacing, serifs }:
     let
       disableParallelBuilding = drv:
-        drv.overrideAttrs (old: { enableParallelBuilding = false; });
+        drv.overrideAttrs (old: {
+          enableParallelBuilding = false;
+          env = (old.env or { }) // {
+            NODE_OPTIONS = "--max-old-space-size=1536";
+          };
+        });
 
       defaultIosevkaPlan = {
         noCvSs = true;
