@@ -234,6 +234,10 @@ in {
       pihole-ftl = {
         after = [ "network-online.target" ];
         wants = [ "network-online.target" ];
+        serviceConfig = {
+          Restart = "on-failure";
+          RestartSec = "5s";
+        };
       };
       # Work around https://github.com/NixOS/nixpkgs/issues/500852
       # pihole-FTL v6 API expects type as a query parameter, not in the body.

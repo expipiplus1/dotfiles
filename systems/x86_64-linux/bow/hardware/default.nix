@@ -18,7 +18,7 @@
   fileSystems."/data" = {
     device = "/dev/disk/by-uuid/b8f4ad49-29c8-4d19-a886-cef9c487f124";
     fsType = "btrfs";
-    options = [ "subvol=nixos/data" "space_cache=v2" ];
+    options = [ "subvol=nixos/data" "space_cache=v2" "nofail" "x-systemd.device-timeout=300" ];
   };
 
   fileSystems."/boot" = {
