@@ -1,8 +1,24 @@
 { lib, pkgs, ... }@inputs:
+let
+  sddmBreeze = pkgs.runCommand "sddm-breeze-custom" { } ''
+    mkdir -p $out
+    cp -r ${pkgs.kdePackages.plasma-desktop}/share/sddm/themes/breeze/* $out/
+    chmod -R u+w $out
+    cat > $out/theme.conf.user <<'CONF'
+[General]
+background=${./sddm-background.jpg}
+CONF
+  '';
+in
 lib.internal.simpleModule inputs "kde" {
   services = {
     displayManager.sddm.enable = true;
     displayManager.sddm.wayland.enable = true;
+    displayManager.sddm.theme = "${sddmBreeze}";
+    displayManager.sddm.settings.Theme = {
+      CursorTheme = "breeze_cursors";
+      CursorSize = 24;
+    };
     # xserver.displayManager.gdm.enable = true;
 
     # xserver.desktopManager.plasma5.enable = true;
