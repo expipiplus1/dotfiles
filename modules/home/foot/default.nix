@@ -5,24 +5,22 @@ lib.internal.simpleModule inputs "foot" {
     settings = {
       bell.system = "no";
       main = {
-        font =
-          "Iosevka Term:size=10:style=Regular,Symbols Nerd Font Mono:size=10";
-        font-bold =
-          "Iosevka Term:size=10:style=Semibold,Symbols Nerd Font Mono:size=10";
-        font-italic =
-          "Iosevka Term:size=10:style=Italic,Symbols Nerd Font Mono:size=10";
-        font-bold-italic =
-          "Iosevka Term:size=10:style=Semibold Italic,Symbols Nerd Font Mono:size=10";
+        font = "Iosevka Term:size=10:style=Regular,Symbols Nerd Font Mono:size=10";
+        font-bold = "Iosevka Term:size=10:style=Semibold,Symbols Nerd Font Mono:size=10";
+        font-italic = "Iosevka Term:size=10:style=Italic,Symbols Nerd Font Mono:size=10";
+        font-bold-italic = "Iosevka Term:size=10:style=Semibold Italic,Symbols Nerd Font Mono:size=10";
         # box-drawings-uses-font-glyphs = "yes";
         initial-window-mode = "maximized";
         dpi-aware = "yes";
       };
-      tweak = { damage-whole-window = "yes"; };
+      tweak = {
+        damage-whole-window = "yes";
+      };
       cursor = {
         color = "2e3440 d8dee9";
         beam-thickness = 0.8;
       };
-      colors = {
+      colors-dark = {
         # foreground = "d8dee9";
         # background = "2e3440";
         #
@@ -87,7 +85,9 @@ lib.internal.simpleModule inputs "foot" {
         preferred = "client";
         hide-when-maximized = "yes";
       };
-      key-bindings = { fullscreen = "Control+Shift+F"; };
+      key-bindings = {
+        fullscreen = "Control+Shift+F";
+      };
     };
   };
 }

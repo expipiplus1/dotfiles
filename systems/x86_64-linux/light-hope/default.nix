@@ -17,6 +17,9 @@ config, ... }:
   ellie.debounce.enable = true;
   nix.settings.system-features = [ "gccarch-znver4" ];
   networking.hosts."152.69.215.136" = [ "haku" ];
+  nix.settings.trusted-public-keys = [
+    "haku:92+LQSJi4wxbgWw+tMeFfaQByUdJi6dqj4rWqTxwV2k="
+  ];
   nixpkgs.config.allowUnfree = true;
 
   ellie.store-sync = {
