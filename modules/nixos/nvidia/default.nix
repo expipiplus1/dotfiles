@@ -39,10 +39,11 @@ in with lib; {
       # 595+ dropped proprietary kernel modules — open is the only option
       open = true;
 
-      # NVreg_PreserveVideoMemoryAllocations causes suspend failures with open
-      # kernel modules (GSP firmware errors, kernel panics on resume)
-      # https://github.com/NVIDIA/open-gpu-kernel-modules/issues/472
-      powerManagement.enable = false;
+      # 595+ open modules support kernel suspend notifiers, which handle
+      # save/restore of GPU state natively — no systemd services needed.
+      # NixOS automatically sets NVreg_PreserveVideoMemoryAllocations=1
+      # and NVreg_UseKernelSuspendNotifiers=1 for open modules on 595+.
+      powerManagement.enable = true;
 
       # make the settings app available
       nvidiaSettings = if config.ellie.nvidia.devDriver then false else true;
@@ -50,5 +51,8 @@ in with lib; {
     };
 
     services.xserver.videoDrivers = [ "nvidia" ];
+
+    # Expose NVIDIA OpenCL ICD so that ocl-icd can find it
+    hardware.graphics.extraPackages = [ config.hardware.nvidia.package ];
   };
 }

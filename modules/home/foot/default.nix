@@ -17,7 +17,6 @@ lib.internal.simpleModule inputs "foot" {
         damage-whole-window = "yes";
       };
       cursor = {
-        color = "2e3440 d8dee9";
         beam-thickness = 0.8;
       };
       colors-dark = {
@@ -54,6 +53,8 @@ lib.internal.simpleModule inputs "foot" {
         # dim6 = "6d96a5";
         # dim7 = "aeb3bb";
         # [colors]
+        cursor = "2e3440 d8dee9";
+
         foreground = "dcd7ba";
         background = "1f1f28";
 
