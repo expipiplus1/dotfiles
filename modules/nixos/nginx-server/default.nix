@@ -1,5 +1,23 @@
 { lib, pkgs, config, ... }@inputs:
 lib.internal.simpleModule inputs "nginx-server" {
+  imports = [
+    # Extend the virtualHosts submodule so every vhost automatically
+    # serves a robots.txt that disallows all crawlers.
+    { options.services.nginx.virtualHosts = lib.mkOption {
+        type = lib.types.attrsOf (lib.types.submodule {
+          config.locations."= /robots.txt".extraConfig = lib.mkDefault ''
+            add_header Content-Type text/plain;
+            add_header Strict-Transport-Security "max-age=15552000" always;
+            add_header X-Content-Type-Options "nosniff" always;
+            add_header X-Frame-Options "SAMEORIGIN" always;
+            add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+            return 200 "User-agent: *\nDisallow: /\n";
+          '';
+        });
+      };
+    }
+  ];
+
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 
   security.acme = {
