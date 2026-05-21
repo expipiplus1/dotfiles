@@ -639,8 +639,8 @@
         "nixpkgs": "nixpkgs_8"
       },
       "locked": {
-        "lastModified": 1779190968,
-        "narHash": "sha256-+CGLXCpvZZWm/sAkplsDWFc31KFbC/+tUlvM0nPBWcc=",
+        "lastModified": 1779325702,
+        "narHash": "sha256-KuW4IBTj/8lOwuAx39JHyw1EMgkY8VmBG5SnlD2Eppg=",
         "path": "/home/e/projects/32wordle",
         "type": "path"
       },
