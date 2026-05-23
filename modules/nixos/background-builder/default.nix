@@ -1,4 +1,9 @@
-{ lib, pkgs, config, ... }@inputs:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}@inputs:
 
 with lib;
 let
@@ -35,12 +40,10 @@ let
       "https://ntfy.sh/$TOPIC" || true
   '';
 
-
   dummyFlakeDir = "${stateDir}/dummy-flake";
 
-  overrides = builtins.concatStringsSep " " (map
-    (name: "--override-input ${name} path:${dummyFlakeDir}")
-    cfg.overrideInputs
+  overrides = builtins.concatStringsSep " " (
+    map (name: "--override-input ${name} path:${dummyFlakeDir}") cfg.overrideInputs
   );
 
   stateDir = "/var/lib/background-builder";
@@ -48,7 +51,8 @@ let
   # Derive a short name from the last dotted segment of the flake attr
   shortName = p: lib.last (lib.splitString "." p.flakeAttr);
 
-in {
+in
+{
   options.ellie.background-builder = {
     enable = mkEnableOption "background nix package builder";
 
@@ -59,25 +63,29 @@ in {
     };
 
     packages = mkOption {
-      type = types.listOf (types.coercedTo types.str (flakeAttr: { inherit flakeAttr; }) (types.submodule {
-        options = {
-          flakeAttr = mkOption {
-            type = types.str;
-            description = "Flake attribute to build (e.g. nixosConfigurations.light-hope.config.ellie.fonts.iosevka-term).";
-          };
-          cores = mkOption {
-            type = types.nullOr types.int;
-            default = null;
-            description = "Number of cores to use for this build. Defaults to ceil(nproc/2).";
-          };
-          jobs = mkOption {
-            type = types.int;
-            default = 1;
-            description = "Number of parallel jobs for this build.";
-          };
-        };
-      }));
-      default = [];
+      type = types.listOf (
+        types.coercedTo types.str (flakeAttr: { inherit flakeAttr; }) (
+          types.submodule {
+            options = {
+              flakeAttr = mkOption {
+                type = types.str;
+                description = "Flake attribute to build (e.g. nixosConfigurations.light-hope.config.ellie.fonts.iosevka-term).";
+              };
+              cores = mkOption {
+                type = types.nullOr types.int;
+                default = null;
+                description = "Number of cores to use for this build. Defaults to ceil(nproc/2).";
+              };
+              jobs = mkOption {
+                type = types.int;
+                default = 1;
+                description = "Number of parallel jobs for this build.";
+              };
+            };
+          }
+        )
+      );
+      default = [ ];
       description = "List of packages to build in the background. Can be flake attr strings or attrsets with flakeAttr/cores/jobs.";
     };
 
@@ -101,7 +109,7 @@ in {
 
     overrideInputs = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       description = "Flake inputs to override with a dummy flake (for inputs unavailable on the build host).";
     };
 
@@ -127,8 +135,7 @@ in {
       type = types.attrs;
       default = {
         OnActiveSec = "1min";
-        OnUnitActiveSec = "1h";
-        Persistent = true;
+        OnUnitActiveSec = "1min";
       };
       description = "Systemd timer configuration.";
     };
@@ -137,13 +144,22 @@ in {
   config = mkIf cfg.enable {
     systemd.services.background-builder = {
       description = "Build packages in the background";
-      after = [ "network-online.target" "multi-user.target" ];
+      after = [
+        "network-online.target"
+        "multi-user.target"
+      ];
       wants = [ "network-online.target" ];
       # Type=simple so systemctl start returns immediately and doesn't block
       # nixos-rebuild switch. The timer handles periodic scheduling.
       restartIfChanged = false;
       stopIfChanged = false;
-      path = with pkgs; [ nix git coreutils gawk procps ];
+      path = with pkgs; [
+        nix
+        git
+        coreutils
+        gawk
+        procps
+      ];
       environment = {
         HOME = stateDir;
         NIX_PATH = "";
@@ -155,8 +171,8 @@ in {
         IOSchedulingClass = "idle";
         StateDirectory = "background-builder";
 
-
-      } // optionalAttrs hasNtfy {
+      }
+      // optionalAttrs hasNtfy {
         LoadCredential = [
           "ntfy_topic:${cfg.ntfyTopicFile}"
           "ntfy_token:${cfg.ntfyTokenFile}"
@@ -252,60 +268,64 @@ in {
           exit 0
         fi
 
-        ${concatMapStrings (p: let
-          pkg = shortName p;
-        in ''
-          PKG_START=$(date +%s)
+        ${concatMapStrings (
+          p:
+          let
+            pkg = shortName p;
+          in
+          ''
+            PKG_START=$(date +%s)
 
-          echo 0 > ${stateDir}/mem-peak
+            echo 0 > ${stateDir}/mem-peak
 
-          # Record baseline memory usage before build starts
-          BASELINE_MEM=$(awk '/^MemTotal:/{t=$2} /^MemAvailable:/{a=$2} END{print int((t-a)/1024)}' /proc/meminfo)
+            # Record baseline memory usage before build starts
+            BASELINE_MEM=$(awk '/^MemTotal:/{t=$2} /^MemAvailable:/{a=$2} END{print int((t-a)/1024)}' /proc/meminfo)
 
-          # Memory monitor: track memory usage above pre-build baseline
-          (
-            while true; do
-              MEM=$(awk '/^MemTotal:/{t=$2} /^MemAvailable:/{a=$2} END{print int((t-a)/1024)}' /proc/meminfo)
-              DELTA=$((MEM - BASELINE_MEM))
-              if [ "$DELTA" -lt 0 ]; then DELTA=0; fi
-              PREV=$(cat ${stateDir}/mem-peak 2>/dev/null || echo 0)
-              if [ "$DELTA" -gt "$PREV" ]; then
-                echo "$DELTA" > ${stateDir}/mem-peak
+            # Memory monitor: track memory usage above pre-build baseline
+            (
+              while true; do
+                MEM=$(awk '/^MemTotal:/{t=$2} /^MemAvailable:/{a=$2} END{print int((t-a)/1024)}' /proc/meminfo)
+                DELTA=$((MEM - BASELINE_MEM))
+                if [ "$DELTA" -lt 0 ]; then DELTA=0; fi
+                PREV=$(cat ${stateDir}/mem-peak 2>/dev/null || echo 0)
+                if [ "$DELTA" -gt "$PREV" ]; then
+                  echo "$DELTA" > ${stateDir}/mem-peak
+                fi
+                sleep 5
+              done
+            ) &
+            MONITOR_PID=$!
+
+            CORES=${if p.cores != null then toString p.cores else "$(( ($(nproc) + 1) / 2 ))"}
+            if OUT_PATH=$(nix build ${escapeShellArg ".#${p.flakeAttr}"} ${overrides} --cores $CORES -j ${toString p.jobs} --no-link --print-out-paths -L); then
+              PEAK=$(cat ${stateDir}/mem-peak 2>/dev/null || echo "?")
+              PKG_ELAPSED=$(( $(date +%s) - PKG_START ))
+              PKG_H=$(( PKG_ELAPSED / 3600 ))
+              PKG_M=$(( (PKG_ELAPSED % 3600) / 60 ))
+              echo "$(date -Iseconds) ${pkg} OK ''${PKG_H}h''${PKG_M}m peak=''${PEAK}MB" >> "$PEAK_LOG"
+
+              # Keep a GC root and record the output path for consumers
+              if [ -n "$OUT_PATH" ]; then
+                mkdir -p ${stateDir}/roots ${stateDir}/latest-paths
+                nix-store --realise $OUT_PATH --add-root "${stateDir}/roots/${pkg}" --indirect
+                echo "$OUT_PATH" > "${stateDir}/latest-paths/${pkg}"
               fi
-              sleep 5
-            done
-          ) &
-          MONITOR_PID=$!
 
-          CORES=${if p.cores != null then toString p.cores else "$(( ($(nproc) + 1) / 2 ))"}
-          if OUT_PATH=$(nix build ${escapeShellArg ".#${p.flakeAttr}"} ${overrides} --cores $CORES -j ${toString p.jobs} --no-link --print-out-paths -L); then
-            PEAK=$(cat ${stateDir}/mem-peak 2>/dev/null || echo "?")
-            PKG_ELAPSED=$(( $(date +%s) - PKG_START ))
-            PKG_H=$(( PKG_ELAPSED / 3600 ))
-            PKG_M=$(( (PKG_ELAPSED % 3600) / 60 ))
-            echo "$(date -Iseconds) ${pkg} OK ''${PKG_H}h''${PKG_M}m peak=''${PEAK}MB" >> "$PEAK_LOG"
-
-            # Keep a GC root and record the output path for consumers
-            if [ -n "$OUT_PATH" ]; then
-              mkdir -p ${stateDir}/roots ${stateDir}/latest-paths
-              nix-store --realise $OUT_PATH --add-root "${stateDir}/roots/${pkg}" --indirect
-              echo "$OUT_PATH" > "${stateDir}/latest-paths/${pkg}"
+              ${optionalString cfg.verbose ''${ntfySend} "Build" "${pkg} built in ''${PKG_H}h''${PKG_M}m. Peak memory: ''${PEAK}MB" "default" "white_check_mark"''}
+            else
+              PEAK=$(cat ${stateDir}/mem-peak 2>/dev/null || echo "?")
+              PKG_ELAPSED=$(( $(date +%s) - PKG_START ))
+              PKG_H=$(( PKG_ELAPSED / 3600 ))
+              PKG_M=$(( (PKG_ELAPSED % 3600) / 60 ))
+              echo "$(date -Iseconds) ${pkg} FAIL ''${PKG_H}h''${PKG_M}m peak=''${PEAK}MB" >> "$PEAK_LOG"
+              gated_notify "Build" "${pkg} FAILED after ''${PKG_H}h''${PKG_M}m. Peak: ''${PEAK}MB" "high" "x"
+              FAILURES=$((FAILURES + 1))
             fi
 
-            ${optionalString cfg.verbose ''${ntfySend} "Build" "${pkg} built in ''${PKG_H}h''${PKG_M}m. Peak memory: ''${PEAK}MB" "default" "white_check_mark"''}
-          else
-            PEAK=$(cat ${stateDir}/mem-peak 2>/dev/null || echo "?")
-            PKG_ELAPSED=$(( $(date +%s) - PKG_START ))
-            PKG_H=$(( PKG_ELAPSED / 3600 ))
-            PKG_M=$(( (PKG_ELAPSED % 3600) / 60 ))
-            echo "$(date -Iseconds) ${pkg} FAIL ''${PKG_H}h''${PKG_M}m peak=''${PEAK}MB" >> "$PEAK_LOG"
-            gated_notify "Build" "${pkg} FAILED after ''${PKG_H}h''${PKG_M}m. Peak: ''${PEAK}MB" "high" "x"
-            FAILURES=$((FAILURES + 1))
-          fi
-
-          kill $MONITOR_PID 2>/dev/null || true
-          wait $MONITOR_PID 2>/dev/null || true
-        '') cfg.packages}
+            kill $MONITOR_PID 2>/dev/null || true
+            wait $MONITOR_PID 2>/dev/null || true
+          ''
+        ) cfg.packages}
 
         # Record current state so we can skip next run if nothing changed
         # Only save state if all builds succeeded, so failures are retried

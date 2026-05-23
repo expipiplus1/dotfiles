@@ -19,7 +19,10 @@ lib.internal.simpleModule inputs "desktop" {
   # Misc things, too small for their own module
   #
 
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    plugins = with pkgs; [ networkmanager-openconnect ];
+  };
 
   networking.useDHCP = lib.mkDefault true;
 
