@@ -1,4 +1,5 @@
 { pkgs, ... }: {
+  ellie.anti-flash.enable = true;
   ellie.autostart.enable = true;
   ellie.dual-boot.enable = true;
   ellie.pc.enable = true;

@@ -1,4 +1,7 @@
 { lib, config, pkgs, ... }@inputs:
+let
+  lockscreenWallpaper = ../../nixos/kde/sddm-background.jpg;
+in
 lib.internal.simpleModule inputs "plasma" {
   programs.plasma = {
     enable = true;
@@ -35,6 +38,8 @@ lib.internal.simpleModule inputs "plasma" {
 
       plasmanotifyrc."Applications.tidal-hifi".ShowPopups = false;
 
+      kscreenlockerrc."Greeter.Wallpaper.org.kde.image.General".Image = "file://${lockscreenWallpaper}";
+      kscreenlockerrc."Greeter.Wallpaper.org.kde.image.General".PreviewImage = "file://${lockscreenWallpaper}";
     };
   };
 }

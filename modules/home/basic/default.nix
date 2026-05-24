@@ -60,6 +60,75 @@ lib.internal.simpleModule inputs "basic" {
         writeShellScriptBin "pasta" cmd
       )
 
+      (pkgs.writeShellApplication {
+        name = "rotate";
+        runtimeInputs = [
+          libjpeg
+          imagemagick
+        ];
+        text = ''
+          usage() {
+            echo "Usage: rotate [-l|--allow-lossy] -N FILE..." >&2
+            echo "Rotate image(s) losslessly by 90*N degrees clockwise" >&2
+            echo "" >&2
+            echo "  -N             Number of 90° rotations (1-3)" >&2
+            echo "  -l, --allow-lossy  Fall back to lossy rotation for JPEGs" >&2
+            echo "                     with non-standard MCU sizes" >&2
+            echo "  -h, --help     Show this help" >&2
+            exit "''${1:-1}"
+          }
+
+          allow_lossy=0
+          degrees=""
+          files=()
+
+          while [[ $# -gt 0 ]]; do
+            case "$1" in
+              -h|--help) usage 0 ;;
+              -l|--allow-lossy) allow_lossy=1; shift ;;
+              -[1-3]) degrees=$(( ''${1#-} * 90 )); shift ;;
+              -*) echo "rotate: unknown option: $1" >&2; usage ;;
+              *) files+=("$1"); shift ;;
+            esac
+          done
+
+          [[ -z "$degrees" ]] && { echo "rotate: missing rotation argument" >&2; usage; }
+          [[ ''${#files[@]} -eq 0 ]] && { echo "rotate: no files specified" >&2; usage; }
+
+          for file in "''${files[@]}"; do
+            if [[ ! -f "$file" ]]; then
+              echo "rotate: $file: No such file" >&2
+              continue
+            fi
+
+            mime=$(file --brief --mime-type "$file")
+            case "$mime" in
+              image/jpeg)
+                tmp=$(mktemp "''${file}.XXXXXX")
+                if [[ "$allow_lossy" -eq 1 ]]; then
+                  if jpegtran -rotate "$degrees" -copy all -outfile "$tmp" "$file"; then
+                    mv "$tmp" "$file"
+                  else
+                    rm -f "$tmp"
+                    echo "rotate: $file: jpegtran failed" >&2
+                  fi
+                else
+                  if jpegtran -rotate "$degrees" -perfect -copy all -outfile "$tmp" "$file"; then
+                    mv "$tmp" "$file"
+                  else
+                    rm -f "$tmp"
+                    echo "rotate: $file: lossless rotation failed (try --allow-lossy)" >&2
+                  fi
+                fi
+                ;;
+              *)
+                magick "$file" -rotate "$degrees" "$file"
+                ;;
+            esac
+          done
+        '';
+      })
+
       bat
       bear
       bmon

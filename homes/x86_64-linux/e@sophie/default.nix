@@ -1,4 +1,5 @@
 { pkgs, ... }: {
+  ellie.anti-flash.enable = true;
   ellie.common.enable = true;
   ellie.pc.enable = true;
   ellie.sensors.enable = true;
