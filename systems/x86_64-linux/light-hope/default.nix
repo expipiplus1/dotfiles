@@ -7,6 +7,7 @@ virtual
 systems, # An attribute map of your defined hosts.
 config, ... }:
 
+let arch = "znver4"; in
 {
   networking.hostName = "light-hope"; # Define your hostname.
   imports = [ ./impermanence.nix ./hardware ];
@@ -15,23 +16,32 @@ config, ... }:
   ellie.comfyui.enable = true;
   ellie.nvidia.devDriver = false;
   ellie.debounce.enable = true;
-  nix.settings.system-features = [ "gccarch-znver4" ];
+  nix.settings.system-features = [ "gccarch-${arch}" ];
   networking.hosts."152.69.215.136" = [ "haku" ];
   nix.settings.trusted-public-keys = [
     "haku:92+LQSJi4wxbgWw+tMeFfaQByUdJi6dqj4rWqTxwV2k="
+    "thanos:tDpU87Qn0nkcH2ndxBSIlE9y/lZyurxkoxN2+Nz60OI="
   ];
   nixpkgs.config.allowUnfree = true;
 
   ellie.store-sync = {
     enable = true;
-    remoteSSH = "e@haku";
-    remotePort = 49813;
     sshKeyFile = "/home/e/.ssh/id_ed25519";
-    packages = [ "iosevka-term" "iosevka-aile" "iosevka-etoile" ];
+    remotes = {
+      haku = {
+        remoteSSH = "e@haku";
+        remotePort = 49813;
+        packages = [ "iosevka-term" "iosevka-aile" "iosevka-etoile" ];
+      };
+      bow = {
+        remoteSSH = "e@bow";
+        packages = [ "darktable" ];
+      };
+    };
   };
 
   # Compile darktable and its compute-heavy dependencies with
-  # -march=native -mtune=native for this machine (Ryzen 9 7950X3D / znver4).
+  # -march=<arch> for this machine (Ryzen 9 7950X3D / znver4).
   # Trades binary cache hits for maximum performance on the local CPU.
   # Base optimizations (Release, LTO, OpenCL, OpenMP) come from
   # overlays/versions/default.nix.
@@ -40,10 +50,11 @@ config, ... }:
       let
         goFaster = pkg:
           pkg.overrideAttrs (old: {
+            doCheck = false; # tests may not run on a different-arch builder
             env = (old.env or { }) // {
               NIX_ENFORCE_NO_NATIVE = 0;
               NIX_CFLAGS_COMPILE = ((old.env or { }).NIX_CFLAGS_COMPILE or "")
-                + " -march=native -mtune=native";
+                + " -march=${arch} -mtune=${arch}";
             };
           });
       in {

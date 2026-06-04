@@ -369,6 +369,28 @@ in {
     "light-hope:xkiDuhgkaC8uE9r3/Rr1R1QFozkqxP///eb+cdMFByA="
   ];
 
+  ellie.background-builder = {
+    enable = true;
+    flakeURL = "https://github.com/expipiplus1/dotfiles";
+    ntfyTopicFile = "/etc/secrets/ntfy_topic";
+    ntfyTokenFile = "/etc/secrets/ntfy_token";
+    overrideInputs = [
+      "japan-transfer"
+      "kanji-explorer"
+      "anki-progress"
+      "ug-proxy"
+      "stickers"
+      "wordle"
+    ];
+    packages = [
+      {
+        flakeAttr = "nixosConfigurations.light-hope.pkgs.darktable";
+        cores = 4;
+        jobs = 1;
+      }
+    ];
+  };
+
   system.autoUpgrade = {
     enable = true;
     randomizedDelaySec = "45min";
