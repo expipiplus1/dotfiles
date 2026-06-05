@@ -190,12 +190,6 @@ in {
     useACMEHost = "monoid.al";
   };
 
-  # Separate access log for wordle so the notify script can find its requests
-  # (the default combined log doesn't include the vhost name).
-  services.nginx.virtualHosts."wordle.monoid.al".extraConfig = ''
-    access_log /var/log/nginx/wordle-access.log;
-  '';
-
   # Redirect ug.monoid.al → ug.home.monoid.al (the actual ug-proxy
   # public vhost, which lives on bow and is gated by basic auth).
   # Lets users / bookmarks use the shorter monoid.al name without
@@ -230,16 +224,9 @@ in {
     title = "[sen] Sticker site visitors";
     tag = "eyes";
     label = "monoid.al/stickers";
-  } // mkAccessNotifyService {
-    name = "wordle";
-    log = "/var/log/nginx/wordle-access.log";
-    title = "[sen] Wordle visitors";
-    tag = "game_die";
-    label = "wordle.monoid.al";
   };
 
-  systemd.timers = mkAccessNotifyTimer { name = "sticker"; }
-    // mkAccessNotifyTimer { name = "wordle"; };
+  systemd.timers = mkAccessNotifyTimer { name = "sticker"; };
 
   programs.mosh.enable = true;
 
