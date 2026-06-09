@@ -11,6 +11,16 @@ let
       cudaForwardCompat = false;
     };
   };
+
+  # The darktable src is fetched without its .git dir (see the note on the `src`
+  # attr), so the build-time `git describe` yields "unknown-version", which
+  # breaks AI model release lookups in src/common/ai_models.c (it sscanf's
+  # "major.minor.patch" out of the version). We pass this to CMake as
+  # -DPROJECT_VERSION instead. It must be a strict numeric X.Y.Z because CMake's
+  # project(VERSION ...) rejects git-describe suffixes like "+1116~gc8e6954c2".
+  # Set it to the release the pinned `rev` derives from; recover with:
+  #   git describe --tags --match 'release-*' <rev>   (-> release-5.5.0-1116-g...)
+  darktableVersion = "5.5.0";
 in
 {
   tmux = super.tmux.overrideAttrs (old: rec {
@@ -94,13 +104,17 @@ in
   };
 
   darktable = channels.nixpkgs-unstable.darktable.overrideAttrs (old: {
-    version = "master";
+    version = darktableVersion;
     src = self.fetchgit {
       url = "https://github.com/darktable-org/darktable";
       rev = "c8e6954c2be1578098096e911843793abd2b5ede";
-      hash = "sha256-wdjk9EAdr3QOwuwD9uwGj+t/1jDndpJBELwX0hq19Og=";
+      hash = "sha256-Kzg6cGPbx4bJLPDgRHqNG6gfJzNE68lV0xYvmUBnLYU=";
       fetchSubmodules = true;
-      deepClone = true;
+      # deepClone is intentionally NOT set: it bundles the full .git dir into
+      # the fixed-output derivation, which is not byte-reproducible (git
+      # repacks differently each fetch and the upstream `nightly` tag moves),
+      # so the FOD hash never matches and the build retries forever. The leaf
+      # source tree pinned by `rev` is reproducible on its own.
     };
     nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ self.git ];
     buildInputs = (old.buildInputs or [ ]) ++ [
@@ -114,6 +128,11 @@ in
       ../patches/darktable-ilce-7m5-noiseprofile.patch
     ];
     cmakeFlags = (old.cmakeFlags or [ ]) ++ [
+      # Set the version explicitly: the src has no .git dir (see `src` note), so
+      # darktable's build-time `git describe` fallback yields "unknown-version",
+      # which breaks AI model release lookups. CMake parses the leading
+      # "major.minor.patch" out of this for project(VERSION ...).
+      "-DPROJECT_VERSION=${darktableVersion}"
       # CPU-portable optimizations. Per-host -march=native is layered on top
       # in the host config (see systems/x86_64-linux/light-hope/default.nix).
       "-DCMAKE_BUILD_TYPE=Release"
